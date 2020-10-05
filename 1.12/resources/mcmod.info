@@ -1,0 +1,15 @@
+[
+{
+  "modid": "konkrete",
+  "name": "Konkrete",
+  "description": "",
+  "version": "1.0.3",
+  "mcversion": "${mcversion}",
+  "url": "https://www.curseforge.com/minecraft/mc-mods/konkrete",
+  "updateUrl": "",
+  "authorList": ["Keksuccino"],
+  "logoFile": "konkrete.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]
