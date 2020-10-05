@@ -1,7 +1,8 @@
 ## Konkrete
+
 Just another boring minecraft library mod.
 
-## DOWNLOAD
+## Download
 
 Konkrete is available on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/konkrete)!
 
