@@ -10,8 +10,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
 
 public class ExternalTextureResourceLocation implements ITextureResourceLocation {
-	
-	//TODO übernehmen
+
 	private InputStream in;
 	
 	private String path;
@@ -23,8 +22,7 @@ public class ExternalTextureResourceLocation implements ITextureResourceLocation
 	public ExternalTextureResourceLocation(String path) {
 		this.path = path;
 	}
-	
-	//TODO übernehmen
+
 	public ExternalTextureResourceLocation(InputStream in) {
 		this.in = in;
 	}
@@ -46,7 +44,6 @@ public class ExternalTextureResourceLocation implements ITextureResourceLocation
 				System.out.println("Can't load texture '" + this.path + "'! Minecraft TextureManager instance not ready yet!");
 				return;
 			}
-			//TODO übernehmen
 			if (this.in == null) {
 				File f = new File(path);
 				this.in = new FileInputStream(f);
@@ -56,7 +53,6 @@ public class ExternalTextureResourceLocation implements ITextureResourceLocation
 			this.height = i.getHeight();
 			this.location = Minecraft.getInstance().getTextureManager().getDynamicTextureLocation("externaltexture", new SelfcleaningDynamicTexture(i));
 			this.in.close();
-			//-------------------
 			loaded = true;
 		} catch (Exception e) {
 			e.printStackTrace();

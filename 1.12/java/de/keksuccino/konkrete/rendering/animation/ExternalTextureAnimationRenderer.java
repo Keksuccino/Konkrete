@@ -209,7 +209,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 			return false;
 		}
 		String name = f.getName();
-		if (!name.endsWith(".jpg") && !name.endsWith(".png")) {
+		if (!name.endsWith(".jpg") && !name.endsWith(".jpeg") && !name.endsWith(".png")) {
 			System.out.println("############## ERROR [FANCYMENU] ##############");
 			System.out.println("Invalid animation frame found! Unsupported filetype! Only JPG/JPEG and PNG are supported!");
 			System.out.println("Frame path: " + f.getPath());

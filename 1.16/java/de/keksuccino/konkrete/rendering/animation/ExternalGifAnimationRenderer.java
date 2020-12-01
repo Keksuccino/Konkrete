@@ -1,4 +1,3 @@
-//TODO übernehmen
 //AnimationRenderer
 //Copyright (c) Keksuccino
 

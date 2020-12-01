@@ -28,7 +28,7 @@ import de.keksuccino.konkrete.math.MathUtils;
  * Caches values to prevent reading the config file everytime, which means, values can be called rapidly without stressing the system.
  * 
  * @author Keksuccino
- * @version 0.1.3
+ * @version 0.1.4
  */
 public class Config {
 	
@@ -44,7 +44,7 @@ public class Config {
 		this.config = new File(path);
 		if (this.config.isFile()) {
 			File f = this.config.getParentFile();
-			if (!f.exists()) {
+			if ((f != null) && !f.exists()) {
 				f.mkdirs();
 			}
 		}

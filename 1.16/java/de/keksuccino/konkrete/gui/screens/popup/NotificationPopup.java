@@ -21,14 +21,12 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.StringTextComponent;
 
 public class NotificationPopup extends Popup {
-	
-	//TODO übernehmen (protected)
+
 	protected List<String> text;
 	protected AdvancedButton accept;
 	protected int width;
 	protected Color color = new Color(76, 0, 128);
 	protected Runnable callback;
-	//--------------------
 	
 	public NotificationPopup(int width, @Nullable Color color, int backgroundAlpha, @Nullable Runnable callback, @Nonnull String... text) {
 		super(backgroundAlpha);
@@ -74,7 +72,7 @@ public class NotificationPopup extends Popup {
 			}
 			
 			this.accept.setX((renderIn.width / 2) - (this.accept.getWidth() / 2));
-			this.accept.setY(((renderIn.height / 2) + (height / 2)) - this.accept.func_238483_d_() - 5);
+			this.accept.setY(((renderIn.height / 2) + (height / 2)) - this.accept.getHeightRealms() - 5);
 			
 			this.renderButtons(matrix, mouseX, mouseY);
 		}

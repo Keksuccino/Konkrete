@@ -39,7 +39,7 @@ public class AdvancedTextField extends TextFieldWidget {
 	public boolean isHovered() {
 		int mouseX = MouseInput.getMouseX();
 		int mouseY = MouseInput.getMouseY();
-		if ((mouseX >= this.getX()) && (mouseX <= this.getX() + this.getWidth()) && (mouseY >= this.getY()) && mouseY <= this.getY() + this.func_238483_d_()) {
+		if ((mouseX >= this.getX()) && (mouseX <= this.getX() + this.getWidth()) && (mouseY >= this.getY()) && mouseY <= this.getY() + this.getHeightRealms()) {
 			return true;
 		}
 		return false;

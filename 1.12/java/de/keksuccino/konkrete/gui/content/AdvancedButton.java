@@ -31,6 +31,7 @@ public class AdvancedButton extends GuiButton {
 	private ResourceLocation backgroundHover;
 	private ResourceLocation backgroundNormal;
 	String clicksound = null;
+	String[] description = null;
 	
 	private IPressable press;
 	
@@ -132,6 +133,10 @@ public class AdvancedButton extends GuiButton {
 				leftDown = false;
 			}
 		}
+		
+		if (this.isMouseOver()) {
+			AdvancedButtonHandler.setActiveDescriptionButton(this);
+		}
 	}
 	
 	private boolean isInputBlocked() {
@@ -223,6 +228,14 @@ public class AdvancedButton extends GuiButton {
 	
 	public void setClickSound(@Nullable String key) {
 		this.clicksound = key;
+	}
+
+	public void setDescription(String... desc) {
+		this.description = desc;
+	}
+
+	public String[] getDescription() {
+		return this.description;
 	}
 	
 	public static boolean isAnyButtonLeftClicked() {

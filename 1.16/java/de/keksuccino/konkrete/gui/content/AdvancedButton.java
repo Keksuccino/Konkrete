@@ -32,8 +32,9 @@ public class AdvancedButton extends Button {
 	private int borderWidth = 2;
 	private ResourceLocation backgroundHover;
 	private ResourceLocation backgroundNormal;
-	//TODO übernehmen
 	String clicksound = null;
+	//TODO übernehmen
+	String[] description = null;
 
 	private IPressable press;
 	
@@ -69,7 +70,6 @@ public class AdvancedButton extends Button {
 					fill(matrix, this.x, this.y, this.x + this.width, this.y + this.height, this.idleColor.getRGB());
 					border = this.idleBorderColor;
 				} else {
-					//TODO übernehmen
 					if (this.active) {
 						fill(matrix, this.x, this.y, this.x + this.width, this.y + this.height, this.hoveredColor.getRGB());
 						border = this.hoveredBorderColor;
@@ -90,7 +90,6 @@ public class AdvancedButton extends Button {
 				}
 			} else if (this.hasCustomTextureBackground()) {
 				if (this.isHovered()) {
-					//TODO übernehmen
 					if (this.active) {
 						mc.textureManager.bindTexture(backgroundHover);
 					} else {
@@ -111,12 +110,15 @@ public class AdvancedButton extends Button {
 				this.blit(matrix, this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
 				RenderSystem.disableDepthTest();
 			}
-			
-			//func_230441_a_ = renderBg
+
 			this.renderBg(matrix, mc, mouseX, mouseY);
 
 			AbstractGui.drawCenteredString(matrix, font, new StringTextComponent(getMessageString()), this.x + this.width / 2, this.y + (this.height - 8) / 2, getFGColor());
-
+			
+			//TODO übernehmen
+			if (this.isHovered()) {
+				AdvancedButtonHandler.setActiveDescriptionButton(this);
+			}
 		}
 
 		if (!this.isHovered() && MouseInput.isLeftMouseDown()) {
@@ -127,7 +129,6 @@ public class AdvancedButton extends Button {
 		}
 		
 		if (this.handleClick && this.useable) {
-			//TODO übernehmen
 			if (this.isHovered() && MouseInput.isLeftMouseDown() && !leftDown && !leftDownNotHovered && !this.isInputBlocked() && this.active && this.visible) {
 				this.onClick(mouseX, mouseY);
 				if (this.clicksound == null) {
@@ -143,7 +144,7 @@ public class AdvancedButton extends Button {
 			}
 		}
 	}
-	
+
 	private boolean isInputBlocked() {
 		if (this.ignoreBlockedInput) {
 			return false;
@@ -195,7 +196,6 @@ public class AdvancedButton extends Button {
 	@Override
 	public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
 		if (!this.handleClick) {
-			//TODO übernehmen
 			if (this.useable) {
 				if (this.active && this.visible) {
 			         if (this.isValidClickButton(p_mouseClicked_5_)) {
@@ -281,10 +281,19 @@ public class AdvancedButton extends Button {
 	public void setPressAction(IPressable press) {
 		this.press = press;
 	}
-	
-	//TODO übernehmen
+
 	public void setClickSound(@Nullable String key) {
 		this.clicksound = key;
+	}
+	
+	//TODO übernehmen
+	public void setDescription(String... desc) {
+		this.description = desc;
+	}
+	
+	//TODO übernehmen
+	public String[] getDescription() {
+		return this.description;
 	}
 	
 	public static boolean isAnyButtonLeftClicked() {

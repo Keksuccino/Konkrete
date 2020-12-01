@@ -83,7 +83,7 @@ public class PopupMenu implements IMenu {
 
 				b.render(matrix, mouseX, mouseY, ticks);
 				
-				stackedHeight += b.func_238483_d_() + this.space;
+				stackedHeight += b.getHeightRealms() + this.space;
 			}
 			
 			for (PopupMenu m : this.children) {
@@ -98,7 +98,7 @@ public class PopupMenu implements IMenu {
 	
 	private void updateHovered(int mouseX, int mouseY) {
 		for (AdvancedButton b : this.content) {
-			if ((mouseX >= b.getX()) && (mouseX <= b.getX() + b.getWidth()) && (mouseY >= b.getY()) && mouseY <= b.getY() + b.func_238483_d_()) {
+			if ((mouseX >= b.getX()) && (mouseX <= b.getX() + b.getWidth()) && (mouseY >= b.getY()) && mouseY <= b.getY() + b.getHeightRealms()) {
 				this.hovered = true;
 				return;
 			}
@@ -157,7 +157,7 @@ public class PopupMenu implements IMenu {
 
 		this.lastHeight = 0;
 		for (AdvancedButton b : this.content) {
-			this.lastHeight += b.func_238483_d_() + this.space;
+			this.lastHeight += b.getHeightRealms() + this.space;
 		}
 		
 		//field_230709_l_ = screen height

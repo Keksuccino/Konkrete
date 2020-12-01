@@ -84,10 +84,10 @@ public class YesNoPopup extends Popup {
 			}
 			
 			this.confirmButton.setX((renderIn.width / 2) - this.confirmButton.getWidth() - 20);
-			this.confirmButton.setY(((renderIn.height / 2) + (height / 2)) - this.confirmButton.func_238483_d_() - 5);
+			this.confirmButton.setY(((renderIn.height / 2) + (height / 2)) - this.confirmButton.getHeightRealms() - 5);
 			
 			this.cancelButton.setX((renderIn.width / 2) + 20);
-			this.cancelButton.setY(((renderIn.height / 2) + (height / 2)) - this.cancelButton.func_238483_d_() - 5);
+			this.cancelButton.setY(((renderIn.height / 2) + (height / 2)) - this.cancelButton.getHeightRealms() - 5);
 			
 			this.renderButtons(matrix, mouseX, mouseY);
 		}

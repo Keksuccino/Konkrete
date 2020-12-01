@@ -12,11 +12,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class KeyboardHandler {
-	
-	//TODO übernehmen
+
 	private static boolean ctrlPressed = false;
 	private static boolean altPressed = false;
-	//---------------
 	
 	private static boolean keyPressed = false;
 	private static int keycode = 0;
@@ -41,8 +39,7 @@ public class KeyboardHandler {
 	public static void init() {
 		if (!init) {
 			MinecraftForge.EVENT_BUS.register(new KeyboardHandler());
-			
-			//TODO übernehmen
+
 			addKeyPressedListener((key) -> {
 				if ((key.keycode == 341) || (key.keycode == 345)) {
 					ctrlPressed = true;
@@ -59,7 +56,6 @@ public class KeyboardHandler {
 					altPressed = false;
 				}
 			});
-			//-------------------
 			
 			init = true;
 		}
@@ -173,18 +169,15 @@ public class KeyboardHandler {
 			charRaw.remove(id);
 		}
 	}
-	
-	//TODO übernehmen
+
 	public static boolean isCtrlPressed() {
 		return ctrlPressed;
 	}
-	
-	//TODO übernehmen
+
 	public static boolean isAltPressed() {
 		return altPressed;
 	}
-	
-	//TODO switch to UUID
+
 	private static int generateUniqueId() {
 		int i = MathUtils.getRandomNumberInRange(100000000, 999999999);
 		while(ids.contains(i)) {

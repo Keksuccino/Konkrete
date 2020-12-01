@@ -48,5 +48,13 @@ public class StringUtils {
 		
 		return s;
 	}
+	
+	public static String[] splitLines(String in, String separator) {
+		if (!in.contains(separator)) {
+			return new String[] {in};
+		} else {
+			return in.split(separator);
+		}
+	}
 
 }

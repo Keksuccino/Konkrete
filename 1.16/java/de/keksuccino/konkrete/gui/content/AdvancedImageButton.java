@@ -26,7 +26,7 @@ public class AdvancedImageButton extends AdvancedButton {
 		
 		Minecraft.getInstance().getTextureManager().bindTexture(this.image);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		blit(matrix, this.getX(), this.getY(), 0.0F, 0.0F, this.getWidth(), this.func_238483_d_(), this.getWidth(), this.func_238483_d_());
+		blit(matrix, this.getX(), this.getY(), 0.0F, 0.0F, this.getWidth(), this.getHeightRealms(), this.getWidth(), this.getHeightRealms());
 	}
 
 }

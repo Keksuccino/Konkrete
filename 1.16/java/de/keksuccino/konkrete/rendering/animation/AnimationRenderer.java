@@ -40,7 +40,8 @@ public class AnimationRenderer implements IAnimationRenderer {
 	private int height;
 	private int x;
 	private int y;
-	private List<ResourceLocation> resources = new ArrayList<ResourceLocation>();
+	//TODO übernehmen protected
+	protected List<ResourceLocation> resources = new ArrayList<ResourceLocation>();
 	private boolean stretch = false;
 	private boolean hide = false;
 	private volatile boolean done = false;
@@ -201,7 +202,8 @@ public class AnimationRenderer implements IAnimationRenderer {
 		return l;
 	}
 	
-	private void renderFrame(MatrixStack matrix) {
+	//TODO übernehmen (protected)
+	protected void renderFrame(MatrixStack matrix) {
 		int h = this.height;
 		int w = this.width;
 		int x2 = this.x;

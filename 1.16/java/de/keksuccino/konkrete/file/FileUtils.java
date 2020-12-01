@@ -112,8 +112,7 @@ public class FileUtils {
 		
 		return f2.getName();
 	}
-	
-	//TODO übernehmen
+
 	public static boolean copyFile(File from, File to) {
 		
 		if (!from.getAbsolutePath().replace("\\", "/").equals(to.getAbsolutePath().replace("\\", "/"))) {
@@ -158,8 +157,7 @@ public class FileUtils {
 		
 		return false;
 	}
-	
-	//TODO übernehmen
+
 	public static boolean moveFile(File from, File to) throws IOException, InterruptedException {
 		
 		if (!from.getAbsolutePath().replace("\\", "/").equals(to.getAbsolutePath().replace("\\", "/"))) {
@@ -261,8 +259,7 @@ public class FileUtils {
             }
         }
     }
-	
-	//TODO übernehmen
+
 	public static void unpackZip(String zipPath, String outputDir) throws IOException {
 		ZipFile zipFile = new ZipFile(zipPath);
 		Enumeration<? extends ZipEntry> entries = zipFile.entries();

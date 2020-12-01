@@ -2,6 +2,7 @@ package de.keksuccino.konkrete;
 
 import java.io.File;
 
+import de.keksuccino.konkrete.gui.content.AdvancedButtonHandler;
 import de.keksuccino.konkrete.gui.screens.popup.PopupHandler;
 import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.input.MouseInput;
@@ -17,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod(modid = "konkrete", acceptedMinecraftVersions="[1.12,1.12.2]")
 public class Konkrete {
 	
-	public static final String VERSION = "1.0.3";
+	public static final String VERSION = "1.1.0";
 
 	public Konkrete() {
 		if (FMLClientHandler.instance().getSide() == Side.CLIENT) {
@@ -27,6 +28,8 @@ public class Konkrete {
 			KeyboardHandler.init();
 
 			SoundHandler.init();
+			
+			AdvancedButtonHandler.init();
 
 			System.out.println("[KONKRETE] Successfully initialized!");
 			

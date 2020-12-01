@@ -31,21 +31,15 @@ public class FilePickerPopup extends Popup {
 	private static ResourceLocation folderIcon = new ResourceLocation("keksuccino", "filechooser/folder_icon.png");
 	private static ResourceLocation backIcon = new ResourceLocation("keksuccino", "filechooser/back_icon.png");
 	
-	//TODO übernehmen
 	private static String lastpath;
 	private boolean checklastpath;
-	//-------------
 	
 	public Color overlayColor = new Color(26, 26, 26);
 	private ScrollArea scroll;
-	//TODO übernehmen
 	public File home;
 	public File directory;
-	//TODO übernehmen
-//	public FilePickerPopup parent;
 	private Popup fallback;
 	private List<String> filetypes = new ArrayList<String>();
-	//TODO übernehmen
 	private String filetypesString;
 	private Consumer<File> callback;
 	
@@ -56,8 +50,7 @@ public class FilePickerPopup extends Popup {
 	private AdvancedButton closeButton;
 	
 	private FileChooserEntry focused;
-	
-	//TODO übernehmen
+
 	public FilePickerPopup(String directory, @Nullable String home, @Nullable Popup fallback, boolean checkForLastPath, Consumer<File> callback, @Nullable String... filetypes) {
 		super(240);
 		this.fallback = fallback;
@@ -123,8 +116,7 @@ public class FilePickerPopup extends Popup {
 		this.colorizePopupButton(this.closeButton);
 		
 	}
-	
-	//TODO übernehmen
+
 	public FilePickerPopup(String directory, @Nullable String home, @Nullable Popup fallback, boolean checkForLastPath, Consumer<File> callback) {
 		this(directory, home, fallback, checkForLastPath, callback, (String[])null);
 	}
@@ -150,8 +142,7 @@ public class FilePickerPopup extends Popup {
 		fill(matrix, 0, renderIn.height - 60, renderIn.width, renderIn.height, this.overlayColor.getRGB());
 		
 		drawCenteredString(matrix, Minecraft.getInstance().fontRenderer, "§l" + Locals.localize("popup.choosefile.title"), renderIn.width / 2, 17, Color.WHITE.getRGB());
-		
-		//TODO übernehmen
+
 		if (this.filetypesString != null) {
 			drawCenteredString(matrix, Minecraft.getInstance().fontRenderer, Locals.localize("popup.choosefile.supported") + " " + this.filetypesString, renderIn.width / 2, renderIn.height - 50, Color.WHITE.getRGB());
 			
@@ -176,8 +167,7 @@ public class FilePickerPopup extends Popup {
 		}
 
 	}
-	
-	//TODO übernehmen
+
 	public void updateFileList() {
 		this.scroll = new ScrollArea(0, 0, 200, 0);
 		this.scroll.backgroundColor = new Color(255, 255, 255, 20);
@@ -350,7 +340,6 @@ public class FilePickerPopup extends Popup {
 		}
 		
 		public void onClick() {
-			//TODO übernehmen
 			if (this.type == Type.BACK) {
 				File parent = this.filechooser.directory.getParentFile();
 				if (parent.exists() && parent.isDirectory()) {
@@ -361,7 +350,6 @@ public class FilePickerPopup extends Popup {
 					PopupHandler.displayPopup(new FilePickerPopup(parent.getPath(), home, this.filechooser.fallback, false, this.filechooser.callback, this.filechooser.filetypes.toArray(new String[0])));
 				}
 			}
-			//TODO übernehmen
 			if (this.type == Type.FOLDER) {
 				String home = null;
 				if (this.filechooser.home != null) {

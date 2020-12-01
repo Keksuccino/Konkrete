@@ -135,13 +135,12 @@ public class AdvancedTextField extends GuiTextField {
 		} else {
 			
 			//Exclude keys like SHIFT, ENTER, TAB, etc.
-			if ((keyCode == 42) || (keyCode == 54) || (keyCode == 58) || (keyCode == 42) || (keyCode == 15) || (keyCode == 28) || (keyCode == 1)) {
+			if ((keyCode == 42) || (keyCode == 54) || (keyCode == 58) || (keyCode == 42) || (keyCode == 15) || (keyCode == 28) || (keyCode == 1) || (keyCode == 29) || (keyCode == 56) || (keyCode == 184) || (keyCode == 157) || (keyCode == 219) || (keyCode == 220) || (keyCode == 184)) {
 				return false;
 			}
 			
-			switch (keyCode) {
-			case 14:
-
+			if (keyCode == 14) {
+				
 				if (GuiScreen.isCtrlKeyDown()) {
 					if (this.isEnabled()) {
 						this.deleteWords(-1);
@@ -151,8 +150,9 @@ public class AdvancedTextField extends GuiTextField {
 				}
 
 				return true;
-			case 199:
-
+				
+			} else if (keyCode == 199) {
+				
 				if (GuiScreen.isShiftKeyDown()) {
 					this.setSelectionPos(0);
 				} else {
@@ -160,8 +160,9 @@ public class AdvancedTextField extends GuiTextField {
 				}
 
 				return true;
-			case 203:
-
+				
+			} else if (keyCode == 203) {
+				
 				if (GuiScreen.isShiftKeyDown()) {
 					if (GuiScreen.isCtrlKeyDown()) {
 						this.setSelectionPos(this.getNthWordFromPos(-1, this.getSelectionEnd()));
@@ -175,8 +176,9 @@ public class AdvancedTextField extends GuiTextField {
 				}
 
 				return true;
-			case 205:
-
+				
+			} else if (keyCode == 205) {
+				
 				if (GuiScreen.isShiftKeyDown()) {
 					if (GuiScreen.isCtrlKeyDown()) {
 						this.setSelectionPos(this.getNthWordFromPos(1, this.getSelectionEnd()));
@@ -190,8 +192,9 @@ public class AdvancedTextField extends GuiTextField {
 				}
 
 				return true;
-			case 207:
-
+				
+			} else if (keyCode == 207) {
+				
 				if (GuiScreen.isShiftKeyDown()) {
 					this.setSelectionPos(this.getText().length());
 				} else {
@@ -199,8 +202,9 @@ public class AdvancedTextField extends GuiTextField {
 				}
 
 				return true;
-			case 211:
-
+				
+			} else if (keyCode == 211) {
+				
 				if (GuiScreen.isCtrlKeyDown()) {
 					if (this.isEnabled()) {
 						this.deleteWords(1);
@@ -210,8 +214,9 @@ public class AdvancedTextField extends GuiTextField {
 				}
 
 				return true;
-			default:
-
+				
+			} else {
+				
 				if ((this.filter == null) || this.filter.isAllowed(typedChar)) {
 					if (this.isEnabled()) {
 						this.writeText(Character.toString(typedChar));
@@ -221,7 +226,9 @@ public class AdvancedTextField extends GuiTextField {
 				} else {
 					return false;
 				}
+				
 			}
+
 		}
 	}
 	

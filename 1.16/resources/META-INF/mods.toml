@@ -1,9 +1,9 @@
 modLoader="javafml" #mandatory
-loaderVersion="[33,35)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
-license="All rights reserved"
+loaderVersion="[33,36)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+license="GPLv3"
 [[mods]] #mandatory
 modId="konkrete" #mandatory
-version="1.0.3" #mandatory
+version="1.1.0" #mandatory
 displayName="Konkrete" #mandatory
 displayURL="https://www.curseforge.com/minecraft/mc-mods/konkrete" #optional
 logoFile="konkrete.png" #optional

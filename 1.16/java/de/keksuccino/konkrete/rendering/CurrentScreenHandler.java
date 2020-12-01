@@ -10,8 +10,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class CurrentScreenHandler {
-	
-	//TODO übernehmen
+
 	private static Screen lastScreen;
 	private static MatrixStack currentStack;
 
@@ -60,8 +59,7 @@ public class CurrentScreenHandler {
 			getScreen().height = height;
 		}
 	}
-	
-	//TODO übernehmen
+
 	public static Screen getLastScreen() {
 		return lastScreen;
 	}
@@ -70,8 +68,7 @@ public class CurrentScreenHandler {
 	public void onDrawScreen(GuiScreenEvent.DrawScreenEvent.Pre e) {
 		currentStack = e.getMatrixStack();
 	}
-	
-	//TODO übernehmen
+
 	@SubscribeEvent
 	public void onInitPost(GuiScreenEvent.InitGuiEvent.Post e) {
 		lastScreen = e.getGui();

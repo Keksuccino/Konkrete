@@ -54,7 +54,7 @@ public class DropdownMenu implements IMenu {
 				b.setY(this.y + stackedHeight);
 				b.render(matrix, mouseX, mouseY, ticks);
 				
-				stackedHeight += b.func_238483_d_()+ this.space;
+				stackedHeight += b.getHeightRealms()+ this.space;
 			}
 		}
 		
@@ -64,12 +64,12 @@ public class DropdownMenu implements IMenu {
 	}
 	
 	private void updateHovered(int mouseX, int mouseY) {
-		if ((mouseX >= this.dropdown.getX()) && (mouseX <= this.dropdown.getX() + this.dropdown.func_238483_d_()) && (mouseY >= this.dropdown.getY()) && mouseY <= this.dropdown.getY() + this.dropdown.func_238483_d_()) {
+		if ((mouseX >= this.dropdown.getX()) && (mouseX <= this.dropdown.getX() + this.dropdown.getHeightRealms()) && (mouseY >= this.dropdown.getY()) && mouseY <= this.dropdown.getY() + this.dropdown.getHeightRealms()) {
 			this.hovered = true;
 			return;
 		}
 		for (AdvancedButton b : this.content) {
-			if ((mouseX >= b.getX()) && (mouseX <= b.getX() + b.getWidth()) && (mouseY >= b.getY()) && mouseY <= b.getY() + b.func_238483_d_()) {
+			if ((mouseX >= b.getX()) && (mouseX <= b.getX() + b.getWidth()) && (mouseY >= b.getY()) && mouseY <= b.getY() + b.getHeightRealms()) {
 				this.hovered = true;
 				return;
 			}

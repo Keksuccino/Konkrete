@@ -101,8 +101,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 					}
 				}
 			}
-			
-			//TODO übernehmen
+
 			if (!this.resources.isEmpty()) {
 				if (this.width == 0) {
 					this.width = this.resources.get(0).getWidth();
@@ -207,15 +206,14 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 			return false;
 		}
 		String name = f.getName();
-		//TODO übernehmen
-		if (!name.endsWith(".jpg") && !name.endsWith(".png")) {
+		//TODO übernehmen (jpeg)
+		if (!name.endsWith(".jpg") && !name.endsWith(".jpeg") && !name.endsWith(".png")) {
 			System.out.println("############## ERROR [FANCYMENU] ##############");
 			System.out.println("Invalid animation frame found! Unsupported filetype! Only JPG/JPEG and PNG are supported!");
 			System.out.println("Frame path: " + f.getPath());
 			System.out.println("###############################################");
 			return false;
 		}
-		//TODO übernehmen
 		if (!MathUtils.isInteger(Files.getNameWithoutExtension(f.getPath()))) {
 			System.out.println("############## ERROR [FANCYMENU] ##############");
 			System.out.println("Invalid animation frame found! Filename contains letters! Only numbers are allowed!");

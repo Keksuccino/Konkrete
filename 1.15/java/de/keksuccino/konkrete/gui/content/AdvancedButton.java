@@ -30,6 +30,7 @@ public class AdvancedButton extends Button {
 	private ResourceLocation backgroundHover;
 	private ResourceLocation backgroundNormal;
 	String clicksound = null;
+	String[] description = null;
 
 	private IPressable press;
 	
@@ -110,6 +111,10 @@ public class AdvancedButton extends Button {
 			this.renderBg(mc, mouseX, mouseY);
 
 			this.drawCenteredString(font, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, getFGColor());
+			
+			if (this.isHovered()) {
+				AdvancedButtonHandler.setActiveDescriptionButton(this);
+			}
 
 		}
 
@@ -268,6 +273,14 @@ public class AdvancedButton extends Button {
 
 	public void setClickSound(@Nullable String key) {
 		this.clicksound = key;
+	}
+
+	public void setDescription(String... desc) {
+		this.description = desc;
+	}
+
+	public String[] getDescription() {
+		return this.description;
 	}
 	
 	public static boolean isAnyButtonLeftClicked() {
