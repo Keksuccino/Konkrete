@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "package": "de.keksuccino.konkrete.events.client.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [],
+  "client": [
+    "MixinMinecraftClient",
+    "MixinScreen",
+    "MixinMouse",
+    "MixinGameRenderer",
+    "MixinKeyboard"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "konkrete.mixins.events.client-refmap.json"
+}

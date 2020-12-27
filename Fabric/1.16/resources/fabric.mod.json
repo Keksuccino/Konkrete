@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "konkrete",
+  "version": "1.1.0.1",
+  "name": "Konkrete",
+  "description": "Just another boring library mod. | COPYRIGHT (C) 2020 Keksuccino",
+  "environment": "client",
+  "authors": [
+    "Keksuccino"
+  ],
+  "contributors": [],
+  "contact": {},
+  "license": "GPL-3.0",
+  "icon": "assets/konkrete/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "de.keksuccino.konkrete.Konkrete"
+    ],
+    "client": [],
+    "server": []
+  },
+  "mixins": [
+    "konkrete.mixins.events.client.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.10.3",
+    "fabric": "*"
+  }
+}
