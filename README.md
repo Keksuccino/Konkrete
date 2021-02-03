@@ -13,5 +13,14 @@ See LICENSE.md for more information.
 
 ## Copyright
 
-- Konkrete<br>
-Copyright © 2020 Keksuccino.
+- Konkrete Copyright © 2020 Keksuccino.<br>
+Konkrete is licensed under GPLv3.
+
+- MP3SPI Copyright © Tritonus, JavaZoom.<br>
+MP3SPI is licensed under LGPL.
+
+- JLayer Copyright © JavaZoom.<br>
+JLayer is licensed under LGPL.
+
+- Tritonus Copyright © Florian Pfisterer.<br>
+Tritonus is licensed under LGPL.
