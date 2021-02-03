@@ -1,14 +1,12 @@
 package de.keksuccino.konkrete;
 
-//import java.awt.Color;
-//
-//import de.keksuccino.konkrete.events.SubscribeEvent;
-//import de.keksuccino.konkrete.events.client.GuiScreenEvent.DrawScreenEvent;
-//import de.keksuccino.konkrete.events.client.GuiScreenEvent.InitGuiEvent;
-//import de.keksuccino.konkrete.gui.screens.SimpleLoadingScreen;
-//import net.minecraft.client.MinecraftClient;
-//import net.minecraft.client.gui.DrawableHelper;
-//import net.minecraft.client.gui.screen.TitleScreen;
+import java.awt.Color;
+
+import de.keksuccino.konkrete.events.SubscribeEvent;
+import de.keksuccino.konkrete.events.client.GuiScreenEvent.BackgroundDrawnEvent;
+import de.keksuccino.konkrete.events.client.GuiScreenEvent.DrawScreenEvent;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
 
 public class TestEvents {
 
@@ -20,10 +18,20 @@ public class TestEvents {
 //		}
 //	}
 	
-//	@SubscribeEvent
-//	public void onBackgroundDrawn(BackgroundDrawnEvent e) {
-//		System.out.println("BACKGROUND DRAWN!");
-//	}
+	@SubscribeEvent
+	public void onBackgroundDrawn(BackgroundDrawnEvent e) {
+		System.out.println("BACKGROUND DRAWN!");
+	}
+	
+	@SubscribeEvent
+	public void onDrawPre(DrawScreenEvent.Pre e) {
+		DrawableHelper.drawCenteredString(e.getMatrixStack(), MinecraftClient.getInstance().textRenderer, "Huhuuuu", 20, 50, Color.GREEN.getRGB());
+	}
+	
+	@SubscribeEvent
+	public void onDrawPost(DrawScreenEvent.Post e) {
+		DrawableHelper.drawCenteredString(e.getMatrixStack(), MinecraftClient.getInstance().textRenderer, "Huhu", 50, 50, Color.CYAN.getRGB());
+	}
 	
 //	@SubscribeEvent
 //	public void onGameInitCompleted(GameInitializationCompletedEvent e) {
@@ -112,19 +120,7 @@ public class TestEvents {
 //	@SubscribeEvent
 //	public void onInitGuiPost(InitGuiEvent.Post e) {
 //
-//	}
-//	
-//	@SubscribeEvent
-//	public void onDrawPre(DrawScreenEvent.Pre e) {
-////		System.out.println("DRAW PRE");
-//	}
-//	
-//	@SubscribeEvent
-//	public void onDrawPost(DrawScreenEvent.Post e) {
-////		System.out.println("DRAW POST");
-//		DrawableHelper.drawCenteredString(e.getMatrixStack(), MinecraftClient.getInstance().textRenderer, "Huhu", 50, 50, Color.CYAN.getRGB());
-//	}
-//	
+//	}	
 //	@SubscribeEvent
 //	public void onClientTickPre(ClientTickEvent.Pre e) {
 //		System.out.println("TICK PRE");

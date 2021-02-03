@@ -24,7 +24,7 @@ public class SimpleLoadingScreen extends Screen {
 		this.mc = mc;
 	}
 	
-	//render
+	//TODO update to new rendering logic implemented in forge-konkrete 1.1.1
 	@Override
 	public void render(MatrixStack matrix, int p_render_1_, int p_render_2_, float p_render_3_) {
 		int color = new Color(239, 50, 61).getRGB();

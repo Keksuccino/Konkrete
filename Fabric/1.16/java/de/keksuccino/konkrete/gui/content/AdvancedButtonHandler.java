@@ -8,6 +8,7 @@ import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.events.EventPriority;
 import de.keksuccino.konkrete.events.SubscribeEvent;
 import de.keksuccino.konkrete.events.client.GuiScreenEvent.DrawScreenEvent;
+import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -25,7 +26,9 @@ public class AdvancedButtonHandler {
 	public void onDrawScreen(DrawScreenEvent.Post e) {
 		if (activeDescBtn != null) {
 			if (activeDescBtn.isHovered()) {
-				renderDescription(e.getMatrixStack(), e.getMouseX(), e.getMouseY());
+				if ((MinecraftClient.getInstance() != null) && (MinecraftClient.getInstance().currentScreen != null)) {
+					renderDescription(e.getMatrixStack(), e.getMouseX(), e.getMouseY());
+				}
 			}
 			if (garbageCheck == 0) {
 				activeDescBtn = null;
@@ -68,6 +71,8 @@ public class AdvancedButtonHandler {
 				if (MinecraftClient.getInstance().currentScreen.height < mouseY + height) {
 					mouseY -= height + 10;
 				}
+				
+				RenderUtils.setZLevelPre(matrix, 600);
 
 				renderDescriptionBackground(matrix, mouseX, mouseY, width, height);
 
@@ -78,6 +83,8 @@ public class AdvancedButtonHandler {
 					DrawableHelper.drawStringWithShadow(matrix, MinecraftClient.getInstance().textRenderer, s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
 					i2 += 10;
 				}
+				
+				RenderUtils.setZLevelPost(matrix);
 				
 				RenderSystem.disableBlend();
 			}

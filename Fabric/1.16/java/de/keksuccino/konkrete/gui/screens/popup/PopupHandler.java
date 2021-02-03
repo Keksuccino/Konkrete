@@ -4,6 +4,7 @@ import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.events.SubscribeEvent;
 import de.keksuccino.konkrete.events.client.GuiScreenEvent;
 import de.keksuccino.konkrete.input.MouseInput;
+import de.keksuccino.konkrete.rendering.RenderUtils;
 
 public class PopupHandler {
 	
@@ -21,7 +22,9 @@ public class PopupHandler {
 	public static void onRender(GuiScreenEvent.DrawScreenEvent.Post e) {
 		if ((popup != null) && popup.isDisplayed()) {
 			MouseInput.blockVanillaInput("popupgui");
+			RenderUtils.setZLevelPre(e.getMatrixStack(), 500);
 			popup.render(e.getMatrixStack(), e.getMouseX(), e.getMouseY(), e.getGui());
+			RenderUtils.setZLevelPost(e.getMatrixStack());
 		} else {
 			MouseInput.unblockVanillaInput("popupgui");
 		}

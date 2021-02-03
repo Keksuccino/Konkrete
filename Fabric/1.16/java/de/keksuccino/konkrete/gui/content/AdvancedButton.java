@@ -20,8 +20,12 @@ public class AdvancedButton extends ButtonWidget {
 
 	private boolean handleClick = false;
 	private static boolean leftDown = false;
+	private boolean leftDownThis = false;
 	private boolean leftDownNotHovered = false;
 	public boolean ignoreBlockedInput = false;
+	public boolean ignoreLeftMouseDownClickBlock = false;
+	public boolean enableRightclick = false;
+	public float labelScale = 1.0F;
 	private boolean useable = true;
 	
 	private Color idleColor;
@@ -57,7 +61,6 @@ public class AdvancedButton extends ButtonWidget {
 	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
 		if (this.visible) {
 			MinecraftClient mc = MinecraftClient.getInstance();
-			TextRenderer font = mc.textRenderer;
 			
 			this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 			
@@ -111,7 +114,7 @@ public class AdvancedButton extends ButtonWidget {
 
 			this.renderBg(matrix, mc, mouseX, mouseY);
 
-			drawCenteredString(matrix, font, getMessageString(), this.x + this.width / 2, this.y + (this.height - 8) / 2, getFGColor());
+			this.renderLabel(matrix);
 
 			if (this.isHovered()) {
 				AdvancedButtonHandler.setActiveDescriptionButton(this);
@@ -127,20 +130,40 @@ public class AdvancedButton extends ButtonWidget {
 		}
 		
 		if (this.handleClick && this.useable) {
-			if (this.isHovered() && MouseInput.isLeftMouseDown() && !leftDown && !leftDownNotHovered && !this.isInputBlocked() && this.active && this.visible) {
-				this.onClick(mouseX, mouseY);
-				if (this.clicksound == null) {
-					this.playDownSound(MinecraftClient.getInstance().getSoundManager());
-				} else {
-					SoundHandler.resetSound(this.clicksound);
-					SoundHandler.playSound(this.clicksound);
+			if (this.isHovered() && (MouseInput.isLeftMouseDown() || (this.enableRightclick && MouseInput.isRightMouseDown())) && (!leftDown || this.ignoreLeftMouseDownClickBlock) && !leftDownNotHovered && !this.isInputBlocked() && this.active && this.visible) {
+				if (!this.leftDownThis) {
+					this.onClick(mouseX, mouseY);
+					if (this.clicksound == null) {
+						this.playDownSound(MinecraftClient.getInstance().getSoundManager());
+					} else {
+						SoundHandler.resetSound(this.clicksound);
+						SoundHandler.playSound(this.clicksound);
+					}
+					leftDown = true;
+					this.leftDownThis = true;
 				}
-				leftDown = true;
 			}
-			if (!MouseInput.isLeftMouseDown()) {
+			if (!MouseInput.isLeftMouseDown() && !(MouseInput.isRightMouseDown() && this.enableRightclick)) {
 				leftDown = false;
+				this.leftDownThis = false;
 			}
 		}
+		
+	}
+	
+	protected void renderLabel(MatrixStack matrix) {
+		TextRenderer font = MinecraftClient.getInstance().textRenderer;
+		int stringWidth = font.getWidth(getMessageString());
+		int stringHeight = 8;
+		int pX = (int) (((this.x + (this.width / 2)) - ((stringWidth * this.labelScale) / 2)) / this.labelScale);
+		int pY = (int) (((this.y + (this.height / 2)) - ((stringHeight * this.labelScale) / 2)) / this.labelScale);
+		
+		matrix.push();
+		matrix.scale(this.labelScale, this.labelScale, this.labelScale);
+
+		font.drawWithShadow(matrix, getMessageString(), pX, pY, getFGColor());
+		
+		matrix.pop();
 	}
 	
 	private boolean isInputBlocked() {

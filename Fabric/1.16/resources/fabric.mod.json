@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "konkrete",
-  "version": "1.1.0.1",
+  "version": "1.1.3",
   "name": "Konkrete",
-  "description": "Just another boring library mod. | COPYRIGHT (C) 2020 Keksuccino",
+  "description": "Konkrete Copyright © 2020-2021 Keksuccino. Konkrete is licensed under GPLv3.",
   "environment": "client",
   "authors": [
     "Keksuccino"

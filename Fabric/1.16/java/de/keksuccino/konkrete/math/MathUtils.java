@@ -2,10 +2,6 @@ package de.keksuccino.konkrete.math;
 
 import java.util.Random;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
 public class MathUtils {
 
 	public static boolean isIntegerOrDouble(String value) {
@@ -60,64 +56,112 @@ public class MathUtils {
 		return r.nextInt((max - min) + 1) + min;
 	}
 	
+	//TODO übernehmen
 	/**
-	 * Returns the calculated number OR ZERO if an error happened during the calculation.
+	 * Returns the calculated value.
 	 */
-	public static double calculateFromString(String in) {
-	    try {
-	    	ScriptEngineManager mgr = new ScriptEngineManager(null);
-		    ScriptEngine engine = mgr.getEngineByName("javascript");
-		    if (engine == null) {
-		    	System.out.println("CALCULATION FAILED: ENGINE IS NULL");
-		    	return 0;
-		    }
-	    	if (in == null) {
-	    		System.out.println("CALCULATION FAILED: STRING IS NULL");
-	    		return 0;
-	    	}
-	    	Object o = engine.eval(in);
-	    	if (o == null) {
-	    		System.out.println("CALCULATION FAILED: OBJECT IS NULL");
-	    		return 0;
-	    	}
-	    	if (o instanceof Integer) {
-	    		return (double) ((int)o);
-	    	}
-	    	if (o instanceof Double) {
-	    		return (double) o;
-	    	}
-		} catch (Exception e) {
-			e.printStackTrace();
+	public static double calculateFromString(final String in) {
+		
+		if (MathUtils.isDouble(in)) {
+			return Double.parseDouble(in);
 		}
-	    System.out.println("CALCULATION FAILED: RETURNING ZERO");
-	    return 0;
+		
+	    try {
+	    	return new Object() {
+		        int pos = -1, ch;
+
+		        void nextChar() {
+		            ch = (++pos < in.length()) ? in.charAt(pos) : -1;
+		        }
+
+		        boolean eat(int charToEat) {
+		            while (ch == ' ') nextChar();
+		            if (ch == charToEat) {
+		                nextChar();
+		                return true;
+		            }
+		            return false;
+		        }
+
+		        double parse() {
+		            nextChar();
+		            double x = parseExpression();
+		            if (pos < in.length()) throw new RuntimeException("[KONKRETE] Unexpected: " + (char)ch);
+		            return x;
+		        }
+
+		        double parseExpression() {
+		            double x = parseTerm();
+		            for (;;) {
+		                if      (eat('+')) x += parseTerm();
+		                else if (eat('-')) x -= parseTerm();
+		                else return x;
+		            }
+		        }
+
+		        double parseTerm() {
+		            double x = parseFactor();
+		            for (;;) {
+		                if      (eat('*')) x *= parseFactor();
+		                else if (eat('/')) x /= parseFactor();
+		                else return x;
+		            }
+		        }
+
+		        double parseFactor() {
+		            if (eat('+')) return parseFactor();
+		            if (eat('-')) return -parseFactor();
+
+		            double x;
+		            int startPos = this.pos;
+		            if (eat('(')) {
+		                x = parseExpression();
+		                eat(')');
+		            } else if ((ch >= '0' && ch <= '9') || ch == '.') {
+		                while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
+		                x = Double.parseDouble(in.substring(startPos, this.pos));
+		            } else if (ch >= 'a' && ch <= 'z') {
+		                while (ch >= 'a' && ch <= 'z') nextChar();
+		                String func = in.substring(startPos, this.pos);
+		                x = parseFactor();
+		                if (func.equals("sqrt")) x = Math.sqrt(x);
+		                else if (func.equals("sin")) x = Math.sin(Math.toRadians(x));
+		                else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
+		                else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
+		                else throw new RuntimeException("[KONKRETE] Unknown function: " + func);
+		            } else {
+		                throw new RuntimeException("[KONKRETE] Unexpected: " + (char)ch);
+		            }
+
+		            if (eat('^')) x = Math.pow(x, parseFactor());
+
+		            return x;
+		        }
+		    }.parse();
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	    
+	    return 0.0D;
 	}
 	
+	//TODO übernehmen
 	/**
 	 * Returns true if the given string can be calculated using {@link MathUtils#calculateFromString}.
 	 */
 	public static boolean isCalculateableString(String in) {
-		ScriptEngineManager mgr = new ScriptEngineManager(null);
-	    ScriptEngine engine = mgr.getEngineByName("javascript");
-	    try {
-	    	if (engine == null) {
-	    		return false;
-	    	}
-	    	if (in == null) {
-	    		return false;
-	    	}
-	    	Object o = engine.eval(in);
-	    	if (o == null) {
-	    		return false;
-	    	}
-	    	if (o instanceof Integer) {
-	    		return true;
-	    	}
-	    	if (o instanceof Double) {
-	    		return true;
-	    	}
-		} catch (ScriptException e) {}
-	    return false;
+		
+		if (MathUtils.isDouble(in)) {
+			return true;
+		}
+		
+		try {
+			calculateFromString(in);
+			return true;
+		} catch (Exception e) {
+		}
+		
+		return false;
 	}
 
 }

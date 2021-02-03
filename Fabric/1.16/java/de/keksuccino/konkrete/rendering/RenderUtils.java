@@ -92,5 +92,18 @@ public class RenderUtils {
 		}
 		return null;
 	}
+    
+    public static void setZLevelPre(MatrixStack matrix, int zLevel) {
+		RenderSystem.disableRescaleNormal();
+		RenderSystem.disableDepthTest();
+		matrix.push();
+		matrix.translate(0.0D, 0.0D, zLevel);
+    }
+    
+    public static void setZLevelPost(MatrixStack matrix) {
+    	matrix.pop();
+    	RenderSystem.enableRescaleNormal();
+    	RenderSystem.enableDepthTest();
+    }
 
 }
