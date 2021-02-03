@@ -15,12 +15,17 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
+@SuppressWarnings("deprecation")
 public class AdvancedButton extends GuiButton {
 
 	private boolean handleClick = false;
 	private static boolean leftDown = false;
+	private boolean leftDownThis = false;
 	private boolean leftDownNotHovered = false;
 	public boolean ignoreBlockedInput = false;
+	public boolean ignoreLeftMouseDownClickBlock = false;
+	public boolean enableRightclick = false;
+	public float labelScale = 1.0F;
 	private boolean useable = true;
 	
 	private Color idleColor;
@@ -49,7 +54,6 @@ public class AdvancedButton extends GuiButton {
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		if (this.visible) {
-			FontRenderer font = mc.fontRenderer;
 			
 			this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 			
@@ -104,16 +108,12 @@ public class AdvancedButton extends GuiButton {
 			
 			this.mouseDragged(mc, mouseX, mouseY);
 			
-			int j = 14737632;
-			if (packedFGColour != 0) {
-				j = packedFGColour;
-			} else if (!this.enabled) {
-				j = 10526880;
-			} else if (this.hovered) {
-				j = 16777120;
+			this.renderLabel();
+			
+			if (this.isMouseOver()) {
+				AdvancedButtonHandler.setActiveDescriptionButton(this);
 			}
-
-			this.drawCenteredString(font, this.displayString, this.x + this.width / 2, this.y + (this.height - 8) / 2, j);
+			
 		}
 
 		if (!this.isMouseOver() && MouseInput.isLeftMouseDown()) {
@@ -124,19 +124,46 @@ public class AdvancedButton extends GuiButton {
 		}
 		
 		if (this.handleClick && this.useable) {
-			if (this.isMouseOver() && MouseInput.isLeftMouseDown() && !leftDown && !leftDownNotHovered && !this.isInputBlocked() && this.enabled && this.visible) {
-				this.press.onPress(this);
-				this.playPressSound(Minecraft.getMinecraft().getSoundHandler());
-				leftDown = true;
+			if (this.isMouseOver() && (MouseInput.isLeftMouseDown() || (this.enableRightclick && MouseInput.isRightMouseDown())) && (!leftDown || this.ignoreLeftMouseDownClickBlock) && !leftDownNotHovered && !this.isInputBlocked() && this.enabled && this.visible) {
+				if (!this.leftDownThis) {
+					this.press.onPress(this);
+					this.playPressSound(Minecraft.getMinecraft().getSoundHandler());
+					leftDown = true;
+					this.leftDownThis = true;
+				}
 			}
-			if (!MouseInput.isLeftMouseDown()) {
+			if (!MouseInput.isLeftMouseDown() && !(MouseInput.isRightMouseDown() && this.enableRightclick)) {
 				leftDown = false;
+				this.leftDownThis = false;
 			}
 		}
+	}
+	
+	protected void renderLabel() {
+		FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+		int stringWidth = font.getStringWidth(this.displayString);
+		int stringHeight = 8;
+		int pX = (int) (((this.x + (this.width / 2)) - ((stringWidth * this.labelScale) / 2)) / this.labelScale);
+		int pY = (int) (((this.y + (this.height / 2)) - ((stringHeight * this.labelScale) / 2)) / this.labelScale);
 		
-		if (this.isMouseOver()) {
-			AdvancedButtonHandler.setActiveDescriptionButton(this);
+		GlStateManager.pushMatrix();
+		GlStateManager.scale(this.labelScale, this.labelScale, this.labelScale);
+		
+		font.drawStringWithShadow(this.displayString, pX, pY, getFGColor());
+		
+		GlStateManager.popMatrix();
+	}
+	
+	protected int getFGColor() {
+		int j = 14737632;
+		if (packedFGColour != 0) {
+			j = packedFGColour;
+		} else if (!this.enabled) {
+			j = 10526880;
+		} else if (this.hovered) {
+			j = 16777120;
 		}
+		return j;
 	}
 	
 	private boolean isInputBlocked() {

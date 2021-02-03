@@ -19,6 +19,7 @@ import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IngameGui;
 
+@SuppressWarnings("deprecation")
 public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	
 	private String resourceDir;
@@ -206,7 +207,6 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 			return false;
 		}
 		String name = f.getName();
-		//TODO übernehmen (jpeg)
 		if (!name.endsWith(".jpg") && !name.endsWith(".jpeg") && !name.endsWith(".png")) {
 			System.out.println("############## ERROR [FANCYMENU] ##############");
 			System.out.println("Invalid animation frame found! Unsupported filetype! Only JPG/JPEG and PNG are supported!");

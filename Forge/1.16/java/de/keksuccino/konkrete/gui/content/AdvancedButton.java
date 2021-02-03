@@ -11,18 +11,22 @@ import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
 import de.keksuccino.konkrete.sound.SoundHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 
+@SuppressWarnings("deprecation")
 public class AdvancedButton extends Button {
 
 	private boolean handleClick = false;
 	private static boolean leftDown = false;
+	private boolean leftDownThis = false;
 	private boolean leftDownNotHovered = false;
 	public boolean ignoreBlockedInput = false;
+	public boolean ignoreLeftMouseDownClickBlock = false;
+	public boolean enableRightclick = false;
+	public float labelScale = 1.0F;
 	private boolean useable = true;
 	
 	private Color idleColor;
@@ -33,7 +37,6 @@ public class AdvancedButton extends Button {
 	private ResourceLocation backgroundHover;
 	private ResourceLocation backgroundNormal;
 	String clicksound = null;
-	//TODO übernehmen
 	String[] description = null;
 
 	private IPressable press;
@@ -59,8 +62,7 @@ public class AdvancedButton extends Button {
 	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
 		if (this.visible) {
 			Minecraft mc = Minecraft.getInstance();
-			FontRenderer font = mc.fontRenderer;
-			
+
 			this.isHovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 			
 			RenderSystem.enableBlend();
@@ -113,9 +115,8 @@ public class AdvancedButton extends Button {
 
 			this.renderBg(matrix, mc, mouseX, mouseY);
 
-			AbstractGui.drawCenteredString(matrix, font, new StringTextComponent(getMessageString()), this.x + this.width / 2, this.y + (this.height - 8) / 2, getFGColor());
-			
-			//TODO übernehmen
+			this.renderLabel(matrix);
+
 			if (this.isHovered()) {
 				AdvancedButtonHandler.setActiveDescriptionButton(this);
 			}
@@ -129,22 +130,41 @@ public class AdvancedButton extends Button {
 		}
 		
 		if (this.handleClick && this.useable) {
-			if (this.isHovered() && MouseInput.isLeftMouseDown() && !leftDown && !leftDownNotHovered && !this.isInputBlocked() && this.active && this.visible) {
-				this.onClick(mouseX, mouseY);
-				if (this.clicksound == null) {
-					this.playDownSound(Minecraft.getInstance().getSoundHandler());
-				} else {
-					SoundHandler.resetSound(this.clicksound);
-					SoundHandler.playSound(this.clicksound);
+			if (this.isHovered() && (MouseInput.isLeftMouseDown() || (this.enableRightclick && MouseInput.isRightMouseDown())) && (!leftDown || this.ignoreLeftMouseDownClickBlock) && !leftDownNotHovered && !this.isInputBlocked() && this.active && this.visible) {
+				if (!this.leftDownThis) {
+					this.onClick(mouseX, mouseY);
+					if (this.clicksound == null) {
+						this.playDownSound(Minecraft.getInstance().getSoundHandler());
+					} else {
+						SoundHandler.resetSound(this.clicksound);
+						SoundHandler.playSound(this.clicksound);
+					}
+					leftDown = true;
+					this.leftDownThis = true;
 				}
-				leftDown = true;
 			}
-			if (!MouseInput.isLeftMouseDown()) {
+			if (!MouseInput.isLeftMouseDown() && !(MouseInput.isRightMouseDown() && this.enableRightclick)) {
 				leftDown = false;
+				this.leftDownThis = false;
 			}
 		}
 	}
-
+	
+	protected void renderLabel(MatrixStack matrix) {
+		FontRenderer font = Minecraft.getInstance().fontRenderer;
+		int stringWidth = font.getStringWidth(getMessageString());
+		int stringHeight = 8;
+		int pX = (int) (((this.x + (this.width / 2)) - ((stringWidth * this.labelScale) / 2)) / this.labelScale);
+		int pY = (int) (((this.y + (this.height / 2)) - ((stringHeight * this.labelScale) / 2)) / this.labelScale);
+		
+		matrix.push();
+		matrix.scale(this.labelScale, this.labelScale, this.labelScale);
+		
+		font.drawStringWithShadow(matrix, getMessageString(), pX, pY, getFGColor());
+		
+		matrix.pop();
+	}
+	
 	private boolean isInputBlocked() {
 		if (this.ignoreBlockedInput) {
 			return false;
@@ -285,13 +305,11 @@ public class AdvancedButton extends Button {
 	public void setClickSound(@Nullable String key) {
 		this.clicksound = key;
 	}
-	
-	//TODO übernehmen
+
 	public void setDescription(String... desc) {
 		this.description = desc;
 	}
-	
-	//TODO übernehmen
+
 	public String[] getDescription() {
 		return this.description;
 	}

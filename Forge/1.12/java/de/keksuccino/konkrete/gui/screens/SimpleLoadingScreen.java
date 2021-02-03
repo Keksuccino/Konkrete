@@ -37,7 +37,7 @@ public class SimpleLoadingScreen extends GuiScreen {
 		this.loading.render();
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		this.drawStatus(this.status, width, i1 + 170 + 50);
+		this.drawStatus(this.status, width / 2, this.loading.getPosY() + this.loading.getHeight() + 20);
 		
 		super.drawScreen(p_render_1_, p_render_2_, p_render_3_);
 	}
@@ -47,7 +47,7 @@ public class SimpleLoadingScreen extends GuiScreen {
 	}
 
 	public void drawStatus(String text, int width, int height) {
-		Minecraft.getMinecraft().fontRenderer.drawString(text, (width - Minecraft.getMinecraft().fontRenderer.getStringWidth(text)) / 2, height, 14821431);
+		mc.fontRenderer.drawString(text, (float) (width - Minecraft.getMinecraft().fontRenderer.getStringWidth(text) / 2), (float) height, 14821431, false);
 	}
 	
 	public void setLoadingAnimationColor(String hex) {

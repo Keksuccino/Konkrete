@@ -2,6 +2,7 @@ package de.keksuccino.konkrete.gui.content;
 
 import java.awt.Color;
 
+import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -23,7 +24,9 @@ public class AdvancedButtonHandler {
 	public void onDrawScreen(DrawScreenEvent.Post e) {
 		if (activeDescBtn != null) {
 			if (activeDescBtn.isMouseOver()) {
-				renderDescription(e.getMouseX(), e.getMouseY());
+				if ((Minecraft.getMinecraft() != null) && (Minecraft.getMinecraft().currentScreen != null)) {
+					renderDescription(e.getMouseX(), e.getMouseY());
+				}
 			}
 			if (garbageCheck == 0) {
 				activeDescBtn = null;
@@ -67,6 +70,8 @@ public class AdvancedButtonHandler {
 					mouseY -= height + 10;
 				}
 
+				RenderUtils.setZLevelPre(600);
+				
 				renderDescriptionBackground(mouseX, mouseY, width, height);
 
 				GlStateManager.enableBlend();
@@ -76,6 +81,8 @@ public class AdvancedButtonHandler {
 					Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
 					i2 += 10;
 				}
+				
+				RenderUtils.setZLevelPost();
 				
 				GlStateManager.disableBlend();
 			}

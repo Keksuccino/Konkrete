@@ -20,6 +20,7 @@ public class AdvancedImageButton extends AdvancedButton {
 		this.image = image;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
 		super.render(matrix, mouseX, mouseY, partialTicks);

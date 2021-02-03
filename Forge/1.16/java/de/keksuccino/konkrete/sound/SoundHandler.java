@@ -15,6 +15,8 @@ import javax.sound.sampled.FloatControl.Type;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.SoundCategory;
 
+//TODO übernehmen (dep entfernen und alle anderen, ungenutzten Audio libs löschen)
+//@Deprecated
 public class SoundHandler {
 	
 	private static Map<String, Clip> sounds = new HashMap<String, Clip>();

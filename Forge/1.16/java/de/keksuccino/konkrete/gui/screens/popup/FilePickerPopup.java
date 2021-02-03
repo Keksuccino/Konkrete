@@ -278,6 +278,7 @@ public class FilePickerPopup extends Popup {
 			super.render(matrix);
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public void renderEntry(MatrixStack matrix) {
 			RenderSystem.enableBlend();

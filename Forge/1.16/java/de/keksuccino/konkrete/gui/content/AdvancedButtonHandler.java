@@ -1,4 +1,3 @@
-//TODO übernehmen
 package de.keksuccino.konkrete.gui.content;
 
 import java.awt.Color;
@@ -6,6 +5,7 @@ import java.awt.Color;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.IngameGui;
@@ -27,7 +27,10 @@ public class AdvancedButtonHandler {
 	public void onDrawScreen(DrawScreenEvent.Post e) {
 		if (activeDescBtn != null) {
 			if (activeDescBtn.isHovered()) {
-				renderDescription(e.getMatrixStack(), e.getMouseX(), e.getMouseY());
+				//TODO übernehmen
+				if ((Minecraft.getInstance() != null) && (Minecraft.getInstance().currentScreen != null)) {
+					renderDescription(e.getMatrixStack(), e.getMouseX(), e.getMouseY());
+				}
 			}
 			if (garbageCheck == 0) {
 				activeDescBtn = null;
@@ -71,6 +74,9 @@ public class AdvancedButtonHandler {
 					mouseY -= height + 10;
 				}
 
+				//TODO übernehmen
+				RenderUtils.setZLevelPre(matrix, 600);
+				
 				renderDescriptionBackground(matrix, mouseX, mouseY, width, height);
 
 				RenderSystem.enableBlend();
@@ -80,6 +86,9 @@ public class AdvancedButtonHandler {
 					AbstractGui.drawString(matrix, Minecraft.getInstance().fontRenderer, s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
 					i2 += 10;
 				}
+				
+				//TODO übernehmen
+				RenderUtils.setZLevelPost(matrix);
 				
 				RenderSystem.disableBlend();
 			}

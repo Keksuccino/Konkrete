@@ -48,8 +48,7 @@ public class StringUtils {
 		
 		return s;
 	}
-	
-	//TODO übernehmen
+
 	public static String[] splitLines(String in, String separator) {
 		if (!in.contains(separator)) {
 			return new String[] {in};

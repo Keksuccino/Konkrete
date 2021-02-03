@@ -121,6 +121,7 @@ public class ScrollArea extends AbstractGui {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	protected void renderBackground(MatrixStack matrix) {
 		matrix.push();
 		RenderSystem.disableAlphaTest();

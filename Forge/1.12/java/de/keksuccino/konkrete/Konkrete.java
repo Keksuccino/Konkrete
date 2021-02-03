@@ -15,10 +15,10 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = "konkrete", acceptedMinecraftVersions="[1.12,1.12.2]")
+@Mod(modid = "konkrete", acceptedMinecraftVersions="[1.12,1.12.2]", clientSideOnly = true)
 public class Konkrete {
 	
-	public static final String VERSION = "1.1.0";
+	public static final String VERSION = "1.1.3";
 
 	public Konkrete() {
 		if (FMLClientHandler.instance().getSide() == Side.CLIENT) {

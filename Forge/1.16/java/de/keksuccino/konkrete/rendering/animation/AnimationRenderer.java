@@ -31,6 +31,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.loading.LoadingModList;
 
+@SuppressWarnings("deprecation")
 public class AnimationRenderer implements IAnimationRenderer {
 	
 	private String resourceDir;
@@ -40,7 +41,6 @@ public class AnimationRenderer implements IAnimationRenderer {
 	private int height;
 	private int x;
 	private int y;
-	//TODO übernehmen protected
 	protected List<ResourceLocation> resources = new ArrayList<ResourceLocation>();
 	private boolean stretch = false;
 	private boolean hide = false;
@@ -201,8 +201,7 @@ public class AnimationRenderer implements IAnimationRenderer {
 		}
 		return l;
 	}
-	
-	//TODO übernehmen (protected)
+
 	protected void renderFrame(MatrixStack matrix) {
 		int h = this.height;
 		int w = this.width;

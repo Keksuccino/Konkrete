@@ -90,4 +90,17 @@ public class RenderUtils {
 		return null;
 	}
 
+    public static void setZLevelPre(int zLevel) {
+		GlStateManager.disableRescaleNormal();
+		GlStateManager.disableDepth();
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(0.0D, 0.0D, zLevel);
+    }
+
+    public static void setZLevelPost() {
+    	GlStateManager.popMatrix();
+    	GlStateManager.enableRescaleNormal();
+    	GlStateManager.enableDepth();
+    }
+
 }

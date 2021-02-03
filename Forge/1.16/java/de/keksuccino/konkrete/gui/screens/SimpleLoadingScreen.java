@@ -15,11 +15,11 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+@SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
 public class SimpleLoadingScreen extends Screen {
 	private static ResourceLocation MOJANG_LOGO_TEXTURE = new ResourceLocation("textures/gui/title/mojangstudios.png");
 	private final Minecraft mc;
-	//TODO übernehmen
 	private LoadingAnimationRenderer loading = new LoadingAnimationRenderer("keksuccino/animations/loading", 15, true, 0, 0, 16, 16, "konkrete", null);
 	private String status = "";
 	private boolean darkmode = false;
@@ -28,8 +28,7 @@ public class SimpleLoadingScreen extends Screen {
 		super(new StringTextComponent(""));
 		this.mc = mc;
 	}
-	
-	//render
+
 	@Override
 	public void render(MatrixStack matrix, int p_render_1_, int p_render_2_, float p_render_3_) {
 		int color = new Color(239, 50, 61).getRGB();
@@ -50,18 +49,14 @@ public class SimpleLoadingScreen extends Screen {
 		blit(matrix, j2 - k1, i1 - j1, k1, (int)d0, -0.0625F, 0.0F, 120, 60, 120, 120);
 		blit(matrix, j2, i1 - j1, k1, (int)d0, 0.0625F, 60.0F, 120, 60, 120, 120);
 
-		//TODO übernehmen
 		this.loading.setPosX((width /2) - (this.loading.getWidth() / 2));
 		this.loading.setPosY(height - 80);
-		//----------------
-		
-		//TODO übernehmen
+
 		RenderSystem.color4f(0.0F, 0.733F, 1.0F, 1.0F);
 		this.loading.render(matrix);
-		
-		//TODO übernehmen
+
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.drawStatus(this.status, matrix, width / 2, height - 30);
+		this.drawStatus(this.status, matrix, width / 2, this.loading.getPosY() + this.loading.getHeight() + 20);
 		
 		super.render(matrix, p_render_1_, p_render_2_, p_render_3_);
 	}
@@ -71,20 +66,17 @@ public class SimpleLoadingScreen extends Screen {
 	}
 
 	public void drawStatus(String text, MatrixStack matrix, int width, int height) {
-		//drawString
 		mc.fontRenderer.drawString(matrix, text, (float) (width - Minecraft.getInstance().fontRenderer.getStringWidth(text) / 2), (float) height, Color.WHITE.getRGB());
 	}
 	
 	public void setDarkmode(boolean b) {
 		this.darkmode = b;
 	}
-	
-	//TODO übernehmen
+
 	public void setLoadingAnimationColor(String hex) {
 		this.loading.setHexColor(hex);
 	}
-	
-	//TODO übernehmen
+
 	private static class LoadingAnimationRenderer extends AnimationRenderer {
 
 		private String hex = "#ffffffff";

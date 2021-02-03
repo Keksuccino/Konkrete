@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.texture.NativeImage;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
+@SuppressWarnings("deprecation")
 public class RenderUtils {
 	
 	private static ResourceLocation WHITE = null;
@@ -71,8 +72,7 @@ public class RenderUtils {
         RenderSystem.enableAlphaTest();
         WorldVertexBufferUploader.draw(bufferbuilder);
     }
-    
-    //TODO übernehmen
+
     /**
      * Returns the converted color or NULL if the color could not be converted.
      */
@@ -93,5 +93,20 @@ public class RenderUtils {
 		}
 		return null;
 	}
+    
+    //TODO übernehmen
+    public static void setZLevelPre(MatrixStack matrix, int zLevel) {
+		RenderSystem.disableRescaleNormal();
+		RenderSystem.disableDepthTest();
+		matrix.push();
+		matrix.translate(0.0D, 0.0D, zLevel);
+    }
+    
+    //TODO übernehmen
+    public static void setZLevelPost(MatrixStack matrix) {
+    	matrix.pop();
+    	RenderSystem.enableRescaleNormal();
+    	RenderSystem.enableDepthTest();
+    }
 
 }

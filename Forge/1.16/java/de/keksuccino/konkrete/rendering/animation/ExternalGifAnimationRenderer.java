@@ -32,6 +32,7 @@ import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IngameGui;
 
+@SuppressWarnings("deprecation")
 public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	
 	private String resourceDir;

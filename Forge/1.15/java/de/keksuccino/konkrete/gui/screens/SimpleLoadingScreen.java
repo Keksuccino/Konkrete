@@ -54,7 +54,7 @@ public class SimpleLoadingScreen extends Screen {
 		this.loading.render();
 
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.drawStatus(this.status, width / 2, i1 + 170 + 50);
+		this.drawStatus(this.status, width / 2, this.loading.getPosY() + this.loading.getHeight() + 20);
 		
 		super.render(p_render_1_, p_render_2_, p_render_3_);
 	}

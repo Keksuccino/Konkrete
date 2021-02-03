@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IngameGui;
 import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
@@ -24,7 +25,9 @@ public class AdvancedButtonHandler {
 	public void onDrawScreen(DrawScreenEvent.Post e) {
 		if (activeDescBtn != null) {
 			if (activeDescBtn.isHovered()) {
-				renderDescription(e.getMouseX(), e.getMouseY());
+				if ((Minecraft.getInstance() != null) && (Minecraft.getInstance().currentScreen != null)) {
+					renderDescription(e.getMouseX(), e.getMouseY());
+				}
 			}
 			if (garbageCheck == 0) {
 				activeDescBtn = null;
@@ -67,6 +70,8 @@ public class AdvancedButtonHandler {
 				if (Minecraft.getInstance().currentScreen.height < mouseY + height) {
 					mouseY -= height + 10;
 				}
+				
+				RenderUtils.setZLevelPre(600);
 
 				renderDescriptionBackground(mouseX, mouseY, width, height);
 
@@ -77,6 +82,8 @@ public class AdvancedButtonHandler {
 					Minecraft.getInstance().fontRenderer.drawStringWithShadow(s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
 					i2 += 10;
 				}
+				
+				RenderUtils.setZLevelPost();
 				
 				RenderSystem.disableBlend();
 			}

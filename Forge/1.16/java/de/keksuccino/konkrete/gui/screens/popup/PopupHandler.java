@@ -1,6 +1,7 @@
 package de.keksuccino.konkrete.gui.screens.popup;
 
 import de.keksuccino.konkrete.input.MouseInput;
+import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,7 +22,11 @@ public class PopupHandler {
 	public static void onRender(GuiScreenEvent.DrawScreenEvent.Post e) {
 		if ((popup != null) && popup.isDisplayed()) {
 			MouseInput.blockVanillaInput("popupgui");
+			//TODO übernehmen
+			RenderUtils.setZLevelPre(e.getMatrixStack(), 500);
 			popup.render(e.getMatrixStack(), e.getMouseX(), e.getMouseY(), e.getGui());
+			//TODO übernehmen
+			RenderUtils.setZLevelPost(e.getMatrixStack());
 		} else {
 			MouseInput.unblockVanillaInput("popupgui");
 		}
