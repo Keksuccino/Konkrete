@@ -12,7 +12,7 @@ Konkrete is available on [CurseForge](https://www.curseforge.com/minecraft/mc-mo
 ## Licensing
 
 Konkrete is licensed under GPLv3.<br>
-See LICENSE.md for more information.
+See `LICENSE` for more informations.
 
 ## Copyright
 
