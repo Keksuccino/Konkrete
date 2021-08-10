@@ -11,9 +11,9 @@ Konkrete is available on [CurseForge](https://www.curseforge.com/minecraft/mc-mo
 
 ## Licensing & Copyright
 
-Konkrete Copyright © 2020-2021 Keksuccino.
+Konkrete Copyright © 2020-2021 Keksuccino.<br>
 Konkrete is licensed under GPLv3.<br>
 See `LICENSE` for more informations.
 
-Open Imaging Copyright © 2014 Dhyan Blum.
+Open Imaging Copyright © 2014 Dhyan Blum.<br>
 Open Imaging is licensed under Apache-2.0.
