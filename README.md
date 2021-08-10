@@ -9,11 +9,11 @@ Just another boring minecraft library mod.
 
 Konkrete is available on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/konkrete)!
 
-## Licensing
+## Licensing & Copyright
 
+Konkrete Copyright © 2020-2021 Keksuccino.
 Konkrete is licensed under GPLv3.<br>
 See `LICENSE` for more informations.
 
-## Copyright
-
-- Konkrete Copyright © 2020-2021 Keksuccino.<br>
+Open Imaging Copyright © 2014 Dhyan Blum.
+Open Imaging is licensed under Apache-2.0.
