@@ -16,5 +16,5 @@ See `LICENSE` for more informations.
 
 ## Copyright
 
-- Konkrete Copyright © 2020 Keksuccino.<br>
+- Konkrete Copyright © 2020-2021 Keksuccino.<br>
 Konkrete is licensed under GPLv3.
