@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod(modid = "konkrete", acceptedMinecraftVersions="[1.12,1.12.2]", clientSideOnly = true)
 public class  Konkrete {
 	
-	public static final String VERSION = "1.1.6";
+	public static final String VERSION = "1.1.7";
 
 	public Konkrete() {
 		if (FMLClientHandler.instance().getSide() == Side.CLIENT) {
