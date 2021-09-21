@@ -110,8 +110,7 @@ public class RenderUtils {
     	matrix.pop();
     	RenderSystem.enableDepthTest();
     }
-    
-    //TODO neu in 1.17
+
     public static void bindTexture(Identifier texture, boolean depthTest) {
     	RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, texture);
@@ -120,8 +119,7 @@ public class RenderUtils {
         	RenderSystem.enableDepthTest();
         }
     }
-    
-    //TODO neu in 1.17
+
     public static void bindTexture(Identifier texture) {
     	bindTexture(texture, false);
     }

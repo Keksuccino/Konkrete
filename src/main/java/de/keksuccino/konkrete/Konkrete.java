@@ -21,7 +21,7 @@ import de.keksuccino.konkrete.sound.SoundHandler;
 
 public class Konkrete implements ModInitializer {
 
-	public static final String VERSION = "1.2.3";
+	public static final String VERSION = "1.3.0";
     private static final EventHandler HANDLER = new EventHandler();
 
     public static boolean isOptifineLoaded = false;
@@ -63,10 +63,8 @@ public class Konkrete implements ModInitializer {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onGameInitCompleted(GameInitializationCompletedEvent e) {
 
-    	//TODO Neu in 1.17 (von oben nach unten verrutscht)
 		SoundHandler.init();
 
-		//TODO Neu in 1.17 (muss nun einmal manuall geupdatet werden)
 		SoundHandler.updateVolume();
 
     	initLocals();

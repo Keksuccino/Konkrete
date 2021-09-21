@@ -46,7 +46,7 @@ public class MixinMinecraftClient {
 		}
 	}
 	
-	@ModifyVariable(at = @At("HEAD"), method = "openScreen", argsOnly = true, index = 1)
+	@ModifyVariable(at = @At("HEAD"), method = "setScreen", argsOnly = true, index = 1)
 	private Screen onOpenScreen(Screen s) {
 		GuiOpenEvent e = new GuiOpenEvent(s);
 		Konkrete.getEventHandler().callEventsFor(e);
@@ -54,7 +54,7 @@ public class MixinMinecraftClient {
 		return e.getGui();
 	}
 	
-	@Inject(at = @At(value = "HEAD"), method = "openScreen", cancellable = true)
+	@Inject(at = @At(value = "HEAD"), method = "setScreen", cancellable = true)
 	private void onOpenScreenCancel(Screen screen, CallbackInfo info) {
 		if (this.cancelGuiOpen) {
 			info.cancel();

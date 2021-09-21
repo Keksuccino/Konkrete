@@ -1,7 +1,5 @@
 package de.keksuccino.konkrete.events.client.mixinbase;
 
-import net.minecraft.client.util.math.MatrixStack;
-
 public class MixinCache {
 	
 	public static int currentMouseButton = -1;
@@ -13,8 +11,7 @@ public class MixinCache {
 	
 	public static int currentKeyboardChar = -1;
 	public static int currentKeyboardCharModifiers = -1;
-	
-	//TODO neu in 1.17
+
 	public static boolean triggerInitCompleted = false;
 
 }

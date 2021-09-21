@@ -23,8 +23,7 @@ public class SimpleLoadingScreen extends Screen {
 		super(new LiteralText(""));
 		this.mc = mc;
 	}
-	
-	//TODO update to new rendering logic implemented in forge-konkrete 1.1.1
+
 	@Override
 	public void render(MatrixStack matrix, int p_render_1_, int p_render_2_, float p_render_3_) {
 		int color = new Color(239, 50, 61).getRGB();
@@ -39,7 +38,6 @@ public class SimpleLoadingScreen extends Screen {
 		int j1 = (int)(d0 * 0.5D);
 		double d1 = d0 * 4.0D;
 		int k1 = (int)(d1 * 0.5D);
-		//TODO neu in 1.17
 		RenderUtils.bindTexture(MOJANG_LOGO_TEXTURE);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		drawTexture(matrix, j2 - k1, i1 - j1, k1, (int)d0, -0.0625F, 0.0F, 120, 60, 120, 120);
@@ -103,8 +101,7 @@ public class SimpleLoadingScreen extends Screen {
 				x2 = 0;
 				y2 = 0;
 			}
-			
-			//TODO neu in 1.17
+
 			RenderUtils.bindTexture(this.resources.get(this.currentFrame()));
 			
 			float[] colorf = RenderUtils.getColorFromHexString(this.hex).getComponents(new float[4]);

@@ -52,7 +52,7 @@ public class AnimationRenderer implements IAnimationRenderer {
 	 * Just create a resource directory inside /resources/assets/ and put all animation frames in it.<br>
 	 * The frames must be named like: 1.png, 2.png, 3.png, ...
 	 * 
-	 * @param resourcePath The path pointing to the resource directory <b>inside</b> /resources/assets/.
+	 * @param resourceDir The path pointing to the resource directory <b>inside</b> /resources/assets/.
 	 * @param fps Frames per second. A value of -1 sets the fps to unlimited.
 	 * @param loop If the animation should run in an endless loop or just a single time.
 	 * @param modid The Mod ID of your mod.
@@ -231,8 +231,7 @@ public class AnimationRenderer implements IAnimationRenderer {
 			x2 = 0;
 			y2 = 0;
 		}
-		
-		//TODO neu in 1.17
+
 		RenderUtils.bindTexture(this.resources.get(this.frame));
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.opacity);
 		DrawableHelper.drawTexture(matrix, x2, y2, 0.0F, 0.0F, w, h, w, h);

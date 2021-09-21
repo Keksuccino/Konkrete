@@ -40,7 +40,6 @@ public abstract class MixinScreen {
 	@Shadow protected List<Selectable> selectables;
 	
 //	@Shadow protected abstract <T extends Element & Drawable & Selectable> T addDrawableChild(T drawableElement);
-	//TODO neu in 1.17
 	//Like that until I figured out how to make this thing work as shadow method
 	protected void addButton(PressableWidget button) {
 		try {
@@ -142,7 +141,6 @@ public abstract class MixinScreen {
 
 		InitGuiEvent.Post e = new InitGuiEvent.Post((Screen)((Object)this), buttons, this::addButton, remove);
 		Konkrete.getEventHandler().callEventsFor(e);
-		//TODO neu in 1.17
 		MixinCache.triggerInitCompleted = true;
 	}
 

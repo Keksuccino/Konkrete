@@ -284,8 +284,7 @@ public class FilePickerPopup extends Popup {
 		@Override
 		public void renderEntry(MatrixStack matrix) {
 			RenderSystem.enableBlend();
-			
-			//TODO neu in 1.17
+
 			Identifier r = null;
 			if (this.type == Type.FILE) {
 				r = fileIcon;
@@ -302,7 +301,6 @@ public class FilePickerPopup extends Popup {
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 				drawTexture(matrix, this.x, this.y, 0.0F, 0.0F, 20, 20, 20, 20);
 			}
-			//-----------------------
 			
 			if (this.type == Type.BACK) {
 				MinecraftClient.getInstance().textRenderer.drawWithShadow(matrix, Locals.localize("popup.choosefile.back"), this.x + 30, this.y + 7, Color.WHITE.getRGB());

@@ -14,7 +14,7 @@ public class TestEvents {
 //	public void onOpenGui(InitGuiEvent.Pre e) {
 //		if (e.getGui() instanceof TitleScreen) {
 //			e.setCanceled(true);
-//			MinecraftClient.getInstance().openScreen(new SimpleLoadingScreen(MinecraftClient.getInstance()));
+//			MinecraftClient.getInstance().setScreen(new SimpleLoadingScreen(MinecraftClient.getInstance()));
 //		}
 //	}
 	

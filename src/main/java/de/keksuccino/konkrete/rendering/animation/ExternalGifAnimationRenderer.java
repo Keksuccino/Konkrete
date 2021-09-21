@@ -23,6 +23,7 @@ import de.keksuccino.konkrete.rendering.RenderUtils;
 import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class ExternalGifAnimationRenderer implements IAnimationRenderer {
@@ -168,8 +169,7 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 			x2 = 0;
 			y2 = 0;
 		}
-		
-		//TODO neu in 1.17
+
 		RenderUtils.bindTexture(this.resources.get(this.frame).getResourceLocation());
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.opacity);
 		DrawableHelper.drawTexture(matrix, x2, y2, 0.0F, 0.0F, w, h, w, h);
@@ -179,8 +179,7 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	public void setOpacity(float opacity) {
 		this.opacity = opacity;
 	}
-	
-	//TODO neu in 1.17
+
 	public float getOpacity() {
 		return this.opacity;
 	}

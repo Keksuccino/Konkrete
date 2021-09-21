@@ -85,7 +85,7 @@ public class ConfigScreen extends Screen {
 		}
 
 		this.doneBtn = new AdvancedButton(0, 0, 100, 20, Locals.localize("popup.done"), true, (press) -> {
-			MinecraftClient.getInstance().openScreen(this.parent);
+			MinecraftClient.getInstance().setScreen(this.parent);
 		});
 		colorizeButton(this.doneBtn);
 		
@@ -106,7 +106,7 @@ public class ConfigScreen extends Screen {
 	
 	@Override
 	public void onClose() {
-		MinecraftClient.getInstance().openScreen(this.parent);
+		MinecraftClient.getInstance().setScreen(this.parent);
 	}
 	
 	@Override

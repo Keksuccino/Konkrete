@@ -62,7 +62,6 @@ public class SoundHandler {
 				c.open(inputStream);
 				
 				sounds.put(key, c);
-				//TODO neu in 1.17
 				if (MinecraftClient.getInstance().options != null) {
 					setVolume(key, getMinecraftMasterVolume());
 				}

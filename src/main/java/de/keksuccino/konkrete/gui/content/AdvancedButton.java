@@ -2,6 +2,7 @@ package de.keksuccino.konkrete.gui.content;
 
 import java.awt.Color;
 
+import de.keksuccino.konkrete.rendering.animation.IAnimationRenderer;
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -20,28 +21,33 @@ import net.minecraft.util.math.MathHelper;
 
 public class AdvancedButton extends ButtonWidget {
 
-	private boolean handleClick = false;
-	private static boolean leftDown = false;
-	private boolean leftDownThis = false;
-	private boolean leftDownNotHovered = false;
+	protected boolean handleClick = false;
+	protected static boolean leftDown = false;
+	protected boolean leftDownThis = false;
+	protected boolean leftDownNotHovered = false;
 	public boolean ignoreBlockedInput = false;
 	public boolean ignoreLeftMouseDownClickBlock = false;
 	public boolean enableRightclick = false;
 	public float labelScale = 1.0F;
-	private boolean useable = true;
-	private boolean labelShadow = true;
-	
-	private Color idleColor;
-	private Color hoveredColor;
-	private Color idleBorderColor;
-	private Color hoveredBorderColor;
-	private float borderWidth = 2.0F;
-	private Identifier backgroundHover;
-	private Identifier backgroundNormal;
+	protected boolean useable = true;
+	protected boolean labelShadow = true;
+	public boolean renderLabel = true;
+	protected Color idleColor;
+	protected Color hoveredColor;
+	protected Color idleBorderColor;
+	protected Color hoveredBorderColor;
+	protected float borderWidth = 2.0F;
+	protected Identifier backgroundHover;
+	protected Identifier backgroundNormal;
+	protected IAnimationRenderer backgroundAnimationNormal;
+	protected IAnimationRenderer backgroundAnimationHover;
+	public boolean loopBackgroundAnimations = true;
+	public boolean restartBackgroundAnimationsOnHover = true;
+	protected boolean lastHoverState = false;
 	String clicksound = null;
 	String[] description = null;
 
-	private PressAction press;
+	protected PressAction press;
 	
 	public AdvancedButton(int x, int y, int widthIn, int heightIn, String buttonText, PressAction onPress) {
 		super(x, y, widthIn, heightIn, new LiteralText(buttonText), onPress);
@@ -64,13 +70,27 @@ public class AdvancedButton extends ButtonWidget {
 	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
 		if (this.visible) {
 			MinecraftClient mc = MinecraftClient.getInstance();
-			
+
 			this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-			
+
+			if (this.lastHoverState != this.hovered) {
+				if (this.hovered) {
+					if (this.restartBackgroundAnimationsOnHover) {
+						if (this.backgroundAnimationNormal != null) {
+							this.backgroundAnimationNormal.resetAnimation();
+						}
+						if (this.backgroundAnimationHover != null) {
+							this.backgroundAnimationHover.resetAnimation();
+						}
+					}
+				}
+			}
+			this.lastHoverState = this.hovered;
+
 			RenderSystem.enableBlend();
 			if (this.hasColorBackground()) {
 				Color border;
-				if (!hovered) {
+				if (!this.hovered) {
 					fill(matrix, this.x, this.y, this.x + this.width, this.y + this.height, this.idleColor.getRGB() | MathHelper.ceil(this.alpha * 255.0F) << 24);
 					border = this.idleBorderColor;
 				} else {
@@ -92,26 +112,9 @@ public class AdvancedButton extends ButtonWidget {
 					//right
 					RenderUtils.fill(matrix, this.x + this.width - this.borderWidth, this.y + this.borderWidth, this.x + this.width, this.y + this.height - this.borderWidth, border.getRGB(), this.alpha);
 				}
-			} else if (this.hasCustomTextureBackground()) {
-				//TODO neu in 1.17
-				Identifier r = backgroundNormal;
-				if (this.isHovered() && this.active) {
-					r = backgroundHover;
-				}
-				RenderUtils.bindTexture(r);
-				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-				drawTexture(matrix, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
-				//-------------------
 			} else {
-				//TODO neu in 1.17
-				RenderUtils.bindTexture(WIDGETS_TEXTURE);
-				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-				int i = this.getYImage(this.isHovered());
-				RenderSystem.defaultBlendFunc();
-				RenderSystem.enableDepthTest();
-				this.drawTexture(matrix, this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
-				this.drawTexture(matrix, this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
-				RenderSystem.disableDepthTest();
+				this.renderBackgroundNormal(matrix);
+				this.renderBackgroundHover(matrix);
 			}
 
 			this.renderBackground(matrix, mc, mouseX, mouseY);
@@ -121,7 +124,6 @@ public class AdvancedButton extends ButtonWidget {
 			if (this.isHovered()) {
 				AdvancedButtonHandler.setActiveDescriptionButton(this);
 			}
-			
 		}
 
 		if (!this.isHovered() && MouseInput.isLeftMouseDown()) {
@@ -130,7 +132,7 @@ public class AdvancedButton extends ButtonWidget {
 		if (!MouseInput.isLeftMouseDown()) {
 			this.leftDownNotHovered = false;
 		}
-		
+
 		if (this.handleClick && this.useable) {
 			if (this.isHovered() && (MouseInput.isLeftMouseDown() || (this.enableRightclick && MouseInput.isRightMouseDown())) && (!leftDown || this.ignoreLeftMouseDownClickBlock) && !leftDownNotHovered && !this.isInputBlocked() && this.active && this.visible) {
 				if (!this.leftDownThis) {
@@ -150,11 +152,108 @@ public class AdvancedButton extends ButtonWidget {
 				this.leftDownThis = false;
 			}
 		}
-		
+	}
+
+	protected void renderBackgroundHover(MatrixStack matrix) {
+		try {
+			if (this.isHovered()) {
+				if (this.active) {
+					if (this.hasCustomBackgroundHover()) {
+						if (this.backgroundHover != null) {
+							RenderUtils.bindTexture(this.backgroundHover);
+							RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
+							drawTexture(matrix, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
+						} else {
+							int aniX = this.backgroundAnimationHover.getPosX();
+							int aniY = this.backgroundAnimationHover.getPosY();
+							int aniWidth = this.backgroundAnimationHover.getWidth();
+							int aniHeight = this.backgroundAnimationHover.getHeight();
+							boolean aniLoop = this.backgroundAnimationHover.isGettingLooped();
+
+							this.backgroundAnimationHover.setPosX(this.x);
+							this.backgroundAnimationHover.setPosY(this.y);
+							this.backgroundAnimationHover.setWidth(this.width);
+							this.backgroundAnimationHover.setHeight(this.height);
+							this.backgroundAnimationHover.setLooped(this.loopBackgroundAnimations);
+							this.backgroundAnimationHover.setOpacity(this.alpha);
+
+							this.backgroundAnimationHover.render(matrix);
+
+							this.backgroundAnimationHover.setPosX(aniX);
+							this.backgroundAnimationHover.setPosY(aniY);
+							this.backgroundAnimationHover.setWidth(aniWidth);
+							this.backgroundAnimationHover.setHeight(aniHeight);
+							this.backgroundAnimationHover.setLooped(aniLoop);
+							this.backgroundAnimationHover.setOpacity(1.0F);
+						}
+					} else {
+						this.renderDefaultBackground(matrix);
+					}
+				} else {
+					this.renderBackgroundNormal(matrix);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected void renderBackgroundNormal(MatrixStack matrix) {
+		try {
+			if (!this.isHovered()) {
+				if (this.hasCustomBackgroundNormal()) {
+					if (this.backgroundNormal != null) {
+						RenderUtils.bindTexture(this.backgroundNormal);
+						RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
+						drawTexture(matrix, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
+					} else {
+						int aniX = this.backgroundAnimationNormal.getPosX();
+						int aniY = this.backgroundAnimationNormal.getPosY();
+						int aniWidth = this.backgroundAnimationNormal.getWidth();
+						int aniHeight = this.backgroundAnimationNormal.getHeight();
+						boolean aniLoop = this.backgroundAnimationNormal.isGettingLooped();
+
+						this.backgroundAnimationNormal.setPosX(this.x);
+						this.backgroundAnimationNormal.setPosY(this.y);
+						this.backgroundAnimationNormal.setWidth(this.width);
+						this.backgroundAnimationNormal.setHeight(this.height);
+						this.backgroundAnimationNormal.setLooped(this.loopBackgroundAnimations);
+						this.backgroundAnimationNormal.setOpacity(this.alpha);
+
+						this.backgroundAnimationNormal.render(matrix);
+
+						this.backgroundAnimationNormal.setPosX(aniX);
+						this.backgroundAnimationNormal.setPosY(aniY);
+						this.backgroundAnimationNormal.setWidth(aniWidth);
+						this.backgroundAnimationNormal.setHeight(aniHeight);
+						this.backgroundAnimationNormal.setLooped(aniLoop);
+						this.backgroundAnimationNormal.setOpacity(1.0F);
+					}
+				} else {
+					this.renderDefaultBackground(matrix);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected void renderDefaultBackground(MatrixStack matrix) {
+		RenderUtils.bindTexture(WIDGETS_TEXTURE);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
+		int i = this.getYImage(this.isHovered());
+		RenderSystem.defaultBlendFunc();
+		RenderSystem.enableDepthTest();
+		drawTexture(matrix, this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
+		drawTexture(matrix, this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
+		RenderSystem.disableDepthTest();
 	}
 	
 	protected void renderLabel(MatrixStack matrix) {
-		@SuppressWarnings("resource")
+		if (!renderLabel) {
+			return;
+		}
+
 		TextRenderer font = MinecraftClient.getInstance().textRenderer;
 		int stringWidth = font.getWidth(getMessageString());
 		int stringHeight = 8;
@@ -173,7 +272,7 @@ public class AdvancedButton extends ButtonWidget {
 		matrix.pop();
 	}
 	
-	private boolean isInputBlocked() {
+	protected boolean isInputBlocked() {
 		if (this.ignoreBlockedInput) {
 			return false;
 		}
@@ -196,21 +295,57 @@ public class AdvancedButton extends ButtonWidget {
 	public void setBackgroundColor(@Nullable Color idle, @Nullable Color hovered, @Nullable Color idleBorder, @Nullable Color hoveredBorder, int borderWidth) {
 		this.setBackgroundColor(idle, hovered, idleBorder, hoveredBorder, (float) borderWidth);
 	}
-	
+
+	@Deprecated
 	public void setBackgroundTexture(Identifier normal, Identifier hovered) {
 		this.backgroundNormal = normal;
 		this.backgroundHover = hovered;
 	}
-	
+
+	@Deprecated
 	public void setBackgroundTexture(ExternalTextureResourceLocation normal, ExternalTextureResourceLocation hovered) {
-		if (!normal.isReady()) {
-			normal.loadTexture();
+		if (normal != null) {
+			if (!normal.isReady()) {
+				normal.loadTexture();
+			}
+			this.backgroundNormal = normal.getResourceLocation();
+		} else {
+			this.backgroundNormal = null;
 		}
-		if (!hovered.isReady()) {
-			hovered.loadTexture();
+		if (hovered != null) {
+			if (!hovered.isReady()) {
+				hovered.loadTexture();
+			}
+			this.backgroundHover = hovered.getResourceLocation();
+		} else {
+			this.backgroundHover = null;
 		}
-		this.backgroundHover = hovered.getResourceLocation();
-		this.backgroundNormal = normal.getResourceLocation();
+	}
+
+	public void setBackgroundNormal(Identifier texture) {
+		this.backgroundNormal = texture;
+	}
+
+	public void setBackgroundNormal(IAnimationRenderer animation) {
+		if (animation != null) {
+			if (!animation.isReady()) {
+				animation.prepareAnimation();
+			}
+		}
+		this.backgroundAnimationNormal = animation;
+	}
+
+	public void setBackgroundHover(Identifier texture) {
+		this.backgroundHover = texture;
+	}
+
+	public void setBackgroundHover(IAnimationRenderer animation) {
+		if (animation != null) {
+			if (!animation.isReady()) {
+				animation.prepareAnimation();
+			}
+		}
+		this.backgroundAnimationHover = animation;
 	}
 	
 	public boolean hasBorder() {
@@ -220,9 +355,22 @@ public class AdvancedButton extends ButtonWidget {
 	public boolean hasColorBackground() {
 		return ((this.idleColor != null) && (this.hoveredColor != null));
 	}
-	
+
+	@Deprecated
 	public boolean hasCustomTextureBackground() {
-		return ((this.backgroundHover != null) && (this.backgroundNormal != null));
+		return this.hasCustomBackground();
+	}
+
+	public boolean hasCustomBackground() {
+		return (((this.backgroundHover != null) || (this.backgroundAnimationHover != null)) && ((this.backgroundNormal != null) || (this.backgroundAnimationNormal != null)));
+	}
+
+	public boolean hasCustomBackgroundNormal() {
+		return ((this.backgroundNormal != null) || (this.backgroundAnimationNormal != null));
+	}
+
+	public boolean hasCustomBackgroundHover() {
+		return ((this.backgroundHover != null) || (this.backgroundAnimationHover != null));
 	}
 
 	@Override
