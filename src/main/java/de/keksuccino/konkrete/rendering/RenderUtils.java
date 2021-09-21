@@ -106,6 +106,18 @@ public class RenderUtils {
     	GlStateManager.enableRescaleNormal();
     	GlStateManager.enableDepth();
     }
+
+	public static void bindTexture(ResourceLocation texture, boolean depthTest) {
+		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+		GlStateManager.enableBlend();
+		if (depthTest) {
+			GlStateManager.enableDepth();
+		}
+	}
+
+	public static void bindTexture(ResourceLocation texture) {
+		bindTexture(texture, false);
+	}
     
     public static void fill(float minX, float minY, float maxX, float maxY, int color, float opacity) {
     	

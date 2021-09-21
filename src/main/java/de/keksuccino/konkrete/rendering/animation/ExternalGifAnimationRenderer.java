@@ -22,6 +22,7 @@ import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureManager;
 
 public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	
@@ -64,7 +65,7 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	}
 	
 	/**
-	 * Needs to be called before calling {@link ExternalGifAnimationRenderer#render(MatrixStack)} and after minecraft's {@link TextureManager} instance was loaded.
+	 * Needs to be called before calling {@link ExternalGifAnimationRenderer#render()} and after minecraft's {@link TextureManager} instance was loaded.
 	 */
 	@Override
 	public void prepareAnimation() {
@@ -178,6 +179,10 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	public void setOpacity(float opacity) {
 		this.opacity = opacity;
 	}
+
+	public float getOpacity() {
+		return this.opacity;
+	}
 	
 	private void updateFrame(long time) {
 		this.frame++;
@@ -290,8 +295,7 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	public int getPosY() {
 		return this.y;
 	}
-	
-	//TODO übernehmen
+
 	private static List<GifFramePackage> getGifFrames(String gifPath) {
 		File f = new File(gifPath);
 		List<GifFramePackage> l = new ArrayList<GifFramePackage>();

@@ -57,7 +57,9 @@ public class SoundHandler {
 				c.open(inputStream);
 				
 				sounds.put(key, c);
-				setVolume(key, getMinecraftMasterVolume());
+				if (Minecraft.getMinecraft().gameSettings != null) {
+					setVolume(key, getMinecraftMasterVolume());
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

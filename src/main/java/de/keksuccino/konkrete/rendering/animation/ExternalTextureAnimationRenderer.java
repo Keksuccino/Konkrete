@@ -18,6 +18,7 @@ import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureManager;
 
 public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	
@@ -47,7 +48,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	 * Just create a new directory and put all animation frames in it.<br>
 	 * The frames must be named like: 1.png, 2.png, 3.png, ...
 	 * 
-	 * @param resourcePath The path pointing to the animation resource directory.
+	 * @param resourceDir The path pointing to the animation resource directory.
 	 * @param fps Frames per second. A value of -1 sets the fps to unlimited.
 	 * @param loop If the animation should run in an endless loop or just a single time.
 	 */
@@ -248,6 +249,10 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	@Override
 	public void setOpacity(float opacity) {
 		this.opacity = opacity;
+	}
+
+	public float getOpacity() {
+		return this.opacity;
 	}
 	
 	private void updateFrame(long time) {
