@@ -1,0 +1,83 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+    }
+}
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+
+version = '1.0.0'
+group = 'de.keksuccino.konkrete'
+archivesBaseName = 'konkrete'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+compileJava {
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+}
+
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+
+minecraft {
+
+    mappings channel: 'official', version: '1.17.1'
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                konkrete {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+	
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    // Put repositories for dependencies here
+    // ForgeGradle automatically adds the Forge maven and Maven Central for you
+
+    flatDir {
+       dir 'libs'
+    }
+}
+
+dependencies {
+
+    minecraft 'net.minecraftforge:forge:1.17.1-37.0.65'
+
+    // Examples using mod jars from ./libs
+    // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
+
+}
+
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"     : "examplemod",
+                "Specification-Vendor"    : "examplemodsareus",
+                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : project.jar.archiveVersion,
+                "Implementation-Vendor"   : "examplemodsareus",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+
+jar.finalizedBy('reobfJar')
+
