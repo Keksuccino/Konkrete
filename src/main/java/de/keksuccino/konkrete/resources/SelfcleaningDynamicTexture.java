@@ -20,19 +20,11 @@ public class SelfcleaningDynamicTexture extends NativeImageBackedTexture {
 		clearTextureData(this);
 	}
 	
-	/**
-	 * Dummy method to avoid NullPointers.
-	 */
-	@Override
-	public NativeImage getImage() {
-		return new NativeImage(1, 1, true);
-	}
-	
 	private static void clearTextureData(NativeImageBackedTexture texture) {
 		try {
 			Field f = ReflectionHelper.findField(NativeImageBackedTexture.class, "image", "field_5200");
 			((NativeImage)f.get(texture)).close();
-			f.set(texture, null);
+			f.set(texture, new NativeImage(1, 1, true));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -304,6 +304,7 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, true, null);
+			input.setMaxLength(10000);
 			input.setText(configEntry.getValue());
 			
 		}
@@ -338,6 +339,7 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, true, CharacterFilter.getIntegerCharacterFiler());
+			input.setMaxLength(10000);
 			input.setText(configEntry.getValue());
 			
 		}
@@ -384,6 +386,7 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, true, CharacterFilter.getDoubleCharacterFiler());
+			input.setMaxLength(10000);
 			input.setText(configEntry.getValue());
 			
 		}
@@ -430,6 +433,7 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, true, CharacterFilter.getIntegerCharacterFiler());
+			input.setMaxLength(10000);
 			input.setText(configEntry.getValue());
 			
 		}
@@ -476,6 +480,7 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, true, CharacterFilter.getDoubleCharacterFiler());
+			input.setMaxLength(10000);
 			input.setText(configEntry.getValue());
 			
 		}

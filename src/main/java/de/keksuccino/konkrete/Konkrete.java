@@ -18,11 +18,16 @@ import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.localization.Locals;
 import de.keksuccino.konkrete.rendering.CurrentScreenHandler;
 import de.keksuccino.konkrete.sound.SoundHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Konkrete implements ModInitializer {
 
-	public static final String VERSION = "1.3.0";
+	public static final String VERSION = "1.3.2";
+
     private static final EventHandler HANDLER = new EventHandler();
+
+	public static Logger LOGGER = LogManager.getLogger();
 
     public static boolean isOptifineLoaded = false;
     
@@ -46,17 +51,16 @@ public class Konkrete implements ModInitializer {
 			try {
 				Class.forName("optifine.Installer");
 				isOptifineLoaded = true;
-				System.out.println("[KONKRETE] Optifine detected! ###############################");
+				LOGGER.info("[KONKRETE] Optifine detected! ###############################");
 			}
 			catch (ClassNotFoundException e) {}
 
 //			handler.registerEventsFrom(new TestEvents());
-			
-			System.out.println("[KONKRETE] Successfully initialized!");
 		
-		} else {
-			System.out.println("## WARNING ## 'Konkrete' is a client mod and has no effect when loaded on a server!");
 		}
+
+		LOGGER.info("[KONKRETE] Successfully initialized!");
+		LOGGER.info("[KONKRETE] Server-side libs ready to use!");
     	
     }
     
@@ -68,8 +72,8 @@ public class Konkrete implements ModInitializer {
 		SoundHandler.updateVolume();
 
     	initLocals();
-		
-		System.out.println("[KONKRETE] Ready to use!");
+
+		LOGGER.info("[KONKRETE] Client-side libs ready to use!");
 		
 		PostLoadingHandler.runPostLoadingEvents();
     	
@@ -88,7 +92,10 @@ public class Konkrete implements ModInitializer {
 
 		Locals.getLocalsFromDir(f.getPath());
 	}
-    
+
+	/**
+	 * ONLY WORKS CLIENT-SIDE! DOES NOTHING ON A SERVER!
+	 */
     public static void addPostLoadingEvent(String modid, Runnable event) {
 		PostLoadingHandler.addEvent(modid, event);
 	}
