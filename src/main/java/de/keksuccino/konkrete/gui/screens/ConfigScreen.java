@@ -306,6 +306,7 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(font, 0, 0, 100, 20, true, null);
+			input.setMaxStringLength(10000);
 			input.setText(configEntry.getValue());
 			
 		}
@@ -340,6 +341,7 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(font, 0, 0, 100, 20, true, CharacterFilter.getIntegerCharacterFiler());
+			input.setMaxStringLength(10000);
 			input.setText(configEntry.getValue());
 			
 		}
@@ -386,6 +388,7 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(font, 0, 0, 100, 20, true, CharacterFilter.getDoubleCharacterFiler());
+			input.setMaxStringLength(10000);
 			input.setText(configEntry.getValue());
 			
 		}
@@ -432,6 +435,7 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(font, 0, 0, 100, 20, true, CharacterFilter.getIntegerCharacterFiler());
+			input.setMaxStringLength(10000);
 			input.setText(configEntry.getValue());
 			
 		}
@@ -478,6 +482,7 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(font, 0, 0, 100, 20, true, CharacterFilter.getDoubleCharacterFiler());
+			input.setMaxStringLength(10000);
 			input.setText(configEntry.getValue());
 			
 		}
