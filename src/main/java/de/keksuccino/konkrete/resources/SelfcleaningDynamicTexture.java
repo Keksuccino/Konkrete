@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.lang.reflect.Field;
 
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class SelfcleaningDynamicTexture extends DynamicTexture {
 
@@ -19,7 +19,7 @@ public class SelfcleaningDynamicTexture extends DynamicTexture {
 	
 	private static void clearTextureData(DynamicTexture texture) {
 		try {
-			Field f = ReflectionHelper.findField(DynamicTexture.class, "dynamicTextureData", "field_110566_b");
+			Field f = ObfuscationReflectionHelper.findField(DynamicTexture.class, "field_110566_b");
 			f.set(texture, new int[0]);
 		} catch (Exception e) {
 			e.printStackTrace();

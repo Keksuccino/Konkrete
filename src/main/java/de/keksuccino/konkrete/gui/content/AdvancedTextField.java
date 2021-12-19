@@ -12,6 +12,7 @@ import de.keksuccino.konkrete.math.MathUtils;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class AdvancedTextField extends GuiTextField {
 
@@ -73,7 +74,7 @@ public class AdvancedTextField extends GuiTextField {
 	
 	public boolean isEnabled() {
 		try {
-			Field f = net.minecraftforge.fml.relauncher.ReflectionHelper.findField(GuiTextField.class, "field_146226_p", "isEnabled");
+			Field f = ObfuscationReflectionHelper.findField(GuiTextField.class, "field_146226_p");
 			return f.getBoolean(this);
 		} catch (Exception e) {
 			e.printStackTrace();

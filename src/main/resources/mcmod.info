@@ -2,15 +2,8 @@
 {
   "modid": "konkrete",
   "name": "Konkrete",
-  "description": "COPYRIGHT:
-
-Konkrete Copyright © 2020-2021 Keksuccino.
-Konkrete is licensed under GPLv3.
-
-Open Imaging Copyright © 2014 Dhyan Blum.
-Open Imaging is licensed under Apache-2.0.
-",
-  "version": "1.3.0",
+  "description": "COPYRIGHT:\n\nKonkrete Copyright © 2020-2021 Keksuccino.\nKonkrete is licensed under GPLv3.\n\nOpen Imaging Copyright © 2014 Dhyan Blum.\nOpen Imaging is licensed under Apache-2.0.",
+  "version": "1.3.2",
   "mcversion": "${mcversion}",
   "url": "https://www.curseforge.com/minecraft/mc-mods/konkrete",
   "updateUrl": "",

@@ -9,19 +9,26 @@ import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.localization.Locals;
 import de.keksuccino.konkrete.sound.SoundHandler;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-@Mod(modid = "konkrete", acceptedMinecraftVersions="[1.12,1.12.2]", clientSideOnly = true)
+@Mod(modid = "konkrete", acceptedMinecraftVersions="[1.12,1.12.2]")
 public class  Konkrete {
-	
-	public static final String VERSION = "1.3.0";
+
+	public static final String VERSION = "1.3.2";
+
+	public static Logger LOGGER = LogManager.getLogger();
+
+	public static boolean isOptifineLoaded = false;
 
 	public Konkrete() {
-		if (FMLClientHandler.instance().getSide() == Side.CLIENT) {
+
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			
 			PopupHandler.init();
 
@@ -31,26 +38,35 @@ public class  Konkrete {
 			
 			AdvancedButtonHandler.init();
 
-			System.out.println("[KONKRETE] Successfully initialized!");
+			try {
+				Class.forName("optifine.Installer");
+				isOptifineLoaded = true;
+				LOGGER.info("[KONKRETE] Optifine detected! ###############################");
+			}
+			catch (ClassNotFoundException e) {}
 			
-		} else {
-			System.out.println("## WARNING ## 'Konkrete' is a client mod and has no effect when loaded on a server!");
 		}
+
+		LOGGER.info("[KONKRETE] Successfully initialized!");
+		LOGGER.info("[KONKRETE] Server-side libs ready to use!");
+
 	}
 	
 	@EventHandler
 	private void onClientSetup(FMLPostInitializationEvent e) {
-		if (FMLClientHandler.instance().getSide() == Side.CLIENT) {
+
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			
 			MouseInput.init();
 
 			initLocals();
 
-			System.out.println("[KONKRETE] Ready to use!");
+			LOGGER.info("[KONKRETE] Client-side libs ready to use!");
 
 			PostLoadingHandler.runPostLoadingEvents();
 			
 		}
+
 	}
 
 	private static void initLocals() {
@@ -67,6 +83,9 @@ public class  Konkrete {
 		Locals.getLocalsFromDir(f.getPath());
 	}
 
+	/**
+	 * ONLY WORKS CLIENT-SIDE! DOES NOTHING ON A SERVER!
+	 */
 	public static void addPostLoadingEvent(String modid, Runnable event) {
 		PostLoadingHandler.addEvent(modid, event);
 	}

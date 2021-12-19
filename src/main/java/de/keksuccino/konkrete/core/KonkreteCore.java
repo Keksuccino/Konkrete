@@ -1,6 +1,7 @@
 package de.keksuccino.konkrete.core;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
+import org.apache.logging.log4j.LogManager;
 import org.spongepowered.asm.launch.MixinBootstrap;
 
 import javax.annotation.Nullable;
@@ -11,7 +12,7 @@ public class KonkreteCore implements IFMLLoadingPlugin {
 
     public KonkreteCore() {
 
-        System.out.println("[KONKRETE] LOADING CORE PLUGIN!");
+        LogManager.getLogger().info("[KONKRETE] LOADING CORE PLUGIN!");
 
         MixinBootstrap.init();
         MixinConfigLoader.loadConfigs();
