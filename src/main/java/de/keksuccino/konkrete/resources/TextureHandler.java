@@ -25,14 +25,20 @@ public class TextureHandler {
 		}
 		return (ExternalTextureResourceLocation) textures.get(f.getAbsolutePath());
 	}
-	
+
 	public static WebTextureResourceLocation getWebResource(String url) {
+		return getWebResource(url, true);
+	}
+
+	public static WebTextureResourceLocation getWebResource(String url, boolean loadTexture) {
 		if (!textures.containsKey(url)) {
 			try {
 				WebTextureResourceLocation r = new WebTextureResourceLocation(url);
-				r.loadTexture();
-				if (!r.isReady()) {
-					return null;
+				if (loadTexture) {
+					r.loadTexture();
+					if (!r.isReady()) {
+						return null;
+					}
 				}
 				textures.put(url, r);
 				return r;
