@@ -1,4 +1,3 @@
-//TODO übernehmen
 package de.keksuccino.konkrete.annotations;
 
 /**

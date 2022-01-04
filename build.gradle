@@ -12,7 +12,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
-apply plugin: 'org.spongepowered.mixin'
+//apply plugin: 'org.spongepowered.mixin'
 
 version = '1.0.0'
 group = 'de.keksuccino.konkrete'
@@ -32,7 +32,7 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-            arg "-mixin.config=konkrete.client.mixin.json"
+//            arg "-mixin.config=konkrete.client.mixin.json"
             mods {
                 konkrete {
                     source sourceSets.main
@@ -68,14 +68,14 @@ dependencies {
 	
 	implementation fileTree('libs') { include '*.jar' }
 
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    testAnnotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+//    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+//    testAnnotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
 }
 
-mixin {
-    add sourceSets.main, "konkrete.client.mixin-refmap.json"
-}
+//mixin {
+//    add sourceSets.main, "konkrete.client.mixin-refmap.json"
+//}
 
 jar {
     manifest {
@@ -88,9 +88,9 @@ jar {
             "Implementation-Vendor" :"Keksuccino",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
             "Signing-Fingerprint": project.hasProperty('fingerprint') ? project.property('fingerprint') : 'unsigned',
-            "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
-            "TweakOrder": 0,
-            "MixinConfigs" : "konkrete.client.mixin.json"
+//            "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+//            "TweakOrder": 0,
+//            "MixinConfigs" : "konkrete.client.mixin.json"
         ])
     }
 }

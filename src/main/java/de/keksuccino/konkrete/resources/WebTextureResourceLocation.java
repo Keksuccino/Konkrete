@@ -5,8 +5,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.mojang.blaze3d.platform.NativeImage;
+import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.input.CharacterFilter;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 
@@ -29,20 +31,20 @@ public class WebTextureResourceLocation implements ITextureResourceLocation {
 	 * After loading the texture, {@code WebTextureResourceLocation.isReady()} will return true.
 	 */
 	public void loadTexture() {
+
 		if (this.loaded) {
 			return;
 		}
 
 		try {
 			if (Minecraft.getInstance().getTextureManager() == null) {
-				System.out.println("################################ WARNING ################################");
-				System.out.println("Can't load texture '" + this.url + "'! Minecraft TextureManager instance not ready yet!");
+				Konkrete.LOGGER.error("[KONKRETE] ERROR: Can't load texture '" + this.url + "'! Minecraft TextureManager instance not ready yet!");
 				return;
 			}
-			
+
 			URL u = new URL(this.url);
 			HttpURLConnection httpcon = (HttpURLConnection) u.openConnection();
-		    httpcon.addRequestProperty("User-Agent", "Mozilla/4.0");
+			httpcon.addRequestProperty("User-Agent", "Mozilla/4.0");
 			InputStream s = httpcon.getInputStream();
 			if (s == null) {
 				return;
@@ -50,16 +52,17 @@ public class WebTextureResourceLocation implements ITextureResourceLocation {
 			NativeImage i = NativeImage.read(s);
 			this.width = i.getWidth();
 			this.height = i.getHeight();
-			location = Minecraft.getInstance().getTextureManager().register(this.filterUrl(url), new SelfcleaningDynamicTexture(i));
+			location = Minecraft.getInstance().getTextureManager().register(filterUrl(this.url), new DynamicTexture(i));
 			s.close();
 			loaded = true;
 		} catch (Exception e) {
-			System.out.println("######################### ERROR #########################");
-			System.out.println("Can't load texture '" + this.url + "'! Invalid URL!");
-			System.out.println("#########################################################");
+			Konkrete.LOGGER.error("[KONKRETE] ERROR: Can't load texture '" + this.url + "'! Invalid URL!");
 			loaded = false;
-			e.printStackTrace();
+			for (StackTraceElement st : e.getStackTrace()) {
+				Konkrete.LOGGER.error(st.toString());
+			}
 		}
+
 	}
 	
 	public ResourceLocation getResourceLocation() {

@@ -8,8 +8,8 @@ import de.keksuccino.konkrete.rendering.animation.ExternalGifAnimationRenderer;
 
 public class TextureHandler {
 	
-	private static Map<String, ITextureResourceLocation> textures = new HashMap<String, ITextureResourceLocation>();
-	private static Map<String, ExternalGifAnimationRenderer> gifs = new HashMap<String, ExternalGifAnimationRenderer>();
+	private static Map<String, ITextureResourceLocation> textures = new HashMap<>();
+	private static Map<String, ExternalGifAnimationRenderer> gifs = new HashMap<>();
 	
 	public static ExternalTextureResourceLocation getResource(String path) {
 		File f = new File(path);
@@ -24,14 +24,22 @@ public class TextureHandler {
 		}
 		return (ExternalTextureResourceLocation) textures.get(f.getAbsolutePath());
 	}
-	
+
+	//TODO übernehmen
 	public static WebTextureResourceLocation getWebResource(String url) {
+		return getWebResource(url, true);
+	}
+
+	//TODO übernehmen
+	public static WebTextureResourceLocation getWebResource(String url, boolean loadTexture) {
 		if (!textures.containsKey(url)) {
 			try {
 				WebTextureResourceLocation r = new WebTextureResourceLocation(url);
-				r.loadTexture();
-				if (!r.isReady()) {
-					return null;
+				if (loadTexture) {
+					r.loadTexture();
+					if (!r.isReady()) {
+						return null;
+					}
 				}
 				textures.put(url, r);
 				return r;
