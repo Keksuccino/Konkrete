@@ -1,4 +1,4 @@
-package de.keksuccino.konkrete.events.client.mixins;
+package de.keksuccino.konkrete.mixin.mixins.client;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,12 +11,12 @@ import de.keksuccino.konkrete.events.client.ClientTickEvent;
 import de.keksuccino.konkrete.events.client.GameInitializationCompletedEvent;
 import de.keksuccino.konkrete.events.client.GuiOpenEvent;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Overlay;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Overlay;
+import net.minecraft.client.gui.screens.Screen;
 
-@Mixin(value = MinecraftClient.class)
-public class MixinMinecraftClient {
+@Mixin(value = Minecraft.class)
+public class MixinMinecraft {
 
 	private static boolean gameInitDone = false;
 	
@@ -41,7 +41,7 @@ public class MixinMinecraftClient {
 	private void onReloadResources(Overlay overlay, CallbackInfo info) {
 		if (!gameInitDone) {
 			gameInitDone = true;
-			GameInitializationCompletedEvent e = new GameInitializationCompletedEvent(MinecraftClient.getInstance(), FabricLoader.getInstance());
+			GameInitializationCompletedEvent e = new GameInitializationCompletedEvent(Minecraft.getInstance(), FabricLoader.getInstance());
 			Konkrete.getEventHandler().callEventsFor(e);
 		}
 	}

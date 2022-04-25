@@ -3,8 +3,6 @@ package de.keksuccino.konkrete;
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.keksuccino.konkrete.events.SubscribeEvent;
 import de.keksuccino.konkrete.events.client.ClientTickEvent;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
 
 public class Test {
 	

@@ -2,12 +2,11 @@ package de.keksuccino.konkrete.gui.content;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.rendering.RenderUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class ContextMenu implements IMenu {
 	
@@ -40,10 +39,10 @@ public class ContextMenu implements IMenu {
 		this.space = space;
 	}
 	
-	public void render(MatrixStack matrix, int mouseX, int mouseY, int screenWidth, int screenHeight) {
+	public void render(PoseStack matrix, int mouseX, int mouseY, int screenWidth, int screenHeight) {
 		this.updateHovered(mouseX, mouseY);
 		
-		float ticks = MinecraftClient.getInstance().getTickDelta();
+		float ticks = Minecraft.getInstance().getFrameTime();
 		
 		int stackedHeight = 0;
 		
@@ -125,8 +124,8 @@ public class ContextMenu implements IMenu {
 
 	}
 	
-	public void render(MatrixStack matrix, int mouseX, int mouseY) {
-		Screen c = MinecraftClient.getInstance().currentScreen;
+	public void render(PoseStack matrix, int mouseX, int mouseY) {
+		Screen c = Minecraft.getInstance().screen;
 		if (c != null) {
 			this.render(matrix, mouseX, mouseY, c.width, c.height);
 		}
@@ -151,7 +150,7 @@ public class ContextMenu implements IMenu {
 
 	private boolean isParentButtonHovered() {
 		if (this.parentButton != null) {
-			return this.parentButton.isHovered();
+			return this.parentButton.isHoveredOrFocused();
 		}
 		return false;
 	}
@@ -176,7 +175,7 @@ public class ContextMenu implements IMenu {
 	
 	public boolean isLeftClicked() {
 		for (AdvancedButton b : this.content) {
-			if (b.isHovered() && MouseInput.isLeftMouseDown()) {
+			if (b.isHoveredOrFocused() && MouseInput.isLeftMouseDown()) {
 				return true;
 			}
 		}
@@ -259,7 +258,7 @@ public class ContextMenu implements IMenu {
 	}
 
 	public void openMenuAt(int x, int y) {
-		Screen c = MinecraftClient.getInstance().currentScreen;
+		Screen c = Minecraft.getInstance().screen;
 		if (c != null) {
 			this.openMenuAt(x, y, c.width, c.height);
 		}

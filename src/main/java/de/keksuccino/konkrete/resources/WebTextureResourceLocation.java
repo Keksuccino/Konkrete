@@ -3,16 +3,15 @@ package de.keksuccino.konkrete.resources;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.blaze3d.platform.NativeImage;
 import de.keksuccino.konkrete.input.CharacterFilter;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.texture.NativeImage;
-import net.minecraft.util.Identifier;
 
 public class WebTextureResourceLocation implements ITextureResourceLocation {
 
 	private String url;
-	private Identifier location;
+	private ResourceLocation location;
 	private boolean loaded = false;
 	private int width = 0;
 	private int height = 0;
@@ -33,7 +32,7 @@ public class WebTextureResourceLocation implements ITextureResourceLocation {
 		}
 
 		try {
-			if (MinecraftClient.getInstance().getTextureManager() == null) {
+			if (Minecraft.getInstance().getTextureManager() == null) {
 				System.out.println("################################ WARNING ################################");
 				System.out.println("Can't load texture '" + this.url + "'! Minecraft TextureManager instance not ready yet!");
 				return;
@@ -49,7 +48,7 @@ public class WebTextureResourceLocation implements ITextureResourceLocation {
 			NativeImage i = NativeImage.read(s);
 			this.width = i.getWidth();
 			this.height = i.getHeight();
-			location = MinecraftClient.getInstance().getTextureManager().registerDynamicTexture(this.filterUrl(url), new SelfcleaningDynamicTexture(i));
+			location = Minecraft.getInstance().getTextureManager().register(this.filterUrl(url), new SelfcleaningDynamicTexture(i));
 			s.close();
 			loaded = true;
 		} catch (Exception e) {
@@ -61,7 +60,7 @@ public class WebTextureResourceLocation implements ITextureResourceLocation {
 		}
 	}
 	
-	public Identifier getResourceLocation() {
+	public ResourceLocation getResourceLocation() {
 		return this.location;
 	}
 	

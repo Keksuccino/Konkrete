@@ -3,16 +3,14 @@ package de.keksuccino.konkrete.gui.screens.popup;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.screens.Screen;
 import com.mojang.blaze3d.systems.RenderSystem;
-
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.gui.content.AdvancedButton;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
 
-public abstract class Popup extends DrawableHelper {
+public abstract class Popup extends GuiComponent {
 	
 	private boolean displayed = false;
 	private int alpha;
@@ -22,7 +20,7 @@ public abstract class Popup extends DrawableHelper {
 		this.alpha = backgroundAlpha;
 	}
 	
-	public void render(MatrixStack matrix, int mouseX, int mouseY, Screen renderIn) {
+	public void render(PoseStack matrix, int mouseX, int mouseY, Screen renderIn) {
 		if (!this.isDisplayed()) {
 			return;
 		}
@@ -57,9 +55,9 @@ public abstract class Popup extends DrawableHelper {
 		}
 	}
 	
-	protected void renderButtons(MatrixStack matrix, int mouseX, int mouseY) {
+	protected void renderButtons(PoseStack matrix, int mouseX, int mouseY) {
 		for (AdvancedButton b : this.buttons) {
-			b.render(matrix, mouseX, mouseY, MinecraftClient.getInstance().getTickDelta());
+			b.render(matrix, mouseX, mouseY, Minecraft.getInstance().getFrameTime());
 		}
 	}
 	

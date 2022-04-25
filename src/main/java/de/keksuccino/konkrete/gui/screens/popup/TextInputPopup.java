@@ -2,18 +2,16 @@ package de.keksuccino.konkrete.gui.screens.popup;
 
 import java.awt.Color;
 import java.util.function.Consumer;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import com.mojang.blaze3d.systems.RenderSystem;
-
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.gui.content.AdvancedButton;
 import de.keksuccino.konkrete.gui.content.AdvancedTextField;
 import de.keksuccino.konkrete.input.CharacterFilter;
 import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.localization.Locals;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class TextInputPopup extends Popup {
 	
@@ -37,13 +35,13 @@ public class TextInputPopup extends Popup {
 	
 	@SuppressWarnings("resource")
 	protected void init(Color color, String title, CharacterFilter filter, Consumer<String> callback) {
-		this.textField = new AdvancedTextField(MinecraftClient.getInstance().textRenderer, 0, 0, 200, 20, true, filter);
-		this.textField.setFocusUnlocked(true);
+		this.textField = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 200, 20, true, filter);
+		this.textField.setCanLoseFocus(true);
 		this.textField.setFocused(false);
 		this.textField.setMaxLength(1000);
 		
 		this.doneButton = new AdvancedButton(0, 0, 100, 20, Locals.localize("popup.done"), true, (press) -> {
-			this.input = this.textField.getText();
+			this.input = this.textField.getValue();
 			this.setDisplayed(false);
 			if (this.callback != null) {
 				this.callback.accept(this.input);
@@ -64,7 +62,7 @@ public class TextInputPopup extends Popup {
 
 	@SuppressWarnings("resource")
 	@Override
-	public void render(MatrixStack matrix, int mouseX, int mouseY, Screen renderIn) {
+	public void render(PoseStack matrix, int mouseX, int mouseY, Screen renderIn) {
 		super.render(matrix, mouseX, mouseY, renderIn);
 		
 		if (this.isDisplayed()) {
@@ -74,11 +72,11 @@ public class TextInputPopup extends Popup {
 			fill(matrix, (renderIn.width / 2) - (this.width / 2), (renderIn.height / 2) - (height / 2), (renderIn.width / 2) + (this.width / 2), (renderIn.height / 2) + (height / 2), this.color.getRGB());
 			RenderSystem.disableBlend();
 			
-			drawCenteredText(matrix, MinecraftClient.getInstance().textRenderer, title, renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10, Color.WHITE.getRGB());
+			drawCenteredString(matrix, Minecraft.getInstance().font, title, renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10, Color.WHITE.getRGB());
 			
 			this.textField.setX((renderIn.width / 2) - (this.textField.getWidth() / 2));
 			this.textField.setY((renderIn.height / 2) - (this.textField.getHeight() / 2));
-			this.textField.renderButton(matrix, mouseX, mouseY, MinecraftClient.getInstance().getTickDelta());
+			this.textField.renderButton(matrix, mouseX, mouseY, Minecraft.getInstance().getFrameTime());
 			
 			this.doneButton.setX((renderIn.width / 2) - (this.doneButton.getWidth() / 2));
 			this.doneButton.setY(((renderIn.height / 2) + (height / 2)) - this.doneButton.getHeight() - 5);
@@ -88,8 +86,8 @@ public class TextInputPopup extends Popup {
 	}
 	
 	public void setText(String text) {
-		this.textField.setText("");
-		this.textField.write(text);
+		this.textField.setValue("");
+		this.textField.insertText(text);
 	}
 	
 	public String getInput() {
@@ -98,7 +96,7 @@ public class TextInputPopup extends Popup {
 	
 	public void onEnterPressed(KeyboardData d) {
 		if ((d.keycode == 257) && this.isDisplayed()) {
-			this.input = this.textField.getText();
+			this.input = this.textField.getValue();
 			this.setDisplayed(false);
 			if (this.callback != null) {
 				this.callback.accept(this.input);

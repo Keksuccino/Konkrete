@@ -9,18 +9,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.renderer.texture.TextureManager;
 import com.google.common.io.Files;
 import com.mojang.blaze3d.systems.RenderSystem;
-
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.input.CharacterFilter;
 import de.keksuccino.konkrete.math.MathUtils;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.texture.TextureManager;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	
@@ -75,7 +73,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	}
 	
 	/**
-	 * Needs to be called before calling {@link ExternalTextureAnimationRenderer#render(MatrixStack)} and after minecraft's {@link TextureManager} instance was loaded.
+	 * Needs to be called before calling {@link ExternalTextureAnimationRenderer#render(PoseStack)} and after minecraft's {@link TextureManager} instance was loaded.
 	 */
 	@Override
 	public void prepareAnimation() {
@@ -182,7 +180,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	}
 
 	@Override
-	public void render(MatrixStack matrix) {
+	public void render(PoseStack matrix) {
 		if ((this.resources == null) || (this.resources.isEmpty())) {
 			return;
 		}
@@ -223,15 +221,15 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 		}
 	}
 	
-	private void renderFrame(MatrixStack matrix) {
+	private void renderFrame(PoseStack matrix) {
 		int h = this.height;
 		int w = this.width;
 		int x2 = this.x;
 		int y2 = this.y;
 		
 		if (this.stretch) {
-			h = MinecraftClient.getInstance().currentScreen.height;
-			w = MinecraftClient.getInstance().currentScreen.width;
+			h = Minecraft.getInstance().screen.height;
+			w = Minecraft.getInstance().screen.width;
 			x2 = 0;
 			y2 = 0;
 		}
@@ -244,7 +242,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 		//TODO neu in 1.17
 		RenderUtils.bindTexture(r.getResourceLocation());
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.opacity);
-		DrawableHelper.drawTexture(matrix, x2, y2, 0.0F, 0.0F, w, h, w, h);
+		GuiComponent.blit(matrix, x2, y2, 0.0F, 0.0F, w, h, w, h);
 		RenderSystem.disableBlend();
 	}
 	

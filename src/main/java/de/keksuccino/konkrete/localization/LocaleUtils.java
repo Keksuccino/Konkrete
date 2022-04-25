@@ -1,11 +1,10 @@
 package de.keksuccino.konkrete.localization;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
-import de.keksuccino.konkrete.reflection.ReflectionHelper;
-import net.minecraft.client.resource.language.TranslationStorage;
-import net.minecraft.util.Language;
+import de.keksuccino.konkrete.mixin.mixins.client.IMixinClientLanguage;
+import net.minecraft.client.resources.language.ClientLanguage;
+import net.minecraft.locale.Language;
 
 public class LocaleUtils {
 	
@@ -15,12 +14,11 @@ public class LocaleUtils {
 	public static String getKeyForString(String s) {
 		try {
 			Language l = Language.getInstance();
-			if (!(l instanceof TranslationStorage)) {
+			if (!(l instanceof ClientLanguage)) {
 				return null;
 			}
-			Field f = ReflectionHelper.findField(TranslationStorage.class, "translations", "field_5330");
-			Map<String, String> properties = (Map<String, String>) f.get((TranslationStorage)l);
-			for (Map.Entry<String, String> m : properties.entrySet()) {
+			Map<String, String> storage = ((IMixinClientLanguage)l).getStorageKonkrete();
+			for (Map.Entry<String, String> m : storage.entrySet()) {
 				if (m.getValue().equals(s)) {
 					return m.getKey();
 				}

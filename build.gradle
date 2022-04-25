@@ -19,8 +19,13 @@ repositories {
 }
 
 dependencies {
+
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+
+	mappings loom.layered() {
+		officialMojangMappings()
+	}
+
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
@@ -52,7 +57,7 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.archivesBaseName}"}
 	}
-	rename 'konkrete-refmap.json', 'konkrete.mixins.events.client-refmap.json'
+	rename 'konkrete-refmap.json', 'konkrete.mixin-refmap.json'
 }
 
 // configure the maven publication

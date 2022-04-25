@@ -3,9 +3,12 @@ package de.keksuccino.konkrete.gui.screens;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TextComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
-
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.config.Config;
 import de.keksuccino.konkrete.config.ConfigEntry;
 import de.keksuccino.konkrete.config.ConfigEntry.EntryType;
@@ -19,11 +22,6 @@ import de.keksuccino.konkrete.input.StringUtils;
 import de.keksuccino.konkrete.localization.Locals;
 import de.keksuccino.konkrete.math.MathUtils;
 import de.keksuccino.konkrete.rendering.RenderUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
 
 public class ConfigScreen extends Screen {
 
@@ -42,7 +40,7 @@ public class ConfigScreen extends Screen {
 	
 	public ConfigScreen(Config config, String title, Screen parent) {
 		
-		super(new LiteralText(""));
+		super(new TextComponent(""));
 		this.config = config;
 		this.parent = parent;
 		this.title = title;
@@ -85,7 +83,7 @@ public class ConfigScreen extends Screen {
 		}
 
 		this.doneBtn = new AdvancedButton(0, 0, 100, 20, Locals.localize("popup.done"), true, (press) -> {
-			MinecraftClient.getInstance().setScreen(this.parent);
+			Minecraft.getInstance().setScreen(this.parent);
 		});
 		colorizeButton(this.doneBtn);
 		
@@ -106,7 +104,7 @@ public class ConfigScreen extends Screen {
 	
 	@Override
 	public void onClose() {
-		MinecraftClient.getInstance().setScreen(this.parent);
+		Minecraft.getInstance().setScreen(this.parent);
 	}
 	
 	@Override
@@ -115,7 +113,7 @@ public class ConfigScreen extends Screen {
 	}
 	
 	@Override
-	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrix, int mouseX, int mouseY, float partialTicks) {
 		
 		RenderSystem.enableBlend();
 		
@@ -129,7 +127,7 @@ public class ConfigScreen extends Screen {
 		
 		//Draw title
 		if (this.title != null) {
-			drawStringWithShadow(matrix, textRenderer, this.title, (this.width / 2) - (textRenderer.getWidth(this.title) / 2), 20, Color.WHITE.getRGB());
+			drawString(matrix, font, this.title, (this.width / 2) - (font.width(this.title) / 2), 20, Color.WHITE.getRGB());
 		}
 		
 		//Draw footer
@@ -204,7 +202,7 @@ public class ConfigScreen extends Screen {
 		this.config.syncConfig();
 	}
 	
-	protected static void renderDescription(MatrixStack matrix, String description, int mouseX, int mouseY) {
+	protected static void renderDescription(PoseStack matrix, String description, int mouseX, int mouseY) {
 		if (description != null) {
 				int width = 10;
 				int height = 10;
@@ -212,7 +210,7 @@ public class ConfigScreen extends Screen {
 				
 				//Getting the longest string from the list to render the background with the correct width
 				for (String s : desc) {
-					int i = MinecraftClient.getInstance().textRenderer.getWidth(s) + 10;
+					int i = Minecraft.getInstance().font.width(s) + 10;
 					if (i > width) {
 						width = i;
 					}
@@ -222,11 +220,11 @@ public class ConfigScreen extends Screen {
 				mouseX += 5;
 				mouseY += 5;
 				
-				if (MinecraftClient.getInstance().currentScreen.width < mouseX + width) {
+				if (Minecraft.getInstance().screen.width < mouseX + width) {
 					mouseX -= width + 10;
 				}
 				
-				if (MinecraftClient.getInstance().currentScreen.height < mouseY + height) {
+				if (Minecraft.getInstance().screen.height < mouseY + height) {
 					mouseY -= height + 10;
 				}
 
@@ -238,7 +236,7 @@ public class ConfigScreen extends Screen {
 
 				int i2 = 5;
 				for (String s : desc) {
-					drawStringWithShadow(matrix, MinecraftClient.getInstance().textRenderer, s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
+					drawString(matrix, Minecraft.getInstance().font, s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
 					i2 += 10;
 				}
 
@@ -248,7 +246,7 @@ public class ConfigScreen extends Screen {
 		}
 	}
 	
-	protected static void renderDescriptionBackground(MatrixStack matrix, int x, int y, int width, int height) {
+	protected static void renderDescriptionBackground(PoseStack matrix, int x, int y, int width, int height) {
 		fill(matrix, x, y, x + width, y + height, new Color(26, 26, 26, 250).getRGB());
 	}
 	
@@ -259,7 +257,7 @@ public class ConfigScreen extends Screen {
 	protected static abstract class ConfigScrollAreaEntry extends ScrollAreaEntry {
 
 		protected ConfigEntry configEntry;
-		protected TextRenderer font = MinecraftClient.getInstance().textRenderer;
+		protected Font font = Minecraft.getInstance().font;
 		protected String displayName;
 		
 		public ConfigScrollAreaEntry(ScrollArea parent, ConfigEntry configEntry) {
@@ -268,7 +266,7 @@ public class ConfigScreen extends Screen {
 		}
 		
 		@Override
-		public void renderEntry(MatrixStack matrix) {
+		public void renderEntry(PoseStack matrix) {
 			
 			int center = this.x + (this.getWidth() / 2);
 			
@@ -276,11 +274,11 @@ public class ConfigScreen extends Screen {
 			
 			//Render config entry name
 			if (this.displayName != null) {
-				int nameWidth = font.getWidth(this.displayName);
-				drawStringWithShadow(matrix, font, this.displayName, center - nameWidth - 10 , this.y + 10, Color.WHITE.getRGB());
+				int nameWidth = font.width(this.displayName);
+				drawString(matrix, font, this.displayName, center - nameWidth - 10 , this.y + 10, Color.WHITE.getRGB());
 			} else {
-				int nameWidth = font.getWidth(this.configEntry.getName());
-				drawStringWithShadow(matrix, font, this.configEntry.getName(), center - nameWidth - 10 , this.y + 10, Color.WHITE.getRGB());
+				int nameWidth = font.width(this.configEntry.getName());
+				drawString(matrix, font, this.configEntry.getName(), center - nameWidth - 10 , this.y + 10, Color.WHITE.getRGB());
 			}
 			
 			
@@ -303,29 +301,29 @@ public class ConfigScreen extends Screen {
 			
 			super(parent, configEntry);
 			
-			input = new AdvancedTextField(MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, true, null);
+			input = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 100, 20, true, null);
 			//TODO übernehmen
 			input.setMaxLength(10000);
-			input.setText(configEntry.getValue());
+			input.setValue(configEntry.getValue());
 			
 		}
 		
 		@Override
-		public void render(MatrixStack matrix) {
+		public void render(PoseStack matrix) {
 			super.render(matrix);
 			
 			int center = this.x + (this.getWidth() / 2);
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), MinecraftClient.getInstance().getTickDelta());
+			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
 			
 		}
 		
 		@Override
 		protected void onSave() {
 			
-			configEntry.setValue(input.getText());
+			configEntry.setValue(input.getValue());
 			
 		}
 		
@@ -339,37 +337,37 @@ public class ConfigScreen extends Screen {
 			
 			super(parent, configEntry);
 			
-			input = new AdvancedTextField(MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, true, CharacterFilter.getIntegerCharacterFiler());
+			input = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 100, 20, true, CharacterFilter.getIntegerCharacterFiler());
 			//TODO übernehmen
 			input.setMaxLength(10000);
-			input.setText(configEntry.getValue());
+			input.setValue(configEntry.getValue());
 			
 		}
 		
 		@Override
-		public void render(MatrixStack matrix) {
+		public void render(PoseStack matrix) {
 			super.render(matrix);
 			
 			int center = this.x + (this.getWidth() / 2);
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), MinecraftClient.getInstance().getTickDelta());
+			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
 			
 		}
 		
 		@Override
 		protected void onSave() {
 			
-			if (MathUtils.isInteger(this.input.getText())) {
+			if (MathUtils.isInteger(this.input.getValue())) {
 				
-				configEntry.setValue(input.getText());
+				configEntry.setValue(input.getValue());
 				
 			} else {
 				
 				System.out.println("################ ERROR [KONKRETE] ################");
 				System.out.println("Unable to save value to config! Invalid value type!");
-				System.out.println("Value: " + this.input.getText());
+				System.out.println("Value: " + this.input.getValue());
 				System.out.println("Variable Type: INTEGER");
 				System.out.println("##################################################");
 				
@@ -387,37 +385,37 @@ public class ConfigScreen extends Screen {
 			
 			super(parent, configEntry);
 			
-			input = new AdvancedTextField(MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, true, CharacterFilter.getDoubleCharacterFiler());
+			input = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 100, 20, true, CharacterFilter.getDoubleCharacterFiler());
 			//TODO übernehmen
 			input.setMaxLength(10000);
-			input.setText(configEntry.getValue());
+			input.setValue(configEntry.getValue());
 			
 		}
 		
 		@Override
-		public void render(MatrixStack matrix) {
+		public void render(PoseStack matrix) {
 			super.render(matrix);
 			
 			int center = this.x + (this.getWidth() / 2);
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), MinecraftClient.getInstance().getTickDelta());
+			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
 			
 		}
 		
 		@Override
 		protected void onSave() {
 			
-			if (MathUtils.isDouble(this.input.getText())) {
+			if (MathUtils.isDouble(this.input.getValue())) {
 				
-				configEntry.setValue(input.getText());
+				configEntry.setValue(input.getValue());
 				
 			} else {
 				
 				System.out.println("################ ERROR [KONKRETE] ################");
 				System.out.println("Unable to save value to config! Invalid value type!");
-				System.out.println("Value: " + this.input.getText());
+				System.out.println("Value: " + this.input.getValue());
 				System.out.println("Variable Type: DOUBLE");
 				System.out.println("##################################################");
 				
@@ -435,37 +433,37 @@ public class ConfigScreen extends Screen {
 			
 			super(parent, configEntry);
 			
-			input = new AdvancedTextField(MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, true, CharacterFilter.getIntegerCharacterFiler());
+			input = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 100, 20, true, CharacterFilter.getIntegerCharacterFiler());
 			//TODO übernehmen
 			input.setMaxLength(10000);
-			input.setText(configEntry.getValue());
+			input.setValue(configEntry.getValue());
 			
 		}
 		
 		@Override
-		public void render(MatrixStack matrix) {
+		public void render(PoseStack matrix) {
 			super.render(matrix);
 			
 			int center = this.x + (this.getWidth() / 2);
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), MinecraftClient.getInstance().getTickDelta());
+			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
 			
 		}
 		
 		@Override
 		protected void onSave() {
 			
-			if (MathUtils.isLong(this.input.getText())) {
+			if (MathUtils.isLong(this.input.getValue())) {
 				
-				configEntry.setValue(input.getText());
+				configEntry.setValue(input.getValue());
 				
 			} else {
 				
 				System.out.println("################ ERROR [KONKRETE] ################");
 				System.out.println("Unable to save value to config! Invalid value type!");
-				System.out.println("Value: " + this.input.getText());
+				System.out.println("Value: " + this.input.getValue());
 				System.out.println("Variable Type: LONG");
 				System.out.println("##################################################");
 				
@@ -483,37 +481,37 @@ public class ConfigScreen extends Screen {
 			
 			super(parent, configEntry);
 			
-			input = new AdvancedTextField(MinecraftClient.getInstance().textRenderer, 0, 0, 100, 20, true, CharacterFilter.getDoubleCharacterFiler());
+			input = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 100, 20, true, CharacterFilter.getDoubleCharacterFiler());
 			//TODO übernehmen
 			input.setMaxLength(10000);
-			input.setText(configEntry.getValue());
+			input.setValue(configEntry.getValue());
 			
 		}
 		
 		@Override
-		public void render(MatrixStack matrix) {
+		public void render(PoseStack matrix) {
 			super.render(matrix);
 			
 			int center = this.x + (this.getWidth() / 2);
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), MinecraftClient.getInstance().getTickDelta());
+			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
 			
 		}
 		
 		@Override
 		protected void onSave() {
 			
-			if (MathUtils.isFloat(this.input.getText())) {
+			if (MathUtils.isFloat(this.input.getValue())) {
 				
-				configEntry.setValue(input.getText());
+				configEntry.setValue(input.getValue());
 				
 			} else {
 				
 				System.out.println("################ ERROR [KONKRETE] ################");
 				System.out.println("Unable to save value to config! Invalid value type!");
-				System.out.println("Value: " + this.input.getText());
+				System.out.println("Value: " + this.input.getValue());
 				System.out.println("Variable Type: FLOAT");
 				System.out.println("##################################################");
 				
@@ -539,15 +537,15 @@ public class ConfigScreen extends Screen {
 			toggleBtn = new AdvancedButton(0, 0, 102, 20, "", true, (press) -> {
 				state = !state;
 				if (state) {
-					toggleBtn.setMessage(new LiteralText("§a" + Locals.localize("configscreen.boolean.enabled")));
+					toggleBtn.setMessage(new TextComponent("§a" + Locals.localize("configscreen.boolean.enabled")));
 				} else {
-					toggleBtn.setMessage(new LiteralText("§c" + Locals.localize("configscreen.boolean.disabled")));
+					toggleBtn.setMessage(new TextComponent("§c" + Locals.localize("configscreen.boolean.disabled")));
 				}
 			});
 			if (state) {
-				toggleBtn.setMessage(new LiteralText("§a" + Locals.localize("configscreen.boolean.enabled")));
+				toggleBtn.setMessage(new TextComponent("§a" + Locals.localize("configscreen.boolean.enabled")));
 			} else {
-				toggleBtn.setMessage(new LiteralText("§c" + Locals.localize("configscreen.boolean.disabled")));
+				toggleBtn.setMessage(new TextComponent("§c" + Locals.localize("configscreen.boolean.disabled")));
 			}
 			
 			colorizeButton(this.toggleBtn);
@@ -555,14 +553,14 @@ public class ConfigScreen extends Screen {
 		}
 		
 		@Override
-		public void render(MatrixStack matrix) {
+		public void render(PoseStack matrix) {
 			super.render(matrix);
 			
 			int center = this.x + (this.getWidth() / 2);
 			
 			toggleBtn.setX(center + 9);
 			toggleBtn.setY(this.y + 3);
-			toggleBtn.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), MinecraftClient.getInstance().getTickDelta());
+			toggleBtn.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
 			
 		}
 		
@@ -578,7 +576,7 @@ public class ConfigScreen extends Screen {
 	protected static class CategoryConfigScrollAreaEntry extends ScrollAreaEntry {
 
 		protected String category;
-		protected TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+		protected Font textRenderer = Minecraft.getInstance().font;
 		protected String displayName;
 		
 		public CategoryConfigScrollAreaEntry(ScrollArea parent, String category) {
@@ -587,7 +585,7 @@ public class ConfigScreen extends Screen {
 		}
 		
 		@Override
-		public void renderEntry(MatrixStack matrix) {
+		public void renderEntry(PoseStack matrix) {
 			
 			int center = this.x + (this.getWidth() / 2);
 			
@@ -595,11 +593,11 @@ public class ConfigScreen extends Screen {
 			
 			//Render category title
 			if (this.displayName != null) {
-				int nameWidth = textRenderer.getWidth(this.displayName);
-				drawStringWithShadow(matrix, textRenderer, this.displayName, center - (nameWidth / 2) , this.y + 10, Color.WHITE.getRGB());
+				int nameWidth = textRenderer.width(this.displayName);
+				drawString(matrix, textRenderer, this.displayName, center - (nameWidth / 2) , this.y + 10, Color.WHITE.getRGB());
 			} else {
-				int nameWidth = textRenderer.getWidth(this.category);
-				drawStringWithShadow(matrix, textRenderer, this.category, center - (nameWidth / 2) , this.y + 10, Color.WHITE.getRGB());
+				int nameWidth = textRenderer.width(this.category);
+				drawString(matrix, textRenderer, this.category, center - (nameWidth / 2) , this.y + 10, Color.WHITE.getRGB());
 			}
 
 		}

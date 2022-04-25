@@ -1,16 +1,14 @@
 package de.keksuccino.konkrete.input;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.keksuccino.konkrete.mixin.mixins.client.IMixinMouseHandler;
+import net.minecraft.client.Minecraft;
 import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.events.SubscribeEvent;
 import de.keksuccino.konkrete.events.client.ClientTickEvent;
 import de.keksuccino.konkrete.events.client.GuiScreenEvent;
-import de.keksuccino.konkrete.reflection.ReflectionHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.Mouse;
 
 public class MouseInput {
 	
@@ -27,14 +25,7 @@ public class MouseInput {
 	}
 	
 	public static int getActiveMouseButton() {
-		int b = -1;
-		try {
-			Field f = ReflectionHelper.findField(Mouse.class, "activeButton", "field_1780");
-			b = (int) f.get(MinecraftClient.getInstance().mouse);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return b;
+		return ((IMixinMouseHandler)Minecraft.getInstance().mouseHandler).getActiveButtonKonkrete();
 	}
 	
 	public static boolean isLeftMouseDown() {
@@ -47,7 +38,7 @@ public class MouseInput {
 	
 	public static int getMouseX() {
 
-		int x = (int)(MinecraftClient.getInstance().mouse.getX() * (double)MinecraftClient.getInstance().getWindow().getScaledWidth() / (double)MinecraftClient.getInstance().getWindow().getWidth());
+		int x = (int)(Minecraft.getInstance().mouseHandler.xpos() * (double)Minecraft.getInstance().getWindow().getGuiScaledWidth() / (double)Minecraft.getInstance().getWindow().getScreenWidth());
 		
 		if (useRenderScale) {
 			return (int)(x / renderScale);
@@ -59,7 +50,7 @@ public class MouseInput {
 	
 	public static int getMouseY() {
 		
-		int y = (int)(MinecraftClient.getInstance().mouse.getY() * (double)MinecraftClient.getInstance().getWindow().getScaledHeight() / (double)MinecraftClient.getInstance().getWindow().getHeight());
+		int y = (int)(Minecraft.getInstance().mouseHandler.ypos() * (double)Minecraft.getInstance().getWindow().getGuiScaledHeight() / (double)Minecraft.getInstance().getWindow().getScreenHeight());
 		
 		if (useRenderScale) {
 			return (int)(y / renderScale);
@@ -138,7 +129,7 @@ public class MouseInput {
 	
 	@SubscribeEvent
 	public void onTick(ClientTickEvent e) {
-		if ((MinecraftClient.getInstance() != null) && (MinecraftClient.getInstance().currentScreen == null)) {
+		if ((Minecraft.getInstance() != null) && (Minecraft.getInstance().screen == null)) {
 			vanillainput.clear();
 		}
 	}

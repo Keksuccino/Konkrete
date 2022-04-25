@@ -1,62 +1,60 @@
 package de.keksuccino.konkrete.rendering;
 
 import java.awt.Color;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
-
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.texture.NativeImage;
-import net.minecraft.client.texture.NativeImageBackedTexture;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix4f;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Matrix4f;
 
 public class RenderUtils {
 	
-	private static Identifier WHITE = null;
-	private static Identifier BLANK = null;
+	private static ResourceLocation WHITE = null;
+	private static ResourceLocation BLANK = null;
 
-	public static Identifier getWhiteImageResource() {
+	public static ResourceLocation getWhiteImageResource() {
 		if (WHITE != null) {
 			return WHITE;
 		}
-		if (MinecraftClient.getInstance().getTextureManager() == null) {
+		if (Minecraft.getInstance().getTextureManager() == null) {
 			return null;
 		}
 		NativeImage i = new NativeImage(1, 1, true);
-		i.setColor(0, 0, Color.WHITE.getRGB());
-		Identifier r = MinecraftClient.getInstance().getTextureManager().registerDynamicTexture("whiteback", new NativeImageBackedTexture(i));
+		i.setPixelRGBA(0, 0, Color.WHITE.getRGB());
+		ResourceLocation r = Minecraft.getInstance().getTextureManager().register("whiteback", new DynamicTexture(i));
 		WHITE = r;
 		return r;
 	}
 	
-	public static Identifier getBlankImageResource() {
+	public static ResourceLocation getBlankImageResource() {
 		if (BLANK != null) {
 			return BLANK;
 		}
-		if (MinecraftClient.getInstance().getTextureManager() == null) {
+		if (Minecraft.getInstance().getTextureManager() == null) {
 			return null;
 		}
 		NativeImage i = new NativeImage(1, 1, true);
-		i.setColor(0, 0, new Color(255, 255, 255, 0).getRGB());
-		Identifier r = MinecraftClient.getInstance().getTextureManager().registerDynamicTexture("blankback", new NativeImageBackedTexture(i));
+		i.setPixelRGBA(0, 0, new Color(255, 255, 255, 0).getRGB());
+		ResourceLocation r = Minecraft.getInstance().getTextureManager().register("blankback", new DynamicTexture(i));
 		BLANK = r;
 		return r;
 	}
 	
-	public static void setScale(MatrixStack matrix, float scale) {
-		matrix.push();
+	public static void setScale(PoseStack matrix, float scale) {
+		matrix.pushPose();
 		matrix.scale(scale, scale, scale);
     }
 	
-    public static void postScale(MatrixStack matrix) {
-    	matrix.pop();
+    public static void postScale(PoseStack matrix) {
+    	matrix.popPose();
     }
 
     public static void doubleBlit(double x, double y, float f1, float f2, int w, int h) {
@@ -65,14 +63,14 @@ public class RenderUtils {
 
     public static void innerDoubleBlit(double x, double xEnd, double y, double yEnd, int z, float f1, float f2, float f3, float f4) {
     	RenderSystem.setShader(GameRenderer::getPositionTexShader);
-    	BufferBuilder bufferbuilder = Tessellator.getInstance().getBuffer();
-        bufferbuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-        bufferbuilder.vertex(x, yEnd, (double)z).texture(f1, f4).next();
-        bufferbuilder.vertex(xEnd, yEnd, (double)z).texture(f2, f4).next();
-        bufferbuilder.vertex(xEnd, y, (double)z).texture(f2, f3).next();
-        bufferbuilder.vertex(x, y, (double)z).texture(f1, f3).next();
+    	BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        bufferbuilder.vertex(x, yEnd, (double)z).uv(f1, f4).endVertex();
+        bufferbuilder.vertex(xEnd, yEnd, (double)z).uv(f2, f4).endVertex();
+        bufferbuilder.vertex(xEnd, y, (double)z).uv(f2, f3).endVertex();
+        bufferbuilder.vertex(x, y, (double)z).uv(f1, f3).endVertex();
         bufferbuilder.end();
-        BufferRenderer.draw(bufferbuilder);
+        BufferUploader.end(bufferbuilder);
     }
     
     /**
@@ -100,18 +98,18 @@ public class RenderUtils {
 		return null;
 	}
     
-    public static void setZLevelPre(MatrixStack matrix, int zLevel) {
+    public static void setZLevelPre(PoseStack matrix, int zLevel) {
 		RenderSystem.disableDepthTest();
-		matrix.push();
+		matrix.pushPose();
 		matrix.translate(0.0D, 0.0D, zLevel);
     }
     
-    public static void setZLevelPost(MatrixStack matrix) {
-    	matrix.pop();
+    public static void setZLevelPost(PoseStack matrix) {
+    	matrix.popPose();
     	RenderSystem.enableDepthTest();
     }
 
-    public static void bindTexture(Identifier texture, boolean depthTest) {
+    public static void bindTexture(ResourceLocation texture, boolean depthTest) {
     	RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, texture);
         RenderSystem.enableBlend();
@@ -120,12 +118,12 @@ public class RenderUtils {
         }
     }
 
-    public static void bindTexture(Identifier texture) {
+    public static void bindTexture(ResourceLocation texture) {
     	bindTexture(texture, false);
     }
     
-    public static void fill(MatrixStack matrix, float minX, float minY, float maxX, float maxY, int color, float opacity) {
-		Matrix4f matrix4f = matrix.peek().getPositionMatrix();
+    public static void fill(PoseStack matrix, float minX, float minY, float maxX, float maxY, int color, float opacity) {
+		Matrix4f matrix4f = matrix.last().pose();
 		
 		if (minX < maxX) {
 			float i = minX;
@@ -145,18 +143,18 @@ public class RenderUtils {
 		
 		a = a * opacity;
 		
-		BufferBuilder bb = Tessellator.getInstance().getBuffer();
+		BufferBuilder bb = Tesselator.getInstance().getBuilder();
 		RenderSystem.enableBlend();
 		RenderSystem.disableTexture();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.setShader(GameRenderer::getPositionColorShader);
-		bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-		bb.vertex(matrix4f, minX, maxY, 0.0F).color(r, g, b, a).next();
-		bb.vertex(matrix4f, maxX, maxY, 0.0F).color(r, g, b, a).next();
-		bb.vertex(matrix4f, maxX, minY, 0.0F).color(r, g, b, a).next();
-		bb.vertex(matrix4f, minX, minY, 0.0F).color(r, g, b, a).next();
+		bb.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+		bb.vertex(matrix4f, minX, maxY, 0.0F).color(r, g, b, a).endVertex();
+		bb.vertex(matrix4f, maxX, maxY, 0.0F).color(r, g, b, a).endVertex();
+		bb.vertex(matrix4f, maxX, minY, 0.0F).color(r, g, b, a).endVertex();
+		bb.vertex(matrix4f, minX, minY, 0.0F).color(r, g, b, a).endVertex();
 		bb.end();
-		BufferRenderer.draw(bb);
+		BufferUploader.end(bb);
 		RenderSystem.enableTexture();
 		RenderSystem.disableBlend();
 	}

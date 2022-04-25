@@ -1,6 +1,6 @@
-package de.keksuccino.konkrete.events.client.mixinbase;
+package de.keksuccino.konkrete.mixin;
 
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 
 public class MixinCache {
 	

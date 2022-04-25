@@ -6,12 +6,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 import com.google.common.io.Files;
 import com.mojang.blaze3d.systems.RenderSystem;
-
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.gui.content.AdvancedButton;
 import de.keksuccino.konkrete.gui.content.scrollarea.ScrollArea;
 import de.keksuccino.konkrete.gui.content.scrollarea.ScrollAreaEntry;
@@ -21,16 +23,12 @@ import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.localization.Locals;
 import de.keksuccino.konkrete.rendering.RenderUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
 
 public class FilePickerPopup extends Popup {
 
-	private static Identifier fileIcon = new Identifier("keksuccino", "filechooser/file_icon.png");
-	private static Identifier folderIcon = new Identifier("keksuccino", "filechooser/folder_icon.png");
-	private static Identifier backIcon = new Identifier("keksuccino", "filechooser/back_icon.png");
+	private static ResourceLocation fileIcon = new ResourceLocation("keksuccino", "filechooser/file_icon.png");
+	private static ResourceLocation folderIcon = new ResourceLocation("keksuccino", "filechooser/folder_icon.png");
+	private static ResourceLocation backIcon = new ResourceLocation("keksuccino", "filechooser/back_icon.png");
 
 	private static String lastpath;
 	private boolean checklastpath;
@@ -124,7 +122,7 @@ public class FilePickerPopup extends Popup {
 	
 	@SuppressWarnings("resource")
 	@Override
-	public void render(MatrixStack matrix, int mouseX, int mouseY, Screen renderIn) {
+	public void render(PoseStack matrix, int mouseX, int mouseY, Screen renderIn) {
 		super.render(matrix, mouseX, mouseY, renderIn);
 		
 		if ((lastWidth != renderIn.width) || (lastHeight != renderIn.height)) {
@@ -143,10 +141,10 @@ public class FilePickerPopup extends Popup {
 		fill(matrix, 0, 0, renderIn.width, 40, this.overlayColor.getRGB());
 		fill(matrix, 0, renderIn.height - 60, renderIn.width, renderIn.height, this.overlayColor.getRGB());
 		
-		drawCenteredText(matrix, MinecraftClient.getInstance().textRenderer, "§l" + Locals.localize("popup.choosefile.title"), renderIn.width / 2, 17, Color.WHITE.getRGB());
+		drawCenteredString(matrix, Minecraft.getInstance().font, "§l" + Locals.localize("popup.choosefile.title"), renderIn.width / 2, 17, Color.WHITE.getRGB());
 
 		if (this.filetypesString != null) {
-			drawCenteredText(matrix, MinecraftClient.getInstance().textRenderer, Locals.localize("popup.choosefile.supported") + " " + this.filetypesString, renderIn.width / 2, renderIn.height - 50, Color.WHITE.getRGB());
+			drawCenteredString(matrix, Minecraft.getInstance().font, Locals.localize("popup.choosefile.supported") + " " + this.filetypesString, renderIn.width / 2, renderIn.height - 50, Color.WHITE.getRGB());
 			
 			this.chooseButton.x = (renderIn.width / 2) - this.chooseButton.getWidth() - 5;
 			this.chooseButton.y = renderIn.height - 30;
@@ -262,7 +260,7 @@ public class FilePickerPopup extends Popup {
 		}
 		
 		@Override
-		public void render(MatrixStack matrix) {
+		public void render(PoseStack matrix) {
 			
 			//Handle entry focus and prepare double-click
 			if (this.isHovered() && this.isVisible() && MouseInput.isLeftMouseDown()) {
@@ -282,10 +280,10 @@ public class FilePickerPopup extends Popup {
 
 		@SuppressWarnings("resource")
 		@Override
-		public void renderEntry(MatrixStack matrix) {
+		public void renderEntry(PoseStack matrix) {
 			RenderSystem.enableBlend();
 
-			Identifier r = null;
+			ResourceLocation r = null;
 			if (this.type == Type.FILE) {
 				r = fileIcon;
 			}
@@ -299,13 +297,13 @@ public class FilePickerPopup extends Popup {
 			if (r != null) {
 				RenderUtils.bindTexture(r);
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-				drawTexture(matrix, this.x, this.y, 0.0F, 0.0F, 20, 20, 20, 20);
+				blit(matrix, this.x, this.y, 0.0F, 0.0F, 20, 20, 20, 20);
 			}
 			
 			if (this.type == Type.BACK) {
-				MinecraftClient.getInstance().textRenderer.drawWithShadow(matrix, Locals.localize("popup.choosefile.back"), this.x + 30, this.y + 7, Color.WHITE.getRGB());
+				Minecraft.getInstance().font.drawShadow(matrix, Locals.localize("popup.choosefile.back"), this.x + 30, this.y + 7, Color.WHITE.getRGB());
 			} else {
-				MinecraftClient.getInstance().textRenderer.drawWithShadow(matrix, this.file.getName(), this.x + 30, this.y + 7, Color.WHITE.getRGB());
+				Minecraft.getInstance().font.drawShadow(matrix, this.file.getName(), this.x + 30, this.y + 7, Color.WHITE.getRGB());
 			}
 			
 			//Handle double-click
@@ -335,7 +333,7 @@ public class FilePickerPopup extends Popup {
 			
 		}
 
-		private void renderBorder(MatrixStack matrix) {
+		private void renderBorder(PoseStack matrix) {
 			//left
 			fill(matrix, this.x, this.y, this.x + 1, this.y + this.getHeight(), Color.WHITE.getRGB());
 			//right

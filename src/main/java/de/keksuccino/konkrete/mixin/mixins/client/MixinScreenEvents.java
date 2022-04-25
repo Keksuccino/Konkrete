@@ -1,10 +1,10 @@
-package de.keksuccino.konkrete.events.client.mixins;
+package de.keksuccino.konkrete.mixin.mixins.client;
 
-import de.keksuccino.konkrete.events.client.mixinbase.MixinCache;
+import de.keksuccino.konkrete.mixin.MixinCache;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.impl.client.screen.ScreenExtensions;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

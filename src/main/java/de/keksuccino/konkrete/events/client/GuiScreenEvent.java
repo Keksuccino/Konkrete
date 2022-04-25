@@ -2,11 +2,10 @@ package de.keksuccino.konkrete.events.client;
 
 import java.util.List;
 import java.util.function.Consumer;
-
+import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.gui.screens.Screen;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.events.EventBase;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.PressableWidget;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class GuiScreenEvent extends EventBase {
 
@@ -27,33 +26,33 @@ public class GuiScreenEvent extends EventBase {
 	
 	public static class InitGuiEvent extends GuiScreenEvent {
 		
-		private Consumer<PressableWidget> add;
-		private Consumer<PressableWidget> remove;
+		private Consumer<AbstractButton> add;
+		private Consumer<AbstractButton> remove;
 		
-		private List<PressableWidget> buttons;
+		private List<AbstractButton> buttons;
 		
-		public InitGuiEvent(Screen screen, List<PressableWidget> buttons, Consumer<PressableWidget> addButton, Consumer<PressableWidget> removeButton) {
+		public InitGuiEvent(Screen screen, List<AbstractButton> buttons, Consumer<AbstractButton> addButton, Consumer<AbstractButton> removeButton) {
 			super(screen);
 			this.add = addButton;
 			this.remove = removeButton;
 			this.buttons = buttons;
 		}
 		
-		public List<PressableWidget> getWidgetList() {
+		public List<AbstractButton> getWidgetList() {
 			return this.buttons;
 		}
 		
-		public void addWidget(PressableWidget widget) {
+		public void addWidget(AbstractButton widget) {
 			this.add.accept(widget);
 		}
 		
-		public void removeWidget(PressableWidget widget) {
+		public void removeWidget(AbstractButton widget) {
 			this.remove.accept(widget);
 		}
 		
 		public static class Pre extends InitGuiEvent {
 
-			public Pre(Screen screen, List<PressableWidget> buttons, Consumer<PressableWidget> addButton, Consumer<PressableWidget> removeButton) {
+			public Pre(Screen screen, List<AbstractButton> buttons, Consumer<AbstractButton> addButton, Consumer<AbstractButton> removeButton) {
 				super(screen, buttons, addButton, removeButton);
 			}
 			
@@ -61,7 +60,7 @@ public class GuiScreenEvent extends EventBase {
 		
 		public static class Post extends InitGuiEvent {
 
-			public Post(Screen screen, List<PressableWidget> buttons, Consumer<PressableWidget> addButton, Consumer<PressableWidget> removeButton) {
+			public Post(Screen screen, List<AbstractButton> buttons, Consumer<AbstractButton> addButton, Consumer<AbstractButton> removeButton) {
 				super(screen, buttons, addButton, removeButton);
 			}
 			
@@ -71,12 +70,12 @@ public class GuiScreenEvent extends EventBase {
 	
 	public static class DrawScreenEvent extends GuiScreenEvent {
 
-		private MatrixStack matrix;
+		private PoseStack matrix;
 		private int mouseX;
 		private int mouseY;
 		private float renderTicks;
 		
-		public DrawScreenEvent(Screen screen, MatrixStack matrix, int mouseX, int mouseY, float renderPartialTicks) {
+		public DrawScreenEvent(Screen screen, PoseStack matrix, int mouseX, int mouseY, float renderPartialTicks) {
 			super(screen);
 			this.mouseX = mouseX;
 			this.mouseY = mouseY;
@@ -84,7 +83,7 @@ public class GuiScreenEvent extends EventBase {
 			this.matrix = matrix;
 		}
 		
-		public MatrixStack getMatrixStack() {
+		public PoseStack getMatrixStack() {
 			return this.matrix;
 		}
 		
@@ -102,7 +101,7 @@ public class GuiScreenEvent extends EventBase {
 		
 		public static class Pre extends DrawScreenEvent {
 
-			public Pre(Screen screen, MatrixStack matrix, int mouseX, int mouseY, float renderPartialTicks) {
+			public Pre(Screen screen, PoseStack matrix, int mouseX, int mouseY, float renderPartialTicks) {
 				super(screen, matrix, mouseX, mouseY, renderPartialTicks);
 			}
 
@@ -110,7 +109,7 @@ public class GuiScreenEvent extends EventBase {
 		
 		public static class Post extends DrawScreenEvent {
 
-			public Post(Screen screen, MatrixStack matrix, int mouseX, int mouseY, float renderPartialTicks) {
+			public Post(Screen screen, PoseStack matrix, int mouseX, int mouseY, float renderPartialTicks) {
 				super(screen, matrix, mouseX, mouseY, renderPartialTicks);
 			}
 
@@ -120,14 +119,14 @@ public class GuiScreenEvent extends EventBase {
 
     public static class BackgroundDrawnEvent extends GuiScreenEvent {
     	
-        private final MatrixStack matrix;
+        private final PoseStack matrix;
 
-        public BackgroundDrawnEvent(Screen gui, MatrixStack matrix) {
+        public BackgroundDrawnEvent(Screen gui, PoseStack matrix) {
             super(gui);
             this.matrix = matrix;
         }
 
-        public MatrixStack getMatrixStack() {
+        public PoseStack getMatrixStack() {
             return matrix;
         }
     }

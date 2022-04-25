@@ -1,10 +1,10 @@
 package de.keksuccino.konkrete.gui.content.scrollarea;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.input.MouseInput;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.GuiComponent;
 
-public abstract class ScrollAreaEntry extends DrawableHelper {
+public abstract class ScrollAreaEntry extends GuiComponent {
 	
 	public int x = 0;
 	public int y = 0;
@@ -14,9 +14,9 @@ public abstract class ScrollAreaEntry extends DrawableHelper {
 		this.parent = parent;
 	}
 	
-	public abstract void renderEntry(MatrixStack matrix);
+	public abstract void renderEntry(PoseStack matrix);
 	
-	public void render(MatrixStack matrix) {
+	public void render(PoseStack matrix) {
 		if (this.isVisible()) {
 			this.renderEntry(matrix);
 		}

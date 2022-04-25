@@ -3,14 +3,14 @@
 
 package de.keksuccino.konkrete.rendering.animation;
 
-import net.minecraft.client.util.math.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 public interface IAnimationRenderer {
 
 	/**
 	 * Needs to be called every tick in the render event.
 	 */
-	public void render(MatrixStack matrix);
+	public void render(PoseStack matrix);
 
 	/**
 	 * This overrides the specified height and width values and stretches the animation over the whole screen.

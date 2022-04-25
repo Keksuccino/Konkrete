@@ -13,18 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.renderer.texture.TextureManager;
 import com.google.common.io.Files;
 import com.mojang.blaze3d.systems.RenderSystem;
-
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.rendering.GifDecoder;
 import de.keksuccino.konkrete.rendering.GifDecoder.GifImage;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.texture.TextureManager;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	
@@ -67,7 +65,7 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	}
 	
 	/**
-	 * Needs to be called before calling {@link ExternalGifAnimationRenderer#render(MatrixStack)} and after minecraft's {@link TextureManager} instance was loaded.
+	 * Needs to be called before calling {@link ExternalGifAnimationRenderer#render(PoseStack)} and after minecraft's {@link TextureManager} instance was loaded.
 	 */
 	@Override
 	public void prepareAnimation() {
@@ -116,7 +114,7 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	}
 
 	@Override
-	public void render(MatrixStack matrix) {
+	public void render(PoseStack matrix) {
 		if ((this.resources == null) || (this.resources.isEmpty())) {
 			this.done = true;
 			return;
@@ -157,22 +155,22 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 		}
 	}
 	
-	private void renderFrame(MatrixStack matrix) {
+	private void renderFrame(PoseStack matrix) {
 		int h = this.height;
 		int w = this.width;
 		int x2 = this.x;
 		int y2 = this.y;
 		
 		if (this.stretch) {
-			h = MinecraftClient.getInstance().currentScreen.height;
-			w = MinecraftClient.getInstance().currentScreen.width;
+			h = Minecraft.getInstance().screen.height;
+			w = Minecraft.getInstance().screen.width;
 			x2 = 0;
 			y2 = 0;
 		}
 
 		RenderUtils.bindTexture(this.resources.get(this.frame).getResourceLocation());
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.opacity);
-		DrawableHelper.drawTexture(matrix, x2, y2, 0.0F, 0.0F, w, h, w, h);
+		GuiComponent.blit(matrix, x2, y2, 0.0F, 0.0F, w, h, w, h);
 		RenderSystem.disableBlend();
 	}
 	

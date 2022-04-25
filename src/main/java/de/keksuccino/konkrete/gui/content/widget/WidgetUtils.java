@@ -1,20 +1,12 @@
 package de.keksuccino.konkrete.gui.content.widget;
 
-import java.lang.reflect.Field;
-
-import de.keksuccino.konkrete.reflection.ReflectionHelper;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.PressableWidget;
+import de.keksuccino.konkrete.mixin.mixins.client.IMixinAbstractWidget;
+import net.minecraft.client.gui.components.AbstractWidget;
 
 public class WidgetUtils {
 	
-	public static ClickableWidget setHeight(ClickableWidget widget, int height) {
-		try {
-			Field f = ReflectionHelper.findField(ClickableWidget.class, "height", "field_22759");
-			f.set(widget, height);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public static AbstractWidget setHeight(AbstractWidget widget, int height) {
+		((IMixinAbstractWidget)widget).setHeightKonkrete(height);
 		return widget;
 	}
 
