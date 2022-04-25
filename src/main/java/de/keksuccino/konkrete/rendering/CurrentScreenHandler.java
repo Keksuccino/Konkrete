@@ -1,34 +1,34 @@
 package de.keksuccino.konkrete.rendering;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.events.EventPriority;
 import de.keksuccino.konkrete.events.SubscribeEvent;
 import de.keksuccino.konkrete.events.client.GuiScreenEvent;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 
 public class CurrentScreenHandler {
 
 	private static Screen lastScreen;
-	private static MatrixStack currentStack;
+	private static PoseStack currentStack;
 
 	public static void init() {
 		Konkrete.getEventHandler().registerEventsFrom(new CurrentScreenHandler());
 	}
 	
 	public static Screen getScreen() {
-		return MinecraftClient.getInstance().currentScreen;
+		return Minecraft.getInstance().screen;
 	}
 	
 	/**
-	 * Returns the {@link MatrixStack} for the current game tick or a BLANK ONE if no stack was cached.<br><br>
+	 * Returns the {@link PoseStack} for the current game tick or a BLANK ONE if no stack was cached.<br><br>
 	 * 
 	 * <b>IF NO SCREEN IS BEING RENDERED ATM, THIS WILL RETURN THE LAST STACK USED TO RENDER A SCREEN!</b>
 	 */
-	public static MatrixStack getMatrixStack() {
+	public static PoseStack getMatrixStack() {
 		if (currentStack == null) {
-			currentStack = new MatrixStack();
+			currentStack = new PoseStack();
 		}
 		return currentStack;
 	}

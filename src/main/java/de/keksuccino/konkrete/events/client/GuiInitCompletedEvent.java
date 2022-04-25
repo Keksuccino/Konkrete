@@ -1,7 +1,7 @@
 package de.keksuccino.konkrete.events.client;
 
 import de.keksuccino.konkrete.events.EventBase;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 
 public class GuiInitCompletedEvent extends EventBase {
 	

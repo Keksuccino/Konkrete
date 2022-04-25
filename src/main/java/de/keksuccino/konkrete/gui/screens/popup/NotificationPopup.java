@@ -3,19 +3,17 @@ package de.keksuccino.konkrete.gui.screens.popup;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.gui.content.AdvancedButton;
 import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.localization.Locals;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class NotificationPopup extends Popup {
 
@@ -48,7 +46,7 @@ public class NotificationPopup extends Popup {
 	}
 	
 	@Override
-	public void render(MatrixStack matrix, int mouseX, int mouseY, Screen renderIn) {
+	public void render(PoseStack matrix, int mouseX, int mouseY, Screen renderIn) {
 		super.render(matrix, mouseX, mouseY, renderIn);
 		
 		if (this.isDisplayed()) {
@@ -64,7 +62,7 @@ public class NotificationPopup extends Popup {
 			
 			int i = 0;
 			for (String s : this.text) {
-				drawCenteredString(matrix, MinecraftClient.getInstance().textRenderer, s, renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10 + i, Color.WHITE.getRGB());
+				drawCenteredString(matrix, Minecraft.getInstance().font, s, renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10 + i, Color.WHITE.getRGB());
 				i += 10;
 			}
 			

@@ -5,8 +5,6 @@ import java.awt.Color;
 import de.keksuccino.konkrete.events.SubscribeEvent;
 import de.keksuccino.konkrete.events.client.GuiScreenEvent.BackgroundDrawnEvent;
 import de.keksuccino.konkrete.events.client.GuiScreenEvent.DrawScreenEvent;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
 
 public class TestEvents {
 

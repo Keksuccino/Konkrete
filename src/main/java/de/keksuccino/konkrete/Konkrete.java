@@ -3,8 +3,7 @@ package de.keksuccino.konkrete;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.resources.ResourceLocation;
 import java.io.File;
 
 import de.keksuccino.konkrete.events.EventHandler;
@@ -85,10 +84,10 @@ public class Konkrete implements ModInitializer {
 			f.mkdirs();
 		}
 
-		Locals.copyLocalsFileToDir(new Identifier("keksuccino", "konkretelocals/en_us.local"), "en_us", f.getPath());
-		Locals.copyLocalsFileToDir(new Identifier("keksuccino", "konkretelocals/de_de.local"), "de_de", f.getPath());
-		Locals.copyLocalsFileToDir(new Identifier("keksuccino", "konkretelocals/pl_pl.local"), "pl_pl", f.getPath());
-		Locals.copyLocalsFileToDir(new Identifier("keksuccino", "konkretelocals/pt_br.local"), "pt_br", f.getPath());
+		Locals.copyLocalsFileToDir(new ResourceLocation("keksuccino", "konkretelocals/en_us.local"), "en_us", f.getPath());
+		Locals.copyLocalsFileToDir(new ResourceLocation("keksuccino", "konkretelocals/de_de.local"), "de_de", f.getPath());
+		Locals.copyLocalsFileToDir(new ResourceLocation("keksuccino", "konkretelocals/pl_pl.local"), "pl_pl", f.getPath());
+		Locals.copyLocalsFileToDir(new ResourceLocation("keksuccino", "konkretelocals/pt_br.local"), "pt_br", f.getPath());
 
 		Locals.getLocalsFromDir(f.getPath());
 	}

@@ -11,10 +11,9 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.FloatControl.Type;
-
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.options.GameOptions;
-import net.minecraft.sound.SoundCategory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Options;
+import net.minecraft.sounds.SoundSource;
 
 public class SoundHandler {
 
@@ -31,16 +30,14 @@ public class SoundHandler {
 					float lastMaster = 0.0F;
 					while (true) {
 						try {
-							@SuppressWarnings("resource")
-							GameOptions o = MinecraftClient.getInstance().options;
+							Options o = Minecraft.getInstance().options;
 							if (o != null) {
-								float currentMaster = o.getSoundVolume(SoundCategory.MASTER);
+								float currentMaster = o.getSoundSourceVolume(SoundSource.MASTER);
 								if (lastMaster != currentMaster) {
 									SoundHandler.updateVolume();
 								}
 								lastMaster = currentMaster;
 							}
-
 							Thread.sleep(100);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -62,7 +59,7 @@ public class SoundHandler {
 				c.open(inputStream);
 
 				sounds.put(key, c);
-				if (MinecraftClient.getInstance().options != null) {
+				if (Minecraft.getInstance().options != null) {
 					setVolume(key, getMinecraftMasterVolume());
 				}
 			} catch (Exception e) {
@@ -130,7 +127,7 @@ public class SoundHandler {
 	}
 
 	private static int getMinecraftMasterVolume() {
-		float vol = MinecraftClient.getInstance().options.getSoundVolume(SoundCategory.MASTER);
+		float vol = Minecraft.getInstance().options.getSoundSourceVolume(SoundSource.MASTER);
 		int volPercent = (int) (vol * 100);
 		return volPercent;
 	}

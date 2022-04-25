@@ -4,14 +4,13 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.input.MouseInput;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
 
-public class HorizontalSwitcher extends DrawableHelper {
+public class HorizontalSwitcher extends GuiComponent {
 	
 	private int width;
 	private AdvancedImageButton prev;
@@ -22,7 +21,7 @@ public class HorizontalSwitcher extends DrawableHelper {
 	private Color valuebackcolor = Color.LIGHT_GRAY;
 	
 	public HorizontalSwitcher(int displayWidth, boolean ignoreBlockedInput, String... values) {
-		this.prev = new AdvancedImageButton(0, 0, 20, 20, new Identifier("keksuccino", "arrow_left.png"), true, (press) -> {
+		this.prev = new AdvancedImageButton(0, 0, 20, 20, new ResourceLocation("keksuccino", "arrow_left.png"), true, (press) -> {
 			int i = this.selected - 1;
 			if (i >= 0) {
 				this.selected = i;
@@ -30,7 +29,7 @@ public class HorizontalSwitcher extends DrawableHelper {
 		});
 		this.prev.ignoreBlockedInput = ignoreBlockedInput;
 		
-		this.next = new AdvancedImageButton(0, 0, 20, 20, new Identifier("keksuccino", "arrow_right.png"), true, (press) -> {
+		this.next = new AdvancedImageButton(0, 0, 20, 20, new ResourceLocation("keksuccino", "arrow_right.png"), true, (press) -> {
 			int i = this.selected + 1;
 			if (i <= this.values.size()-1) {
 				this.selected = i;
@@ -46,10 +45,10 @@ public class HorizontalSwitcher extends DrawableHelper {
 	}
 	
 	@SuppressWarnings("resource")
-	public void render(MatrixStack matrix, int x, int y) {
+	public void render(PoseStack matrix, int x, int y) {
 		int mouseX = MouseInput.getMouseX();
 		int mouseY = MouseInput.getMouseY();
-		float partial = MinecraftClient.getInstance().getTickDelta();
+		float partial = Minecraft.getInstance().getFrameTime();
 		String sel = "-------";
 		if (!this.values.isEmpty()) {
 			sel = this.values.get(this.selected);
@@ -63,7 +62,7 @@ public class HorizontalSwitcher extends DrawableHelper {
 		fill(matrix, x + 25, y, x + 25 + this.width, y + 20, this.valuebackcolor.getRGB());
 		
 		//Selected value
-		drawCenteredString(matrix, MinecraftClient.getInstance().textRenderer, sel, x + 25 + (this.width/2), y + 5, this.valuecolor.getRGB());
+		drawCenteredString(matrix, Minecraft.getInstance().font, sel, x + 25 + (this.width/2), y + 5, this.valuecolor.getRGB());
 		
 		this.next.setX(x + 25 + this.width + 5);;
 		this.next.setY(y);

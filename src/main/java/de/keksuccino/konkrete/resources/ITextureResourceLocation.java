@@ -1,12 +1,12 @@
 package de.keksuccino.konkrete.resources;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public interface ITextureResourceLocation {
 	
 	public void loadTexture();
 	
-	public Identifier getResourceLocation();
+	public ResourceLocation getResourceLocation();
 	
 	public boolean isReady();
 	

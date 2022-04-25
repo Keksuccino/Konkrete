@@ -9,12 +9,11 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import com.google.common.io.Files;
 
 import de.keksuccino.konkrete.file.FileUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Identifier;
 
 public class Locals {
 
@@ -70,7 +69,7 @@ public class Locals {
 		}
 	}
 
-	public static void copyLocalsFileToDir(Identifier file, String language, String saveDirWithoutFilename) {
+	public static void copyLocalsFileToDir(ResourceLocation file, String language, String saveDirWithoutFilename) {
 		File lang = new File(saveDirWithoutFilename + "/" + language + ".local");
 		if (lang.exists()) {
 			lang.delete();
@@ -80,7 +79,7 @@ public class Locals {
 		BufferedWriter bw = null;
 		try {
 			try {
-				br = new BufferedReader(new InputStreamReader(MinecraftClient.getInstance().getResourceManager().getResource(file).getInputStream(), StandardCharsets.UTF_8));
+				br = new BufferedReader(new InputStreamReader(Minecraft.getInstance().getResourceManager().getResource(file).getInputStream(), StandardCharsets.UTF_8));
 				bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(lang, false), StandardCharsets.UTF_8));
 
 				String full = "";
@@ -133,7 +132,7 @@ public class Locals {
 	}
 
 	public static String localize(String key, String... dynamicValues) {
-		String playerLang = MinecraftClient.getInstance().options.language;
+		String playerLang = Minecraft.getInstance().options.languageCode;
 		if (locals.containsKey(playerLang)) {
 			return localizeTo(key, playerLang, dynamicValues);
 		}

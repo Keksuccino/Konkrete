@@ -1,30 +1,26 @@
 package de.keksuccino.konkrete.gui.content;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
+import de.keksuccino.konkrete.mixin.mixins.client.IMixinEditBox;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.TextComponent;
 import org.jetbrains.annotations.Nullable;
-
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.input.CharData;
 import de.keksuccino.konkrete.input.CharacterFilter;
 import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.input.MouseInput;
-import de.keksuccino.konkrete.reflection.ReflectionHelper;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
 
-public class AdvancedTextField extends TextFieldWidget {
+public class AdvancedTextField extends EditBox {
 
 	private int tick = 0;
 	private boolean handle;
 	private CharacterFilter filter;
 	private boolean leftDown = false;
 	
-	public AdvancedTextField(TextRenderer fontrenderer, int x, int y, int width, int height, boolean handleTextField, @Nullable CharacterFilter filter) {
-		super(fontrenderer, x, y, width, height, new LiteralText(""));
+	public AdvancedTextField(Font fontrenderer, int x, int y, int width, int height, boolean handleTextField, @Nullable CharacterFilter filter) {
+		super(fontrenderer, x, y, width, height, new TextComponent(""));
 		this.handle = handleTextField;
 		this.filter = filter;
 		
@@ -49,7 +45,7 @@ public class AdvancedTextField extends TextFieldWidget {
 		if (this.isVisible() && this.isFocused()) {
 			if ((this.filter == null) || this.filter.isAllowed(p_charTyped_1_)) {
 				if (this.isEnabled()) {
-					this.write(Character.toString(p_charTyped_1_));
+					this.insertText(Character.toString(p_charTyped_1_));
 				}
 				return true;
 			} else {
@@ -60,17 +56,17 @@ public class AdvancedTextField extends TextFieldWidget {
 	}
 	
 	@Override
-	public void write(String textToWrite) {
+	public void insertText(String textToWrite) {
 		String s = "";
 		String s1 = textToWrite;
 		if (this.filter != null) {
 			s1 = this.filter.filterForAllowedChars(textToWrite);
 		}
-		int i = this.getCursor() < this.getSelectionEnd() ? this.getCursor() : this.getSelectionEnd();
-		int j = this.getCursor() < this.getSelectionEnd() ? this.getSelectionEnd() : this.getCursor();
-		int k = this.getMaxStringLength() - this.getText().length() - (i - j);
-		if (!this.getText().isEmpty()) {
-			s = s + this.getText().substring(0, i);
+		int i = this.getCursorPosition() < this.getSelectionEnd() ? this.getCursorPosition() : this.getSelectionEnd();
+		int j = this.getCursorPosition() < this.getSelectionEnd() ? this.getSelectionEnd() : this.getCursorPosition();
+		int k = this.getMaxStringLength() - this.getValue().length() - (i - j);
+		if (!this.getValue().isEmpty()) {
+			s = s + this.getValue().substring(0, i);
 		}
 
 		int l;
@@ -82,53 +78,30 @@ public class AdvancedTextField extends TextFieldWidget {
 			l = s1.length();
 		}
 
-		if (!this.getText().isEmpty() && j < this.getText().length()) {
-			s = s + this.getText().substring(j);
+		if (!this.getValue().isEmpty() && j < this.getValue().length()) {
+			s = s + this.getValue().substring(j);
 		}
 
-		this.setText(s);
-		this.setSelectionStart(i + l);
-		this.setSelectionEnd(this.getCursor());
-		this.setResponderEntryValue(this.getText());
+		this.setValue(s);
+		this.setCursorPosition(i + l);
+		this.setHighlightPos(this.getCursorPosition());
+		this.setResponderEntryValue(this.getValue());
 	}
-	
+
 	protected void setResponderEntryValue(String text) {
-		try {
-			Method m = ReflectionHelper.findMethod(TextFieldWidget.class, "onChanged", "method_1874", String.class);
-			m.invoke(this, text);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		((IMixinEditBox)this).onValueChangeInvokerKonkrete(text);
 	}
-	
+
 	public int getMaxStringLength() {
-		try {
-			Field f = ReflectionHelper.findField(TextFieldWidget.class, "maxLength", "field_2108");
-			return f.getInt(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return 0;
+		return ((IMixinEditBox)this).getMaxLengthKonkrete();
 	}
-	
+
 	public int getSelectionEnd() {
-		try {
-			Field f = ReflectionHelper.findField(TextFieldWidget.class, "selectionEnd", "field_2101");
-			return f.getInt(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return 0;
+		return ((IMixinEditBox)this).getHighlightPosKonkrete();
 	}
-	
+
 	public boolean isEnabled() {
-		try {
-			Field f = ReflectionHelper.findField(TextFieldWidget.class, "editable", "field_2094");
-			return f.getBoolean(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
+		return ((IMixinEditBox)this).getIsEditableKonkrete();
 	}
 	
 	public boolean isLeftClicked() {
@@ -137,7 +110,7 @@ public class AdvancedTextField extends TextFieldWidget {
 	
 	//renderButton
 	@Override
-	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float p_renderButton_3_) {
+	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float p_renderButton_3_) {
 		super.renderButton(matrix, mouseX, mouseY, p_renderButton_3_);
 		
 		if (this.handle) {

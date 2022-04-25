@@ -16,15 +16,14 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.input.CharacterFilter;
 import de.keksuccino.konkrete.math.MathUtils;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.resources.ResourceLocation;
 
 public class AnimationRenderer implements IAnimationRenderer {
 	
@@ -35,7 +34,7 @@ public class AnimationRenderer implements IAnimationRenderer {
 	private int height;
 	private int x;
 	private int y;
-	protected List<Identifier> resources = new ArrayList<Identifier>();
+	protected List<ResourceLocation> resources = new ArrayList<ResourceLocation>();
 	private boolean stretch = false;
 	private boolean hide = false;
 	private volatile boolean done = false;
@@ -72,9 +71,9 @@ public class AnimationRenderer implements IAnimationRenderer {
 	private void loadAnimationFrames() {
 		try {
 			//Loading all frames into ResourceLocations so minecraft can render them
-			List<String> resourcePaths = this.getAnimationResource(resourceDir, MinecraftClient.class);
+			List<String> resourcePaths = this.getAnimationResource(resourceDir, Minecraft.class);
 			for (String s : resourcePaths) {
-				resources.add(Identifier.splitOn(s, "/".charAt(0)));
+				resources.add(ResourceLocation.of(s, "/".charAt(0)));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -82,7 +81,7 @@ public class AnimationRenderer implements IAnimationRenderer {
 	}
 
 	@Override
-	public void render(MatrixStack matrix) {
+	public void render(PoseStack matrix) {
 		if ((this.resources == null) || (this.resources.isEmpty())) {
 			return;
 		}
@@ -219,22 +218,22 @@ public class AnimationRenderer implements IAnimationRenderer {
 		return l;
 	}
 	
-	protected void renderFrame(MatrixStack matrix) {
+	protected void renderFrame(PoseStack matrix) {
 		int h = this.height;
 		int w = this.width;
 		int x2 = this.x;
 		int y2 = this.y;
 		
 		if (this.stretch) {
-			h = MinecraftClient.getInstance().currentScreen.height;
-			w = MinecraftClient.getInstance().currentScreen.width;
+			h = Minecraft.getInstance().screen.height;
+			w = Minecraft.getInstance().screen.width;
 			x2 = 0;
 			y2 = 0;
 		}
 
 		RenderUtils.bindTexture(this.resources.get(this.frame));
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.opacity);
-		DrawableHelper.drawTexture(matrix, x2, y2, 0.0F, 0.0F, w, h, w, h);
+		GuiComponent.blit(matrix, x2, y2, 0.0F, 0.0F, w, h, w, h);
 		RenderSystem.disableBlend();
 	}
 	

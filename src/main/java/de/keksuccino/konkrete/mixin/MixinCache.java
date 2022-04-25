@@ -1,4 +1,4 @@
-package de.keksuccino.konkrete.events.client.mixinbase;
+package de.keksuccino.konkrete.mixin;
 
 public class MixinCache {
 	

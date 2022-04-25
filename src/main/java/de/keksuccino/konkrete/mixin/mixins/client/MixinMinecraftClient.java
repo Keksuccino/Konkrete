@@ -1,4 +1,4 @@
-package de.keksuccino.konkrete.events.client.mixins;
+package de.keksuccino.konkrete.mixin.mixins.client;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,11 +11,11 @@ import de.keksuccino.konkrete.events.client.ClientTickEvent;
 import de.keksuccino.konkrete.events.client.GameInitializationCompletedEvent;
 import de.keksuccino.konkrete.events.client.GuiOpenEvent;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Overlay;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Overlay;
+import net.minecraft.client.gui.screens.Screen;
 
-@Mixin(value = MinecraftClient.class)
+@Mixin(value = Minecraft.class)
 public class MixinMinecraftClient {
 
 	private static boolean gameInitDone = false;
@@ -41,12 +41,12 @@ public class MixinMinecraftClient {
 	private void onReloadResources(Overlay overlay, CallbackInfo info) {
 		if (!gameInitDone) {
 			gameInitDone = true;
-			GameInitializationCompletedEvent e = new GameInitializationCompletedEvent(MinecraftClient.getInstance(), FabricLoader.getInstance());
+			GameInitializationCompletedEvent e = new GameInitializationCompletedEvent(Minecraft.getInstance(), FabricLoader.getInstance());
 			Konkrete.getEventHandler().callEventsFor(e);
 		}
 	}
 	
-	@ModifyVariable(at = @At("HEAD"), method = "openScreen", argsOnly = true, index = 1)
+	@ModifyVariable(at = @At("HEAD"), method = "setScreen", argsOnly = true, index = 1)
 	private Screen onOpenScreen(Screen s) {
 		GuiOpenEvent e = new GuiOpenEvent(s);
 		Konkrete.getEventHandler().callEventsFor(e);
@@ -54,7 +54,7 @@ public class MixinMinecraftClient {
 		return e.getGui();
 	}
 	
-	@Inject(at = @At(value = "HEAD"), method = "openScreen", cancellable = true)
+	@Inject(at = @At(value = "HEAD"), method = "setScreen", cancellable = true)
 	private void onOpenScreenCancel(Screen screen, CallbackInfo info) {
 		if (this.cancelGuiOpen) {
 			info.cancel();

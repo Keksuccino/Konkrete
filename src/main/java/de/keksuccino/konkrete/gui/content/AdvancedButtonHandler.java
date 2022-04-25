@@ -1,17 +1,15 @@
 package de.keksuccino.konkrete.gui.content;
 
 import java.awt.Color;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
-
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.events.EventPriority;
 import de.keksuccino.konkrete.events.SubscribeEvent;
 import de.keksuccino.konkrete.events.client.GuiScreenEvent.DrawScreenEvent;
 import de.keksuccino.konkrete.rendering.RenderUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class AdvancedButtonHandler {
 
@@ -26,7 +24,7 @@ public class AdvancedButtonHandler {
 	public void onDrawScreen(DrawScreenEvent.Post e) {
 		if (activeDescBtn != null) {
 			if (activeDescBtn.isHovered()) {
-				if ((MinecraftClient.getInstance() != null) && (MinecraftClient.getInstance().currentScreen != null)) {
+				if ((Minecraft.getInstance() != null) && (Minecraft.getInstance().screen != null)) {
 					renderDescription(e.getMatrixStack(), e.getMouseX(), e.getMouseY());
 				}
 			}
@@ -42,11 +40,11 @@ public class AdvancedButtonHandler {
 		garbageCheck = 1;
 	}
 	
-	private static void renderDescriptionBackground(MatrixStack matrix, int x, int y, int width, int height) {
-		DrawableHelper.fill(matrix, x, y, x + width, y + height, new Color(26, 26, 26, 250).getRGB());
+	private static void renderDescriptionBackground(PoseStack matrix, int x, int y, int width, int height) {
+		GuiComponent.fill(matrix, x, y, x + width, y + height, new Color(26, 26, 26, 250).getRGB());
 	}
 	
-	private static void renderDescription(MatrixStack matrix, int mouseX, int mouseY) {
+	private static void renderDescription(PoseStack matrix, int mouseX, int mouseY) {
 		if (activeDescBtn != null) {
 			if (activeDescBtn.getDescription() != null) {
 				int width = 10;
@@ -54,7 +52,7 @@ public class AdvancedButtonHandler {
 				
 				//Getting the longest string from the list to render the background with the correct width
 				for (String s : activeDescBtn.getDescription()) {
-					int i = MinecraftClient.getInstance().textRenderer.getWidth(s) + 10;
+					int i = Minecraft.getInstance().font.width(s) + 10;
 					if (i > width) {
 						width = i;
 					}
@@ -64,11 +62,11 @@ public class AdvancedButtonHandler {
 				mouseX += 5;
 				mouseY += 5;
 				
-				if (MinecraftClient.getInstance().currentScreen.width < mouseX + width) {
+				if (Minecraft.getInstance().screen.width < mouseX + width) {
 					mouseX -= width + 10;
 				}
 				
-				if (MinecraftClient.getInstance().currentScreen.height < mouseY + height) {
+				if (Minecraft.getInstance().screen.height < mouseY + height) {
 					mouseY -= height + 10;
 				}
 				
@@ -80,7 +78,7 @@ public class AdvancedButtonHandler {
 
 				int i2 = 5;
 				for (String s : activeDescBtn.getDescription()) {
-					DrawableHelper.drawStringWithShadow(matrix, MinecraftClient.getInstance().textRenderer, s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
+					GuiComponent.drawString(matrix, Minecraft.getInstance().font, s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
 					i2 += 10;
 				}
 				

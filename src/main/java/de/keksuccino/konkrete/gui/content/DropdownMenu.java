@@ -2,10 +2,9 @@ package de.keksuccino.konkrete.gui.content;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import net.minecraft.client.Minecraft;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.input.MouseInput;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class DropdownMenu implements IMenu {
 	
@@ -32,8 +31,8 @@ public class DropdownMenu implements IMenu {
 		});
 	}
 	
-	public void render(MatrixStack matrix, int mouseX, int mouseY) {
-		float ticks = MinecraftClient.getInstance().getTickDelta();
+	public void render(PoseStack matrix, int mouseX, int mouseY) {
+		float ticks = Minecraft.getInstance().getFrameTime();
 		
 		this.updateHovered(mouseX, mouseY);
 		

@@ -3,17 +3,15 @@ package de.keksuccino.konkrete.gui.content.scrollarea;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-
+import net.minecraft.client.gui.GuiComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
-
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.events.SubscribeEvent;
 import de.keksuccino.konkrete.events.client.GuiScreenEvent;
 import de.keksuccino.konkrete.input.MouseInput;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 
-public class ScrollArea extends DrawableHelper {
+public class ScrollArea extends GuiComponent {
 	
 	public Color backgroundColor = new Color(0, 0, 0, 240);
 	public int x;
@@ -42,7 +40,7 @@ public class ScrollArea extends DrawableHelper {
 		Konkrete.getEventHandler().registerEventsFrom(this);
 	}
 	
-	public void render(MatrixStack matrix) {
+	public void render(PoseStack matrix) {
 		
 		RenderSystem.enableBlend();
 
@@ -62,7 +60,7 @@ public class ScrollArea extends DrawableHelper {
 		
 	}
 	
-	protected void renderScrollbar(MatrixStack matrix) {
+	protected void renderScrollbar(PoseStack matrix) {
 		if (this.height < this.entryheight) {
 			int mouseX = MouseInput.getMouseX();
 			int mouseY = MouseInput.getMouseY();
@@ -121,10 +119,10 @@ public class ScrollArea extends DrawableHelper {
 		}
 	}
 	
-	protected void renderBackground(MatrixStack matrix) {
-		matrix.push(); 
+	protected void renderBackground(PoseStack matrix) {
+		matrix.pushPose(); 
 		fill(matrix, this.x, this.y, this.x + this.width, this.y + this.height, this.backgroundColor.getRGB());
-		matrix.pop();
+		matrix.popPose();
 	}
 	
 	public void addEntry(ScrollAreaEntry e) {
