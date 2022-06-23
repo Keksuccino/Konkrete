@@ -33,15 +33,18 @@ public class MixinGameRenderer {
 		//-----------------------------
 
 		//DrawScreen pre --------------
-		int mX = (int)(Minecraft.getInstance().mouseHandler.xpos() * (double)Minecraft.getInstance().getWindow().getGuiScaledWidth() / (double)Minecraft.getInstance().getWindow().getScreenWidth());
-		int mY = (int)(Minecraft.getInstance().mouseHandler.ypos() * (double)Minecraft.getInstance().getWindow().getGuiScaledHeight() / (double)Minecraft.getInstance().getWindow().getScreenHeight());
-		DrawScreenEvent.Pre e = new DrawScreenEvent.Pre(Minecraft.getInstance().screen, this.cachedStack, mX, mY, Minecraft.getInstance().getDeltaFrameTime());
-		Konkrete.getEventHandler().callEventsFor(e);
-		if (e.isCanceled()) {
-			info.cancel();
-			//DrawScreen post if pre canceled
-			DrawScreenEvent.Post e2 = new DrawScreenEvent.Post(Minecraft.getInstance().screen, this.cachedStack, mX, mY, Minecraft.getInstance().getDeltaFrameTime());
-			Konkrete.getEventHandler().callEventsFor(e2);
+		//TODO übernehmen 1.3.3-1
+		if (Minecraft.getInstance().screen != null) {
+			int mX = (int)(Minecraft.getInstance().mouseHandler.xpos() * (double)Minecraft.getInstance().getWindow().getGuiScaledWidth() / (double)Minecraft.getInstance().getWindow().getScreenWidth());
+			int mY = (int)(Minecraft.getInstance().mouseHandler.ypos() * (double)Minecraft.getInstance().getWindow().getGuiScaledHeight() / (double)Minecraft.getInstance().getWindow().getScreenHeight());
+			DrawScreenEvent.Pre e = new DrawScreenEvent.Pre(Minecraft.getInstance().screen, this.cachedStack, mX, mY, Minecraft.getInstance().getDeltaFrameTime());
+			Konkrete.getEventHandler().callEventsFor(e);
+			if (e.isCanceled()) {
+				info.cancel();
+				//DrawScreen post if pre canceled
+				DrawScreenEvent.Post e2 = new DrawScreenEvent.Post(Minecraft.getInstance().screen, this.cachedStack, mX, mY, Minecraft.getInstance().getDeltaFrameTime());
+				Konkrete.getEventHandler().callEventsFor(e2);
+			}
 		}
 		//-----------------------------
 
@@ -56,10 +59,13 @@ public class MixinGameRenderer {
 		}
 
 		//DrawScreen post -------------
-		int mX2 = (int)(Minecraft.getInstance().mouseHandler.xpos() * (double)Minecraft.getInstance().getWindow().getGuiScaledWidth() / (double)Minecraft.getInstance().getWindow().getScreenWidth());
-		int mY2 = (int)(Minecraft.getInstance().mouseHandler.ypos() * (double)Minecraft.getInstance().getWindow().getGuiScaledHeight() / (double)Minecraft.getInstance().getWindow().getScreenHeight());
-		DrawScreenEvent.Post e2 = new DrawScreenEvent.Post(Minecraft.getInstance().screen, this.cachedStack, mX2, mY2, Minecraft.getInstance().getDeltaFrameTime());
-		Konkrete.getEventHandler().callEventsFor(e2);
+		//TODO übernehmen 1.3.3-1
+		if (Minecraft.getInstance().screen != null) {
+			int mX2 = (int) (Minecraft.getInstance().mouseHandler.xpos() * (double) Minecraft.getInstance().getWindow().getGuiScaledWidth() / (double) Minecraft.getInstance().getWindow().getScreenWidth());
+			int mY2 = (int) (Minecraft.getInstance().mouseHandler.ypos() * (double) Minecraft.getInstance().getWindow().getGuiScaledHeight() / (double) Minecraft.getInstance().getWindow().getScreenHeight());
+			DrawScreenEvent.Post e2 = new DrawScreenEvent.Post(Minecraft.getInstance().screen, this.cachedStack, mX2, mY2, Minecraft.getInstance().getDeltaFrameTime());
+			Konkrete.getEventHandler().callEventsFor(e2);
+		}
 		//-----------------------------
 
 	}

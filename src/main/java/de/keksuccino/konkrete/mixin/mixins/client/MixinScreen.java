@@ -114,49 +114,6 @@ public abstract class MixinScreen {
 
 	}
 
-//	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;init()V"), method = "init(Lnet/minecraft/client/Minecraft;II)V")
-//	private void onInit(Screen instance) {
-//
-//		//Init pre --------------------
-//		Consumer<AbstractButton> remove = new Consumer<AbstractButton>() {
-//			@Override
-//			public void accept(AbstractButton t) {
-//				renderables.remove(t);
-//				narratables.remove(t);
-//				children.remove(t);
-//			}
-//		};
-//		List<AbstractButton> buttons = new ArrayList<AbstractButton>();
-//		for (Widget d : this.renderables) {
-//			if (d instanceof AbstractButton) {
-//				buttons.add((AbstractButton) d);
-//			}
-//		}
-//		InitGuiEvent.Pre e = new InitGuiEvent.Pre((Screen)((Object)this), buttons, this::addButton, remove);
-//		Konkrete.getEventHandler().callEventsFor(e);
-//		if (e.isCanceled()) {
-//			InitGuiEvent.Post e2 = new InitGuiEvent.Post((Screen)((Object)this), buttons, this::addButton, remove);
-//			Konkrete.getEventHandler().callEventsFor(e2);
-//			return;
-//		}
-//		//------------------------------
-//
-//		this.init();
-//
-//		//Init post --------------------
-//		List<AbstractButton> buttons2 = new ArrayList<AbstractButton>();
-//		for (Widget d : this.renderables) {
-//			if (d instanceof AbstractButton) {
-//				buttons2.add((AbstractButton) d);
-//			}
-//		}
-//		InitGuiEvent.Post e2 = new InitGuiEvent.Post((Screen)((Object)this), buttons2, this::addButton, remove);
-//		Konkrete.getEventHandler().callEventsFor(e2);
-//		MixinCache.triggerInitCompleted = true;
-//		//-----------------------------
-//
-//	}
-
 	//MouseClickedEvent.Pre & MouseReleasedEvent.Pre
 	@Inject(at = @At(value = "HEAD"), method = "wrapScreenError", cancellable = true)
 	private static void onMouseClickedReleasedPre(Runnable task, String errorTitle, String screenName, CallbackInfo info) {
