@@ -62,7 +62,7 @@ public class KeyboardHandler {
 	}
 	
 	@SubscribeEvent
-	public void onKeyPressPost(ScreenEvent.KeyboardKeyPressedEvent.Post e) {
+	public void onKeyPressPost(ScreenEvent.KeyPressed.Post e) {
 		keycode = e.getKeyCode();
 		scancode = e.getScanCode();
 		modifiers = e.getModifiers();
@@ -77,7 +77,7 @@ public class KeyboardHandler {
 	}
 	
 	@SubscribeEvent
-	public void onKeyReleasedPost(ScreenEvent.KeyboardKeyReleasedEvent.Post e) {
+	public void onKeyReleasedPost(ScreenEvent.KeyReleased.Post e) {
 		keyPressed = false;
 		
 		keyReleasedListeners.clear();
@@ -89,7 +89,7 @@ public class KeyboardHandler {
 	}
 	
 	@SubscribeEvent
-	public void onCharTyped(ScreenEvent.KeyboardCharTypedEvent.Post e) {
+	public void onCharTyped(ScreenEvent.CharacterTyped.Post e) {
 		typedChar = e.getCodePoint();
 		charModifiers = e.getModifiers();
 		

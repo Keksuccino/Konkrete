@@ -65,12 +65,12 @@ public class CurrentScreenHandler {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onDrawScreen(ScreenEvent.DrawScreenEvent.Pre e) {
+	public void onDrawScreen(ScreenEvent.Render.Pre e) {
 		currentStack = e.getPoseStack();
 	}
 
 	@SubscribeEvent
-	public void onInitPost(ScreenEvent.InitScreenEvent.Post e) {
+	public void onInitPost(ScreenEvent.Init.Post e) {
 		lastScreen = e.getScreen();
 	}
 

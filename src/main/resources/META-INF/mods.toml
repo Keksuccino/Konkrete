@@ -18,7 +18,7 @@ Open Imaging is licensed under Apache-2.0.'''
 [[dependencies.konkrete]]
 modId="forge"
 mandatory=true
-versionRange="[41.0.2,)"
+versionRange="[41.0.64,)"
 ordering="NONE"
 side="BOTH"
 

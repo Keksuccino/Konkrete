@@ -158,7 +158,7 @@ public class ScrollArea extends GuiComponent {
 	}
 	
 	@SubscribeEvent
-	public void onMouseScrollPre(ScreenEvent.MouseScrollEvent.Pre e) {
+	public void onMouseScrollPre(ScreenEvent.MouseScrolled.Pre e) {
 		if (this.isAreaHovered()) {
 			int scroll = this.scrollpos - (int) e.getScrollDelta() * 7;
 			if (scroll < 0) {

@@ -102,7 +102,7 @@ public class MouseInput {
 	}
 	
 	@SubscribeEvent
-	public void onMouseClicked(ScreenEvent.MouseClickedEvent.Pre e) {
+	public void onMouseClicked(ScreenEvent.MouseButtonPressed.Pre e) {
 		int i = e.getButton();
 		if (i == 0) {
 			leftClicked = true;
@@ -117,7 +117,7 @@ public class MouseInput {
 	}
 	
 	@SubscribeEvent
-	public void onMouseReleased(ScreenEvent.MouseReleasedEvent.Pre e) {
+	public void onMouseReleased(ScreenEvent.MouseButtonReleased.Pre e) {
 		int i = e.getButton();
 		if (i == 0) {
 			leftClicked = false;
@@ -128,7 +128,7 @@ public class MouseInput {
 	}
 	
 	@SubscribeEvent
-	public void onScreenInit(ScreenEvent.InitScreenEvent.Pre e) {
+	public void onScreenInit(ScreenEvent.Init.Pre e) {
 		//Reset values on screen init
 		leftClicked = false;
 		rightClicked = false;

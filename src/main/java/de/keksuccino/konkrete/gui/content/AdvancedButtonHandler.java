@@ -8,7 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraftforge.client.event.ScreenEvent.DrawScreenEvent;
+import net.minecraftforge.client.event.ScreenEvent.Render;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,7 +23,7 @@ public class AdvancedButtonHandler {
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onDrawScreen(DrawScreenEvent.Post e) {
+	public void onDrawScreen(Render.Post e) {
 		if (activeDescBtn != null) {
 			if (activeDescBtn.isHoveredOrFocused()) {
 				if ((Minecraft.getInstance() != null) && (Minecraft.getInstance().screen != null)) {
