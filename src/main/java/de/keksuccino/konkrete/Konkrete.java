@@ -66,14 +66,6 @@ public class Konkrete implements ModInitializer {
 		LOGGER.info("[KONKRETE] Server-side libs ready to use!");
     	
     }
-
-	//TODO remove debug
-	@SubscribeEvent
-	public void registerClientCommands(ClientCommandRegistrationEvent e) {
-
-		TestCommand.register(e.dispatcher);
-
-	}
     
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onGameInitCompleted(GameInitializationCompletedEvent e) {
