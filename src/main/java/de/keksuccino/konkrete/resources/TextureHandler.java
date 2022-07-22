@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.keksuccino.konkrete.rendering.animation.ExternalGifAnimationRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.sounds.SoundSource;
 
 public class TextureHandler {
 	
