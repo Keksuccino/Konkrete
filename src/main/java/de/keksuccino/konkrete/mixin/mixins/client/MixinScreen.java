@@ -33,7 +33,6 @@ public abstract class MixinScreen {
 	@Shadow protected List<Widget> renderables;
 	@Shadow protected List<NarratableEntry> narratables;
 
-	//TODO NEW IN 1.19
 	protected void addButton(AbstractButton button) {
 		this.renderables.add(button);
 		this.children.add(button);

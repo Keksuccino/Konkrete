@@ -1,5 +1,6 @@
 package de.keksuccino.konkrete;
 
+import de.keksuccino.konkrete.command.ClientCommandHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -22,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Konkrete implements ModInitializer {
 
-	public static final String VERSION = "1.3.3";
+	public static final String VERSION = "1.4.0";
 
     private static final EventHandler HANDLER = new EventHandler();
 
@@ -34,6 +35,9 @@ public class Konkrete implements ModInitializer {
     public void onInitialize() {
     	
     	if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+
+			//TODO übernehmen 1.4.0
+			ClientCommandHandler.init();
 
 			PopupHandler.init();
 
