@@ -24,7 +24,7 @@ public class KonkreteMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        LOGGER.info("APPLYING MIXIN: " + mixinClassName + " | TO TARGET: " + targetClassName);
+//        LOGGER.info("APPLYING MIXIN: " + mixinClassName + " | TO TARGET: " + targetClassName);
         return true;
     }
 

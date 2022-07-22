@@ -11,7 +11,6 @@ import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -35,17 +34,10 @@ public abstract class MixinScreen {
 	@Shadow protected List<Widget> renderables;
 	@Shadow protected List<NarratableEntry> narratables;
 
-	@Invoker("addRenderableWidget") protected abstract <T extends GuiEventListener & Widget> T addRenderableWidgetInvokerKonkrete(T guiEventListener);
-
-	//TODO experimental
 	protected void addButton(AbstractButton button) {
-		addRenderableWidgetInvokerKonkrete(button);
-//		try {
-//			Method m = ReflectionHelper.findMethod(Screen.class, "addDrawableChild", "method_37063", GuiEventListener.class);
-//			m.invoke(((Screen)((Object)this)), button);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		this.renderables.add(button);
+		this.children.add(button);
+		this.narratables.add(button);
 	}
 	
 	@Shadow protected abstract void init();

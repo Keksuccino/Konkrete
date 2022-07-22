@@ -16,7 +16,11 @@
     "client.IMixinAbstractWidget",
     "client.IMixinMouseHandler",
     "client.IMixinClientLanguage",
-    "client.IMixinDynamicTexture"
+    "client.IMixinDynamicTexture",
+    "client.IMixinLocalPlayer",
+    "client.IMixinClientPacketListener",
+    "client.MixinClientPacketListener",
+    "client.MixinLocalPlayer"
   ],
   "server": [],
   "injectors": {
