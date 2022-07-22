@@ -30,7 +30,7 @@ public class SoundHandler {
 					float lastMaster = 0.0F;
 					while (true) {
 						try {
-							float currentMaster = Minecraft.getInstance().gameSettings.getSoundLevel(SoundCategory.MASTER);
+							float currentMaster = Minecraft.getInstance().options.getSoundSourceVolume(SoundCategory.MASTER);
 							if (lastMaster != currentMaster) {
 								SoundHandler.updateVolume();
 							}
@@ -123,7 +123,7 @@ public class SoundHandler {
 	}
 	
 	private static int getMinecraftMasterVolume() {
-		return (int)(Minecraft.getInstance().gameSettings.getSoundLevel(SoundCategory.MASTER) * 100);
+		return (int)(Minecraft.getInstance().options.getSoundSourceVolume(SoundCategory.MASTER) * 100);
 	}
 
 }

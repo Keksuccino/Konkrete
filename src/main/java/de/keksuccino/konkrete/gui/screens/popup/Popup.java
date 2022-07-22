@@ -59,7 +59,7 @@ public abstract class Popup extends AbstractGui {
 	
 	protected void renderButtons(MatrixStack matrix, int mouseX, int mouseY) {
 		for (AdvancedButton b : this.buttons) {
-			b.render(matrix, mouseX, mouseY, Minecraft.getInstance().getRenderPartialTicks());
+			b.render(matrix, mouseX, mouseY, Minecraft.getInstance().getFrameTime());
 		}
 	}
 	

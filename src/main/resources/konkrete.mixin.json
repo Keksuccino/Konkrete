@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "de.keksuccino.konkrete.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "client.MixinClientPlayNetHandler",
+    "client.MixinClientPlayerEntity",
+    "client.IMixinMouseHelper",
+    "client.IMixinTextFieldWidget",
+    "client.IMixinDynamicTexture"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "konkrete.mixin-refmap.json",
+  "minVersion": "0.8"
+}

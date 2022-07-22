@@ -122,10 +122,10 @@ public class ScrollArea extends AbstractGui {
 	}
 	
 	protected void renderBackground(MatrixStack matrix) {
-		matrix.push();
+		matrix.pushPose();
 		RenderSystem.disableAlphaTest();
 		fill(matrix, this.x, this.y, this.x + this.width, this.y + this.height, this.backgroundColor.getRGB());
-		matrix.pop();
+		matrix.popPose();
 	}
 	
 	public void addEntry(ScrollAreaEntry e) {

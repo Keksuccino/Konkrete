@@ -34,7 +34,7 @@ public class DropdownMenu implements IMenu {
 	}
 	
 	public void render(MatrixStack matrix, int mouseX, int mouseY) {
-		float ticks = Minecraft.getInstance().getRenderPartialTicks();
+		float ticks = Minecraft.getInstance().getFrameTime();
 		
 		this.updateHovered(mouseX, mouseY);
 		

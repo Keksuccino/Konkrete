@@ -29,7 +29,7 @@ public class RenderUtils {
 		}
 		NativeImage i = new NativeImage(1, 1, true);
 		i.setPixelRGBA(0, 0, Color.WHITE.getRGB());
-		ResourceLocation r = Minecraft.getInstance().getTextureManager().getDynamicTextureLocation("whiteback", new DynamicTexture(i));
+		ResourceLocation r = Minecraft.getInstance().getTextureManager().register("whiteback", new DynamicTexture(i));
 		WHITE = r;
 		return r;
 	}
@@ -43,18 +43,18 @@ public class RenderUtils {
 		}
 		NativeImage i = new NativeImage(1, 1, true);
 		i.setPixelRGBA(0, 0, new Color(255, 255, 255, 0).getRGB());
-		ResourceLocation r = Minecraft.getInstance().getTextureManager().getDynamicTextureLocation("blankback", new DynamicTexture(i));
+		ResourceLocation r = Minecraft.getInstance().getTextureManager().register("blankback", new DynamicTexture(i));
 		BLANK = r;
 		return r;
 	}
 	
 	public static void setScale(MatrixStack matrix, float scale) {
-		matrix.push();
+		matrix.pushPose();
 		matrix.scale(scale, scale, scale);
     }
 	
     public static void postScale(MatrixStack matrix) {
-    	matrix.pop();
+    	matrix.popPose();
     }
 
     public static void doubleBlit(double x, double y, float f1, float f2, int w, int h) {
@@ -62,15 +62,15 @@ public class RenderUtils {
     }
 
     public static void innerDoubleBlit(double x, double xEnd, double y, double yEnd, int z, float f1, float f2, float f3, float f4) {
-    	BufferBuilder bufferbuilder = Tessellator.getInstance().getBuffer();
+    	BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-        bufferbuilder.pos(x, yEnd, (double)z).tex(f1, f4).endVertex();
-        bufferbuilder.pos(xEnd, yEnd, (double)z).tex(f2, f4).endVertex();
-        bufferbuilder.pos(xEnd, y, (double)z).tex(f2, f3).endVertex();
-        bufferbuilder.pos(x, y, (double)z).tex(f1, f3).endVertex();
-        bufferbuilder.finishDrawing();
+        bufferbuilder.vertex(x, yEnd, (double)z).uv(f1, f4).endVertex();
+        bufferbuilder.vertex(xEnd, yEnd, (double)z).uv(f2, f4).endVertex();
+        bufferbuilder.vertex(xEnd, y, (double)z).uv(f2, f3).endVertex();
+        bufferbuilder.vertex(x, y, (double)z).uv(f1, f3).endVertex();
+        bufferbuilder.end();
         RenderSystem.enableAlphaTest();
-        WorldVertexBufferUploader.draw(bufferbuilder);
+        WorldVertexBufferUploader.end(bufferbuilder);
     }
 
     /**
@@ -101,18 +101,18 @@ public class RenderUtils {
     public static void setZLevelPre(MatrixStack matrix, int zLevel) {
 		RenderSystem.disableRescaleNormal();
 		RenderSystem.disableDepthTest();
-		matrix.push();
+		matrix.pushPose();
 		matrix.translate(0.0D, 0.0D, zLevel);
     }
 
     public static void setZLevelPost(MatrixStack matrix) {
-    	matrix.pop();
+    	matrix.popPose();
     	RenderSystem.enableRescaleNormal();
     	RenderSystem.enableDepthTest();
     }
 
     public static void fill(MatrixStack matrix, float minX, float minY, float maxX, float maxY, int color, float opacity) {
-		Matrix4f matrix4f = matrix.getLast().getMatrix();
+		Matrix4f matrix4f = matrix.last().pose();
 		
 		if (minX < maxX) {
 			float i = minX;
@@ -132,17 +132,17 @@ public class RenderUtils {
 		
 		a = a * opacity;
 		
-		BufferBuilder bb = Tessellator.getInstance().getBuffer();
+		BufferBuilder bb = Tessellator.getInstance().getBuilder();
 		RenderSystem.enableBlend();
 		RenderSystem.disableTexture();
 		RenderSystem.defaultBlendFunc();
 		bb.begin(7, DefaultVertexFormats.POSITION_COLOR);
-		bb.pos(matrix4f, minX, maxY, 0.0F).color(r, g, b, a).endVertex();
-		bb.pos(matrix4f, maxX, maxY, 0.0F).color(r, g, b, a).endVertex();
-		bb.pos(matrix4f, maxX, minY, 0.0F).color(r, g, b, a).endVertex();
-		bb.pos(matrix4f, minX, minY, 0.0F).color(r, g, b, a).endVertex();
-		bb.finishDrawing();
-		WorldVertexBufferUploader.draw(bb);
+		bb.vertex(matrix4f, minX, maxY, 0.0F).color(r, g, b, a).endVertex();
+		bb.vertex(matrix4f, maxX, maxY, 0.0F).color(r, g, b, a).endVertex();
+		bb.vertex(matrix4f, maxX, minY, 0.0F).color(r, g, b, a).endVertex();
+		bb.vertex(matrix4f, minX, minY, 0.0F).color(r, g, b, a).endVertex();
+		bb.end();
+		WorldVertexBufferUploader.end(bb);
 		RenderSystem.enableTexture();
 		RenderSystem.disableBlend();
 	}

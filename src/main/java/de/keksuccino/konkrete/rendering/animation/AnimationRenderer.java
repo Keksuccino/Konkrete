@@ -82,7 +82,7 @@ public class AnimationRenderer implements IAnimationRenderer {
 			//Loading all frames into ResourceLocations so minecraft can render them
 			List<String> resourcePaths = this.getAnimationResource(resourceDir, Minecraft.class);
 			for (String s : resourcePaths) {
-				resources.add(ResourceLocation.create(s, "/".charAt(0)));
+				resources.add(ResourceLocation.of(s, "/".charAt(0)));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -244,13 +244,13 @@ public class AnimationRenderer implements IAnimationRenderer {
 		int y2 = this.y;
 		
 		if (this.stretch) {
-			h = Minecraft.getInstance().currentScreen.height;
-			w = Minecraft.getInstance().currentScreen.width;
+			h = Minecraft.getInstance().screen.height;
+			w = Minecraft.getInstance().screen.width;
 			x2 = 0;
 			y2 = 0;
 		}
 		
-		Minecraft.getInstance().getTextureManager().bindTexture(this.resources.get(this.frame));
+		Minecraft.getInstance().getTextureManager().bind(this.resources.get(this.frame));
 		RenderSystem.enableBlend();
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.opacity);
 		IngameGui.blit(matrix, x2, y2, 0.0F, 0.0F, w, h, w, h);

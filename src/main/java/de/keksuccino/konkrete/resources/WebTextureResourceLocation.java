@@ -50,7 +50,7 @@ public class WebTextureResourceLocation implements ITextureResourceLocation {
 			NativeImage i = NativeImage.read(s);
 			this.width = i.getWidth();
 			this.height = i.getHeight();
-			location = Minecraft.getInstance().getTextureManager().getDynamicTextureLocation(this.filterUrl(url), new SelfcleaningDynamicTexture(i));
+			location = Minecraft.getInstance().getTextureManager().register(this.filterUrl(url), new SelfcleaningDynamicTexture(i));
 			s.close();
 			loaded = true;
 		} catch (Exception e) {

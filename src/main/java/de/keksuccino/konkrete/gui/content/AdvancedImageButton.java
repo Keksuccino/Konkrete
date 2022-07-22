@@ -26,7 +26,7 @@ public class AdvancedImageButton extends AdvancedButton {
 	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
 		super.render(matrix, mouseX, mouseY, partialTicks);
 		
-		Minecraft.getInstance().getTextureManager().bindTexture(this.image);
+		Minecraft.getInstance().getTextureManager().bind(this.image);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		blit(matrix, this.getX(), this.getY(), 0.0F, 0.0F, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
 	}

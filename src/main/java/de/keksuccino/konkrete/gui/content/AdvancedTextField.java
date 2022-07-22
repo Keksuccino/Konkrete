@@ -12,7 +12,7 @@ import de.keksuccino.konkrete.input.CharacterFilter;
 import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.input.MouseInput;
-import de.keksuccino.konkrete.reflection.ReflectionHelper;
+import de.keksuccino.konkrete.mixin.client.IMixinTextFieldWidget;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.util.text.StringTextComponent;
@@ -48,10 +48,10 @@ public class AdvancedTextField extends TextFieldWidget {
 	//charTyped
 	@Override
 	public boolean charTyped(char p_charTyped_1_, int p_charTyped_2_) {
-		if (this.getVisible() && this.isFocused()) {
+		if (this.isVisible() && this.isFocused()) {
 			if ((this.filter == null) || this.filter.isAllowed(p_charTyped_1_)) {
 				if (this.isEnabled()) {
-					this.writeText(Character.toString(p_charTyped_1_));
+					this.insertText(Character.toString(p_charTyped_1_));
 				}
 				return true;
 			} else {
@@ -62,7 +62,7 @@ public class AdvancedTextField extends TextFieldWidget {
 	}
 	
 	@Override
-	public void writeText(String textToWrite) {
+	public void insertText(String textToWrite) {
 		String s = "";
 		String s1 = textToWrite;
 		if (this.filter != null) {
@@ -70,9 +70,9 @@ public class AdvancedTextField extends TextFieldWidget {
 		}
 		int i = this.getCursorPosition() < this.getSelectionEnd() ? this.getCursorPosition() : this.getSelectionEnd();
 		int j = this.getCursorPosition() < this.getSelectionEnd() ? this.getSelectionEnd() : this.getCursorPosition();
-		int k = this.getMaxStringLength() - this.getText().length() - (i - j);
-		if (!this.getText().isEmpty()) {
-			s = s + this.getText().substring(0, i);
+		int k = this.getMaxStringLength() - this.getValue().length() - (i - j);
+		if (!this.getValue().isEmpty()) {
+			s = s + this.getValue().substring(0, i);
 		}
 
 		int l;
@@ -84,57 +84,30 @@ public class AdvancedTextField extends TextFieldWidget {
 			l = s1.length();
 		}
 
-		if (!this.getText().isEmpty() && j < this.getText().length()) {
-			s = s + this.getText().substring(j);
+		if (!this.getValue().isEmpty() && j < this.getValue().length()) {
+			s = s + this.getValue().substring(j);
 		}
 
-		this.setText(s);
-		this.clampCursorPosition(i + l);
-		this.setSelectionPos(this.getCursorPosition());
-		this.setResponderEntryValue(this.getText());
+		this.setValue(s);
+		this.setCursorPosition(i + l);
+		this.setHighlightPos(this.getCursorPosition());
+		this.setResponderEntryValue(this.getValue());
 	}
 	
 	protected void setResponderEntryValue(String text) {
-		try {
-			//onTextChanged
-			Method m = ReflectionHelper.findMethod(TextFieldWidget.class, "func_212951_d", String.class);
-			m.invoke(this, text);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		((IMixinTextFieldWidget)this).onValueChangeKonkrete(text);
 	}
 	
 	public int getMaxStringLength() {
-		try {
-			//maxStringLength
-			Field f = ReflectionHelper.findField(TextFieldWidget.class, "field_146217_k");
-			return f.getInt(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return 0;
+		return ((IMixinTextFieldWidget)this).getMaxLengthKonkrete();
 	}
 	
 	public int getSelectionEnd() {
-		try {
-			//selectionEnd
-			Field f = ReflectionHelper.findField(TextFieldWidget.class, "field_146223_s");
-			return f.getInt(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return 0;
+		return ((IMixinTextFieldWidget)this).getHighlightPosKonkrete();
 	}
 	
 	public boolean isEnabled() {
-		try {
-			//isEnabled
-			Field f = ReflectionHelper.findField(TextFieldWidget.class, "field_146226_p");
-			return f.getBoolean(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
+		return ((IMixinTextFieldWidget)this).getIsEditableKonkrete();
 	}
 	
 	public boolean isLeftClicked() {
@@ -143,8 +116,8 @@ public class AdvancedTextField extends TextFieldWidget {
 	
 	//renderButton
 	@Override
-	public void renderWidget(MatrixStack matrix, int mouseX, int mouseY, float p_renderButton_3_) {
-		super.renderWidget(matrix, mouseX, mouseY, p_renderButton_3_);
+	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float p_renderButton_3_) {
+		super.renderButton(matrix, mouseX, mouseY, p_renderButton_3_);
 		
 		if (this.handle) {
 			if (this.tick > 7) {

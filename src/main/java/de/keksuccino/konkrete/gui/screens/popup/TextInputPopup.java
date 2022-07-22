@@ -39,13 +39,13 @@ public class TextInputPopup extends Popup {
 	}
 	
 	protected void init(Color color, String title, CharacterFilter filter, Consumer<String> callback) {
-		this.textField = new AdvancedTextField(Minecraft.getInstance().fontRenderer, 0, 0, 200, 20, true, filter);
+		this.textField = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 200, 20, true, filter);
 		this.textField.setCanLoseFocus(true);
-		this.textField.setFocused2(false);
-		this.textField.setMaxStringLength(1000);
+		this.textField.setFocus(false);
+		this.textField.setMaxLength(1000);
 		
 		this.doneButton = new AdvancedButton(0, 0, 100, 20, Locals.localize("popup.done"), true, (press) -> {
-			this.input = this.textField.getText();
+			this.input = this.textField.getValue();
 			this.setDisplayed(false);
 			if (this.callback != null) {
 				this.callback.accept(this.input);
@@ -75,11 +75,11 @@ public class TextInputPopup extends Popup {
 			IngameGui.fill(matrix, (renderIn.width / 2) - (this.width / 2), (renderIn.height / 2) - (height / 2), (renderIn.width / 2) + (this.width / 2), (renderIn.height / 2) + (height / 2), this.color.getRGB());
 			RenderSystem.disableBlend();
 			
-			AbstractGui.drawCenteredString(matrix, Minecraft.getInstance().fontRenderer, new StringTextComponent(title), renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10, Color.WHITE.getRGB());
+			AbstractGui.drawCenteredString(matrix, Minecraft.getInstance().font, new StringTextComponent(title), renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10, Color.WHITE.getRGB());
 			
 			this.textField.setX((renderIn.width / 2) - (this.textField.getWidth() / 2));
 			this.textField.setY((renderIn.height / 2) - (this.textField.getHeight() / 2));
-			this.textField.renderWidget(matrix, mouseX, mouseY, Minecraft.getInstance().getRenderPartialTicks());
+			this.textField.renderButton(matrix, mouseX, mouseY, Minecraft.getInstance().getFrameTime());
 			
 			this.doneButton.setX((renderIn.width / 2) - (this.doneButton.getWidth() / 2));
 			this.doneButton.setY(((renderIn.height / 2) + (height / 2)) - this.doneButton.getHeight() - 5);
@@ -89,8 +89,8 @@ public class TextInputPopup extends Popup {
 	}
 	
 	public void setText(String text) {
-		this.textField.setText("");
-		this.textField.writeText(text);
+		this.textField.setValue("");
+		this.textField.insertText(text);
 	}
 	
 	public String getInput() {
@@ -99,7 +99,7 @@ public class TextInputPopup extends Popup {
 	
 	public void onEnterPressed(KeyboardData d) {
 		if ((d.keycode == 257) && this.isDisplayed()) {
-			this.input = this.textField.getText();
+			this.input = this.textField.getValue();
 			this.setDisplayed(false);
 			if (this.callback != null) {
 				this.callback.accept(this.input);

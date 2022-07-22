@@ -19,7 +19,7 @@ public class CurrentScreenHandler {
 	}
 	
 	public static Screen getScreen() {
-		return Minecraft.getInstance().currentScreen;
+		return Minecraft.getInstance().screen;
 	}
 	
 	/**

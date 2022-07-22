@@ -50,7 +50,7 @@ public class HorizontalSwitcher extends AbstractGui {
 	public void render(MatrixStack matrix, int x, int y) {
 		int mouseX = MouseInput.getMouseX();
 		int mouseY = MouseInput.getMouseY();
-		float partial = Minecraft.getInstance().getRenderPartialTicks();
+		float partial = Minecraft.getInstance().getFrameTime();
 		String sel = "-------";
 		if (!this.values.isEmpty()) {
 			sel = this.values.get(this.selected);
@@ -64,7 +64,7 @@ public class HorizontalSwitcher extends AbstractGui {
 		fill(matrix, x + 25, y, x + 25 + this.width, y + 20, this.valuebackcolor.getRGB());
 		
 		//Selected value
-		drawCenteredString(matrix, Minecraft.getInstance().fontRenderer, new StringTextComponent(sel), x + 25 + (this.width/2), y + 5, this.valuecolor.getRGB());
+		drawCenteredString(matrix, Minecraft.getInstance().font, new StringTextComponent(sel), x + 25 + (this.width/2), y + 5, this.valuecolor.getRGB());
 		
 		this.next.setX(x + 25 + this.width + 5);;
 		this.next.setY(y);

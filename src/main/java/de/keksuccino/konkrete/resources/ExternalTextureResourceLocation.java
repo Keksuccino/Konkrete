@@ -51,7 +51,7 @@ public class ExternalTextureResourceLocation implements ITextureResourceLocation
 			NativeImage i = NativeImage.read(this.in);
 			this.width = i.getWidth();
 			this.height = i.getHeight();
-			this.location = Minecraft.getInstance().getTextureManager().getDynamicTextureLocation("externaltexture", new SelfcleaningDynamicTexture(i));
+			this.location = Minecraft.getInstance().getTextureManager().register("externaltexture", new SelfcleaningDynamicTexture(i));
 			this.in.close();
 			loaded = true;
 		} catch (Exception e) {

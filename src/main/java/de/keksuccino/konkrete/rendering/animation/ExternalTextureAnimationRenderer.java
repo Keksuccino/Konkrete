@@ -229,8 +229,8 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 		int y2 = this.y;
 		
 		if (this.stretch) {
-			h = Minecraft.getInstance().currentScreen.height;
-			w = Minecraft.getInstance().currentScreen.width;
+			h = Minecraft.getInstance().screen.height;
+			w = Minecraft.getInstance().screen.width;
 			x2 = 0;
 			y2 = 0;
 		}
@@ -240,7 +240,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 			r.loadTexture();
 		}
 		
-		Minecraft.getInstance().getTextureManager().bindTexture(r.getResourceLocation());
+		Minecraft.getInstance().getTextureManager().bind(r.getResourceLocation());
 		RenderSystem.enableBlend();
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.opacity);
 		IngameGui.blit(matrix, x2, y2, 0.0F, 0.0F, w, h, w, h);

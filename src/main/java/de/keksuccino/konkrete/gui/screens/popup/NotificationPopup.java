@@ -67,7 +67,7 @@ public class NotificationPopup extends Popup {
 			
 			int i = 0;
 			for (String s : this.text) {
-				AbstractGui.drawCenteredString(matrix, Minecraft.getInstance().fontRenderer, new StringTextComponent(s), renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10 + i, Color.WHITE.getRGB());
+				AbstractGui.drawCenteredString(matrix, Minecraft.getInstance().font, new StringTextComponent(s), renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10 + i, Color.WHITE.getRGB());
 				i += 10;
 			}
 			

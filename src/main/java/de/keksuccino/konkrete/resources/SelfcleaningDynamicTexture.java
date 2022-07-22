@@ -1,9 +1,7 @@
 package de.keksuccino.konkrete.resources;
 
-import java.lang.reflect.Field;
-
 import de.keksuccino.konkrete.annotations.OptifineFix;
-import de.keksuccino.konkrete.reflection.ReflectionHelper;
+import de.keksuccino.konkrete.mixin.client.IMixinDynamicTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.NativeImage;
 
@@ -18,21 +16,15 @@ public class SelfcleaningDynamicTexture extends DynamicTexture {
 	}
 	
 	@Override
-	public void updateDynamicTexture() {
-		super.updateDynamicTexture();
+	public void upload() {
+		super.upload();
 		
 		//Clearing all NativeImage data to free memory
 		clearTextureData(this);
 	}
 	
 	private static void clearTextureData(DynamicTexture texture) {
-		try {
-			Field f = ReflectionHelper.findField(DynamicTexture.class, "field_110566_b");
-			((NativeImage)f.get(texture)).close();
-			f.set(texture, new NativeImage(1, 1, true));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		((IMixinDynamicTexture)texture).setPixelsKonkrete(new NativeImage(1, 1, true));
 	}
 
 }

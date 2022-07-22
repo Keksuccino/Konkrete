@@ -141,10 +141,10 @@ public class FilePickerPopup extends Popup {
 		fill(matrix, 0, 0, renderIn.width, 40, this.overlayColor.getRGB());
 		fill(matrix, 0, renderIn.height - 60, renderIn.width, renderIn.height, this.overlayColor.getRGB());
 		
-		drawCenteredString(matrix, Minecraft.getInstance().fontRenderer, "§l" + Locals.localize("popup.choosefile.title"), renderIn.width / 2, 17, Color.WHITE.getRGB());
+		drawCenteredString(matrix, Minecraft.getInstance().font, "§l" + Locals.localize("popup.choosefile.title"), renderIn.width / 2, 17, Color.WHITE.getRGB());
 
 		if (this.filetypesString != null) {
-			drawCenteredString(matrix, Minecraft.getInstance().fontRenderer, Locals.localize("popup.choosefile.supported") + " " + this.filetypesString, renderIn.width / 2, renderIn.height - 50, Color.WHITE.getRGB());
+			drawCenteredString(matrix, Minecraft.getInstance().font, Locals.localize("popup.choosefile.supported") + " " + this.filetypesString, renderIn.width / 2, renderIn.height - 50, Color.WHITE.getRGB());
 			
 			this.chooseButton.x = (renderIn.width / 2) - this.chooseButton.getWidth() - 5;
 			this.chooseButton.y = renderIn.height - 30;
@@ -284,22 +284,22 @@ public class FilePickerPopup extends Popup {
 			RenderSystem.enableBlend();
 			
 			if (this.type == Type.FILE) {
-				Minecraft.getInstance().getTextureManager().bindTexture(fileIcon);
+				Minecraft.getInstance().getTextureManager().bind(fileIcon);
 			}
 			if (this.type == Type.FOLDER) {
-				Minecraft.getInstance().getTextureManager().bindTexture(folderIcon);
+				Minecraft.getInstance().getTextureManager().bind(folderIcon);
 			}
 			if (this.type == Type.BACK) {
-				Minecraft.getInstance().getTextureManager().bindTexture(backIcon);
+				Minecraft.getInstance().getTextureManager().bind(backIcon);
 			}
 
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			blit(matrix, this.x, this.y, 0.0F, 0.0F, 20, 20, 20, 20);
 			
 			if (this.type == Type.BACK) {
-				Minecraft.getInstance().fontRenderer.drawStringWithShadow(matrix, Locals.localize("popup.choosefile.back"), this.x + 30, this.y + 7, Color.WHITE.getRGB());
+				Minecraft.getInstance().font.drawShadow(matrix, Locals.localize("popup.choosefile.back"), this.x + 30, this.y + 7, Color.WHITE.getRGB());
 			} else {
-				Minecraft.getInstance().fontRenderer.drawStringWithShadow(matrix, this.file.getName(), this.x + 30, this.y + 7, Color.WHITE.getRGB());
+				Minecraft.getInstance().font.drawShadow(matrix, this.file.getName(), this.x + 30, this.y + 7, Color.WHITE.getRGB());
 			}
 			
 			//Handle double-click

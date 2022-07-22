@@ -129,7 +129,7 @@ public class Locals {
 	}
 	
 	public static String localize(String key, String... dynamicValues) {
-		String playerLang = Minecraft.getInstance().gameSettings.language;
+		String playerLang = Minecraft.getInstance().options.languageCode;
 		if (locals.containsKey(playerLang)) {
 			return localizeTo(key, playerLang, dynamicValues);
 		}

@@ -21,7 +21,6 @@ import net.minecraft.util.text.StringTextComponent;
 
 public class AdvancedButton extends Button {
 
-	//TODO übernehmen (alle private zu protected)
 	protected boolean handleClick = false;
 	protected static boolean leftDown = false;
 	protected boolean leftDownThis = false;
@@ -32,7 +31,6 @@ public class AdvancedButton extends Button {
 	public float labelScale = 1.0F;
 	protected boolean useable = true;
 	protected boolean labelShadow = true;
-	//TODO übernehmen
 	public boolean renderLabel = true;
 	
 	protected Color idleColor;
@@ -42,13 +40,11 @@ public class AdvancedButton extends Button {
 	protected float borderWidth = 2.0F;
 	protected ResourceLocation backgroundHover;
 	protected ResourceLocation backgroundNormal;
-	//TODO übernehmen
 	protected IAnimationRenderer backgroundAnimationNormal;
 	protected IAnimationRenderer backgroundAnimationHover;
 	public boolean loopBackgroundAnimations = true;
 	public boolean restartBackgroundAnimationsOnHover = true;
 	protected boolean lastHoverState = false;
-	//------------------
 	protected String clicksound = null;
 	protected String[] description = null;
 
@@ -69,16 +65,14 @@ public class AdvancedButton extends Button {
 	public void onPress() {
 		this.press.onPress(this);
 	}
-	
-	//renderButton
+
 	@Override
-	public void renderWidget(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
+	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
 		if (this.visible) {
 			Minecraft mc = Minecraft.getInstance();
 
 			this.isHovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 
-			//TODO übernehmen
 			if (this.lastHoverState != this.isHovered) {
 				if (this.isHovered) {
 					if (this.restartBackgroundAnimationsOnHover) {
@@ -120,12 +114,10 @@ public class AdvancedButton extends Button {
 					RenderUtils.fill(matrix, this.x + this.width - this.borderWidth, this.y + this.borderWidth, this.x + this.width, this.y + this.height - this.borderWidth, border.getRGB(), this.alpha);
 					//----------------------------------------
 				}
-			//TODO übernehmen
 			} else {
 				this.renderBackgroundNormal(matrix);
 				this.renderBackgroundHover(matrix);
 			}
-			//---------------------
 
 			this.renderBg(matrix, mc, mouseX, mouseY);
 
@@ -148,7 +140,7 @@ public class AdvancedButton extends Button {
 				if (!this.leftDownThis) {
 					this.onClick(mouseX, mouseY);
 					if (this.clicksound == null) {
-						this.playDownSound(Minecraft.getInstance().getSoundHandler());
+						this.playDownSound(Minecraft.getInstance().getSoundManager());
 					} else {
 						SoundHandler.resetSound(this.clicksound);
 						SoundHandler.playSound(this.clicksound);
@@ -164,14 +156,13 @@ public class AdvancedButton extends Button {
 		}
 	}
 
-	//TODO übernehmen
 	protected void renderBackgroundHover(MatrixStack matrix) {
 		try {
 			if (this.isHovered()) {
 				if (this.active) {
 					if (this.hasCustomBackgroundHover()) {
 						if (this.backgroundHover != null) {
-							Minecraft.getInstance().textureManager.bindTexture(this.backgroundHover);
+							Minecraft.getInstance().textureManager.bind(this.backgroundHover);
 							RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
 							blit(matrix, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
 						} else {
@@ -209,13 +200,12 @@ public class AdvancedButton extends Button {
 		}
 	}
 
-	//TODO übernehmen
 	protected void renderBackgroundNormal(MatrixStack matrix) {
 		try {
 			if (!this.isHovered()) {
 				if (this.hasCustomBackgroundNormal()) {
 					if (this.backgroundNormal != null) {
-						Minecraft.getInstance().textureManager.bindTexture(this.backgroundNormal);
+						Minecraft.getInstance().textureManager.bind(this.backgroundNormal);
 						RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
 						blit(matrix, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
 					} else {
@@ -250,9 +240,8 @@ public class AdvancedButton extends Button {
 		}
 	}
 
-	//TODO übernehmen
 	protected void renderDefaultBackground(MatrixStack matrix) {
-		Minecraft.getInstance().getTextureManager().bindTexture(WIDGETS_LOCATION);
+		Minecraft.getInstance().getTextureManager().bind(WIDGETS_LOCATION);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
 		int i = this.getYImage(this.isHovered());
 		RenderSystem.defaultBlendFunc();
@@ -263,28 +252,26 @@ public class AdvancedButton extends Button {
 	}
 	
 	protected void renderLabel(MatrixStack matrix) {
-		//TODO übernehmen
 		if (!renderLabel) {
 			return;
 		}
-		//---------------
 
-		FontRenderer font = Minecraft.getInstance().fontRenderer;
-		int stringWidth = font.getStringWidth(getMessageString());
+		FontRenderer font = Minecraft.getInstance().font;
+		int stringWidth = font.width(getMessageString());
 		int stringHeight = 8;
 		int pX = (int) (((this.x + (this.width / 2)) - ((stringWidth * this.labelScale) / 2)) / this.labelScale);
 		int pY = (int) (((this.y + (this.height / 2)) - ((stringHeight * this.labelScale) / 2)) / this.labelScale);
 		
-		matrix.push();
+		matrix.pushPose();
 		matrix.scale(this.labelScale, this.labelScale, this.labelScale);
 
 		if (this.labelShadow) {
-			font.drawStringWithShadow(matrix, getMessageString(), pX, pY, getFGColor() | MathHelper.ceil(this.alpha * 255.0F) << 24);
+			font.drawShadow(matrix, getMessageString(), pX, pY, getFGColor() | MathHelper.ceil(this.alpha * 255.0F) << 24);
 		} else {
-			font.drawString(matrix, getMessageString(), pX, pY, getFGColor() | MathHelper.ceil(this.alpha * 255.0F) << 24);
+			font.draw(matrix, getMessageString(), pX, pY, getFGColor() | MathHelper.ceil(this.alpha * 255.0F) << 24);
 		}
 		
-		matrix.pop();
+		matrix.popPose();
 	}
 	
 	protected boolean isInputBlocked() {
@@ -311,14 +298,12 @@ public class AdvancedButton extends Button {
 		this.setBackgroundColor(idle, hovered, idleBorder, hoveredBorder, (float) borderWidth);
 	}
 
-	//TODO übernehmen (deprecated)
 	@Deprecated
 	public void setBackgroundTexture(ResourceLocation normal, ResourceLocation hovered) {
 		this.backgroundNormal = normal;
 		this.backgroundHover = hovered;
 	}
 
-	//TODO übernehmen (ganze methode)
 	@Deprecated
 	public void setBackgroundTexture(ExternalTextureResourceLocation normal, ExternalTextureResourceLocation hovered) {
 		if (normal != null) {
@@ -339,12 +324,10 @@ public class AdvancedButton extends Button {
 		}
 	}
 
-	//TODO übernehmen
 	public void setBackgroundNormal(ResourceLocation texture) {
 		this.backgroundNormal = texture;
 	}
 
-	//TODO übernehmen
 	public void setBackgroundNormal(IAnimationRenderer animation) {
 		if (animation != null) {
 			if (!animation.isReady()) {
@@ -354,12 +337,10 @@ public class AdvancedButton extends Button {
 		this.backgroundAnimationNormal = animation;
 	}
 
-	//TODO übernehmen
 	public void setBackgroundHover(ResourceLocation texture) {
 		this.backgroundHover = texture;
 	}
 
-	//TODO übernehmen
 	public void setBackgroundHover(IAnimationRenderer animation) {
 		if (animation != null) {
 			if (!animation.isReady()) {
@@ -377,24 +358,19 @@ public class AdvancedButton extends Button {
 		return ((this.idleColor != null) && (this.hoveredColor != null));
 	}
 
-	//TODO übernehmen
 	@Deprecated
 	public boolean hasCustomTextureBackground() {
 		return this.hasCustomBackground();
 	}
-	//-------------------
 
-	//TODO übernehmen
 	public boolean hasCustomBackground() {
 		return (((this.backgroundHover != null) || (this.backgroundAnimationHover != null)) && ((this.backgroundNormal != null) || (this.backgroundAnimationNormal != null)));
 	}
 
-	//TODO übernehmen
 	public boolean hasCustomBackgroundNormal() {
 		return ((this.backgroundNormal != null) || (this.backgroundAnimationNormal != null));
 	}
 
-	//TODO übernehmen
 	public boolean hasCustomBackgroundHover() {
 		return ((this.backgroundHover != null) || (this.backgroundAnimationHover != null));
 	}
@@ -408,7 +384,7 @@ public class AdvancedButton extends Button {
 			            boolean flag = this.clicked(p_mouseClicked_1_, p_mouseClicked_3_);
 			            if (flag) {
 			               if (this.clicksound == null) {
-			            	   this.playDownSound(Minecraft.getInstance().getSoundHandler());
+			            	   this.playDownSound(Minecraft.getInstance().getSoundManager());
 			               } else {
 			            	   SoundHandler.resetSound(this.clicksound);
 			            	   SoundHandler.playSound(this.clicksound);

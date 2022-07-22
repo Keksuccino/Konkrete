@@ -27,7 +27,7 @@ public class AdvancedButtonHandler {
 	public void onDrawScreen(DrawScreenEvent.Post e) {
 		if (activeDescBtn != null) {
 			if (activeDescBtn.isHovered()) {
-				if ((Minecraft.getInstance() != null) && (Minecraft.getInstance().currentScreen != null)) {
+				if ((Minecraft.getInstance() != null) && (Minecraft.getInstance().screen != null)) {
 					renderDescription(e.getMatrixStack(), e.getMouseX(), e.getMouseY());
 				}
 			}
@@ -55,7 +55,7 @@ public class AdvancedButtonHandler {
 				
 				//Getting the longest string from the list to render the background with the correct width
 				for (String s : activeDescBtn.getDescription()) {
-					int i = Minecraft.getInstance().fontRenderer.getStringWidth(s) + 10;
+					int i = Minecraft.getInstance().font.width(s) + 10;
 					if (i > width) {
 						width = i;
 					}
@@ -65,11 +65,11 @@ public class AdvancedButtonHandler {
 				mouseX += 5;
 				mouseY += 5;
 				
-				if (Minecraft.getInstance().currentScreen.width < mouseX + width) {
+				if (Minecraft.getInstance().screen.width < mouseX + width) {
 					mouseX -= width + 10;
 				}
 				
-				if (Minecraft.getInstance().currentScreen.height < mouseY + height) {
+				if (Minecraft.getInstance().screen.height < mouseY + height) {
 					mouseY -= height + 10;
 				}
 
@@ -81,7 +81,7 @@ public class AdvancedButtonHandler {
 
 				int i2 = 5;
 				for (String s : activeDescBtn.getDescription()) {
-					AbstractGui.drawString(matrix, Minecraft.getInstance().fontRenderer, s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
+					AbstractGui.drawString(matrix, Minecraft.getInstance().font, s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
 					i2 += 10;
 				}
 

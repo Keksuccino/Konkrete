@@ -44,7 +44,7 @@ public class ContextMenu implements IMenu {
 	public void render(MatrixStack matrix, int mouseX, int mouseY, int screenWidth, int screenHeight) {
 		this.updateHovered(mouseX, mouseY);
 		
-		float ticks = Minecraft.getInstance().getRenderPartialTicks();
+		float ticks = Minecraft.getInstance().getFrameTime();
 		
 		int stackedHeight = 0;
 		
@@ -127,7 +127,7 @@ public class ContextMenu implements IMenu {
 	}
 
 	public void render(MatrixStack matrix, int mouseX, int mouseY) {
-		Screen c = Minecraft.getInstance().currentScreen;
+		Screen c = Minecraft.getInstance().screen;
 		if (c != null) {
 			this.render(matrix, mouseX, mouseY, c.width, c.height);
 		}
@@ -260,7 +260,7 @@ public class ContextMenu implements IMenu {
 	}
 
 	public void openMenuAt(int x, int y) {
-		Screen c = Minecraft.getInstance().currentScreen;
+		Screen c = Minecraft.getInstance().screen;
 		if (c != null) {
 			this.openMenuAt(x, y, c.width, c.height);
 		}

@@ -37,13 +37,13 @@ public class SimpleLoadingScreen extends Screen {
 		}
 		fill(matrix, 0, 0, width, height, color);
 		
-		int j2 = (int)((double)mc.getMainWindow().getScaledWidth() * 0.5D);
-		int i1 = (int)((double)mc.getMainWindow().getScaledHeight() * 0.5D);
-		double d0 = Math.min((double)mc.getMainWindow().getScaledWidth() * 0.75D, (double)mc.getMainWindow().getScaledHeight()) * 0.25D;
+		int j2 = (int)((double)mc.getWindow().getGuiScaledWidth() * 0.5D);
+		int i1 = (int)((double)mc.getWindow().getGuiScaledHeight() * 0.5D);
+		double d0 = Math.min((double)mc.getWindow().getGuiScaledWidth() * 0.75D, (double)mc.getWindow().getGuiScaledHeight()) * 0.25D;
 		int j1 = (int)(d0 * 0.5D);
 		double d1 = d0 * 4.0D;
 		int k1 = (int)(d1 * 0.5D);
-		mc.getTextureManager().bindTexture(MOJANG_LOGO_TEXTURE);
+		mc.getTextureManager().bind(MOJANG_LOGO_TEXTURE);
 		RenderSystem.enableBlend();
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		blit(matrix, j2 - k1, i1 - j1, k1, (int)d0, -0.0625F, 0.0F, 120, 60, 120, 120);
@@ -71,7 +71,7 @@ public class SimpleLoadingScreen extends Screen {
 	}
 
 	public void drawStatus(String text, MatrixStack matrix, int width, int height) {
-		mc.fontRenderer.drawString(matrix, text, (float) (width - Minecraft.getInstance().fontRenderer.getStringWidth(text) / 2), (float) height, Color.WHITE.getRGB());
+		mc.font.draw(matrix, text, (float) (width - Minecraft.getInstance().font.width(text) / 2), (float) height, Color.WHITE.getRGB());
 	}
 	
 	public void setDarkmode(boolean b) {
@@ -101,13 +101,13 @@ public class SimpleLoadingScreen extends Screen {
 			int y2 = this.getPosY();
 			
 			if (this.isStretchedToStreensize()) {
-				h = Minecraft.getInstance().currentScreen.height;
-				w = Minecraft.getInstance().currentScreen.width;
+				h = Minecraft.getInstance().screen.height;
+				w = Minecraft.getInstance().screen.width;
 				x2 = 0;
 				y2 = 0;
 			}
 			
-			Minecraft.getInstance().getTextureManager().bindTexture(this.resources.get(this.currentFrame()));
+			Minecraft.getInstance().getTextureManager().bind(this.resources.get(this.currentFrame()));
 			
 			RenderSystem.enableBlend();
 			

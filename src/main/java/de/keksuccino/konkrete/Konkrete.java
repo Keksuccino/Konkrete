@@ -2,6 +2,7 @@ package de.keksuccino.konkrete;
 
 import java.io.File;
 
+import de.keksuccino.konkrete.command.ClientCommandHandler;
 import de.keksuccino.konkrete.gui.content.AdvancedButtonHandler;
 import de.keksuccino.konkrete.gui.screens.popup.PopupHandler;
 import de.keksuccino.konkrete.input.KeyboardHandler;
@@ -25,7 +26,7 @@ import org.apache.logging.log4j.Logger;
 @Mod("konkrete")
 public class Konkrete {
 
-	public static final String VERSION = "1.3.3";
+	public static final String VERSION = "1.4.0";
 
 	public static Logger LOGGER = LogManager.getLogger();
 
@@ -36,6 +37,8 @@ public class Konkrete {
 		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true));
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {
+
+			ClientCommandHandler.init();
 
 			PopupHandler.init();
 

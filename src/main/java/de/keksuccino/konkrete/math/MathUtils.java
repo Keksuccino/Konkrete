@@ -144,7 +144,6 @@ public class MathUtils {
 	    return 0.0D;
 	}
 
-	//TODO remove this, because useless now (should return true even if invalid string)
 	@Deprecated
 	/**
 	 * Returns true if the given string can be calculated using {@link MathUtils#calculateFromString}.
