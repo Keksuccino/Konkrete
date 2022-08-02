@@ -9,7 +9,7 @@ Source code for the Konkrete mod.
 
 Konkrete is available on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/konkrete)!
 
-## Licensing & Copyright
+## Copyright
 
 Konkrete Copyright © 2020-2021 Keksuccino.<br>
 Konkrete is licensed under GPLv3.<br>
