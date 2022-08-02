@@ -25,7 +25,7 @@ public class KeyboardHandler {
 	
 	private static List<Integer> ids = new ArrayList<Integer>();
 	
-	//Using seperated lists to add new listeners to prevent Comodifications
+	//Using seperated lists to add new listeners to prevent Co-modifications
 	private static Map<Integer, Consumer<KeyboardData>> pressedRaw = new HashMap<Integer, Consumer<KeyboardData>>();
 	private static Map<Integer, Consumer<KeyboardData>> releasedRaw = new HashMap<Integer, Consumer<KeyboardData>>();
 	private static Map<Integer, Consumer<CharData>> charRaw = new HashMap<Integer, Consumer<CharData>>();

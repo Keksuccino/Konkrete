@@ -22,8 +22,8 @@ import org.apache.logging.log4j.Logger;
 @Mod("konkrete")
 public class Konkrete {
 
-	//TODO übernehmen
-	public static final String VERSION = "1.4.0";
+	//TODO übernehmen (+ de.keksuccino.konkrete.json kopieren)
+	public static final String VERSION = "1.5.0";
 
 	public static Logger LOGGER = LogManager.getLogger();
 
@@ -44,6 +44,9 @@ public class Konkrete {
 			AdvancedButtonHandler.init();
 
 			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
+
+			//TODO remove debug
+//			MinecraftForge.EVENT_BUS.register(new Test());
 
 			try {
 				Class.forName("optifine.Installer");

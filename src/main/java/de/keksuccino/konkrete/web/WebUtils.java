@@ -1,7 +1,12 @@
 package de.keksuccino.konkrete.web;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.keksuccino.konkrete.input.CharacterFilter;
 
@@ -41,6 +46,31 @@ public class WebUtils {
 			}
 		}
 		return false;
+	}
+
+	//TODO übernehmen
+	public static List<String> getPlainTextContentOfPage(URL webLink) {
+		List<String> l = new ArrayList<>();
+		BufferedReader r = null;
+		try {
+			r = new BufferedReader(new InputStreamReader(webLink.openStream(), StandardCharsets.UTF_8));
+			String s = r.readLine();
+			while(s != null) {
+				l.add(s);
+				s = r.readLine();
+			}
+			r.close();
+		} catch (Exception e) {
+			if (r != null) {
+				try {
+					r.close();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+			l.clear();
+		}
+		return l;
 	}
 	
 	public static String filterURL(String url) {
