@@ -17,3 +17,9 @@ See `LICENSE` for more informations.
 
 Open Imaging Copyright © 2014 Dhyan Blum.<br>
 Open Imaging is licensed under Apache-2.0.
+
+JsonPath Copyright © 2017 Jayway.<br>
+JsonPath is licensed under Apache-2.0.
+
+Json-smart Copyright © netplex.<br>
+Json-smart is licensed under Apache-2.0.
