@@ -8,7 +8,10 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import de.keksuccino.konkrete.input.MouseInput;
+import net.minecraft.client.MainWindow;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,12 +19,17 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class ScrollArea extends AbstractGui {
 	
 	public Color backgroundColor = new Color(0, 0, 0, 240);
+	public Color grabberColorNormal = Color.LIGHT_GRAY;
+	public Color grabberColorHover = Color.GRAY;
+	public ResourceLocation grabberTextureNormal = null;
+	public ResourceLocation grabberTextureHover = null;
 	public int x;
 	public int y;
 	public int width;
 	public int height;
 	public int grabberheight = 20;
 	public int grabberwidth = 10;
+	public boolean enableScrolling = true;
 	private List<ScrollAreaEntry> entries = new ArrayList<ScrollAreaEntry>();
 	
 	private boolean grabberHovered = false;
@@ -49,16 +57,27 @@ public class ScrollArea extends AbstractGui {
 		this.renderBackground(matrix);
 		
 		this.renderScrollbar(matrix);
+
+		MainWindow win = Minecraft.getInstance().getWindow();
+		double scale = win.getGuiScale();
+		int sciBottom = this.height + this.y;
+		RenderSystem.enableScissor((int)(x * scale), (int)(win.getHeight() - (sciBottom * scale)), (int)(width * scale), (int)(height * scale));
 		
 		int i = 0;
 		for (ScrollAreaEntry e : this.entries) {
-			int scroll = this.scrollpos * (this.entryheight / (this.height - this.grabberheight));
+			int i2 = (this.height - this.grabberheight);
+			if (i2 == 0) {
+				i2 = 1;
+			}
+			int scroll = this.scrollpos * (this.entryheight / i2);
 			e.x = this.x;
 			e.y = this.y + i - scroll;
 			e.render(matrix);
 			
 			i += e.getHeight();
 		}
+
+		RenderSystem.disableScissor();
 		
 	}
 	
@@ -83,19 +102,41 @@ public class ScrollArea extends AbstractGui {
 			}
 					
 			//Render scroll grabber
-			if (!this.isGrabberHovered()) {
-				fill(matrix, this.x + this.width, this.y + this.scrollpos, this.x + this.width + grabberwidth, this.y + this.scrollpos + grabberheight, Color.GRAY.getRGB());
-			} else {
-				fill(matrix, this.x + this.width, this.y + this.scrollpos, this.x + this.width + grabberwidth, this.y + this.scrollpos + grabberheight, Color.LIGHT_GRAY.getRGB());
+			if (this.enableScrolling) {
+				RenderSystem.enableBlend();
+				int scrollXStart = this.x + this.width;
+				int scrollYStart = this.y + this.scrollpos;
+				int scrollXEnd = this.x + this.width + grabberwidth;
+				int scrollYEnd = this.y + this.scrollpos + grabberheight;
+				if (!this.isGrabberHovered()) {
+					if (this.grabberTextureNormal == null) {
+						fill(matrix, scrollXStart, scrollYStart, scrollXEnd, scrollYEnd, this.grabberColorNormal.getRGB());
+					} else {
+						Minecraft.getInstance().textureManager.bind(this.grabberTextureNormal);
+						blit(matrix, scrollXStart, scrollYStart, 0.0F, 0.0F, grabberwidth, grabberheight, grabberwidth, grabberheight);
+					}
+				} else {
+					if (this.grabberTextureHover == null) {
+						fill(matrix, scrollXStart, scrollYStart, scrollXEnd, scrollYEnd, this.grabberColorHover.getRGB());
+					} else {
+						Minecraft.getInstance().textureManager.bind(this.grabberTextureHover);
+						blit(matrix, scrollXStart, scrollYStart, 0.0F, 0.0F, grabberwidth, grabberheight, grabberwidth, grabberheight);
+					}
+				}
 			}
 			
 			//Handle scroll
-			if (this.isGrabberPressed()) {
-				this.handleGrabberScrolling();
+			if (this.enableScrolling) {
+				if (this.isGrabberPressed()) {
+					this.handleGrabberScrolling();
+				} else {
+					this.startY = MouseInput.getMouseY();
+					this.startPos = this.scrollpos;
+				}
 			} else {
-				this.startY = MouseInput.getMouseY();
-				this.startPos = this.scrollpos;
+				this.scrollpos = 0;
 			}
+
 		}
 	}
 	

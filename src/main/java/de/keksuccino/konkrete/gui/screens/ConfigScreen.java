@@ -90,6 +90,8 @@ public class ConfigScreen extends Screen {
 			Minecraft.getInstance().setScreen(this.parent);
 		});
 		colorizeButton(this.doneBtn);
+		this.doneBtn.ignoreBlockedInput = true;
+		this.doneBtn.ignoreLeftMouseDownClickBlock = true;
 		
 	}
 	
@@ -148,7 +150,9 @@ public class ConfigScreen extends Screen {
 				if (e.isHovered()) {
 					String name = ((ConfigScrollAreaEntry) e).configEntry.getName();
 					if (this.descriptions.containsKey(name)) {
-						renderDescription(matrix, this.descriptions.get(name), mouseX, mouseY);
+						if (!ConfigScrollAreaEntry.isHeaderFooterHovered()) {
+							renderDescription(matrix, this.descriptions.get(name), mouseX, mouseY);
+						}
 						break;
 					}
 				}
@@ -294,6 +298,29 @@ public class ConfigScreen extends Screen {
 		}
 		
 		protected abstract void onSave();
+
+		public static boolean isHeaderFooterHovered() {
+			Screen s = Minecraft.getInstance().screen;
+			if (s != null) {
+				int mouseX = MouseInput.getMouseX();
+				int mouseY = MouseInput.getMouseY();
+				int minXHeaderFooter = 0;
+				int maxXHeaderFooter = s.width;
+				int minYHeader = 0;
+				int maxYHeader = 50;
+				int minYFooter = s.height - 50;
+				int maxYFooter = s.height;
+				//HEADER
+				if ((mouseX >= minXHeaderFooter) && (mouseX <= maxXHeaderFooter) && (mouseY >= minYHeader) && (mouseY <= maxYHeader)) {
+					return true;
+				}
+				//FOOTER
+				if ((mouseX >= minXHeaderFooter) && (mouseX <= maxXHeaderFooter) && (mouseY >= minYFooter) && (mouseY <= maxYFooter)) {
+					return true;
+				}
+			}
+			return false;
+		}
 		
 	}
 	
@@ -534,11 +561,13 @@ public class ConfigScreen extends Screen {
 			}
 			
 			toggleBtn = new AdvancedButton(0, 0, 102, 20, "", true, (press) -> {
-				state = !state;
-				if (state) {
-					toggleBtn.setMessage(new StringTextComponent("§a" + Locals.localize("configscreen.boolean.enabled")));
-				} else {
-					toggleBtn.setMessage(new StringTextComponent("§c" + Locals.localize("configscreen.boolean.disabled")));
+				if (!isHeaderFooterHovered()) {
+					state = !state;
+					if (state) {
+						toggleBtn.setMessage(new StringTextComponent("§a" + Locals.localize("configscreen.boolean.enabled")));
+					} else {
+						toggleBtn.setMessage(new StringTextComponent("§c" + Locals.localize("configscreen.boolean.disabled")));
+					}
 				}
 			});
 			if (state) {
