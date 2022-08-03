@@ -3,7 +3,7 @@ loaderVersion="[38,)"
 license="GPLv3"
 [[mods]]
 modId="konkrete"
-version="1.4.0"
+version="1.5.0"
 displayName="Konkrete"
 logoFile="konkrete.png"
 authors="Keksuccino"
@@ -13,7 +13,13 @@ Konkrete Copyright © 2020-2022 Keksuccino.
 Konkrete is licensed under GPLv3.
 
 Open Imaging Copyright © 2014 Dhyan Blum.
-Open Imaging is licensed under Apache-2.0.'''
+Open Imaging is licensed under Apache-2.0.
+
+JsonPath Copyright © 2017 Jayway.
+JsonPath is licensed under Apache-2.0.
+
+Json-smart Copyright © netplex.
+Json-smart is licensed under Apache-2.0.'''
 
 [[dependencies.konkrete]]
 modId="forge"
