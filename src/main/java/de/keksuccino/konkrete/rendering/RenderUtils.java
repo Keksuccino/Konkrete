@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class RenderUtils {
 	
@@ -154,6 +155,15 @@ public class RenderUtils {
 		GlStateManager.enableTexture2D();
 		GlStateManager.disableBlend();
 		
+	}
+
+	public static void enableScissor(int x, int y, int width, int height) {
+		GL11.glEnable(GL11.GL_SCISSOR_TEST);
+		GL11.glScissor(x, y, width, height);
+	}
+
+	public static void disableScissor() {
+		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 	}
 
 }
