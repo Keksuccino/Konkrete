@@ -1,4 +1,3 @@
-//TODO übernehmen
 package de.keksuccino.konkrete.json;
 
 import com.google.gson.JsonArray;

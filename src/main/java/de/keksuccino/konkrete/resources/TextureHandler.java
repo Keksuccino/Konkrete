@@ -27,12 +27,10 @@ public class TextureHandler {
 		return (ExternalTextureResourceLocation) textures.get(f.getAbsolutePath());
 	}
 
-	//TODO übernehmen
 	public static WebTextureResourceLocation getWebResource(String url) {
 		return getWebResource(url, true);
 	}
 
-	//TODO übernehmen
 	public static WebTextureResourceLocation getWebResource(String url, boolean loadTexture) {
 		if (!textures.containsKey(url)) {
 			try {
