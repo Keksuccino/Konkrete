@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 @Mod("konkrete")
 public class Konkrete {
 
-	public static final String VERSION = "1.5.0";
+	public static final String VERSION = "1.5.2";
 
 	public static Logger LOGGER = LogManager.getLogger();
 
