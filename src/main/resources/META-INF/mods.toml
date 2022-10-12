@@ -3,7 +3,7 @@ loaderVersion="[41,)"
 license="GPLv3"
 [[mods]]
 modId="konkrete"
-version="1.5.0"
+version="1.5.2"
 displayName="Konkrete"
 logoFile="konkrete.png"
 authors="Keksuccino"

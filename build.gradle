@@ -39,6 +39,15 @@ minecraft {
                 }
             }
         }
+        server {
+            workingDirectory project.file('run_server')
+//            arg "-mixin.config=konkrete.client.mixin.json"
+            mods {
+                konkrete {
+                    source sourceSets.main
+                }
+            }
+        }
     }
 }
 
