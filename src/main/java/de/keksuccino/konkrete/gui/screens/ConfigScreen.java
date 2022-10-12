@@ -329,7 +329,6 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 100, 20, true, null);
-			//TODO übernehmen
 			input.setMaxLength(10000);
 			input.setValue(configEntry.getValue());
 			
@@ -365,7 +364,6 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 100, 20, true, CharacterFilter.getIntegerCharacterFiler());
-			//TODO übernehmen
 			input.setMaxLength(10000);
 			input.setValue(configEntry.getValue());
 			
@@ -413,7 +411,6 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 100, 20, true, CharacterFilter.getDoubleCharacterFiler());
-			//TODO übernehmen
 			input.setMaxLength(10000);
 			input.setValue(configEntry.getValue());
 			
@@ -461,7 +458,6 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 100, 20, true, CharacterFilter.getIntegerCharacterFiler());
-			//TODO übernehmen
 			input.setMaxLength(10000);
 			input.setValue(configEntry.getValue());
 			
@@ -509,7 +505,6 @@ public class ConfigScreen extends Screen {
 			super(parent, configEntry);
 			
 			input = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 100, 20, true, CharacterFilter.getDoubleCharacterFiler());
-			//TODO übernehmen
 			input.setMaxLength(10000);
 			input.setValue(configEntry.getValue());
 			

@@ -1,4 +1,3 @@
-//TODO übernehmen 1.4.0
 package de.keksuccino.konkrete.command;
 
 import net.minecraft.client.Minecraft;

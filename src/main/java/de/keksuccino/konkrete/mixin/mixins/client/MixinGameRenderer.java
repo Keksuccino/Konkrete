@@ -33,7 +33,6 @@ public class MixinGameRenderer {
 		//-----------------------------
 
 		//DrawScreen pre --------------
-		//TODO übernehmen 1.3.3-1
 		if (Minecraft.getInstance().screen != null) {
 			int mX = (int)(Minecraft.getInstance().mouseHandler.xpos() * (double)Minecraft.getInstance().getWindow().getGuiScaledWidth() / (double)Minecraft.getInstance().getWindow().getScreenWidth());
 			int mY = (int)(Minecraft.getInstance().mouseHandler.ypos() * (double)Minecraft.getInstance().getWindow().getGuiScaledHeight() / (double)Minecraft.getInstance().getWindow().getScreenHeight());
@@ -59,7 +58,6 @@ public class MixinGameRenderer {
 		}
 
 		//DrawScreen post -------------
-		//TODO übernehmen 1.3.3-1
 		if (Minecraft.getInstance().screen != null) {
 			int mX2 = (int) (Minecraft.getInstance().mouseHandler.xpos() * (double) Minecraft.getInstance().getWindow().getGuiScaledWidth() / (double) Minecraft.getInstance().getWindow().getScreenWidth());
 			int mY2 = (int) (Minecraft.getInstance().mouseHandler.ypos() * (double) Minecraft.getInstance().getWindow().getGuiScaledHeight() / (double) Minecraft.getInstance().getWindow().getScreenHeight());

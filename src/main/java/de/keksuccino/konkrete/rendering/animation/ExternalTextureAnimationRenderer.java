@@ -238,8 +238,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 		if (!r.isReady()) {
 			r.loadTexture();
 		}
-		
-		//TODO neu in 1.17
+
 		RenderUtils.bindTexture(r.getResourceLocation());
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.opacity);
 		GuiComponent.blit(matrix, x2, y2, 0.0F, 0.0F, w, h, w, h);

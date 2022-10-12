@@ -1,7 +1,8 @@
 package de.keksuccino.konkrete;
 
 import de.keksuccino.konkrete.command.ClientCommandHandler;
-import de.keksuccino.konkrete.events.client.ClientCommandRegistrationEvent;
+import de.keksuccino.konkrete.networking.TestClient;
+import de.keksuccino.konkrete.networking.TestServer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -24,7 +25,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Konkrete implements ModInitializer {
 
-	public static final String VERSION = "1.5.0";
+	public static final String VERSION = "1.5.2";
 
     private static final EventHandler HANDLER = new EventHandler();
 
@@ -57,7 +58,15 @@ public class Konkrete implements ModInitializer {
 				LOGGER.info("[KONKRETE] Optifine detected! ###############################");
 			}
 			catch (ClassNotFoundException e) {}
+
+			//TODO remove debug
+//			TestClient.init();
 		
+		} else {
+
+			//TODO remove debug
+//			TestServer.init();
+
 		}
 
 		LOGGER.info("[KONKRETE] Successfully initialized!");

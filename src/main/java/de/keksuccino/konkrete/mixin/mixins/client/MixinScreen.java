@@ -57,7 +57,6 @@ public abstract class MixinScreen {
 		Konkrete.getEventHandler().callEventsFor(e);
 	}
 
-	//TODO NEW IN 1.19
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;init()V"), method = "rebuildWidgets", cancellable = true)
 	private void onInitInRebuildWidgetsPre(CallbackInfo info) {
 
@@ -87,7 +86,6 @@ public abstract class MixinScreen {
 
 	}
 
-	//TODO NEW IN 1.19
 	@Inject(at = @At(value = "TAIL"), method = "rebuildWidgets")
 	private void onInitInRebuildWidgetsPost(CallbackInfo info) {
 

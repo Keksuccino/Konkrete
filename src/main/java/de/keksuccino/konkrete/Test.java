@@ -10,7 +10,7 @@ public class Test {
 //	public void onDrawPre(ClientTickEvent e) {
 //		System.out.println("DRAW PRE!");
 //		RenderSystem.enableBlend();
-//		DrawableHelper.drawCenteredText(e.getMatrixStack(), MinecraftClient.getInstance().textRenderer, "Huhuuuu", 20, 20, -1);
+//		DrawableHelper.drawCenteredText(e.getMatrixStack(), MinecraftClient.getInstance().textRenderer, "This is a text", 20, 20, -1);
 //	}
 	
 }
