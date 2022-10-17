@@ -4,6 +4,7 @@ import java.io.File;
 
 import de.keksuccino.konkrete.command.ClientCommandHandler;
 import de.keksuccino.konkrete.gui.content.AdvancedButtonHandler;
+import de.keksuccino.konkrete.gui.content.handling.AdvancedWidgetsHandler;
 import de.keksuccino.konkrete.gui.screens.popup.PopupHandler;
 import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.input.MouseInput;
@@ -22,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 @Mod("konkrete")
 public class Konkrete {
 
-	public static final String VERSION = "1.5.2";
+	public static final String VERSION = "1.5.3";
 
 	public static Logger LOGGER = LogManager.getLogger();
 
@@ -35,6 +36,8 @@ public class Konkrete {
 			ClientCommandHandler.init();
 
 			PopupHandler.init();
+
+			AdvancedWidgetsHandler.init();
 
 			KeyboardHandler.init();
 

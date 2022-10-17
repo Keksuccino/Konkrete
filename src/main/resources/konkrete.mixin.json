@@ -6,8 +6,11 @@
     "client.MixinClientPlayNetHandler",
     "client.MixinClientPlayerEntity",
     "client.IMixinMouseHelper",
-    "client.IMixinTextFieldWidget",
-    "client.IMixinDynamicTexture"
+    "client.IMixinEditBox",
+    "client.IMixinDynamicTexture",
+    "client.MixinKeyboardHandler",
+    "client.MixinMouseHandler",
+    "client.MixinMinecraft"
   ],
   "injectors": {
     "defaultRequire": 1
