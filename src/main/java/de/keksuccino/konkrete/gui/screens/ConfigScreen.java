@@ -88,10 +88,8 @@ public class ConfigScreen extends Screen {
 			Minecraft.getInstance().setScreen(this.parent);
 		});
 		colorizeButton(this.doneBtn);
-		//TODO übernehmen
 		this.doneBtn.ignoreBlockedInput = true;
 		this.doneBtn.ignoreLeftMouseDownClickBlock = true;
-		//-----------------------
 		
 	}
 	
@@ -150,7 +148,6 @@ public class ConfigScreen extends Screen {
 				if (e.isHoveredOrFocused()) {
 					String name = ((ConfigScrollAreaEntry) e).configEntry.getName();
 					if (this.descriptions.containsKey(name)) {
-						//TODO übernehmen
 						if (!ConfigScrollAreaEntry.isHeaderFooterHovered()) {
 							renderDescription(matrix, this.descriptions.get(name), mouseX, mouseY);
 						}
@@ -300,7 +297,6 @@ public class ConfigScreen extends Screen {
 		
 		protected abstract void onSave();
 
-		//TODO übernehmen
 		public static boolean isHeaderFooterHovered() {
 			Screen s = Minecraft.getInstance().screen;
 			if (s != null) {
@@ -562,7 +558,6 @@ public class ConfigScreen extends Screen {
 			}
 			
 			toggleBtn = new AdvancedButton(0, 0, 102, 20, "", true, (press) -> {
-				//TODO übernehmen
 				if (!isHeaderFooterHovered()) {
 					state = !state;
 					if (state) {

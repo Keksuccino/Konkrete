@@ -3,10 +3,14 @@
   "package": "de.keksuccino.konkrete.mixin.client",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "IMixinEditBox",
+    "MixinKeyboardHandler",
+    "MixinMouseHandler",
+    "MixinMinecraft"
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "refmap": "konkrete.client.mixin-refmap.json",
+  "refmap": "konkrete.mixin-refmap.json",
   "minVersion": "0.8"
 }

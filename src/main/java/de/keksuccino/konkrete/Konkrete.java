@@ -2,7 +2,7 @@ package de.keksuccino.konkrete;
 
 import java.io.File;
 
-import de.keksuccino.konkrete.networking.testpacket.TestPacketRegistry;
+import de.keksuccino.konkrete.gui.content.handling.AdvancedWidgetsHandler;
 import net.minecraft.resources.ResourceLocation;
 
 import de.keksuccino.konkrete.gui.content.AdvancedButtonHandler;
@@ -13,7 +13,6 @@ import de.keksuccino.konkrete.localization.Locals;
 import de.keksuccino.konkrete.rendering.CurrentScreenHandler;
 import de.keksuccino.konkrete.sound.SoundHandler;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -24,7 +23,8 @@ import org.apache.logging.log4j.Logger;
 @Mod("konkrete")
 public class Konkrete {
 
-	public static final String VERSION = "1.5.2";
+	//TODO übernehmen 1.5.3 (+ mixin.json & build.gradle)
+	public static final String VERSION = "1.5.3";
 
 	public static Logger LOGGER = LogManager.getLogger();
 
@@ -35,6 +35,9 @@ public class Konkrete {
 		if (FMLEnvironment.dist == Dist.CLIENT) {
 
 			PopupHandler.init();
+
+			//TODO übernehmen 1.5.3
+			AdvancedWidgetsHandler.init();
 
 			KeyboardHandler.init();
 

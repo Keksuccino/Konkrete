@@ -48,7 +48,6 @@ public class WebUtils {
 		return false;
 	}
 
-	//TODO übernehmen
 	public static List<String> getPlainTextContentOfPage(URL webLink) {
 		List<String> l = new ArrayList<>();
 		BufferedReader r = null;

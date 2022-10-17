@@ -20,19 +20,16 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class ScrollArea extends GuiComponent {
 	
 	public Color backgroundColor = new Color(0, 0, 0, 240);
-	//TODO übernehmen
 	public Color grabberColorNormal = Color.LIGHT_GRAY;
 	public Color grabberColorHover = Color.GRAY;
 	public ResourceLocation grabberTextureNormal = null;
 	public ResourceLocation grabberTextureHover = null;
-	//-----------------
 	public int x;
 	public int y;
 	public int width;
 	public int height;
 	public int grabberheight = 20;
 	public int grabberwidth = 10;
-	//TODO übernehmen 1.5.1
 	public boolean enableScrolling = true;
 	private List<ScrollAreaEntry> entries = new ArrayList<ScrollAreaEntry>();
 	
@@ -62,22 +59,18 @@ public class ScrollArea extends GuiComponent {
 		
 		this.renderScrollbar(matrix);
 
-		//TODO übernehmen
 		Window win = Minecraft.getInstance().getWindow();
 		double scale = win.getGuiScale();
 		int sciBottom = this.height + this.y;
 		RenderSystem.enableScissor((int)(x * scale), (int)(win.getHeight() - (sciBottom * scale)), (int)(width * scale), (int)(height * scale));
-		//-------------------------
 
 		int i = 0;
 		for (ScrollAreaEntry e : this.entries) {
-			//TODO übernehmen
 			int i2 = (this.height - this.grabberheight);
 			if (i2 == 0) {
 				i2 = 1;
 			}
 			int scroll = this.scrollpos * (this.entryheight / i2);
-			//--------------------
 			e.x = this.x;
 			e.y = this.y + i - scroll;
 			e.render(matrix);
@@ -85,7 +78,6 @@ public class ScrollArea extends GuiComponent {
 			i += e.getHeight();
 		}
 
-		//TODO übernehmen
 		RenderSystem.disableScissor();
 		
 	}
@@ -111,8 +103,6 @@ public class ScrollArea extends GuiComponent {
 			}
 					
 			//Render scroll grabber
-			//TODO übernehmen
-			//TODO übernehmen 1.5.1
 			if (this.enableScrolling) {
 				RenderSystem.enableBlend();
 				int scrollXStart = this.x + this.width;
@@ -135,10 +125,8 @@ public class ScrollArea extends GuiComponent {
 					}
 				}
 			}
-			//-----------------
 			
 			//Handle scroll
-			//TODO übernehmen 1.5.1
 			if (this.enableScrolling) {
 				if (this.isGrabberPressed()) {
 					this.handleGrabberScrolling();
@@ -149,7 +137,6 @@ public class ScrollArea extends GuiComponent {
 			} else {
 				this.scrollpos = 0;
 			}
-			//------------------
 		}
 	}
 	
