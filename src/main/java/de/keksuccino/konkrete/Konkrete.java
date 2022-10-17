@@ -1,7 +1,7 @@
 package de.keksuccino.konkrete;
 
 import de.keksuccino.konkrete.command.ClientCommandHandler;
-import de.keksuccino.konkrete.events.client.ClientCommandRegistrationEvent;
+import de.keksuccino.konkrete.gui.content.handling.AdvancedWidgetsHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Konkrete implements ModInitializer {
 
-	public static final String VERSION = "1.5.2";
+	public static final String VERSION = "1.5.3";
 
     private static final EventHandler HANDLER = new EventHandler();
 
@@ -40,6 +40,8 @@ public class Konkrete implements ModInitializer {
 			ClientCommandHandler.init();
 
 			PopupHandler.init();
+
+			AdvancedWidgetsHandler.init();
 
 			KeyboardHandler.init();
 

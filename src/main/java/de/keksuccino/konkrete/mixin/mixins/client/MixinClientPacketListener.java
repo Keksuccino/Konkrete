@@ -7,7 +7,6 @@ import de.keksuccino.konkrete.events.client.ClientPlayerLoginEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.commands.SharedSuggestionProvider;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.protocol.game.ClientboundCommandsPacket;
 import net.minecraft.network.protocol.game.ClientboundLoginPacket;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,7 +19,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinClientPacketListener {
 
     @Shadow private CommandDispatcher<SharedSuggestionProvider> commands;
-    @Shadow private RegistryAccess.Frozen registryAccess;
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;resetPos()V", shift = At.Shift.AFTER), method = "handleLogin")
     private void onResetPosInHandleLogin(ClientboundLoginPacket clientboundLoginPacket, CallbackInfo info) {
