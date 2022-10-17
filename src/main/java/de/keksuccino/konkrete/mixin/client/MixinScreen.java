@@ -1,5 +1,5 @@
 //TODO übernehmen 1.5.1
-package de.keksuccino.konkrete.mixin.mixins.client;
+package de.keksuccino.konkrete.mixin.client;
 
 import de.keksuccino.konkrete.command.ClientCommandHandler;
 import net.minecraft.client.Minecraft;

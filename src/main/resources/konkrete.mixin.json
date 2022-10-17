@@ -1,12 +1,16 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "de.keksuccino.konkrete.mixin.mixins",
+  "package": "de.keksuccino.konkrete.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
     "client.IMixinClientPacketListener",
     "client.IMixinLocalPlayer",
-    "client.MixinScreen"
+    "client.MixinScreen",
+    "client.MixinMinecraft",
+    "client.MixinMouseHandler",
+    "client.MixinKeyboardHandler",
+    "client.IMixinEditBox"
   ],
   "injectors": {
     "defaultRequire": 1

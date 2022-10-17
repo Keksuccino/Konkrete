@@ -1,5 +1,5 @@
 //TODO übernehmen 1.5.1
-package de.keksuccino.konkrete.mixin.mixins.client;
+package de.keksuccino.konkrete.mixin.client;
 
 import net.minecraft.client.player.LocalPlayer;
 import org.spongepowered.asm.mixin.Mixin;

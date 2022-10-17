@@ -1,5 +1,5 @@
 //TODO übernehmen 1.5.1
-package de.keksuccino.konkrete.mixin.mixins.client;
+package de.keksuccino.konkrete.mixin.client;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.client.multiplayer.ClientPacketListener;
