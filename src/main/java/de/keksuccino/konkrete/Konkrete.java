@@ -1,8 +1,7 @@
 package de.keksuccino.konkrete;
 
-import de.keksuccino.konkrete.command.ClientCommandHandler;
-import de.keksuccino.konkrete.networking.TestClient;
-import de.keksuccino.konkrete.networking.TestServer;
+import de.keksuccino.konkrete.command.ClientExecutor;
+import de.keksuccino.konkrete.gui.content.handling.AdvancedWidgetsHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -25,7 +24,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Konkrete implements ModInitializer {
 
-	public static final String VERSION = "1.5.2";
+	public static final String VERSION = "1.5.3";
 
     private static final EventHandler HANDLER = new EventHandler();
 
@@ -38,9 +37,11 @@ public class Konkrete implements ModInitializer {
     	
     	if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
 
-			ClientCommandHandler.init();
+			ClientExecutor.init();
 
 			PopupHandler.init();
+
+			AdvancedWidgetsHandler.init();
 
 			KeyboardHandler.init();
 
@@ -58,28 +59,13 @@ public class Konkrete implements ModInitializer {
 				LOGGER.info("[KONKRETE] Optifine detected! ###############################");
 			}
 			catch (ClassNotFoundException e) {}
-
-			//TODO remove debug
-//			TestClient.init();
 		
-		} else {
-
-			//TODO remove debug
-//			TestServer.init();
-
 		}
 
 		LOGGER.info("[KONKRETE] Successfully initialized!");
 		LOGGER.info("[KONKRETE] Server-side libs ready to use!");
     	
     }
-
-//	@SubscribeEvent
-//	public void onClientCommandRegister(ClientCommandRegistrationEvent e) {
-//
-//		TestCommand.register(e.dispatcher);
-//
-//	}
     
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onGameInitCompleted(GameInitializationCompletedEvent e) {

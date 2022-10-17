@@ -19,8 +19,7 @@
     "client.IMixinDynamicTexture",
     "client.IMixinLocalPlayer",
     "client.IMixinClientPacketListener",
-    "client.MixinClientPacketListener",
-    "client.MixinLocalPlayer"
+    "client.MixinClientPacketListener"
   ],
   "server": [],
   "injectors": {

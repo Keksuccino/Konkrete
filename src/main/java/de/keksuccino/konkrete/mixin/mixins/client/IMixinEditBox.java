@@ -8,12 +8,12 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(EditBox.class)
 public interface IMixinEditBox {
 
-    @Accessor("maxLength") public int getMaxLengthKonkrete();
+    @Accessor("isEditable") boolean getIsEditableKonkrete();
 
-    @Accessor("highlightPos") public int getHighlightPosKonkrete();
+    @Accessor("highlightPos") int getHightlightPosKonkrete();
 
-    @Accessor("isEditable") public boolean getIsEditableKonkrete();
+    @Accessor("maxLength") int getMaxLengthKonkrete();
 
-    @Invoker("onValueChange") public abstract void onValueChangeInvokerKonkrete(String value);
+    @Invoker("onValueChange") void onValueChangeKonkrete(String text);
 
 }
