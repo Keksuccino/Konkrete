@@ -59,6 +59,10 @@ dependencies {
 
 }
 
+mixin {
+    add sourceSets.main, "konkrete.mixin-refmap.json"
+}
+
 jar {
     manifest {
         attributes "ForceLoadAsMod": "true"

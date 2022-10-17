@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "de.keksuccino.konkrete.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.8",
+  "client": [
+    "client.MixinMinecraft"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "konkrete.mixin-refmap.json",
+  "plugin": "de.keksuccino.konkrete.mixin.KonkreteMixinPlugin"
+}
