@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "konkrete",
-  "version": "1.5.3",
+  "version": "1.6.0",
   "name": "Konkrete",
-  "description": "Konkrete Copyright © 2020-2022 Keksuccino. Konkrete is licensed under GPLv3. | Open Imaging Copyright © 2014 Dhyan Blum. Open Imaging is licensed under Apache-2.0. | JsonPath Copyright © 2017 Jayway. JsonPath is licensed under Apache-2.0. | Json-smart Copyright © netplex. Json-smart is licensed under Apache-2.0.",
+  "description": "Konkrete Copyright © 2020-2022 Keksuccino. Konkrete is licensed under GPLv3. | Open Imaging Copyright © 2014 Dhyan Blum. Open Imaging is licensed under Apache-2.0. | JsonPath Copyright © 2017 Jayway. JsonPath is licensed under Apache-2.0. | Json-smart Copyright © netplex. Json-smart is licensed under Apache-2.0. | Exp4j Copyright © Frank Asseg. Exp4j is licensed under Apache-2.0. https://github.com/fasseg/exp4j",
   "environment": "*",
   "authors": [
     "Keksuccino"
