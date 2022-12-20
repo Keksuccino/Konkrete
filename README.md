@@ -23,6 +23,6 @@ JsonPath is licensed under Apache-2.0.
 Json-smart Copyright © netplex.<br>
 Json-smart is licensed under Apache-2.0.
 
-Exp4j Copyright © Frank Asseg.
-Exp4j is licensed under Apache-2.0.
+Exp4j Copyright © Frank Asseg.<br>
+Exp4j is licensed under Apache-2.0.<br>
 https://github.com/fasseg/exp4j
