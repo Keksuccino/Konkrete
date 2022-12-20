@@ -26,18 +26,15 @@ import de.keksuccino.konkrete.json.jsonpath.Predicate;
 import de.keksuccino.konkrete.json.jsonpath.ReadContext;
 import de.keksuccino.konkrete.json.jsonpath.TypeRef;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static de.keksuccino.konkrete.json.jsonpath.internal.Utils.notEmpty;
-import static de.keksuccino.konkrete.json.jsonpath.internal.Utils.notNull;
-
 public class JsonContext implements DocumentContext {
 
-    private static final Logger logger = LoggerFactory.getLogger(JsonContext.class);
+    private static final Logger logger = LogManager.getLogger();
 
     private final Configuration configuration;
     private final Object json;

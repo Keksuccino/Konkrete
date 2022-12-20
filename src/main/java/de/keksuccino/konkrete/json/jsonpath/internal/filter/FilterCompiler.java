@@ -5,14 +5,16 @@ import de.keksuccino.konkrete.json.jsonpath.InvalidPathException;
 import de.keksuccino.konkrete.json.jsonpath.Predicate;
 import de.keksuccino.konkrete.json.jsonpath.internal.CharacterIndex;
 import static de.keksuccino.konkrete.json.jsonpath.internal.filter.ValueNodes.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FilterCompiler  {
-    private static final Logger logger = LoggerFactory.getLogger(FilterCompiler.class);
+
+    private static final Logger logger = LogManager.getLogger();
 
     private static final char DOC_CONTEXT = '$';
     private static final char EVAL_CONTEXT = '@';

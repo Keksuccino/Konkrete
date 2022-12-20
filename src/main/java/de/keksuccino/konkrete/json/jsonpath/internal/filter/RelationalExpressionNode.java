@@ -1,12 +1,12 @@
 package de.keksuccino.konkrete.json.jsonpath.internal.filter;
 
 import de.keksuccino.konkrete.json.jsonpath.Predicate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RelationalExpressionNode extends ExpressionNode {
 
-    private static final Logger logger = LoggerFactory.getLogger(RelationalExpressionNode.class);
+    private static final Logger logger = LogManager.getLogger();
 
     private final ValueNode left;
     private final RelationalOperator relationalOperator;

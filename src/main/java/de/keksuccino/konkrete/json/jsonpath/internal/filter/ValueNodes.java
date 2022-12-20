@@ -17,8 +17,8 @@ import de.keksuccino.konkrete.json.jsonpath.internal.path.PathCompiler;
 import de.keksuccino.konkrete.json.jsonpath.internal.path.PredicateContextImpl;
 import de.keksuccino.konkrete.json.minidev.json.parser.JSONParser;
 import de.keksuccino.konkrete.json.minidev.json.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Moved these nodes out of the ValueNode abstract class.
@@ -618,7 +618,7 @@ public interface ValueNodes {
 
     class PathNode extends ValueNode {
 
-        private static final Logger logger = LoggerFactory.getLogger(PathNode.class);
+        private static final Logger logger = LogManager.getLogger();
 
         private final Path path;
         private final boolean existsCheck;

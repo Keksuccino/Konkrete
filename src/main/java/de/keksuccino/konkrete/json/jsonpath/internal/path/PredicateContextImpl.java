@@ -18,14 +18,14 @@ import de.keksuccino.konkrete.json.jsonpath.Configuration;
 import de.keksuccino.konkrete.json.jsonpath.Predicate;
 import de.keksuccino.konkrete.json.jsonpath.internal.Path;
 import de.keksuccino.konkrete.json.jsonpath.spi.mapper.MappingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 
 public class PredicateContextImpl implements Predicate.PredicateContext {
 
-    private static final Logger logger = LoggerFactory.getLogger(PredicateContextImpl.class);
+    private static final Logger logger = LogManager.getLogger();
 
     private final Object contextDocument;
     private final Object rootDocument;

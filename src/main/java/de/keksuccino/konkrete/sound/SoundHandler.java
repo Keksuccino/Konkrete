@@ -22,18 +22,18 @@ import java.util.Map;
 
 public class SoundHandler {
 
-	//TODO übernehmen 1.5.2
+	//---
 	private static final Logger LOGGER = LogManager.getLogger();
 	
 	private static Map<String, Clip> sounds = new HashMap<>();
 	private static boolean init = false;
 
-	//TODO übernehmen 1.5.2
+	//---
 	private static volatile boolean volumeHandling = true;
 	private static List<String> unsupportedFormatAudios = new ArrayList<>();
 	//-------------------
 
-	//TODO übernehmen 1.5.2
+	//---
 	public static void init() {
 		if (FMLEnvironment.dist != Dist.CLIENT) {
 			LOGGER.error("[KONKRETE] Tried to initialize SoundHandler server-side!");
@@ -62,7 +62,7 @@ public class SoundHandler {
 		}
 	}
 
-	//TODO übernehmen 1.5.2
+	//---
 	public static void registerSound(String key, String path) {
 		if (unsupportedFormatAudios.contains(key)) {
 			return;
@@ -159,7 +159,7 @@ public class SoundHandler {
 		}
 	}
 
-	//TODO übernehmen 1.5.2
+	//---
 	private static void setVolume(String key, int percentage) {
 		if (!volumeHandling) {
 			return;
@@ -188,7 +188,7 @@ public class SoundHandler {
 		}
 	}
 
-	//TODO übernehmen 1.5.2
+	//---
 	private static void printErrorLog(Throwable throwable, String audioKey, int audioVolume, String action) {
 		CrashReport c = CrashReport.forThrowable(throwable, "Exception in Konkrete while " + action);
 		CrashReportCategory cat = c.addCategory("Audio Information");

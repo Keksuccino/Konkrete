@@ -3,7 +3,7 @@ loaderVersion="[33,37)" #mandatory This is typically bumped every Minecraft vers
 license="GPLv3"
 [[mods]] #mandatory
 modId="konkrete" #mandatory
-version="1.5.3" #mandatory
+version="1.6.0" #mandatory
 displayName="Konkrete" #mandatory
 authors="Keksuccino" #optional
 description='''COPYRIGHT:
@@ -18,7 +18,11 @@ JsonPath Copyright © 2017 Jayway.
 JsonPath is licensed under Apache-2.0.
 
 Json-smart Copyright © netplex.
-Json-smart is licensed under Apache-2.0.'''
+Json-smart is licensed under Apache-2.0.
+
+Exp4j Copyright © Frank Asseg.
+Exp4j is licensed under Apache-2.0.
+https://github.com/fasseg/exp4j'''
 
 [[dependencies.konkrete]]
 modId="forge"

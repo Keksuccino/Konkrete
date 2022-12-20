@@ -15,12 +15,12 @@
 package de.keksuccino.konkrete.json.jsonpath.internal.path;
 
 import de.keksuccino.konkrete.json.jsonpath.internal.PathRef;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ArraySliceToken extends ArrayPathToken {
 
-    private static final Logger logger = LoggerFactory.getLogger(ArraySliceToken.class);
+    private static final Logger logger = LogManager.getLogger();
 
     private final ArraySliceOperation operation;
 

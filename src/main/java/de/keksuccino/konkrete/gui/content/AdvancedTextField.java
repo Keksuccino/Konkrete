@@ -15,7 +15,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.util.text.StringTextComponent;
 
-//TODO übernehmen 1.5.3
+//---
 public class AdvancedTextField extends TextFieldWidget implements IAdvancedWidgetBase {
 
 	private final boolean handleSelf;

@@ -20,14 +20,14 @@ import com.google.gson.reflect.TypeToken;
 import de.keksuccino.konkrete.json.jsonpath.Configuration;
 import de.keksuccino.konkrete.json.jsonpath.JsonPathException;
 import de.keksuccino.konkrete.json.jsonpath.TypeRef;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.Callable;
 
 public class GsonMappingProvider implements MappingProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(GsonMappingProvider.class);
+    private static final Logger logger = LogManager.getLogger();
 
     private final Callable<Gson> factory;
 

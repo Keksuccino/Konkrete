@@ -21,14 +21,14 @@ import de.keksuccino.konkrete.json.jsonpath.internal.EvaluationAbortException;
 import de.keksuccino.konkrete.json.jsonpath.internal.EvaluationContext;
 import de.keksuccino.konkrete.json.jsonpath.internal.function.ParamType;
 import de.keksuccino.konkrete.json.jsonpath.internal.function.Parameter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
 public class CompiledPath implements Path {
 
-    private static final Logger logger = LoggerFactory.getLogger(CompiledPath.class);
+    private static final Logger logger = LogManager.getLogger();
 
     private final RootPathToken root;
 
