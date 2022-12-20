@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 @Mod(modid = "konkrete", acceptedMinecraftVersions="[1.12,1.12.2]")
 public class  Konkrete {
 
-	public static final String VERSION = "1.5.3";
+	public static final String VERSION = "1.6.0";
 
 	public static Logger LOGGER = LogManager.getLogger();
 
