@@ -1,6 +1,6 @@
-//TODO übernehmen 1.5.3
 package de.keksuccino.konkrete.mixin.client;
 
+import com.mojang.realmsclient.RealmsMainScreen;
 import de.keksuccino.konkrete.events.ScreenTickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -20,15 +20,16 @@ public class MixinMinecraft {
         }, "Konkrete Ticking screen", this.getClass().getCanonicalName());
     }
 
-    //TODO experimental
-    @Inject(at = @At("RETURN"), method = "setScreen")
-    private void onSetScreen(Screen screen, CallbackInfo info) {
-        //Fixes custom EditBoxes added to screens not reacting to key repeat events in some cases
-        if (screen != null) {
-            Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
-        } else {
-            Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
-        }
-    }
+    //TODO EXPERIMENTAL 1.19.3
+//    @Inject(at = @At("RETURN"), method = "setScreen")
+//    private void onSetScreen(Screen screen, CallbackInfo info) {
+//        //Fixes custom EditBoxes added to screens not reacting to key repeat events in some cases
+//        if (screen != null) {
+//            Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
+//            RealmsMainScreen
+//        } else {
+//            Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
+//        }
+//    }
 
 }

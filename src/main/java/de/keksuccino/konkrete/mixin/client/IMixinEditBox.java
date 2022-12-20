@@ -1,4 +1,3 @@
-//TODO übernehmen 1.5.3
 package de.keksuccino.konkrete.mixin.client;
 
 import net.minecraft.client.gui.components.EditBox;

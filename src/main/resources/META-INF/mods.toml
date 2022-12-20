@@ -1,9 +1,9 @@
 modLoader="javafml"
-loaderVersion="[41,)"
+loaderVersion="[44,)"
 license="GPLv3"
 [[mods]]
 modId="konkrete"
-version="1.5.3"
+version="1.6.0"
 displayName="Konkrete"
 logoFile="konkrete.png"
 authors="Keksuccino"
@@ -19,18 +19,22 @@ JsonPath Copyright © 2017 Jayway.
 JsonPath is licensed under Apache-2.0.
 
 Json-smart Copyright © netplex.
-Json-smart is licensed under Apache-2.0.'''
+Json-smart is licensed under Apache-2.0.
+
+Exp4j Copyright © Frank Asseg.
+Exp4j is licensed under Apache-2.0.
+https://github.com/fasseg/exp4j'''
 
 [[dependencies.konkrete]]
 modId="forge"
 mandatory=true
-versionRange="[41.0.64,)"
+versionRange="[44.0.0,)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.konkrete]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.19,)"
+versionRange="[1.19.3,)"
 ordering="NONE"
 side="BOTH"

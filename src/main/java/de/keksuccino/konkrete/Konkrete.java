@@ -23,8 +23,8 @@ import org.apache.logging.log4j.Logger;
 @Mod("konkrete")
 public class Konkrete {
 
-	//TODO übernehmen 1.5.3 (+ mixin.json & build.gradle)
-	public static final String VERSION = "1.5.3";
+	//TODO übernehmen
+	public static final String VERSION = "1.6.0";
 
 	public static Logger LOGGER = LogManager.getLogger();
 
@@ -36,7 +36,6 @@ public class Konkrete {
 
 			PopupHandler.init();
 
-			//TODO übernehmen 1.5.3
 			AdvancedWidgetsHandler.init();
 
 			KeyboardHandler.init();
@@ -54,7 +53,7 @@ public class Konkrete {
 			try {
 				Class.forName("optifine.Installer");
 				isOptifineLoaded = true;
-				LOGGER.info("[KONKRETE] Optifine detected! ###############################");
+				LOGGER.info("[KONKRETE] OptiFine detected!");
 			}
 			catch (ClassNotFoundException e) {}
 		
