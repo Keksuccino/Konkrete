@@ -15,7 +15,6 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 
-//TODO übernehmen 1.5.3
 public class AdvancedTextField extends EditBox implements IAdvancedWidgetBase {
 
 	private final boolean handleSelf;

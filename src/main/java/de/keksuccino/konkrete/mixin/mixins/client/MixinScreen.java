@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractButton;
-import net.minecraft.client.gui.components.Widget;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
@@ -30,7 +30,7 @@ import de.keksuccino.konkrete.mixin.MixinCache;
 public abstract class MixinScreen {
 	
 	@Shadow protected List<GuiEventListener> children;
-	@Shadow protected List<Widget> renderables;
+	@Shadow protected List<Renderable> renderables;
 	@Shadow protected List<NarratableEntry> narratables;
 
 	protected void addButton(AbstractButton button) {
@@ -70,7 +70,7 @@ public abstract class MixinScreen {
 			}
 		};
 		List<AbstractButton> buttons = new ArrayList<AbstractButton>();
-		for (Widget d : this.renderables) {
+		for (Renderable d : this.renderables) {
 			if (d instanceof AbstractButton) {
 				buttons.add((AbstractButton) d);
 			}
@@ -99,7 +99,7 @@ public abstract class MixinScreen {
 			}
 		};
 		List<AbstractButton> buttons2 = new ArrayList<AbstractButton>();
-		for (Widget d : this.renderables) {
+		for (Renderable d : this.renderables) {
 			if (d instanceof AbstractButton) {
 				buttons2.add((AbstractButton) d);
 			}
@@ -152,7 +152,7 @@ public abstract class MixinScreen {
 	private static void onKeyboardPressedReleasedPre(Runnable task, String errorTitle, String screenName, CallbackInfo info) {
 		if ((errorTitle != null) && errorTitle.equals("keyPressed event handler")) {
 			int i = MixinCache.currentKeyboardAction;
-			if (i != 1 && (i != 2 || !getRepeatEvents())) {
+			if (i != 1 && (i != 2)) {
 				if (i == 0) {
 					KeyboardKeyReleasedEvent.Pre e = new KeyboardKeyReleasedEvent.Pre(Minecraft.getInstance().screen, MixinCache.currentKeyboardKey, MixinCache.currentKeyboardScancode, MixinCache.currentKeyboardModifiers);
 					Konkrete.getEventHandler().callEventsFor(e);
@@ -176,7 +176,7 @@ public abstract class MixinScreen {
 	private static void onKeyboardPressedReleasedPost(Runnable task, String errorTitle, String screenName, CallbackInfo info) {
 		if ((errorTitle != null) && errorTitle.equals("keyPressed event handler")) {
 			int i = MixinCache.currentKeyboardAction;
-			if (i != 1 && (i != 2 || !getRepeatEvents())) {
+			if (i != 1 && (i != 2)) {
 				if (i == 0) {
 					KeyboardKeyReleasedEvent.Post e = new KeyboardKeyReleasedEvent.Post(Minecraft.getInstance().screen, MixinCache.currentKeyboardKey, MixinCache.currentKeyboardScancode, MixinCache.currentKeyboardModifiers);
 					Konkrete.getEventHandler().callEventsFor(e);
@@ -207,10 +207,6 @@ public abstract class MixinScreen {
 			KeyboardCharTypedEvent.Post e = new KeyboardCharTypedEvent.Post(Minecraft.getInstance().screen, (char)MixinCache.currentKeyboardChar, MixinCache.currentKeyboardCharModifiers);
 			Konkrete.getEventHandler().callEventsFor(e);
 		}
-	}
-	
-	private static boolean getRepeatEvents() {
-		return ((IMixinKeyboardHandler)Minecraft.getInstance().keyboardHandler).getSendRepeatsToGuiKonkrete();
 	}
 	
 }

@@ -1,4 +1,3 @@
-//TODO übernehmen 1.5.3
 package de.keksuccino.konkrete.gui.content.handling;
 
 import de.keksuccino.konkrete.input.CharData;

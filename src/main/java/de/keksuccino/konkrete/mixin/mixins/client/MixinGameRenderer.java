@@ -16,7 +16,7 @@ public class MixinGameRenderer {
 
 	private PoseStack cachedStack = null;
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;render(Lcom/mojang/blaze3d/vertex/PoseStack;IIF)V"), method = "render", cancellable = true)
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;renderWithTooltip(Lcom/mojang/blaze3d/vertex/PoseStack;IIF)V"), method = "render", cancellable = true)
 	private void beforeRenderScreen(float tickDelta, long startTime, boolean tick, CallbackInfo info) {
 
 		//TODO improve this (cache original stack instead of new instance)
@@ -49,7 +49,7 @@ public class MixinGameRenderer {
 
 	}
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;render(Lcom/mojang/blaze3d/vertex/PoseStack;IIF)V", shift = At.Shift.AFTER), method = "render")
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;renderWithTooltip(Lcom/mojang/blaze3d/vertex/PoseStack;IIF)V", shift = At.Shift.AFTER), method = "render")
 	private void afterRenderScreen(float tickDelta, long startTime, boolean tick, CallbackInfo info) {
 
 		if (this.cachedStack == null) {

@@ -70,15 +70,14 @@ public class MixinMinecraft {
 		}, "Konkrete Ticking screen", this.getClass().getCanonicalName());
 	}
 
-	//TODO experimental
-	@Inject(at = @At("RETURN"), method = "setScreen")
-	private void onSetScreen(Screen screen, CallbackInfo info) {
-		//Fixes custom EditBoxes added to screens not reacting to key repeat events in some cases
-		if (screen != null) {
-			Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
-		} else {
-			Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
-		}
-	}
+//	@Inject(at = @At("RETURN"), method = "setScreen")
+//	private void onSetScreen(Screen screen, CallbackInfo info) {
+//		//Fixes custom EditBoxes added to screens not reacting to key repeat events in some cases
+//		if (screen != null) {
+//			Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
+//		} else {
+//			Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
+//		}
+//	}
 	
 }

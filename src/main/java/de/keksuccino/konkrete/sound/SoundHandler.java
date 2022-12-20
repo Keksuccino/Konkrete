@@ -42,12 +42,14 @@ public class SoundHandler {
 				float lastMaster = 0.0F;
 				while (volumeHandling) {
 					try {
-						float currentMaster = Minecraft.getInstance().options.getSoundSourceVolume(SoundSource.MASTER);
-						if (lastMaster != currentMaster) {
-							SoundHandler.updateVolume();
+						if ((Minecraft.getInstance() != null) && (Minecraft.getInstance().options != null)) {
+							float currentMaster = Minecraft.getInstance().options.getSoundSourceVolume(SoundSource.MASTER);
+							if (lastMaster != currentMaster) {
+								SoundHandler.updateVolume();
+							}
+							lastMaster = currentMaster;
+							Thread.sleep(100);
 						}
-						lastMaster = currentMaster;
-						Thread.sleep(100);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

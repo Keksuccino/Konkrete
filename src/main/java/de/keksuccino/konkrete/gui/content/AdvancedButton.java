@@ -1,21 +1,23 @@
 package de.keksuccino.konkrete.gui.content;
 
 import java.awt.Color;
+
+import javax.annotation.Nullable;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import de.keksuccino.konkrete.input.MouseInput;
+import de.keksuccino.konkrete.rendering.RenderUtils;
+import de.keksuccino.konkrete.rendering.animation.IAnimationRenderer;
+import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
+import de.keksuccino.konkrete.sound.SoundHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import de.keksuccino.konkrete.rendering.animation.IAnimationRenderer;
-import org.jetbrains.annotations.Nullable;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import de.keksuccino.konkrete.input.MouseInput;
-import de.keksuccino.konkrete.rendering.RenderUtils;
-import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
-import de.keksuccino.konkrete.sound.SoundHandler;
 
 public class AdvancedButton extends Button {
 
@@ -42,18 +44,22 @@ public class AdvancedButton extends Button {
 	public boolean loopBackgroundAnimations = true;
 	public boolean restartBackgroundAnimationsOnHover = true;
 	protected boolean lastHoverState = false;
-	String clicksound = null;
-	String[] description = null;
+	protected String clicksound = null;
+	protected String[] description = null;
 
 	protected OnPress press;
-	
+
 	public AdvancedButton(int x, int y, int widthIn, int heightIn, String buttonText, OnPress onPress) {
-		super(x, y, widthIn, heightIn, Component.literal(buttonText), onPress);
+		super(x, y, widthIn, heightIn, Component.literal(buttonText), onPress, (narration) -> {
+			return Component.literal(buttonText);
+		});
 		this.press = onPress;
 	}
-	
+
 	public AdvancedButton(int x, int y, int widthIn, int heightIn, String buttonText, boolean handleClick, OnPress onPress) {
-		super(x, y, widthIn, heightIn, Component.literal(buttonText), onPress);
+		super(x, y, widthIn, heightIn, Component.literal(buttonText), onPress, (narration) -> {
+			return Component.literal(buttonText);
+		});
 		this.handleClick = handleClick;
 		this.press = onPress;
 	}
@@ -62,7 +68,7 @@ public class AdvancedButton extends Button {
 	public void onPress() {
 		this.press.onPress(this);
 	}
-	
+
 	//renderButton
 	@Override
 	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partialTicks) {
@@ -71,8 +77,8 @@ public class AdvancedButton extends Button {
 
 			this.isHovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 
-			if (this.lastHoverState != this.isHovered) {
-				if (this.isHovered) {
+			if (this.lastHoverState != this.isHoveredOrFocused()) {
+				if (this.isHoveredOrFocused()) {
 					if (this.restartBackgroundAnimationsOnHover) {
 						if (this.backgroundAnimationNormal != null) {
 							this.backgroundAnimationNormal.resetAnimation();
@@ -83,12 +89,12 @@ public class AdvancedButton extends Button {
 					}
 				}
 			}
-			this.lastHoverState = this.isHovered;
+			this.lastHoverState = this.isHoveredOrFocused();
 
 			RenderSystem.enableBlend();
 			if (this.hasColorBackground()) {
 				Color border;
-				if (!this.isHovered) {
+				if (!isHoveredOrFocused()) {
 					fill(matrix, this.x, this.y, this.x + this.width, this.y + this.height, this.idleColor.getRGB() | Mth.ceil(this.alpha * 255.0F) << 24);
 					border = this.idleBorderColor;
 				} else {
@@ -242,11 +248,11 @@ public class AdvancedButton extends Button {
 		int i = this.getYImage(this.isHoveredOrFocused());
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.enableDepthTest();
-		blit(matrix, this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
-		blit(matrix, this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
+		this.blit(matrix, this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
+		this.blit(matrix, this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
 		RenderSystem.disableDepthTest();
 	}
-	
+
 	protected void renderLabel(PoseStack matrix) {
 		if (!renderLabel) {
 			return;
@@ -257,7 +263,7 @@ public class AdvancedButton extends Button {
 		int stringHeight = 8;
 		int pX = (int) (((this.x + (this.width / 2)) - ((stringWidth * this.labelScale) / 2)) / this.labelScale);
 		int pY = (int) (((this.y + (this.height / 2)) - ((stringHeight * this.labelScale) / 2)) / this.labelScale);
-		
+
 		matrix.pushPose();
 		matrix.scale(this.labelScale, this.labelScale, this.labelScale);
 
@@ -266,30 +272,30 @@ public class AdvancedButton extends Button {
 		} else {
 			font.draw(matrix, getMessageString(), pX, pY, getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
 		}
-		
+
 		matrix.popPose();
 	}
-	
+
 	protected boolean isInputBlocked() {
 		if (this.ignoreBlockedInput) {
 			return false;
 		}
 		return MouseInput.isVanillaInputBlocked();
 	}
-	
+
 	public void setBackgroundColor(@Nullable Color idle, @Nullable Color hovered, @Nullable Color idleBorder, @Nullable Color hoveredBorder, float borderWidth) {
 		this.idleColor = idle;
 		this.hoveredColor = hovered;
 		this.hoveredBorderColor = hoveredBorder;
 		this.idleBorderColor = idleBorder;
-		
+
 		if (borderWidth >= 0) {
 			this.borderWidth = borderWidth;
 		} else {
 			borderWidth = 0;
 		}
 	}
-	
+
 	public void setBackgroundColor(@Nullable Color idle, @Nullable Color hovered, @Nullable Color idleBorder, @Nullable Color hoveredBorder, int borderWidth) {
 		this.setBackgroundColor(idle, hovered, idleBorder, hoveredBorder, (float) borderWidth);
 	}
@@ -345,11 +351,11 @@ public class AdvancedButton extends Button {
 		}
 		this.backgroundAnimationHover = animation;
 	}
-	
+
 	public boolean hasBorder() {
 		return (this.hasColorBackground() && (this.idleBorderColor != null) && (this.hoveredBorderColor != null));
 	}
-	
+
 	public boolean hasColorBackground() {
 		return ((this.idleColor != null) && (this.hoveredColor != null));
 	}
@@ -376,30 +382,29 @@ public class AdvancedButton extends Button {
 		if (!this.handleClick) {
 			if (this.useable) {
 				if (this.active && this.visible) {
-			         if (this.isValidClickButton(p_mouseClicked_5_)) {
-			            boolean flag = this.clicked(p_mouseClicked_1_, p_mouseClicked_3_);
-			            if (flag) {
-			               if (this.clicksound == null) {
-			            	   this.playDownSound(Minecraft.getInstance().getSoundManager());
-			               } else {
-			            	   SoundHandler.resetSound(this.clicksound);
-			            	   SoundHandler.playSound(this.clicksound);
-			               }
-			               this.onClick(p_mouseClicked_1_, p_mouseClicked_3_);
-			               return true;
-			            }
-			         }
+					if (this.isValidClickButton(p_mouseClicked_5_)) {
+						boolean flag = this.clicked(p_mouseClicked_1_, p_mouseClicked_3_);
+						if (flag) {
+							if (this.clicksound == null) {
+								this.playDownSound(Minecraft.getInstance().getSoundManager());
+							} else {
+								SoundHandler.resetSound(this.clicksound);
+								SoundHandler.playSound(this.clicksound);
+							}
+							this.onClick(p_mouseClicked_1_, p_mouseClicked_3_);
+							return true;
+						}
+					}
 
-			         return false;
-			      } else {
-			         return false;
-			      }
+					return false;
+				} else {
+					return false;
+				}
 			}
 		}
 		return false;
 	}
-	
-	//keyPressed
+
 	@Override
 	public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
 		if (this.handleClick) {
@@ -407,55 +412,51 @@ public class AdvancedButton extends Button {
 		}
 		return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 	}
-	
+
 	public void setUseable(boolean b) {
 		this.useable = b;
 	}
-	
+
 	public boolean isUseable() {
 		return this.useable;
 	}
-	
+
 	public void setHandleClick(boolean b) {
 		this.handleClick = b;
 	}
-	
+
 	public String getMessageString() {
 		return this.getMessage().getString();
 	}
-	
+
 	public void setMessage(String msg) {
 		this.setMessage(Component.literal(msg));
 	}
-	
+
 	public int getWidth() {
 		return this.width;
 	}
-	
+
 	public void setWidth(int width) {
 		this.width = width;
 	}
-	
-	public void setHeight(int height) {
-		this.height = height;
-	}
-	
+
 	public int getX() {
 		return this.x;
 	}
-	
+
 	public void setX(int x) {
 		this.x = x;
 	}
-	
+
 	public int getY() {
 		return this.y;
 	}
-	
+
 	public void setY(int y) {
 		this.y = y;
 	}
-	
+
 	public void setHovered(boolean b) {
 		this.isHovered = b;
 	}
@@ -475,17 +476,17 @@ public class AdvancedButton extends Button {
 	public String[] getDescription() {
 		return this.description;
 	}
-	
-	public int getFGColor() {
-		return this.active ? 16777215 : 10526880;
-	}
-	
+
 	public void setLabelShadow(boolean shadow) {
 		this.labelShadow = shadow;
 	}
-	
+
 	public static boolean isAnyButtonLeftClicked() {
 		return leftDown;
+	}
+
+	public int getFGColor() {
+		return this.active ? 16777215 : 10526880;
 	}
 
 }

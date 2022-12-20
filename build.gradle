@@ -29,6 +29,10 @@ dependencies {
 	runtimeOnly fileTree('libs') { include '*.jar' }
 }
 
+loom {
+	accessWidenerPath = file("src/main/resources/konkrete.accessWidener")
+}
+
 processResources {
 	inputs.property "version", project.version
 

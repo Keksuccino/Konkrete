@@ -2,6 +2,8 @@ package de.keksuccino.konkrete.gui.content;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.keksuccino.konkrete.gui.content.widget.WidgetUtils;
 import net.minecraft.client.Minecraft;
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.input.MouseInput;
@@ -35,8 +37,8 @@ public class DropdownMenu implements IMenu {
 		float ticks = Minecraft.getInstance().getFrameTime();
 		
 		this.updateHovered(mouseX, mouseY);
-		
-		this.dropdown.setHeight(this.height);;
+
+		WidgetUtils.setHeight(dropdown, this.height);
 		this.dropdown.setWidth(this.width);
 		this.dropdown.setX(this.x);
 		this.dropdown.setY(this.y);
