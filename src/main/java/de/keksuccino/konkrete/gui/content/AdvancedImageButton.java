@@ -3,6 +3,7 @@ package de.keksuccino.konkrete.gui.content;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.keksuccino.konkrete.rendering.RenderUtils;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
 public class AdvancedImageButton extends AdvancedButton {
@@ -20,12 +21,12 @@ public class AdvancedImageButton extends AdvancedButton {
 	}
 
 	@Override
-	public void render(PoseStack matrix, int mouseX, int mouseY, float partialTicks) {
-		super.render(matrix, mouseX, mouseY, partialTicks);
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+		super.render(graphics, mouseX, mouseY, partialTicks);
 		
-		RenderUtils.bindTexture(this.image);
+//		RenderUtils.bindTexture(this.image);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		blit(matrix, this.getX(), this.getY(), 0.0F, 0.0F, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
+		graphics.blit(this.image, this.getX(), this.getY(), 0.0F, 0.0F, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
 	}
 
 	public void setImage(ResourceLocation image) {

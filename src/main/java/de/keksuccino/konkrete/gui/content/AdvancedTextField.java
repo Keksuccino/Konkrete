@@ -12,6 +12,7 @@ import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.mixin.client.IMixinEditBox;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 
@@ -45,13 +46,13 @@ public class AdvancedTextField extends EditBox implements IAdvancedWidgetBase {
 	}
 
 	@Override
-	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partial) {
+	public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partial) {
 
 		if (this.handleSelf) {
 			AdvancedWidgetsHandler.handleWidget(this);
 		}
 
-		super.renderButton(matrix, mouseX, mouseY, partial);
+		super.renderWidget(graphics, mouseX, mouseY, partial);
 
 	}
 

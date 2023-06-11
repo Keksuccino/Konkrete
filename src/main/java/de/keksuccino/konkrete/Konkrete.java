@@ -23,8 +23,7 @@ import org.apache.logging.log4j.Logger;
 @Mod("konkrete")
 public class Konkrete {
 
-	//TODO übernehmen
-	public static final String VERSION = "1.6.0";
+	public static final String VERSION = "1.6.1";
 
 	public static Logger LOGGER = LogManager.getLogger();
 
@@ -48,14 +47,12 @@ public class Konkrete {
 
 			FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
 
-//			MinecraftForge.EVENT_BUS.register(new Test());
-
 			try {
 				Class.forName("optifine.Installer");
 				isOptifineLoaded = true;
 				LOGGER.info("[KONKRETE] OptiFine detected!");
 			}
-			catch (ClassNotFoundException e) {}
+			catch (ClassNotFoundException ignored) {}
 		
 		}
 

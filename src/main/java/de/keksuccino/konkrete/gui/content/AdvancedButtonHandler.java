@@ -7,7 +7,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraftforge.client.event.ScreenEvent.Render;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -27,7 +27,7 @@ public class AdvancedButtonHandler {
 		if (activeDescBtn != null) {
 			if (activeDescBtn.isHoveredOrFocused()) {
 				if ((Minecraft.getInstance() != null) && (Minecraft.getInstance().screen != null)) {
-					renderDescription(e.getPoseStack(), e.getMouseX(), e.getMouseY());
+					renderDescription(e.getGuiGraphics(), e.getMouseX(), e.getMouseY());
 				}
 			}
 			if (garbageCheck == 0) {
@@ -42,11 +42,12 @@ public class AdvancedButtonHandler {
 		garbageCheck = 1;
 	}
 	
-	private static void renderDescriptionBackground(PoseStack matrix, int x, int y, int width, int height) {
-		GuiComponent.fill(matrix, x, y, x + width, y + height, new Color(26, 26, 26, 250).getRGB());
+	private static void renderDescriptionBackground(GuiGraphics graphics, int x, int y, int width, int height) {
+		graphics.fill(x, y, x + width, y + height, new Color(26, 26, 26, 250).getRGB());
 	}
 	
-	private static void renderDescription(PoseStack matrix, int mouseX, int mouseY) {
+	private static void renderDescription(GuiGraphics graphics, int mouseX, int mouseY) {
+		PoseStack matrix = graphics.pose();
 		if (activeDescBtn != null) {
 			if (activeDescBtn.getDescription() != null) {
 				int width = 10;
@@ -74,13 +75,13 @@ public class AdvancedButtonHandler {
 
 				RenderUtils.setZLevelPre(matrix, 600);
 				
-				renderDescriptionBackground(matrix, mouseX, mouseY, width, height);
+				renderDescriptionBackground(graphics, mouseX, mouseY, width, height);
 
 				RenderSystem.enableBlend();
 
 				int i2 = 5;
 				for (String s : activeDescBtn.getDescription()) {
-					GuiComponent.drawString(matrix, Minecraft.getInstance().font, s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
+					graphics.drawString(Minecraft.getInstance().font, s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB(), true);
 					i2 += 10;
 				}
 

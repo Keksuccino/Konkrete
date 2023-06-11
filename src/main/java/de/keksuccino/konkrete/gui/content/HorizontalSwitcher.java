@@ -9,11 +9,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import de.keksuccino.konkrete.input.MouseInput;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-public class HorizontalSwitcher extends GuiComponent {
+public class HorizontalSwitcher {
 	
 	private int width;
 	private AdvancedImageButton prev;
@@ -47,7 +47,7 @@ public class HorizontalSwitcher extends GuiComponent {
 		this.width = displayWidth;
 	}
 	
-	public void render(PoseStack matrix, int x, int y) {
+	public void render(GuiGraphics graphics, int x, int y) {
 		int mouseX = MouseInput.getMouseX();
 		int mouseY = MouseInput.getMouseY();
 		float partial = Minecraft.getInstance().getFrameTime();
@@ -58,17 +58,17 @@ public class HorizontalSwitcher extends GuiComponent {
 		
 		this.prev.setX(x);
 		this.prev.setY(y);
-		this.prev.render(matrix, mouseX, mouseY, partial);
+		this.prev.render(graphics, mouseX, mouseY, partial);
 		
 		//Value background
-		fill(matrix, x + 25, y, x + 25 + this.width, y + 20, this.valuebackcolor.getRGB());
+		graphics.fill(x + 25, y, x + 25 + this.width, y + 20, this.valuebackcolor.getRGB());
 		
 		//Selected value
-		drawCenteredString(matrix, Minecraft.getInstance().font, Component.literal(sel), x + 25 + (this.width/2), y + 5, this.valuecolor.getRGB());
+		graphics.drawCenteredString(Minecraft.getInstance().font, Component.literal(sel), x + 25 + (this.width/2), y + 5, this.valuecolor.getRGB());
 		
 		this.next.setX(x + 25 + this.width + 5);;
 		this.next.setY(y);
-		this.next.render(matrix, mouseX, mouseY, partial);
+		this.next.render(graphics, mouseX, mouseY, partial);
 	}
 	
 	public void addValue(String value) {

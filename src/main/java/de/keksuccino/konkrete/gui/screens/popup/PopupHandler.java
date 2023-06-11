@@ -22,9 +22,9 @@ public class PopupHandler {
 	public static void onRender(ScreenEvent.Render.Post e) {
 		if ((popup != null) && popup.isDisplayed()) {
 			MouseInput.blockVanillaInput("popupgui");
-			RenderUtils.setZLevelPre(e.getPoseStack(), 500);
-			popup.render(e.getPoseStack(), e.getMouseX(), e.getMouseY(), e.getScreen());
-			RenderUtils.setZLevelPost(e.getPoseStack());
+			RenderUtils.setZLevelPre(e.getGuiGraphics().pose(), 500);
+			popup.render(e.getGuiGraphics(), e.getMouseX(), e.getMouseY(), e.getScreen());
+			RenderUtils.setZLevelPost(e.getGuiGraphics().pose());
 		} else {
 			MouseInput.unblockVanillaInput("popupgui");
 		}

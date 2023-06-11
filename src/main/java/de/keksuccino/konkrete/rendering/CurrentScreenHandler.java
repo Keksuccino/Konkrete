@@ -3,6 +3,7 @@ package de.keksuccino.konkrete.rendering;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -13,6 +14,7 @@ public class CurrentScreenHandler {
 
 	private static Screen lastScreen;
 	private static PoseStack currentStack;
+	private static GuiGraphics currentGraphics;
 
 	public static void init() {
 		MinecraftForge.EVENT_BUS.register(new CurrentScreenHandler());
@@ -32,6 +34,11 @@ public class CurrentScreenHandler {
 			currentStack = new PoseStack();
 		}
 		return currentStack;
+	}
+
+	public static GuiGraphics getGraphics() {
+		if (currentGraphics != null) return currentGraphics;
+		return new GuiGraphics(Minecraft.getInstance(), Minecraft.getInstance().renderBuffers().bufferSource());
 	}
 	
 	public static int getWidth() {
@@ -66,7 +73,8 @@ public class CurrentScreenHandler {
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onDrawScreen(ScreenEvent.Render.Pre e) {
-		currentStack = e.getPoseStack();
+		currentStack = e.getGuiGraphics().pose();
+		currentGraphics = e.getGuiGraphics();
 	}
 
 	@SubscribeEvent

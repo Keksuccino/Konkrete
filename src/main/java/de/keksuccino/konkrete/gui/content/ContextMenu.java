@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 
 public class ContextMenu implements IMenu {
@@ -41,7 +42,8 @@ public class ContextMenu implements IMenu {
 		this.space = space;
 	}
 
-	public void render(PoseStack matrix, int mouseX, int mouseY, int screenWidth, int screenHeight) {
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, int screenWidth, int screenHeight) {
+		PoseStack matrix = graphics.pose();
 		this.updateHovered(mouseX, mouseY);
 		
 		float ticks = Minecraft.getInstance().getFrameTime();
@@ -103,13 +105,13 @@ public class ContextMenu implements IMenu {
 					}
 				}
 				
-				b.render(matrix, mouseX, mouseY, ticks);
+				b.render(graphics, mouseX, mouseY, ticks);
 				
 				stackedHeight += this.getScaledButtonHeight() + this.space;
 			}
 
 			for (ContextMenu m : this.children) {
-				m.render(matrix, mouseX, mouseY, screenWidth, screenHeight);
+				m.render(graphics, mouseX, mouseY, screenWidth, screenHeight);
 			}
 
 			if (this.alwaysOnTop) {
@@ -126,10 +128,10 @@ public class ContextMenu implements IMenu {
 
 	}
 
-	public void render(PoseStack matrix, int mouseX, int mouseY) {
+	public void render(GuiGraphics graphics, int mouseX, int mouseY) {
 		Screen c = Minecraft.getInstance().screen;
 		if (c != null) {
-			this.render(matrix, mouseX, mouseY, c.width, c.height);
+			this.render(graphics, mouseX, mouseY, c.width, c.height);
 		}
 	}
 
@@ -183,8 +185,15 @@ public class ContextMenu implements IMenu {
 		}
 		return false;
 	}
-	
+
+	//TODO übernehmen
+	@Deprecated
 	public boolean isHoveredOrFocused() {
+		return this.isHovered();
+	}
+
+	//TODO übernehmen
+	public boolean isHovered() {
 		if (!this.isOpen()) {
 			return false;
 		}

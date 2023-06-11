@@ -8,12 +8,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import de.keksuccino.konkrete.input.MouseInput;
+import de.keksuccino.konkrete.json.jsonpath.internal.function.numeric.Min;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 import de.keksuccino.konkrete.rendering.animation.IAnimationRenderer;
 import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
 import de.keksuccino.konkrete.sound.SoundHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -68,10 +70,10 @@ public class AdvancedButton extends Button {
 	public void onPress() {
 		this.press.onPress(this);
 	}
-	
-	//renderButton
+
 	@Override
-	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partialTicks) {
+	public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+		PoseStack matrix = graphics.pose();
 		if (this.visible) {
 			Minecraft mc = Minecraft.getInstance();
 
@@ -95,14 +97,14 @@ public class AdvancedButton extends Button {
 			if (this.hasColorBackground()) {
 				Color border;
 				if (!isHoveredOrFocused()) {
-					fill(matrix, this.x, this.y, this.x + this.width, this.y + this.height, this.idleColor.getRGB() | Mth.ceil(this.alpha * 255.0F) << 24);
+					graphics.fill(this.x, this.y, this.x + this.width, this.y + this.height, this.idleColor.getRGB() | Mth.ceil(this.alpha * 255.0F) << 24);
 					border = this.idleBorderColor;
 				} else {
 					if (this.active) {
-						fill(matrix, this.x, this.y, this.x + this.width, this.y + this.height, this.hoveredColor.getRGB() | Mth.ceil(this.alpha * 255.0F) << 24);
+						graphics.fill(this.x, this.y, this.x + this.width, this.y + this.height, this.hoveredColor.getRGB() | Mth.ceil(this.alpha * 255.0F) << 24);
 						border = this.hoveredBorderColor;
 					} else {
-						fill(matrix, this.x, this.y, this.x + this.width, this.y + this.height, this.idleColor.getRGB() | Mth.ceil(this.alpha * 255.0F) << 24);
+						graphics.fill(this.x, this.y, this.x + this.width, this.y + this.height, this.idleColor.getRGB() | Mth.ceil(this.alpha * 255.0F) << 24);
 						border = this.idleBorderColor;
 					}
 				}
@@ -117,13 +119,11 @@ public class AdvancedButton extends Button {
 					RenderUtils.fill(matrix, this.x + this.width - this.borderWidth, this.y + this.borderWidth, this.x + this.width, this.y + this.height - this.borderWidth, border.getRGB(), this.alpha);
 				}
 			} else {
-				this.renderBackgroundNormal(matrix);
-				this.renderBackgroundHover(matrix);
+				this.renderBackgroundNormal(graphics);
+				this.renderBackgroundHover(graphics);
 			}
 
-			this.renderBg(matrix, mc, mouseX, mouseY);
-
-			this.renderLabel(matrix);
+			this.renderLabel(graphics);
 
 			if (this.isHoveredOrFocused()) {
 				AdvancedButtonHandler.setActiveDescriptionButton(this);
@@ -158,15 +158,15 @@ public class AdvancedButton extends Button {
 		}
 	}
 
-	protected void renderBackgroundHover(PoseStack matrix) {
+	protected void renderBackgroundHover(GuiGraphics graphics) {
 		try {
 			if (this.isHoveredOrFocused()) {
 				if (this.active) {
 					if (this.hasCustomBackgroundHover()) {
 						if (this.backgroundHover != null) {
-							RenderUtils.bindTexture(this.backgroundHover);
+//							RenderUtils.bindTexture(this.backgroundHover);
 							RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-							blit(matrix, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
+							graphics.blit(this.backgroundHover, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
 						} else {
 							int aniX = this.backgroundAnimationHover.getPosX();
 							int aniY = this.backgroundAnimationHover.getPosY();
@@ -181,7 +181,7 @@ public class AdvancedButton extends Button {
 							this.backgroundAnimationHover.setLooped(this.loopBackgroundAnimations);
 							this.backgroundAnimationHover.setOpacity(this.alpha);
 
-							this.backgroundAnimationHover.render(matrix);
+							this.backgroundAnimationHover.render(graphics);
 
 							this.backgroundAnimationHover.setPosX(aniX);
 							this.backgroundAnimationHover.setPosY(aniY);
@@ -191,10 +191,10 @@ public class AdvancedButton extends Button {
 							this.backgroundAnimationHover.setOpacity(1.0F);
 						}
 					} else {
-						this.renderDefaultBackground(matrix);
+						this.renderDefaultBackground(graphics);
 					}
 				} else {
-					this.renderBackgroundNormal(matrix);
+					this.renderBackgroundNormal(graphics);
 				}
 			}
 		} catch (Exception e) {
@@ -202,14 +202,14 @@ public class AdvancedButton extends Button {
 		}
 	}
 
-	protected void renderBackgroundNormal(PoseStack matrix) {
+	protected void renderBackgroundNormal(GuiGraphics graphics) {
 		try {
 			if (!this.isHoveredOrFocused()) {
 				if (this.hasCustomBackgroundNormal()) {
 					if (this.backgroundNormal != null) {
-						RenderUtils.bindTexture(this.backgroundNormal);
+//						RenderUtils.bindTexture(this.backgroundNormal);
 						RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-						blit(matrix, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
+						graphics.blit(this.backgroundNormal, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
 					} else {
 						int aniX = this.backgroundAnimationNormal.getPosX();
 						int aniY = this.backgroundAnimationNormal.getPosY();
@@ -224,7 +224,7 @@ public class AdvancedButton extends Button {
 						this.backgroundAnimationNormal.setLooped(this.loopBackgroundAnimations);
 						this.backgroundAnimationNormal.setOpacity(this.alpha);
 
-						this.backgroundAnimationNormal.render(matrix);
+						this.backgroundAnimationNormal.render(graphics);
 
 						this.backgroundAnimationNormal.setPosX(aniX);
 						this.backgroundAnimationNormal.setPosY(aniY);
@@ -234,7 +234,7 @@ public class AdvancedButton extends Button {
 						this.backgroundAnimationNormal.setOpacity(1.0F);
 					}
 				} else {
-					this.renderDefaultBackground(matrix);
+					this.renderDefaultBackground(graphics);
 				}
 			}
 		} catch (Exception e) {
@@ -242,18 +242,26 @@ public class AdvancedButton extends Button {
 		}
 	}
 
-	protected void renderDefaultBackground(PoseStack matrix) {
-		RenderUtils.bindTexture(WIDGETS_LOCATION);
+	protected void renderDefaultBackground(GuiGraphics graphics) {
+//		RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-		int i = this.getYImage(this.isHoveredOrFocused());
-		RenderSystem.defaultBlendFunc();
+		RenderSystem.enableBlend();
 		RenderSystem.enableDepthTest();
-		this.blit(matrix, this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
-		this.blit(matrix, this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
-		RenderSystem.disableDepthTest();
+		graphics.blitNineSliced(WIDGETS_LOCATION, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 20, 4, 200, 20, 0, this.getTextureY());
+	}
+
+	private int getTextureY() {
+		int i = 1;
+		if (!this.active) {
+			i = 0;
+		} else if (this.isHoveredOrFocused()) {
+			i = 2;
+		}
+		return 46 + i * 20;
 	}
 	
-	protected void renderLabel(PoseStack matrix) {
+	protected void renderLabel(GuiGraphics graphics) {
+		PoseStack matrix = graphics.pose();
 		if (!renderLabel) {
 			return;
 		}
@@ -267,12 +275,8 @@ public class AdvancedButton extends Button {
 		matrix.pushPose();
 		matrix.scale(this.labelScale, this.labelScale, this.labelScale);
 
-		if (this.labelShadow) {
-			font.drawShadow(matrix, getMessageString(), pX, pY, getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
-		} else {
-			font.draw(matrix, getMessageString(), pX, pY, getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
-		}
-		
+		graphics.drawString(font, getMessageString(), pX, pY, getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24, this.labelShadow);
+
 		matrix.popPose();
 	}
 	

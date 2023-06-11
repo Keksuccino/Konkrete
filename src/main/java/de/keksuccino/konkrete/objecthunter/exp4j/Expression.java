@@ -24,7 +24,6 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-//TODO übernehmen (add exp4j lib)
 public class Expression {
 
     private final Token[] tokens;

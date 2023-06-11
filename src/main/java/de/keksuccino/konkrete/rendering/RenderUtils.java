@@ -119,6 +119,7 @@ public class RenderUtils {
 	}
 
 	public static void fill(PoseStack matrix, float minX, float minY, float maxX, float maxY, int color, float opacity) {
+
 		Matrix4f matrix4f = matrix.last().pose();
 
 		if (minX < maxX) {
@@ -141,17 +142,17 @@ public class RenderUtils {
 
 		BufferBuilder bb = Tesselator.getInstance().getBuilder();
 		RenderSystem.enableBlend();
-		RenderSystem.disableTexture();
-		RenderSystem.defaultBlendFunc();
 		RenderSystem.setShader(GameRenderer::getPositionColorShader);
 		bb.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+
 		bb.vertex(matrix4f, minX, maxY, 0.0F).color(r, g, b, a).endVertex();
 		bb.vertex(matrix4f, maxX, maxY, 0.0F).color(r, g, b, a).endVertex();
 		bb.vertex(matrix4f, maxX, minY, 0.0F).color(r, g, b, a).endVertex();
 		bb.vertex(matrix4f, minX, minY, 0.0F).color(r, g, b, a).endVertex();
+
 		BufferUploader.drawWithShader(bb.end());
-		RenderSystem.enableTexture();
 		RenderSystem.disableBlend();
+
 	}
 
 }

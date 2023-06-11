@@ -13,6 +13,7 @@ import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.localization.Locals;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -39,7 +40,7 @@ public class TextInputPopup extends Popup {
 	protected void init(Color color, String title, CharacterFilter filter, Consumer<String> callback) {
 		this.textField = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 200, 20, true, filter);
 		this.textField.setCanLoseFocus(true);
-		this.textField.setFocus(false);
+		this.textField.setFocused(false);
 		this.textField.setMaxLength(1000);
 		
 		this.doneButton = new AdvancedButton(0, 0, 100, 20, Locals.localize("popup.done"), true, (press) -> {
@@ -63,26 +64,26 @@ public class TextInputPopup extends Popup {
 	}
 
 	@Override
-	public void render(PoseStack matrix, int mouseX, int mouseY, Screen renderIn) {
-		super.render(matrix, mouseX, mouseY, renderIn);
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, Screen renderIn) {
+		super.render(graphics, mouseX, mouseY, renderIn);
 		
 		if (this.isDisplayed()) {
 			int height = 100;
 			
 			RenderSystem.enableBlend();
-			fill(matrix, (renderIn.width / 2) - (this.width / 2), (renderIn.height / 2) - (height / 2), (renderIn.width / 2) + (this.width / 2), (renderIn.height / 2) + (height / 2), this.color.getRGB());
+			graphics.fill((renderIn.width / 2) - (this.width / 2), (renderIn.height / 2) - (height / 2), (renderIn.width / 2) + (this.width / 2), (renderIn.height / 2) + (height / 2), this.color.getRGB());
 			RenderSystem.disableBlend();
 			
-			drawCenteredString(matrix, Minecraft.getInstance().font, Component.literal(title), renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10, Color.WHITE.getRGB());
+			graphics.drawCenteredString(Minecraft.getInstance().font, Component.literal(title), renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10, Color.WHITE.getRGB());
 			
 			this.textField.setX((renderIn.width / 2) - (this.textField.getWidth() / 2));
 			this.textField.setY((renderIn.height / 2) - (this.textField.getHeight() / 2));
-			this.textField.renderButton(matrix, mouseX, mouseY, Minecraft.getInstance().getFrameTime());
+			this.textField.renderWidget(graphics, mouseX, mouseY, Minecraft.getInstance().getFrameTime());
 			
 			this.doneButton.setX((renderIn.width / 2) - (this.doneButton.getWidth() / 2));
 			this.doneButton.setY(((renderIn.height / 2) + (height / 2)) - this.doneButton.getHeight() - 5);
 			
-			this.renderButtons(matrix, mouseX, mouseY);
+			this.renderButtons(graphics, mouseX, mouseY);
 		}
 	}
 	

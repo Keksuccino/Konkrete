@@ -19,8 +19,7 @@ import de.keksuccino.konkrete.math.MathUtils;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
-
+import net.minecraft.client.gui.GuiGraphics;
 
 public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	
@@ -75,7 +74,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	}
 	
 	/**
-	 * Needs to be called before calling {@link ExternalTextureAnimationRenderer#render(PoseStack)} and after minecraft's {@link net.minecraft.client.renderer.texture.TextureManager} instance was loaded.
+	 * Needs to be called before calling {@link ExternalTextureAnimationRenderer#render(GuiGraphics)} and after minecraft's {@link net.minecraft.client.renderer.texture.TextureManager} instance was loaded.
 	 */
 	@Override
 	public void prepareAnimation() {
@@ -182,7 +181,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	}
 
 	@Override
-	public void render(PoseStack matrix) {
+	public void render(GuiGraphics graphics) {
 		if ((this.resources == null) || (this.resources.isEmpty())) {
 			return;
 		}
@@ -210,7 +209,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 		}
 
 		//Rendering the current frame
-		this.renderFrame(matrix);
+		this.renderFrame(graphics);
 		
 		//Updating the current frame based on the fps value
 		long time = System.currentTimeMillis();
@@ -223,7 +222,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 		}
 	}
 
-	private void renderFrame(PoseStack matrix) {
+	private void renderFrame(GuiGraphics graphics) {
 		int h = this.height;
 		int w = this.width;
 		int x2 = this.x;
@@ -241,9 +240,9 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 			r.loadTexture();
 		}
 		
-		RenderUtils.bindTexture(r.getResourceLocation());
+//		RenderUtils.bindTexture(r.getResourceLocation());
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.opacity);
-		GuiComponent.blit(matrix, x2, y2, 0.0F, 0.0F, w, h, w, h);
+		graphics.blit(r.getResourceLocation(), x2, y2, 0.0F, 0.0F, w, h, w, h);
 		RenderSystem.disableBlend();
 	}
 

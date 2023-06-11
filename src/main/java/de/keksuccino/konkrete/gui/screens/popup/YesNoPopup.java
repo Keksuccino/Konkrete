@@ -16,6 +16,7 @@ import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.localization.Locals;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -61,8 +62,8 @@ public class YesNoPopup extends Popup {
 	}
 	
 	@Override
-	public void render(PoseStack matrix, int mouseX, int mouseY, Screen renderIn) {
-		super.render(matrix, mouseX, mouseY, renderIn);
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, Screen renderIn) {
+		super.render(graphics, mouseX, mouseY, renderIn);
 		
 		if (this.isDisplayed()) {
 			int height = 50;
@@ -72,12 +73,12 @@ public class YesNoPopup extends Popup {
 			}
 			
 			RenderSystem.enableBlend();
-			fill(matrix, (renderIn.width / 2) - (this.width / 2), (renderIn.height / 2) - (height / 2), (renderIn.width / 2) + (this.width / 2), (renderIn.height / 2) + (height / 2), this.color.getRGB());
+			graphics.fill((renderIn.width / 2) - (this.width / 2), (renderIn.height / 2) - (height / 2), (renderIn.width / 2) + (this.width / 2), (renderIn.height / 2) + (height / 2), this.color.getRGB());
 			RenderSystem.disableBlend();
 			
 			int i = 0;
 			for (String s : this.text) {
-				drawCenteredString(matrix, Minecraft.getInstance().font, Component.literal(s), renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10 + i, Color.WHITE.getRGB());
+				graphics.drawCenteredString(Minecraft.getInstance().font, Component.literal(s), renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10 + i, Color.WHITE.getRGB());
 				i += 10;
 			}
 			
@@ -87,7 +88,7 @@ public class YesNoPopup extends Popup {
 			this.cancelButton.setX((renderIn.width / 2) + 20);
 			this.cancelButton.setY(((renderIn.height / 2) + (height / 2)) - this.cancelButton.getHeight() - 5);
 			
-			this.renderButtons(matrix, mouseX, mouseY);
+			this.renderButtons(graphics, mouseX, mouseY);
 		}
 	}
 	
