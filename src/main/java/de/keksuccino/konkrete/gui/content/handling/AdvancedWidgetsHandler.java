@@ -3,6 +3,7 @@ package de.keksuccino.konkrete.gui.content.handling;
 import de.keksuccino.konkrete.events.*;
 import de.keksuccino.konkrete.input.CharData;
 import de.keksuccino.konkrete.input.KeyboardData;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;

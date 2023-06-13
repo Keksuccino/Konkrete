@@ -4,14 +4,13 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import de.keksuccino.konkrete.config.Config;
 import de.keksuccino.konkrete.config.ConfigEntry;
 import de.keksuccino.konkrete.config.ConfigEntry.EntryType;
 import de.keksuccino.konkrete.gui.content.AdvancedButton;
-import de.keksuccino.konkrete.gui.content.AdvancedTextField;
+import de.keksuccino.konkrete.gui.content.ExtendedEditBox;
 import de.keksuccino.konkrete.gui.content.scrollarea.ScrollArea;
 import de.keksuccino.konkrete.gui.content.scrollarea.ScrollAreaEntry;
 import de.keksuccino.konkrete.input.CharacterFilter;
@@ -26,6 +25,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
+@SuppressWarnings("all")
 public class ConfigScreen extends Screen {
 
 	protected Config config;
@@ -325,13 +325,13 @@ public class ConfigScreen extends Screen {
 	
 	protected static class StringConfigScrollAreaEntry extends ConfigScrollAreaEntry {
 
-		private AdvancedTextField input;
+		private ExtendedEditBox input;
 		
 		public StringConfigScrollAreaEntry(ScrollArea parent, ConfigEntry configEntry) {
 			
 			super(parent, configEntry);
 			
-			input = new AdvancedTextField(font, 0, 0, 100, 20, true, null);
+			input = new ExtendedEditBox(font, 0, 0, 100, 20, Component.empty(), true);
 			input.setMaxLength(10000);
 			input.setValue(configEntry.getValue());
 			
@@ -360,13 +360,14 @@ public class ConfigScreen extends Screen {
 	
 	protected static class IntegerConfigScrollAreaEntry extends ConfigScrollAreaEntry {
 
-		private AdvancedTextField input;
+		private ExtendedEditBox input;
 		
 		public IntegerConfigScrollAreaEntry(ScrollArea parent, ConfigEntry configEntry) {
 			
 			super(parent, configEntry);
 			
-			input = new AdvancedTextField(font, 0, 0, 100, 20, true, CharacterFilter.getIntegerCharacterFiler());
+			input = new ExtendedEditBox(font, 0, 0, 100, 20, Component.empty(), true);
+			input.setCharacterFilter(CharacterFilter.getIntegerCharacterFiler());
 			input.setMaxLength(10000);
 			input.setValue(configEntry.getValue());
 			
@@ -407,13 +408,14 @@ public class ConfigScreen extends Screen {
 	
 	protected static class DoubleConfigScrollAreaEntry extends ConfigScrollAreaEntry {
 
-		private AdvancedTextField input;
+		private ExtendedEditBox input;
 		
 		public DoubleConfigScrollAreaEntry(ScrollArea parent, ConfigEntry configEntry) {
 			
 			super(parent, configEntry);
 			
-			input = new AdvancedTextField(font, 0, 0, 100, 20, true, CharacterFilter.getDoubleCharacterFiler());
+			input = new ExtendedEditBox(font, 0, 0, 100, 20, Component.empty(), true);
+			input.setCharacterFilter(CharacterFilter.getDoubleCharacterFiler());
 			input.setMaxLength(10000);
 			input.setValue(configEntry.getValue());
 			
@@ -454,13 +456,14 @@ public class ConfigScreen extends Screen {
 	
 	protected static class LongConfigScrollAreaEntry extends ConfigScrollAreaEntry {
 
-		private AdvancedTextField input;
+		private ExtendedEditBox input;
 		
 		public LongConfigScrollAreaEntry(ScrollArea parent, ConfigEntry configEntry) {
 			
 			super(parent, configEntry);
 			
-			input = new AdvancedTextField(font, 0, 0, 100, 20, true, CharacterFilter.getIntegerCharacterFiler());
+			input = new ExtendedEditBox(font, 0, 0, 100, 20, Component.empty(), true);
+			input.setCharacterFilter(CharacterFilter.getIntegerCharacterFiler());
 			input.setMaxLength(10000);
 			input.setValue(configEntry.getValue());
 			
@@ -501,13 +504,14 @@ public class ConfigScreen extends Screen {
 	
 	protected static class FloatConfigScrollAreaEntry extends ConfigScrollAreaEntry {
 
-		private AdvancedTextField input;
+		private ExtendedEditBox input;
 		
 		public FloatConfigScrollAreaEntry(ScrollArea parent, ConfigEntry configEntry) {
 			
 			super(parent, configEntry);
 			
-			input = new AdvancedTextField(font, 0, 0, 100, 20, true, CharacterFilter.getDoubleCharacterFiler());
+			input = new ExtendedEditBox(font, 0, 0, 100, 20, Component.empty(), true);
+			input.setCharacterFilter(CharacterFilter.getDoubleCharacterFiler());
 			input.setMaxLength(10000);
 			input.setValue(configEntry.getValue());
 			

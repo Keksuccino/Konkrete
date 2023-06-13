@@ -4,9 +4,10 @@
   "compatibilityLevel": "JAVA_17",
   "client": [
     "IMixinEditBox",
+    "IMixinScreen",
     "MixinKeyboardHandler",
-    "MixinMouseHandler",
-    "MixinMinecraft"
+    "MixinMinecraft",
+    "MixinMouseHandler"
   ],
   "injectors": {
     "defaultRequire": 1

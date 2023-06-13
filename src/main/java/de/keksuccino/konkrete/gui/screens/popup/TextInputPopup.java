@@ -3,11 +3,10 @@ package de.keksuccino.konkrete.gui.screens.popup;
 import java.awt.Color;
 import java.util.function.Consumer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import de.keksuccino.konkrete.gui.content.AdvancedButton;
-import de.keksuccino.konkrete.gui.content.AdvancedTextField;
+import de.keksuccino.konkrete.gui.content.ExtendedEditBox;
 import de.keksuccino.konkrete.input.CharacterFilter;
 import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.input.KeyboardHandler;
@@ -17,11 +16,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
+@SuppressWarnings("all")
 public class TextInputPopup extends Popup {
 	
 	protected Consumer<String> callback;
 	protected String input = null;
-	protected AdvancedTextField textField;
+	protected ExtendedEditBox textField;
 	protected AdvancedButton doneButton;
 	protected Color color;
 	protected int width = 250;
@@ -38,7 +38,8 @@ public class TextInputPopup extends Popup {
 	}
 	
 	protected void init(Color color, String title, CharacterFilter filter, Consumer<String> callback) {
-		this.textField = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 200, 20, true, filter);
+		this.textField = new ExtendedEditBox(Minecraft.getInstance().font, 0, 0, 200, 20, Component.empty(), true);
+		this.textField.setCharacterFilter(filter);
 		this.textField.setCanLoseFocus(true);
 		this.textField.setFocused(false);
 		this.textField.setMaxLength(1000);
