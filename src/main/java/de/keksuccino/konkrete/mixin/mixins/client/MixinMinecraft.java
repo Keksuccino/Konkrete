@@ -1,6 +1,6 @@
 package de.keksuccino.konkrete.mixin.mixins.client;
 
-import de.keksuccino.konkrete.events.client.ScreenTickEvent;
+import de.keksuccino.konkrete.events.client.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -8,9 +8,6 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import de.keksuccino.konkrete.Konkrete;
-import de.keksuccino.konkrete.events.client.ClientTickEvent;
-import de.keksuccino.konkrete.events.client.GameInitializationCompletedEvent;
-import de.keksuccino.konkrete.events.client.GuiOpenEvent;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Overlay;
@@ -61,6 +58,12 @@ public class MixinMinecraft {
 			info.cancel();
 		}
 		this.cancelGuiOpen = false;
+	}
+
+	@Inject(method = "setScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;init(Lnet/minecraft/client/Minecraft;II)V", shift = At.Shift.AFTER))
+	private void onOpenScreenPost(Screen screen, CallbackInfo info) {
+		GuiOpenedEvent e = new GuiOpenedEvent(screen);
+		Konkrete.getEventHandler().callEventsFor(e);
 	}
 
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;wrapScreenError(Ljava/lang/Runnable;Ljava/lang/String;Ljava/lang/String;)V"), method = "tick")

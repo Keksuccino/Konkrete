@@ -63,10 +63,11 @@ public class MixinMouseHandler {
 		scrollPre = false;
 	}
 
+	//This mixin is marked as broken by the IntelliJ plugin, but works (still check if it works after every MC update)
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;afterMouseAction()V", shift = At.Shift.AFTER), method = "onPress", locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-	private void onOnPress(long window, int i1, int i2, int i3, CallbackInfo info, boolean bl, int m, boolean[] bls, double d, double e, Screen screen) {
+	private void onOnPress(long window, int i1, int i2, int i3, CallbackInfo info, boolean flag, int i, boolean[] aboolean, double d0, double d1, Screen screen) {
 		Screen.wrapScreenError(() -> {
-			Konkrete.getEventHandler().callEventsFor(new ScreenMouseClickedEvent(d, e, m));
+			Konkrete.getEventHandler().callEventsFor(new ScreenMouseClickedEvent(d0, d1, i));
 		}, "Konkrete mouseClicked event handler", this.getClass().getCanonicalName());
 	}
 

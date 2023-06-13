@@ -1,23 +1,23 @@
 package de.keksuccino.konkrete.mixin.mixins.client;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
+
+import de.keksuccino.konkrete.events.client.GuiScreenEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.events.client.GuiScreenEvent.BackgroundDrawnEvent;
-import de.keksuccino.konkrete.events.client.GuiScreenEvent.InitGuiEvent;
 import de.keksuccino.konkrete.events.client.GuiScreenEvent.KeyboardCharTypedEvent;
 import de.keksuccino.konkrete.events.client.GuiScreenEvent.KeyboardKeyPressedEvent;
 import de.keksuccino.konkrete.events.client.GuiScreenEvent.KeyboardKeyReleasedEvent;
@@ -25,13 +25,12 @@ import de.keksuccino.konkrete.events.client.GuiScreenEvent.MouseClickedEvent;
 import de.keksuccino.konkrete.events.client.GuiScreenEvent.MouseReleasedEvent;
 import de.keksuccino.konkrete.mixin.MixinCache;
 
-@SuppressWarnings("resource")
 @Mixin(value = Screen.class)
 public abstract class MixinScreen {
 	
-	@Shadow protected List<GuiEventListener> children;
-	@Shadow protected List<Renderable> renderables;
-	@Shadow protected List<NarratableEntry> narratables;
+	@Final @Shadow private List<GuiEventListener> children;
+	@Final @Shadow private List<Renderable> renderables;
+	@Final @Shadow private List<NarratableEntry> narratables;
 
 	protected void addButton(AbstractButton button) {
 		this.renderables.add(button);
@@ -41,74 +40,34 @@ public abstract class MixinScreen {
 	
 	@Shadow protected abstract void init();
 
-	//BackgroundDrawnEvent
-	@Inject(at = @At(value = "TAIL"), method = "renderBackground(Lcom/mojang/blaze3d/vertex/PoseStack;I)V")
-	private void onBackgroundDrawn(PoseStack matrix, int vOffset, CallbackInfo info) {
-		if (Minecraft.getInstance().level != null) {
-			BackgroundDrawnEvent e = new BackgroundDrawnEvent((Screen)((Object)this), matrix);
-			Konkrete.getEventHandler().callEventsFor(e);
-		}
-	}
-	
-	//BackgroundDrawnEvent
-	@Inject(at = @At(value = "TAIL"), method = "renderDirtBackground")
-	private void onBackgroundTextureDrawn(int vOffset, CallbackInfo info) {
-		BackgroundDrawnEvent e = new BackgroundDrawnEvent((Screen)((Object)this), new PoseStack());
+	@Inject(method = "renderBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;fillGradient(IIIIII)V", shift = At.Shift.AFTER))
+	private void onBackgroundRenderedInWorld(GuiGraphics graphics, CallbackInfo info) {
+		BackgroundDrawnEvent e = new BackgroundDrawnEvent((Screen)((Object)this), graphics);
 		Konkrete.getEventHandler().callEventsFor(e);
 	}
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;init()V"), method = "rebuildWidgets", cancellable = true)
-	private void onInitInRebuildWidgetsPre(CallbackInfo info) {
+	@Inject(method = "renderDirtBackground", at = @At(value = "TAIL"))
+	private void onBackgroundTextureDrawn(GuiGraphics graphics, CallbackInfo ci) {
+		BackgroundDrawnEvent e = new BackgroundDrawnEvent((Screen)((Object)this), graphics);
+		Konkrete.getEventHandler().callEventsFor(e);
+	}
 
-		//Init pre --------------------
-		Consumer<AbstractButton> remove = new Consumer<AbstractButton>() {
-			@Override
-			public void accept(AbstractButton t) {
-				renderables.remove(t);
-				narratables.remove(t);
-				children.remove(t);
-			}
-		};
-		List<AbstractButton> buttons = new ArrayList<AbstractButton>();
-		for (Renderable d : this.renderables) {
-			if (d instanceof AbstractButton) {
-				buttons.add((AbstractButton) d);
-			}
-		}
-		InitGuiEvent.Pre e = new InitGuiEvent.Pre((Screen)((Object)this), buttons, this::addButton, remove);
+	@Inject(method = "renderWithTooltip", at = @At("HEAD"), cancellable = true)
+	private void beforeRenderScreen(GuiGraphics graphics, int mouseX, int mouseY, float partial, CallbackInfo info) {
+		GuiScreenEvent.DrawScreenEvent.Pre e = new GuiScreenEvent.DrawScreenEvent.Pre(((Screen)((Object)this)), graphics, mouseX, mouseY, partial);
 		Konkrete.getEventHandler().callEventsFor(e);
 		if (e.isCanceled()) {
-			InitGuiEvent.Post e2 = new InitGuiEvent.Post((Screen)((Object)this), buttons, this::addButton, remove);
-			Konkrete.getEventHandler().callEventsFor(e2);
 			info.cancel();
+			//DrawScreen post if pre canceled
+			GuiScreenEvent.DrawScreenEvent.Post e2 = new GuiScreenEvent.DrawScreenEvent.Post(((Screen)((Object)this)), graphics, mouseX, mouseY, partial);
+			Konkrete.getEventHandler().callEventsFor(e2);
 		}
-		//------------------------------
-
 	}
 
-	@Inject(at = @At(value = "TAIL"), method = "rebuildWidgets")
-	private void onInitInRebuildWidgetsPost(CallbackInfo info) {
-
-		//Init post --------------------
-		Consumer<AbstractButton> remove = new Consumer<AbstractButton>() {
-			@Override
-			public void accept(AbstractButton t) {
-				renderables.remove(t);
-				narratables.remove(t);
-				children.remove(t);
-			}
-		};
-		List<AbstractButton> buttons2 = new ArrayList<AbstractButton>();
-		for (Renderable d : this.renderables) {
-			if (d instanceof AbstractButton) {
-				buttons2.add((AbstractButton) d);
-			}
-		}
-		InitGuiEvent.Post e2 = new InitGuiEvent.Post((Screen)((Object)this), buttons2, this::addButton, remove);
+	@Inject(method = "renderWithTooltip", at = @At("TAIL"))
+	private void afterRenderScreen(GuiGraphics graphics, int mouseX, int mouseY, float partial, CallbackInfo info) {
+		GuiScreenEvent.DrawScreenEvent.Post e2 = new GuiScreenEvent.DrawScreenEvent.Post(((Screen)((Object)this)), graphics, mouseX, mouseY, partial);
 		Konkrete.getEventHandler().callEventsFor(e2);
-		MixinCache.triggerInitCompleted = true;
-		//-----------------------------
-
 	}
 
 	//MouseClickedEvent.Pre & MouseReleasedEvent.Pre

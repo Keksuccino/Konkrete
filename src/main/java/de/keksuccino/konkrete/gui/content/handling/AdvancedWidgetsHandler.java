@@ -84,7 +84,7 @@ public class AdvancedWidgetsHandler {
     }
 
     @SubscribeEvent
-    public void onInitScreen(GuiScreenEvent.InitGuiEvent.Pre e) {
+    public void onInitScreen(GuiOpenEvent e) {
         widgets.clear();
     }
 

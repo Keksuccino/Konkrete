@@ -23,7 +23,7 @@ public class PopupHandler {
 		if ((popup != null) && popup.isDisplayed()) {
 			MouseInput.blockVanillaInput("popupgui");
 			RenderUtils.setZLevelPre(e.getMatrixStack(), 500);
-			popup.render(e.getMatrixStack(), e.getMouseX(), e.getMouseY(), e.getGui());
+			popup.render(e.getGuiGraphics(), e.getMouseX(), e.getMouseY(), e.getGui());
 			RenderUtils.setZLevelPost(e.getMatrixStack());
 		} else {
 			MouseInput.unblockVanillaInput("popupgui");

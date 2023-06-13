@@ -4,13 +4,13 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+
 import net.minecraft.client.gui.screens.Screen;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.gui.content.AdvancedButton;
 
-public abstract class Popup extends GuiComponent {
+public abstract class Popup {
 	
 	private boolean displayed = false;
 	private int alpha;
@@ -20,12 +20,12 @@ public abstract class Popup extends GuiComponent {
 		this.alpha = backgroundAlpha;
 	}
 	
-	public void render(PoseStack matrix, int mouseX, int mouseY, Screen renderIn) {
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, Screen renderIn) {
 		if (!this.isDisplayed()) {
 			return;
 		}
 		RenderSystem.enableBlend();
-		fill(matrix, 0, 0, renderIn.width, renderIn.height, new Color(0, 0, 0, this.alpha).getRGB());
+		graphics.fill(0, 0, renderIn.width, renderIn.height, new Color(0, 0, 0, this.alpha).getRGB());
 		RenderSystem.disableBlend();
 	}
 	
@@ -55,9 +55,9 @@ public abstract class Popup extends GuiComponent {
 		}
 	}
 	
-	protected void renderButtons(PoseStack matrix, int mouseX, int mouseY) {
+	protected void renderButtons(GuiGraphics graphics, int mouseX, int mouseY) {
 		for (AdvancedButton b : this.buttons) {
-			b.render(matrix, mouseX, mouseY, Minecraft.getInstance().getFrameTime());
+			b.render(graphics, mouseX, mouseY, Minecraft.getInstance().getFrameTime());
 		}
 	}
 	

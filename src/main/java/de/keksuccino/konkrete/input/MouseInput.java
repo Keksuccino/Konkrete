@@ -3,6 +3,7 @@ package de.keksuccino.konkrete.input;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.keksuccino.konkrete.events.client.GuiOpenEvent;
 import de.keksuccino.konkrete.mixin.mixins.client.IMixinMouseHandler;
 import net.minecraft.client.Minecraft;
 import de.keksuccino.konkrete.Konkrete;
@@ -117,9 +118,10 @@ public class MouseInput {
 			rightClicked = false;
 		}
 	}
-	
+
+	//TODO EXPERIMENTAL (was GuiInit.Pre event in <= 1.19.3, but since init events are fucked in 1.19.4, I had to switch to GuiOpen)
 	@SubscribeEvent
-	public void onScreenInit(GuiScreenEvent.InitGuiEvent.Pre e) {
+	public void onScreenInit(GuiOpenEvent e) {
 		//Reset values on screen init
 		leftClicked = false;
 		rightClicked = false;

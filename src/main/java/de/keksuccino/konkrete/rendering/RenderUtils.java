@@ -1,21 +1,18 @@
 package de.keksuccino.konkrete.rendering;
 
 import java.awt.Color;
+
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.resources.ResourceLocation;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import net.minecraft.client.gui.GuiGraphics;
 import org.joml.Matrix4f;
 
+@SuppressWarnings("all")
 public class RenderUtils {
 	
 	private static ResourceLocation WHITE = null;
@@ -48,14 +45,22 @@ public class RenderUtils {
 		BLANK = r;
 		return r;
 	}
-	
-	public static void setScale(PoseStack matrix, float scale) {
-		matrix.pushPose();
-		matrix.scale(scale, scale, scale);
+
+	public static void setScale(GuiGraphics graphics, float scale) {
+		setScale(graphics.pose(), scale);
+	}
+
+	public static void setScale(PoseStack graphics, float scale) {
+		graphics.pushPose();
+		graphics.scale(scale, scale, scale);
     }
-	
-    public static void postScale(PoseStack matrix) {
-    	matrix.popPose();
+
+	public static void postScale(GuiGraphics graphics) {
+		postScale(graphics.pose());
+	}
+
+    public static void postScale(PoseStack graphics) {
+    	graphics.popPose();
     }
 
     public static void doubleBlit(double x, double y, float f1, float f2, int w, int h) {
@@ -97,15 +102,23 @@ public class RenderUtils {
 		}
 		return null;
 	}
-    
-    public static void setZLevelPre(PoseStack matrix, int zLevel) {
+
+	public static void setZLevelPre(GuiGraphics graphics, int zLevel) {
+		setZLevelPre(graphics.pose(), zLevel);
+	}
+
+    public static void setZLevelPre(PoseStack graphics, int zLevel) {
 		RenderSystem.disableDepthTest();
-		matrix.pushPose();
-		matrix.translate(0.0D, 0.0D, zLevel);
+		graphics.pushPose();
+		graphics.translate(0.0D, 0.0D, zLevel);
     }
-    
-    public static void setZLevelPost(PoseStack matrix) {
-    	matrix.popPose();
+
+	public static void setZLevelPost(GuiGraphics graphics) {
+		setZLevelPost(graphics.pose());
+	}
+
+    public static void setZLevelPost(PoseStack graphics) {
+    	graphics.popPose();
     	RenderSystem.enableDepthTest();
     }
 
@@ -121,10 +134,15 @@ public class RenderUtils {
     public static void bindTexture(ResourceLocation texture) {
     	bindTexture(texture, false);
     }
-    
-    public static void fill(PoseStack matrix, float minX, float minY, float maxX, float maxY, int color, float opacity) {
-		Matrix4f matrix4f = matrix.last().pose();
-		
+
+	public static void fill(GuiGraphics graphics, float minX, float minY, float maxX, float maxY, int color, float opacity) {
+		fill(graphics.pose(), minX, minY, maxX, maxY, color, opacity);
+	}
+
+	public static void fill(PoseStack graphics, float minX, float minY, float maxX, float maxY, int color, float opacity) {
+
+		Matrix4f graphics4f = graphics.last().pose();
+
 		if (minX < maxX) {
 			float i = minX;
 			minX = maxX;
@@ -140,22 +158,22 @@ public class RenderUtils {
 		float g = (float)(color >> 8 & 255) / 255.0F;
 		float b = (float)(color & 255) / 255.0F;
 		float a = (float)(color >> 24 & 255) / 255.0F;
-		
+
 		a = a * opacity;
-		
+
 		BufferBuilder bb = Tesselator.getInstance().getBuilder();
 		RenderSystem.enableBlend();
-		RenderSystem.disableTexture();
-		RenderSystem.defaultBlendFunc();
 		RenderSystem.setShader(GameRenderer::getPositionColorShader);
 		bb.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-		bb.vertex(matrix4f, minX, maxY, 0.0F).color(r, g, b, a).endVertex();
-		bb.vertex(matrix4f, maxX, maxY, 0.0F).color(r, g, b, a).endVertex();
-		bb.vertex(matrix4f, maxX, minY, 0.0F).color(r, g, b, a).endVertex();
-		bb.vertex(matrix4f, minX, minY, 0.0F).color(r, g, b, a).endVertex();
+
+		bb.vertex(graphics4f, minX, maxY, 0.0F).color(r, g, b, a).endVertex();
+		bb.vertex(graphics4f, maxX, maxY, 0.0F).color(r, g, b, a).endVertex();
+		bb.vertex(graphics4f, maxX, minY, 0.0F).color(r, g, b, a).endVertex();
+		bb.vertex(graphics4f, minX, minY, 0.0F).color(r, g, b, a).endVertex();
+
 		BufferUploader.drawWithShader(bb.end());
-		RenderSystem.enableTexture();
 		RenderSystem.disableBlend();
+
 	}
 
 }

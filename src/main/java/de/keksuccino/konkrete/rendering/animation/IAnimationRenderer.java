@@ -3,14 +3,14 @@
 
 package de.keksuccino.konkrete.rendering.animation;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 
 public interface IAnimationRenderer {
 
 	/**
 	 * Needs to be called every tick in the render event.
 	 */
-	public void render(PoseStack matrix);
+	public void render(GuiGraphics graphics);
 
 	/**
 	 * This overrides the specified height and width values and stretches the animation over the whole screen.

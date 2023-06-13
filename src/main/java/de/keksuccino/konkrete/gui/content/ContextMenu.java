@@ -6,7 +6,7 @@ import java.util.List;
 import de.keksuccino.konkrete.gui.content.widget.WidgetUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 
@@ -41,7 +41,7 @@ public class ContextMenu implements IMenu {
 		this.space = space;
 	}
 	
-	public void render(PoseStack matrix, int mouseX, int mouseY, int screenWidth, int screenHeight) {
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, int screenWidth, int screenHeight) {
 		this.updateHovered(mouseX, mouseY);
 		
 		float ticks = Minecraft.getInstance().getFrameTime();
@@ -51,7 +51,7 @@ public class ContextMenu implements IMenu {
 		if (this.opened) {
 
 			if (this.alwaysOnTop) {
-				RenderUtils.setZLevelPre(matrix, 400);
+				RenderUtils.setZLevelPre(graphics, 400);
 			}
 			
 			for (AdvancedButton b : this.content) {
@@ -103,17 +103,17 @@ public class ContextMenu implements IMenu {
 					}
 				}
 				
-				b.render(matrix, mouseX, mouseY, ticks);
+				b.render(graphics, mouseX, mouseY, ticks);
 				
 				stackedHeight += this.getScaledButtonHeight() + this.space;
 			}
 
 			for (ContextMenu m : this.children) {
-				m.render(matrix, mouseX, mouseY, screenWidth, screenHeight);
+				m.render(graphics, mouseX, mouseY, screenWidth, screenHeight);
 			}
 
 			if (this.alwaysOnTop) {
-				RenderUtils.setZLevelPost(matrix);
+				RenderUtils.setZLevelPost(graphics);
 			}
 
 			if (this.autoclose && !this.isHovered() && !this.isChildHovered() && !this.isParentButtonHovered() && (MouseInput.isLeftMouseDown() || MouseInput.isRightMouseDown())) {
@@ -126,10 +126,10 @@ public class ContextMenu implements IMenu {
 
 	}
 	
-	public void render(PoseStack matrix, int mouseX, int mouseY) {
+	public void render(GuiGraphics graphics, int mouseX, int mouseY) {
 		Screen c = Minecraft.getInstance().screen;
 		if (c != null) {
-			this.render(matrix, mouseX, mouseY, c.width, c.height);
+			this.render(graphics, mouseX, mouseY, c.width, c.height);
 		}
 	}
 

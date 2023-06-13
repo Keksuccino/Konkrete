@@ -2,9 +2,9 @@ package de.keksuccino.konkrete.gui.content;
 
 import java.awt.Color;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.events.EventPriority;
 import de.keksuccino.konkrete.events.SubscribeEvent;
@@ -25,7 +25,7 @@ public class AdvancedButtonHandler {
 		if (activeDescBtn != null) {
 			if (activeDescBtn.isHoveredOrFocused()) {
 				if ((Minecraft.getInstance() != null) && (Minecraft.getInstance().screen != null)) {
-					renderDescription(e.getMatrixStack(), e.getMouseX(), e.getMouseY());
+					renderDescription(e.getGuiGraphics(), e.getMouseX(), e.getMouseY());
 				}
 			}
 			if (garbageCheck == 0) {
@@ -40,11 +40,11 @@ public class AdvancedButtonHandler {
 		garbageCheck = 1;
 	}
 	
-	private static void renderDescriptionBackground(PoseStack matrix, int x, int y, int width, int height) {
-		GuiComponent.fill(matrix, x, y, x + width, y + height, new Color(26, 26, 26, 250).getRGB());
+	private static void renderDescriptionBackground(GuiGraphics graphics, int x, int y, int width, int height) {
+		graphics.fill(x, y, x + width, y + height, new Color(26, 26, 26, 250).getRGB());
 	}
 	
-	private static void renderDescription(PoseStack matrix, int mouseX, int mouseY) {
+	private static void renderDescription(GuiGraphics graphics, int mouseX, int mouseY) {
 		if (activeDescBtn != null) {
 			if (activeDescBtn.getDescription() != null) {
 				int width = 10;
@@ -70,19 +70,19 @@ public class AdvancedButtonHandler {
 					mouseY -= height + 10;
 				}
 				
-				RenderUtils.setZLevelPre(matrix, 600);
+				RenderUtils.setZLevelPre(graphics.pose(), 600);
 
-				renderDescriptionBackground(matrix, mouseX, mouseY, width, height);
+				renderDescriptionBackground(graphics, mouseX, mouseY, width, height);
 
 				RenderSystem.enableBlend();
 
 				int i2 = 5;
 				for (String s : activeDescBtn.getDescription()) {
-					GuiComponent.drawString(matrix, Minecraft.getInstance().font, s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
+					graphics.drawString(Minecraft.getInstance().font, s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
 					i2 += 10;
 				}
 				
-				RenderUtils.setZLevelPost(matrix);
+				RenderUtils.setZLevelPost(graphics.pose());
 				
 				RenderSystem.disableBlend();
 			}

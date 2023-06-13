@@ -1,12 +1,11 @@
 package de.keksuccino.konkrete.events.client;
 
-import java.util.List;
-import java.util.function.Consumer;
-import net.minecraft.client.gui.components.AbstractButton;
-import net.minecraft.client.gui.screens.Screen;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.events.EventBase;
 
+@SuppressWarnings("all")
 public class GuiScreenEvent extends EventBase {
 
 	private Screen screen;
@@ -19,73 +18,43 @@ public class GuiScreenEvent extends EventBase {
 	public boolean isCancelable() {
 		return true;
 	}
-	
+
+    public Screen getScreen() {
+        return this.screen;
+    }
+
+    @Deprecated
 	public Screen getGui() {
 		return this.screen;
 	}
 	
-	public static class InitGuiEvent extends GuiScreenEvent {
-		
-		private Consumer<AbstractButton> add;
-		private Consumer<AbstractButton> remove;
-		
-		private List<AbstractButton> buttons;
-		
-		public InitGuiEvent(Screen screen, List<AbstractButton> buttons, Consumer<AbstractButton> addButton, Consumer<AbstractButton> removeButton) {
-			super(screen);
-			this.add = addButton;
-			this.remove = removeButton;
-			this.buttons = buttons;
-		}
-		
-		public List<AbstractButton> getWidgetList() {
-			return this.buttons;
-		}
-		
-		public void addWidget(AbstractButton widget) {
-			this.add.accept(widget);
-		}
-		
-		public void removeWidget(AbstractButton widget) {
-			this.remove.accept(widget);
-		}
-		
-		public static class Pre extends InitGuiEvent {
-
-			public Pre(Screen screen, List<AbstractButton> buttons, Consumer<AbstractButton> addButton, Consumer<AbstractButton> removeButton) {
-				super(screen, buttons, addButton, removeButton);
-			}
-			
-		}
-		
-		public static class Post extends InitGuiEvent {
-
-			public Post(Screen screen, List<AbstractButton> buttons, Consumer<AbstractButton> addButton, Consumer<AbstractButton> removeButton) {
-				super(screen, buttons, addButton, removeButton);
-			}
-			
-		}
-		
-	}
-	
 	public static class DrawScreenEvent extends GuiScreenEvent {
 
-		private PoseStack matrix;
+		private GuiGraphics graphics;
 		private int mouseX;
 		private int mouseY;
 		private float renderTicks;
 		
-		public DrawScreenEvent(Screen screen, PoseStack matrix, int mouseX, int mouseY, float renderPartialTicks) {
+		public DrawScreenEvent(Screen screen, GuiGraphics graphics, int mouseX, int mouseY, float renderPartialTicks) {
 			super(screen);
 			this.mouseX = mouseX;
 			this.mouseY = mouseY;
 			this.renderTicks = renderPartialTicks;
-			this.matrix = matrix;
+			this.graphics = graphics;
 		}
 		
-		public PoseStack getMatrixStack() {
-			return this.matrix;
+		public GuiGraphics getGuiGraphics() {
+			return this.graphics;
 		}
+
+        public PoseStack getPoseStack() {
+            return this.graphics.pose();
+        }
+
+        @Deprecated
+        public PoseStack getMatrixStack() {
+            return this.graphics.pose();
+        }
 		
 		public int getMouseX() {
 			return this.mouseX;
@@ -101,16 +70,16 @@ public class GuiScreenEvent extends EventBase {
 		
 		public static class Pre extends DrawScreenEvent {
 
-			public Pre(Screen screen, PoseStack matrix, int mouseX, int mouseY, float renderPartialTicks) {
-				super(screen, matrix, mouseX, mouseY, renderPartialTicks);
+			public Pre(Screen screen, GuiGraphics graphics, int mouseX, int mouseY, float renderPartialTicks) {
+				super(screen, graphics, mouseX, mouseY, renderPartialTicks);
 			}
 
 		}
 		
 		public static class Post extends DrawScreenEvent {
 
-			public Post(Screen screen, PoseStack matrix, int mouseX, int mouseY, float renderPartialTicks) {
-				super(screen, matrix, mouseX, mouseY, renderPartialTicks);
+			public Post(Screen screen, GuiGraphics graphics, int mouseX, int mouseY, float renderPartialTicks) {
+				super(screen, graphics, mouseX, mouseY, renderPartialTicks);
 			}
 
 		}
@@ -119,16 +88,26 @@ public class GuiScreenEvent extends EventBase {
 
     public static class BackgroundDrawnEvent extends GuiScreenEvent {
     	
-        private final PoseStack matrix;
+        private final GuiGraphics graphics;
 
-        public BackgroundDrawnEvent(Screen gui, PoseStack matrix) {
+        public BackgroundDrawnEvent(Screen gui, GuiGraphics graphics) {
             super(gui);
-            this.matrix = matrix;
+            this.graphics = graphics;
         }
 
-        public PoseStack getMatrixStack() {
-            return matrix;
+        public GuiGraphics getGuiGraphics() {
+            return this.graphics;
         }
+
+        public PoseStack getPoseStack() {
+            return this.graphics.pose();
+        }
+
+        @Deprecated
+        public PoseStack getMatrixStack() {
+            return this.graphics.pose();
+        }
+
     }
 
     public static class MouseInputEvent extends GuiScreenEvent {

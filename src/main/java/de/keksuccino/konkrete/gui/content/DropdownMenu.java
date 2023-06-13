@@ -5,7 +5,7 @@ import java.util.List;
 
 import de.keksuccino.konkrete.gui.content.widget.WidgetUtils;
 import net.minecraft.client.Minecraft;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.input.MouseInput;
 
 public class DropdownMenu implements IMenu {
@@ -33,7 +33,7 @@ public class DropdownMenu implements IMenu {
 		});
 	}
 	
-	public void render(PoseStack matrix, int mouseX, int mouseY) {
+	public void render(GuiGraphics graphics, int mouseX, int mouseY) {
 		float ticks = Minecraft.getInstance().getFrameTime();
 		
 		this.updateHovered(mouseX, mouseY);
@@ -43,7 +43,7 @@ public class DropdownMenu implements IMenu {
 		this.dropdown.setX(this.x);
 		this.dropdown.setY(this.y);
 		
-		this.dropdown.render(matrix, mouseX, mouseY, ticks);
+		this.dropdown.render(graphics, mouseX, mouseY, ticks);
 		
 		int stackedHeight = this.height + this.space;
 		if (this.opened) {
@@ -52,7 +52,7 @@ public class DropdownMenu implements IMenu {
 				b.setWidth(this.width);
 				b.setX(this.x);
 				b.setY(this.y + stackedHeight);
-				b.render(matrix, mouseX, mouseY, ticks);
+				b.render(graphics, mouseX, mouseY, ticks);
 				
 				stackedHeight += b.getHeight() + this.space;
 			}

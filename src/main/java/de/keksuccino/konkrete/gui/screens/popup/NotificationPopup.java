@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.gui.content.AdvancedButton;
 import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.input.KeyboardHandler;
@@ -46,8 +46,8 @@ public class NotificationPopup extends Popup {
 	}
 	
 	@Override
-	public void render(PoseStack matrix, int mouseX, int mouseY, Screen renderIn) {
-		super.render(matrix, mouseX, mouseY, renderIn);
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, Screen renderIn) {
+		super.render(graphics, mouseX, mouseY, renderIn);
 		
 		if (this.isDisplayed()) {
 			int height = 50;
@@ -57,19 +57,19 @@ public class NotificationPopup extends Popup {
 			}
 			
 			RenderSystem.enableBlend();
-			fill(matrix, (renderIn.width / 2) - (this.width / 2), (renderIn.height / 2) - (height / 2), (renderIn.width / 2) + (this.width / 2), (renderIn.height / 2) + (height / 2), this.color.getRGB());
+			graphics.fill((renderIn.width / 2) - (this.width / 2), (renderIn.height / 2) - (height / 2), (renderIn.width / 2) + (this.width / 2), (renderIn.height / 2) + (height / 2), this.color.getRGB());
 			RenderSystem.disableBlend();
 			
 			int i = 0;
 			for (String s : this.text) {
-				drawCenteredString(matrix, Minecraft.getInstance().font, s, renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10 + i, Color.WHITE.getRGB());
+				graphics.drawCenteredString(Minecraft.getInstance().font, s, renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10 + i, Color.WHITE.getRGB());
 				i += 10;
 			}
 			
 			this.accept.setX((renderIn.width / 2) - (this.accept.getWidth() / 2));
 			this.accept.setY(((renderIn.height / 2) + (height / 2)) - this.accept.getHeight() - 5);
 			
-			this.renderButtons(matrix, mouseX, mouseY);
+			this.renderButtons(graphics, mouseX, mouseY);
 		}
 	}
 	

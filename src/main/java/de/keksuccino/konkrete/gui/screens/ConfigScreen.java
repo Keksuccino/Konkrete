@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.Screen;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.config.Config;
 import de.keksuccino.konkrete.config.ConfigEntry;
 import de.keksuccino.konkrete.config.ConfigEntry.EntryType;
@@ -115,31 +115,31 @@ public class ConfigScreen extends Screen {
 	}
 	
 	@Override
-	public void render(PoseStack matrix, int mouseX, int mouseY, float partialTicks) {
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
 		
 		RenderSystem.enableBlend();
 		
 		//Draw screen background
-		fill(matrix, 0, 0, this.width, this.height, SCREEN_BACKGROUND_COLOR.getRGB());
+		graphics.fill(0, 0, this.width, this.height, SCREEN_BACKGROUND_COLOR.getRGB());
 		
-		this.configList.render(matrix);
+		this.configList.render(graphics);
 		
 		//Draw header
-		fill(matrix, 0, 0, this.width, 50, HEADER_FOOTER_COLOR.getRGB());
+		graphics.fill(0, 0, this.width, 50, HEADER_FOOTER_COLOR.getRGB());
 		
 		//Draw title
 		if (this.title != null) {
-			drawString(matrix, font, this.title, (this.width / 2) - (font.width(this.title) / 2), 20, Color.WHITE.getRGB());
+			graphics.drawString(font, this.title, (this.width / 2) - (font.width(this.title) / 2), 20, Color.WHITE.getRGB());
 		}
 		
 		//Draw footer
-		fill(matrix, 0, this.height - 50, this.width, this.height, HEADER_FOOTER_COLOR.getRGB());
+		graphics.fill(0, this.height - 50, this.width, this.height, HEADER_FOOTER_COLOR.getRGB());
 		
 		this.doneBtn.setX((this.width / 2) - (this.doneBtn.getWidth() / 2));
 		this.doneBtn.setY(this.height - 35);
-		this.doneBtn.render(matrix, mouseX, mouseY, partialTicks);
+		this.doneBtn.render(graphics, mouseX, mouseY, partialTicks);
 		
-		super.render(matrix, mouseX, mouseY, partialTicks);
+		super.render(graphics, mouseX, mouseY, partialTicks);
 		
 		for (ScrollAreaEntry e : this.configList.getEntries()) {
 			if (e instanceof ConfigScrollAreaEntry) {
@@ -147,7 +147,7 @@ public class ConfigScreen extends Screen {
 					String name = ((ConfigScrollAreaEntry) e).configEntry.getName();
 					if (this.descriptions.containsKey(name)) {
 						if (!ConfigScrollAreaEntry.isHeaderFooterHovered()) {
-							renderDescription(matrix, this.descriptions.get(name), mouseX, mouseY);
+							renderDescription(graphics, this.descriptions.get(name), mouseX, mouseY);
 						}
 						break;
 					}
@@ -206,7 +206,7 @@ public class ConfigScreen extends Screen {
 		this.config.syncConfig();
 	}
 	
-	protected static void renderDescription(PoseStack matrix, String description, int mouseX, int mouseY) {
+	protected static void renderDescription(GuiGraphics graphics, String description, int mouseX, int mouseY) {
 		if (description != null) {
 				int width = 10;
 				int height = 10;
@@ -232,26 +232,26 @@ public class ConfigScreen extends Screen {
 					mouseY -= height + 10;
 				}
 
-				RenderUtils.setZLevelPre(matrix, 600);
+				RenderUtils.setZLevelPre(graphics, 600);
 				
-				renderDescriptionBackground(matrix, mouseX, mouseY, width, height);
+				renderDescriptionBackground(graphics, mouseX, mouseY, width, height);
 
 				RenderSystem.enableBlend();
 
 				int i2 = 5;
 				for (String s : desc) {
-					drawString(matrix, Minecraft.getInstance().font, s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
+					graphics.drawString(Minecraft.getInstance().font, s, mouseX + 5, mouseY + i2, Color.WHITE.getRGB());
 					i2 += 10;
 				}
 
-				RenderUtils.setZLevelPost(matrix);
+				RenderUtils.setZLevelPost(graphics);
 				
 				RenderSystem.disableBlend();
 		}
 	}
 	
-	protected static void renderDescriptionBackground(PoseStack matrix, int x, int y, int width, int height) {
-		fill(matrix, x, y, x + width, y + height, new Color(26, 26, 26, 250).getRGB());
+	protected static void renderDescriptionBackground(GuiGraphics graphics, int x, int y, int width, int height) {
+		graphics.fill(x, y, x + width, y + height, new Color(26, 26, 26, 250).getRGB());
 	}
 	
 	protected static void colorizeButton(AdvancedButton b) {
@@ -270,19 +270,19 @@ public class ConfigScreen extends Screen {
 		}
 		
 		@Override
-		public void renderEntry(PoseStack matrix) {
+		public void renderEntry(GuiGraphics graphics) {
 			
 			int center = this.x + (this.getWidth() / 2);
 			
-			fill(matrix, this.x, this.y, this.x + this.getWidth(), this.y + this.getHeight(), ENTRY_BACKGROUND_COLOR.getRGB());
+			graphics.fill(this.x, this.y, this.x + this.getWidth(), this.y + this.getHeight(), ENTRY_BACKGROUND_COLOR.getRGB());
 			
 			//Render config entry name
 			if (this.displayName != null) {
 				int nameWidth = font.width(this.displayName);
-				drawString(matrix, font, this.displayName, center - nameWidth - 10 , this.y + 10, Color.WHITE.getRGB());
+				graphics.drawString(font, this.displayName, center - nameWidth - 10 , this.y + 10, Color.WHITE.getRGB());
 			} else {
 				int nameWidth = font.width(this.configEntry.getName());
-				drawString(matrix, font, this.configEntry.getName(), center - nameWidth - 10 , this.y + 10, Color.WHITE.getRGB());
+				graphics.drawString(font, this.configEntry.getName(), center - nameWidth - 10 , this.y + 10, Color.WHITE.getRGB());
 			}
 			
 			
@@ -335,14 +335,14 @@ public class ConfigScreen extends Screen {
 		}
 		
 		@Override
-		public void render(PoseStack matrix) {
-			super.render(matrix);
+		public void render(GuiGraphics graphics) {
+			super.render(graphics);
 			
 			int center = this.x + (this.getWidth() / 2);
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
+			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
 			
 		}
 		
@@ -370,14 +370,14 @@ public class ConfigScreen extends Screen {
 		}
 		
 		@Override
-		public void render(PoseStack matrix) {
-			super.render(matrix);
+		public void render(GuiGraphics graphics) {
+			super.render(graphics);
 			
 			int center = this.x + (this.getWidth() / 2);
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
+			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
 			
 		}
 		
@@ -417,14 +417,14 @@ public class ConfigScreen extends Screen {
 		}
 		
 		@Override
-		public void render(PoseStack matrix) {
-			super.render(matrix);
+		public void render(GuiGraphics graphics) {
+			super.render(graphics);
 			
 			int center = this.x + (this.getWidth() / 2);
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
+			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
 			
 		}
 		
@@ -464,14 +464,14 @@ public class ConfigScreen extends Screen {
 		}
 		
 		@Override
-		public void render(PoseStack matrix) {
-			super.render(matrix);
+		public void render(GuiGraphics graphics) {
+			super.render(graphics);
 			
 			int center = this.x + (this.getWidth() / 2);
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
+			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
 			
 		}
 		
@@ -511,14 +511,14 @@ public class ConfigScreen extends Screen {
 		}
 		
 		@Override
-		public void render(PoseStack matrix) {
-			super.render(matrix);
+		public void render(GuiGraphics graphics) {
+			super.render(graphics);
 			
 			int center = this.x + (this.getWidth() / 2);
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
+			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
 			
 		}
 		
@@ -577,14 +577,14 @@ public class ConfigScreen extends Screen {
 		}
 		
 		@Override
-		public void render(PoseStack matrix) {
-			super.render(matrix);
+		public void render(GuiGraphics graphics) {
+			super.render(graphics);
 			
 			int center = this.x + (this.getWidth() / 2);
 			
 			toggleBtn.setX(center + 9);
 			toggleBtn.setY(this.y + 3);
-			toggleBtn.render(matrix, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
+			toggleBtn.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getFrameTime());
 			
 		}
 		
@@ -609,19 +609,19 @@ public class ConfigScreen extends Screen {
 		}
 		
 		@Override
-		public void renderEntry(PoseStack matrix) {
+		public void renderEntry(GuiGraphics graphics) {
 			
 			int center = this.x + (this.getWidth() / 2);
 			
-			fill(matrix, this.x, this.y, this.x + this.getWidth(), this.y + this.getHeight(), ENTRY_BACKGROUND_COLOR.getRGB());
+			graphics.fill(this.x, this.y, this.x + this.getWidth(), this.y + this.getHeight(), ENTRY_BACKGROUND_COLOR.getRGB());
 			
 			//Render category title
 			if (this.displayName != null) {
 				int nameWidth = textRenderer.width(this.displayName);
-				drawString(matrix, textRenderer, this.displayName, center - (nameWidth / 2) , this.y + 10, Color.WHITE.getRGB());
+				graphics.drawString(textRenderer, this.displayName, center - (nameWidth / 2) , this.y + 10, Color.WHITE.getRGB());
 			} else {
 				int nameWidth = textRenderer.width(this.category);
-				drawString(matrix, textRenderer, this.category, center - (nameWidth / 2) , this.y + 10, Color.WHITE.getRGB());
+				graphics.drawString(textRenderer, this.category, center - (nameWidth / 2) , this.y + 10, Color.WHITE.getRGB());
 			}
 
 		}
