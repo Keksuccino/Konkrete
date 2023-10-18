@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "konkrete",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "name": "Konkrete",
   "description": "Konkrete Copyright © 2020-2023 Keksuccino. Konkrete is licensed under GPLv3. | Open Imaging Copyright © 2014 Dhyan Blum. Open Imaging is licensed under Apache-2.0. | JsonPath Copyright © 2017 Jayway. JsonPath is licensed under Apache-2.0. | Json-smart Copyright © netplex. Json-smart is licensed under Apache-2.0. | Exp4j Copyright © Frank Asseg. Exp4j is licensed under Apache-2.0. https://github.com/fasseg/exp4j",
   "environment": "*",
@@ -30,8 +30,11 @@
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",
-    "minecraft": ">=1.20",
+    "minecraft": ">=1.20.2",
     "java": ">=17"
+  },
+  "breaks": {
+    "fancymenu": "<2.14.10"
   },
   "accessWidener": "konkrete.accessWidener"
 }

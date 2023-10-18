@@ -27,64 +27,6 @@ public class GuiScreenEvent extends EventBase {
 	public Screen getGui() {
 		return this.screen;
 	}
-	
-	public static class DrawScreenEvent extends GuiScreenEvent {
-
-		private GuiGraphics graphics;
-		private int mouseX;
-		private int mouseY;
-		private float renderTicks;
-		
-		public DrawScreenEvent(Screen screen, GuiGraphics graphics, int mouseX, int mouseY, float renderPartialTicks) {
-			super(screen);
-			this.mouseX = mouseX;
-			this.mouseY = mouseY;
-			this.renderTicks = renderPartialTicks;
-			this.graphics = graphics;
-		}
-		
-		public GuiGraphics getGuiGraphics() {
-			return this.graphics;
-		}
-
-        public PoseStack getPoseStack() {
-            return this.graphics.pose();
-        }
-
-        @Deprecated
-        public PoseStack getMatrixStack() {
-            return this.graphics.pose();
-        }
-		
-		public int getMouseX() {
-			return this.mouseX;
-		}
-		
-		public int getMouseY() {
-			return this.mouseY;
-		}
-		
-		public float getRenderPartialTicks() {
-			return this.renderTicks;
-		}
-		
-		public static class Pre extends DrawScreenEvent {
-
-			public Pre(Screen screen, GuiGraphics graphics, int mouseX, int mouseY, float renderPartialTicks) {
-				super(screen, graphics, mouseX, mouseY, renderPartialTicks);
-			}
-
-		}
-		
-		public static class Post extends DrawScreenEvent {
-
-			public Post(Screen screen, GuiGraphics graphics, int mouseX, int mouseY, float renderPartialTicks) {
-				super(screen, graphics, mouseX, mouseY, renderPartialTicks);
-			}
-
-		}
-		
-	}
 
     public static class BackgroundDrawnEvent extends GuiScreenEvent {
     	

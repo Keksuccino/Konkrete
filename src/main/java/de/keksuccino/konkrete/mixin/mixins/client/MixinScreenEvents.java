@@ -13,12 +13,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ScreenEvents.class)
 public class MixinScreenEvents {
 
-    //Fixes a crash with FancyMenu and the "joinserver" button action. I still don't fucking know why this happens.
-    @Inject(at = @At("HEAD"), method = "afterRender", cancellable = true)
-    private static void onAfterRender(Screen screen, CallbackInfoReturnable<Event<ScreenEvents.AfterRender>> info) {
-        if (screen == null) {
-            info.setReturnValue(ScreenExtensions.getExtensions(MixinCache.cachedCurrentScreen).fabric_getAfterRenderEvent());
-        }
-    }
+//    //Fixes a crash with FancyMenu and the "joinserver" button action. I still don't fucking know why this happens.
+//    @Inject(at = @At("HEAD"), method = "afterRender", cancellable = true)
+//    private static void onAfterRender(Screen screen, CallbackInfoReturnable<Event<ScreenEvents.AfterRender>> info) {
+//        if (screen == null) {
+//            info.setReturnValue(ScreenExtensions.getExtensions(MixinCache.cachedCurrentScreen).fabric_getAfterRenderEvent());
+//        }
+//    }
 
 }

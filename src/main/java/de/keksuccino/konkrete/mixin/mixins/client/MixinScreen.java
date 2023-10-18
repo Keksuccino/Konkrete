@@ -1,8 +1,6 @@
 package de.keksuccino.konkrete.mixin.mixins.client;
 
 import java.util.List;
-
-import de.keksuccino.konkrete.events.client.GuiScreenEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.Renderable;
@@ -40,8 +38,17 @@ public abstract class MixinScreen {
 	
 	@Shadow protected abstract void init();
 
-	@Inject(method = "renderBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;fillGradient(IIIIII)V", shift = At.Shift.AFTER))
-	private void onBackgroundRenderedInWorld(GuiGraphics graphics, CallbackInfo info) {
+	@Inject(method = "renderWithTooltip", at = @At("RETURN"))
+	private void afterRenderWithTooltipKonkrete(GuiGraphics graphics, int mouseX, int mouseY, float partial, CallbackInfo info) {
+		//Set cache for MixinGameRenderer
+		MixinCache.cachedRenderScreenGuiGraphics = graphics;
+		MixinCache.cachedRenderScreenMouseX = mouseX;
+		MixinCache.cachedRenderScreenMouseY = mouseY;
+		MixinCache.cachedRenderScreenPartial = partial;
+	}
+
+	@Inject(method = "renderBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;renderTransparentBackground(Lnet/minecraft/client/gui/GuiGraphics;)V", shift = At.Shift.AFTER))
+	private void onBackgroundRenderedInWorld(GuiGraphics graphics, int i, int j, float f, CallbackInfo ci) {
 		BackgroundDrawnEvent e = new BackgroundDrawnEvent((Screen)((Object)this), graphics);
 		Konkrete.getEventHandler().callEventsFor(e);
 	}
@@ -50,24 +57,6 @@ public abstract class MixinScreen {
 	private void onBackgroundTextureDrawn(GuiGraphics graphics, CallbackInfo ci) {
 		BackgroundDrawnEvent e = new BackgroundDrawnEvent((Screen)((Object)this), graphics);
 		Konkrete.getEventHandler().callEventsFor(e);
-	}
-
-	@Inject(method = "renderWithTooltip", at = @At("HEAD"), cancellable = true)
-	private void beforeRenderScreen(GuiGraphics graphics, int mouseX, int mouseY, float partial, CallbackInfo info) {
-		GuiScreenEvent.DrawScreenEvent.Pre e = new GuiScreenEvent.DrawScreenEvent.Pre(((Screen)((Object)this)), graphics, mouseX, mouseY, partial);
-		Konkrete.getEventHandler().callEventsFor(e);
-		if (e.isCanceled()) {
-			info.cancel();
-			//DrawScreen post if pre canceled
-			GuiScreenEvent.DrawScreenEvent.Post e2 = new GuiScreenEvent.DrawScreenEvent.Post(((Screen)((Object)this)), graphics, mouseX, mouseY, partial);
-			Konkrete.getEventHandler().callEventsFor(e2);
-		}
-	}
-
-	@Inject(method = "renderWithTooltip", at = @At("TAIL"))
-	private void afterRenderScreen(GuiGraphics graphics, int mouseX, int mouseY, float partial, CallbackInfo info) {
-		GuiScreenEvent.DrawScreenEvent.Post e2 = new GuiScreenEvent.DrawScreenEvent.Post(((Screen)((Object)this)), graphics, mouseX, mouseY, partial);
-		Konkrete.getEventHandler().callEventsFor(e2);
 	}
 
 	//MouseClickedEvent.Pre & MouseReleasedEvent.Pre

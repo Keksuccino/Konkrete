@@ -7,7 +7,6 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.ResourceLocation;
 import java.io.File;
-
 import de.keksuccino.konkrete.events.EventHandler;
 import de.keksuccino.konkrete.events.EventPriority;
 import de.keksuccino.konkrete.events.SubscribeEvent;
@@ -17,14 +16,13 @@ import de.keksuccino.konkrete.gui.screens.popup.PopupHandler;
 import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.localization.Locals;
-import de.keksuccino.konkrete.rendering.CurrentScreenHandler;
 import de.keksuccino.konkrete.sound.SoundHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Konkrete implements ModInitializer {
 
-	public static final String VERSION = "1.6.1";
+	public static final String VERSION = "1.6.2";
 
     private static final EventHandler HANDLER = new EventHandler();
 
@@ -46,8 +44,6 @@ public class Konkrete implements ModInitializer {
 			KeyboardHandler.init();
 
 			MouseInput.init();
-
-			CurrentScreenHandler.init();
 			
 			AdvancedButtonHandler.init();
 
@@ -56,7 +52,7 @@ public class Konkrete implements ModInitializer {
 			try {
 				Class.forName("optifine.Installer");
 				isOptifineLoaded = true;
-				LOGGER.info("[KONKRETE] Optifine detected! ###############################");
+				LOGGER.info("[KONKRETE] Optifine detected!");
 			}
 			catch (ClassNotFoundException e) {}
 		

@@ -2,7 +2,7 @@ package de.keksuccino.konkrete.gui.screens.popup;
 
 import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.events.SubscribeEvent;
-import de.keksuccino.konkrete.events.client.GuiScreenEvent;
+import de.keksuccino.konkrete.events.client.AfterRenderScreenEvent;
 import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 
@@ -19,12 +19,12 @@ public class PopupHandler {
 	}
 	
 	@SubscribeEvent
-	public static void onRender(GuiScreenEvent.DrawScreenEvent.Post e) {
+	public static void onRender(AfterRenderScreenEvent e) {
 		if ((popup != null) && popup.isDisplayed()) {
 			MouseInput.blockVanillaInput("popupgui");
-			RenderUtils.setZLevelPre(e.getMatrixStack(), 500);
-			popup.render(e.getGuiGraphics(), e.getMouseX(), e.getMouseY(), e.getGui());
-			RenderUtils.setZLevelPost(e.getMatrixStack());
+			RenderUtils.setZLevelPre(e.getGraphics(), 500);
+			popup.render(e.getGraphics(), e.getMouseX(), e.getMouseY(), e.getScreen());
+			RenderUtils.setZLevelPost(e.getGraphics());
 		} else {
 			MouseInput.unblockVanillaInput("popupgui");
 		}
