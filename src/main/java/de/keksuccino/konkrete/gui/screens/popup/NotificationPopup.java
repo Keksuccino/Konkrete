@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.gui.content.AdvancedButton;
@@ -15,6 +14,7 @@ import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.localization.Locals;
 
+@Deprecated
 public class NotificationPopup extends Popup {
 
 	protected List<String> text;
@@ -22,7 +22,8 @@ public class NotificationPopup extends Popup {
 	protected int width;
 	protected Color color = new Color(76, 0, 128);
 	protected Runnable callback;
-	
+
+	@Deprecated
 	public NotificationPopup(int width, @Nullable Color color, int backgroundAlpha, @Nullable Runnable callback, @NotNull String... text) {
 		super(backgroundAlpha);
 		

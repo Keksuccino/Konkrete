@@ -3,11 +3,8 @@ package de.keksuccino.konkrete.gui.content.scrollarea;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.mojang.blaze3d.platform.Window;
-import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraft.client.Minecraft;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.Konkrete;
@@ -16,6 +13,7 @@ import de.keksuccino.konkrete.events.client.GuiScreenEvent;
 import de.keksuccino.konkrete.input.MouseInput;
 import net.minecraft.resources.ResourceLocation;
 
+@Deprecated
 public class ScrollArea {
 	
 	public Color backgroundColor = new Color(0, 0, 0, 240);
@@ -31,16 +29,14 @@ public class ScrollArea {
 	public int grabberwidth = 10;
 	public boolean enableScrolling = true;
 	private List<ScrollAreaEntry> entries = new ArrayList<ScrollAreaEntry>();
-	
 	private boolean grabberHovered = false;
 	private boolean grabberPressed = false;
-	
 	private int scrollpos = 0;
 	private int entryheight = 0;
-	
 	private int startY = 0;
 	private int startPos = 0;
-	
+
+	@Deprecated
 	public ScrollArea(int x, int y, int width, int height) {
 		this.width = width;
 		this.height = height;

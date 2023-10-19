@@ -23,7 +23,13 @@ import de.keksuccino.konkrete.math.MathUtils;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraft.network.chat.Component;
 
+@SuppressWarnings("all")
+@Deprecated
 public class ConfigScreen extends Screen {
+
+	protected static final Color ENTRY_BACKGROUND_COLOR = new Color(92, 92, 92);
+	protected static final Color SCREEN_BACKGROUND_COLOR = new Color(54, 54, 54);
+	protected static final Color HEADER_FOOTER_COLOR = new Color(33, 33, 33);
 
 	protected Config config;
 	protected ScrollArea configList;
@@ -31,13 +37,9 @@ public class ConfigScreen extends Screen {
 	protected String title;
 	protected AdvancedButton doneBtn;
 	protected String activeDescription = null;
-	
 	protected Map<String, String> descriptions = new HashMap<String, String>();
-	
-	protected static final Color ENTRY_BACKGROUND_COLOR = new Color(92, 92, 92);
-	protected static final Color SCREEN_BACKGROUND_COLOR = new Color(54, 54, 54);
-	protected static final Color HEADER_FOOTER_COLOR = new Color(33, 33, 33);
-	
+
+	@Deprecated
 	public ConfigScreen(Config config, String title, Screen parent) {
 		
 		super(Component.literal(""));
@@ -156,7 +158,7 @@ public class ConfigScreen extends Screen {
 		}
 		
 	}
-	
+
 	public void setValueDescription(String valueName, String desc) {
 		this.descriptions.put(valueName, desc);
 	}

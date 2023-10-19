@@ -12,9 +12,9 @@ import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import com.google.common.io.Files;
-
 import de.keksuccino.konkrete.file.FileUtils;
 
+@Deprecated
 public class Locals {
 	
 	private static Map<String, LocalizationPackage> locals = new HashMap<String, LocalizationPackage>();

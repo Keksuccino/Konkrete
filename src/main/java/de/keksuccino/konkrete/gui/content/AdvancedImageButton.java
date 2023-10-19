@@ -2,18 +2,20 @@ package de.keksuccino.konkrete.gui.content;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
-import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraft.resources.ResourceLocation;
 
+@Deprecated
 public class AdvancedImageButton extends AdvancedButton {
 
 	private ResourceLocation image;
-	
+
+	@Deprecated
 	public AdvancedImageButton(int x, int y, int widthIn, int heightIn, ResourceLocation image, boolean handleClick, OnPress onPress) {
 		super(x, y, widthIn, heightIn, "", handleClick, onPress);
 		this.image = image;
 	}
-	
+
+	@Deprecated
 	public AdvancedImageButton(int x, int y, int widthIn, int heightIn, ResourceLocation image, OnPress onPress) {
 		super(x, y, widthIn, heightIn, "", onPress);
 		this.image = image;

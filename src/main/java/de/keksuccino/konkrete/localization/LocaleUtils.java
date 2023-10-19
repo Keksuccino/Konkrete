@@ -1,11 +1,11 @@
 package de.keksuccino.konkrete.localization;
 
 import java.util.Map;
-
 import de.keksuccino.konkrete.mixin.mixins.client.IMixinClientLanguage;
 import net.minecraft.client.resources.language.ClientLanguage;
 import net.minecraft.locale.Language;
 
+@Deprecated
 public class LocaleUtils {
 	
 	/**

@@ -2,12 +2,13 @@ package de.keksuccino.konkrete.gui.content;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import de.keksuccino.konkrete.gui.content.widget.WidgetUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.input.MouseInput;
 
+@SuppressWarnings("all")
+@Deprecated
 public class DropdownMenu implements IMenu {
 	
 	private int width;
@@ -20,7 +21,8 @@ public class DropdownMenu implements IMenu {
 	private boolean hovered = false;
 	private boolean autoclose = false;
 	private int space;
-	
+
+	@Deprecated
 	public DropdownMenu(String label, int width, int height, int x, int y, int space) {
 		this.width = width;
 		this.height = height;

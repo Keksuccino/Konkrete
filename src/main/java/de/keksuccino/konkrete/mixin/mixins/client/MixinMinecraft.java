@@ -72,15 +72,5 @@ public class MixinMinecraft {
 			Konkrete.getEventHandler().callEventsFor(new ScreenTickEvent());
 		}, "Konkrete Ticking screen", this.getClass().getCanonicalName());
 	}
-
-//	@Inject(at = @At("RETURN"), method = "setScreen")
-//	private void onSetScreen(Screen screen, CallbackInfo info) {
-//		//Fixes custom EditBoxes added to screens not reacting to key repeat events in some cases
-//		if (screen != null) {
-//			Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
-//		} else {
-//			Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
-//		}
-//	}
 	
 }

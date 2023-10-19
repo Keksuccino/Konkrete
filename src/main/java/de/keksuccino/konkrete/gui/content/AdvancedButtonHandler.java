@@ -1,16 +1,15 @@
 package de.keksuccino.konkrete.gui.content;
 
 import java.awt.Color;
+import de.keksuccino.konkrete.Konkrete;
+import de.keksuccino.konkrete.events.SubscribeEvent;
+import de.keksuccino.konkrete.events.client.AfterRenderScreenEvent;
 import net.minecraft.client.Minecraft;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
-import de.keksuccino.konkrete.Konkrete;
-import de.keksuccino.konkrete.events.EventPriority;
-import de.keksuccino.konkrete.events.SubscribeEvent;
-import de.keksuccino.konkrete.events.client.GuiScreenEvent.DrawScreenEvent;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 
+@Deprecated
 public class AdvancedButtonHandler {
 
 	private static AdvancedButton activeDescBtn;
@@ -19,13 +18,13 @@ public class AdvancedButtonHandler {
 	public static void init() {
 		Konkrete.getEventHandler().registerEventsFrom(new AdvancedButtonHandler());
 	}
-	
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onDrawScreen(DrawScreenEvent.Post e) {
+
+	@SubscribeEvent
+	public void onDrawScreen(AfterRenderScreenEvent e) {
 		if (activeDescBtn != null) {
 			if (activeDescBtn.isHoveredOrFocused()) {
-				if ((Minecraft.getInstance() != null) && (Minecraft.getInstance().screen != null)) {
-					renderDescription(e.getGuiGraphics(), e.getMouseX(), e.getMouseY());
+				if (Minecraft.getInstance().screen != null) {
+					renderDescription(e.getGraphics(), e.getMouseX(), e.getMouseY());
 				}
 			}
 			if (garbageCheck == 0) {

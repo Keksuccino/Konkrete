@@ -3,13 +3,14 @@ package de.keksuccino.konkrete.gui.content.scrollarea;
 import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.input.MouseInput;
 
-
+@Deprecated
 public abstract class ScrollAreaEntry {
 	
 	public int x = 0;
 	public int y = 0;
 	public final ScrollArea parent;
-	
+
+	@Deprecated
 	public ScrollAreaEntry(ScrollArea parent) {
 		this.parent = parent;
 	}

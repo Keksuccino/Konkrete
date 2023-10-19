@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.client.Minecraft;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.input.MouseInput;
 
+@Deprecated
 public class HorizontalSwitcher {
 	
 	private int width;
@@ -19,7 +19,8 @@ public class HorizontalSwitcher {
 	private List<String> values = new ArrayList<String>();
 	private Color valuecolor = Color.WHITE;
 	private Color valuebackcolor = Color.LIGHT_GRAY;
-	
+
+	@Deprecated
 	public HorizontalSwitcher(int displayWidth, boolean ignoreBlockedInput, String... values) {
 		this.prev = new AdvancedImageButton(0, 0, 20, 20, new ResourceLocation("keksuccino", "arrow_left.png"), true, (press) -> {
 			int i = this.selected - 1;
@@ -43,8 +44,7 @@ public class HorizontalSwitcher {
 		
 		this.width = displayWidth;
 	}
-	
-	@SuppressWarnings("resource")
+
 	public void render(GuiGraphics graphics, int x, int y) {
 		int mouseX = MouseInput.getMouseX();
 		int mouseY = MouseInput.getMouseY();

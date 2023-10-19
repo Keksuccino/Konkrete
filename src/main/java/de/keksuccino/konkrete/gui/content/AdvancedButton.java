@@ -19,6 +19,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
+@SuppressWarnings("all")
+@Deprecated
 public class AdvancedButton extends Button {
 
 	protected boolean handleClick = false;
@@ -46,9 +48,9 @@ public class AdvancedButton extends Button {
 	protected boolean lastHoverState = false;
 	protected String clicksound = null;
 	protected String[] description = null;
-
 	protected OnPress press;
 
+	@Deprecated
 	public AdvancedButton(int x, int y, int widthIn, int heightIn, String buttonText, OnPress onPress) {
 		super(x, y, widthIn, heightIn, Component.literal(buttonText), onPress, (narration) -> {
 			return Component.literal(buttonText);
@@ -56,6 +58,7 @@ public class AdvancedButton extends Button {
 		this.press = onPress;
 	}
 
+	@Deprecated
 	public AdvancedButton(int x, int y, int widthIn, int heightIn, String buttonText, boolean handleClick, OnPress onPress) {
 		super(x, y, widthIn, heightIn, Component.literal(buttonText), onPress, (narration) -> {
 			return Component.literal(buttonText);

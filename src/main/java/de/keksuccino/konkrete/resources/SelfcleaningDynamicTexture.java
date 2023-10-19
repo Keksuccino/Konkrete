@@ -4,8 +4,10 @@ import de.keksuccino.konkrete.mixin.mixins.client.IMixinDynamicTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import com.mojang.blaze3d.platform.NativeImage;
 
+@Deprecated(forRemoval = true)
 public class SelfcleaningDynamicTexture extends DynamicTexture {
 
+	@Deprecated
 	public SelfcleaningDynamicTexture(NativeImage nativeImageIn) {
 		super(nativeImageIn);
 	}
@@ -13,7 +15,6 @@ public class SelfcleaningDynamicTexture extends DynamicTexture {
 	@Override
 	public void upload() {
 		super.upload();
-
 		//Clearing all NativeImage data to free memory
 		clearTextureData(this);
 	}

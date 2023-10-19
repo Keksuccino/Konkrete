@@ -16,16 +16,19 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("all")
+@Deprecated
 public class ExtendedEditBox extends EditBox implements IAdvancedWidgetBase {
 
     protected boolean handleSelf = false;
     protected CharacterFilter characterFilter;
 
+    @Deprecated
     public ExtendedEditBox(Font font, int x, int y, int width, int height, Component hint, boolean handleSelf) {
         super(font, x, y, width, height, hint);
         this.handleSelf = handleSelf;
     }
 
+    @Deprecated
     public ExtendedEditBox(Font font, int x, int y, int width, int height, @Nullable EditBox editBox, Component hint, boolean handleSelf) {
         super(font, x, y, width, height, editBox, hint);
         this.handleSelf = handleSelf;
@@ -54,7 +57,7 @@ public class ExtendedEditBox extends EditBox implements IAdvancedWidgetBase {
 
     @Override
     public void onTick() {
-        this.tick();
+//        this.tick();
     }
 
     @Override

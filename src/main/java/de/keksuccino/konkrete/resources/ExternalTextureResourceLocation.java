@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 
+@Deprecated
 public class ExternalTextureResourceLocation implements ITextureResourceLocation {
 
 	private InputStream in;
@@ -17,11 +18,13 @@ public class ExternalTextureResourceLocation implements ITextureResourceLocation
 	private boolean loaded = false;
 	private int width = 0;
 	private int height = 0;
-	
+
+	@Deprecated
 	public ExternalTextureResourceLocation(String path) {
 		this.path = path;
 	}
 
+	@Deprecated
 	public ExternalTextureResourceLocation(InputStream in) {
 		this.in = in;
 	}

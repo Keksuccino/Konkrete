@@ -8,7 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.gui.content.AdvancedButton;
@@ -16,6 +15,7 @@ import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.localization.Locals;
 
+@Deprecated
 public class YesNoPopup extends Popup {
 	
 	private List<String> text;
@@ -24,7 +24,8 @@ public class YesNoPopup extends Popup {
 	private int width;
 	private Color color = new Color(76, 0, 128);
 	private Consumer<Boolean> callback;
-	
+
+	@Deprecated
 	public YesNoPopup(int width, @Nullable Color color, int backgroundAlpha, @Nullable Consumer<Boolean> callback, @NotNull String... text) {
 		super(backgroundAlpha);
 		

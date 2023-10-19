@@ -10,6 +10,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 
+@SuppressWarnings("all")
+@Deprecated
 public class ContextMenu implements IMenu {
 	
 	protected int width;
@@ -26,15 +28,13 @@ public class ContextMenu implements IMenu {
 	protected boolean autoalignment = true;
 	protected int space;
 	protected boolean alwaysOnTop = false;
-	
 	protected boolean up = false;
 	protected boolean left = false;
 	protected int lastHeight = 0;
-	
 	public float menuScale = 1.0F;
-	
 	protected boolean autocloseChilds = true;
-	
+
+	@Deprecated
 	public ContextMenu(int width, int buttonHeight, int space) {
 		this.width = width;
 		this.buttonHeight = buttonHeight;

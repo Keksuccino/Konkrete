@@ -10,7 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
-
 import com.google.common.io.Files;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,17 +21,15 @@ import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.localization.Locals;
-import de.keksuccino.konkrete.rendering.RenderUtils;
 
+@Deprecated
 public class FilePickerPopup extends Popup {
 
 	private static ResourceLocation fileIcon = new ResourceLocation("keksuccino", "filechooser/file_icon.png");
 	private static ResourceLocation folderIcon = new ResourceLocation("keksuccino", "filechooser/folder_icon.png");
 	private static ResourceLocation backIcon = new ResourceLocation("keksuccino", "filechooser/back_icon.png");
 
-	private static String lastpath;
 	private boolean checklastpath;
-	
 	public Color overlayColor = new Color(26, 26, 26);
 	private ScrollArea scroll;
 	public File home;
@@ -41,15 +38,15 @@ public class FilePickerPopup extends Popup {
 	private List<String> filetypes = new ArrayList<String>();
 	private String filetypesString;
 	private Consumer<File> callback;
-	
 	private int lastWidth = 0;
 	private int lastHeight = 0;
-	
 	private AdvancedButton chooseButton;
 	private AdvancedButton closeButton;
-	
 	private FileChooserEntry focused;
 
+	private static String lastpath;
+
+	@Deprecated
 	public FilePickerPopup(String directory, @Nullable String home, @Nullable Popup fallback, boolean checkForLastPath, Consumer<File> callback, @Nullable String... filetypes) {
 		super(240);
 		this.fallback = fallback;
@@ -116,11 +113,11 @@ public class FilePickerPopup extends Popup {
 		
 	}
 
+	@Deprecated
 	public FilePickerPopup(String directory, @Nullable String home, @Nullable Popup fallback, boolean checkForLastPath, Consumer<File> callback) {
 		this(directory, home, fallback, checkForLastPath, callback, (String[])null);
 	}
-	
-	@SuppressWarnings("resource")
+
 	@Override
 	public void render(GuiGraphics graphics, int mouseX, int mouseY, Screen renderIn) {
 		super.render(graphics, mouseX, mouseY, renderIn);

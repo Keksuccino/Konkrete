@@ -13,6 +13,7 @@ import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.localization.Locals;
 
+@Deprecated
 public class TextInputPopup extends Popup {
 	
 	protected Consumer<String> callback;
@@ -22,18 +23,19 @@ public class TextInputPopup extends Popup {
 	protected Color color;
 	protected int width = 250;
 	protected String title = "";
-	
+
+	@Deprecated
 	public TextInputPopup(Color color, String title, CharacterFilter filter, int alpha) {
 		super(alpha);
 		this.init(color, title, filter, null);
 	}
-	
+
+	@Deprecated
 	public TextInputPopup(Color color, String title, CharacterFilter filter, int backgroundAlpha, Consumer<String> callback) {
 		super(backgroundAlpha);
 		this.init(color, title, filter, callback);
 	}
-	
-	@SuppressWarnings("resource")
+
 	protected void init(Color color, String title, CharacterFilter filter, Consumer<String> callback) {
 		this.textField = new AdvancedTextField(Minecraft.getInstance().font, 0, 0, 200, 20, true, filter);
 		this.textField.setCanLoseFocus(true);

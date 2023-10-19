@@ -18,8 +18,7 @@
     "client.MixinKeyboardHandler",
     "client.MixinMinecraft",
     "client.MixinMouseHandler",
-    "client.MixinScreen",
-    "client.MixinScreenEvents"
+    "client.MixinScreen"
   ],
   "server": [],
   "injectors": {
