@@ -2,12 +2,12 @@ package de.keksuccino.konkrete.gui.content;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import de.keksuccino.konkrete.gui.content.widget.WidgetUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.input.MouseInput;
 
+@Deprecated
 public class DropdownMenu implements IMenu {
 	
 	private int width;

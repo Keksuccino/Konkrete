@@ -13,6 +13,7 @@ import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.input.KeyboardHandler;
 import de.keksuccino.konkrete.localization.Locals;
 
+@Deprecated
 public class TextInputPopup extends Popup {
 	
 	protected Consumer<String> callback;

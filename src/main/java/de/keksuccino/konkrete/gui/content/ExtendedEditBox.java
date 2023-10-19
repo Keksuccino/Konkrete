@@ -15,6 +15,7 @@ import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Deprecated
 @SuppressWarnings("all")
 public class ExtendedEditBox extends EditBox implements IAdvancedWidgetBase {
 

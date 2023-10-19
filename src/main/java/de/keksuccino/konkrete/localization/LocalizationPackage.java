@@ -3,6 +3,7 @@ package de.keksuccino.konkrete.localization;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public class LocalizationPackage {
 	
 	private final String language;

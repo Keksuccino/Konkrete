@@ -3,9 +3,9 @@ package de.keksuccino.konkrete.resources;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
 import de.keksuccino.konkrete.rendering.animation.ExternalGifAnimationRenderer;
 
+@Deprecated
 public class TextureHandler {
 	
 	private static Map<String, ITextureResourceLocation> textures = new HashMap<String, ITextureResourceLocation>();

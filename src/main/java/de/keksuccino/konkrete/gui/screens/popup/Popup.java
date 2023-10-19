@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.Minecraft;
-
 import net.minecraft.client.gui.screens.Screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.gui.content.AdvancedButton;
 
+@Deprecated
 public abstract class Popup {
 	
 	private boolean displayed = false;

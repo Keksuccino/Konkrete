@@ -6,6 +6,7 @@ import de.keksuccino.konkrete.events.client.AfterRenderScreenEvent;
 import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 
+@Deprecated
 public class PopupHandler {
 	
 	private static Popup popup;

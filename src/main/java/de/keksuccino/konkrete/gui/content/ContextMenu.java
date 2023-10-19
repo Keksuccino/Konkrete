@@ -10,6 +10,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 
+@Deprecated
 public class ContextMenu implements IMenu {
 	
 	protected int width;

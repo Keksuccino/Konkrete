@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 
+@Deprecated
 public class ExternalTextureResourceLocation implements ITextureResourceLocation {
 
 	private InputStream in;

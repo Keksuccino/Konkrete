@@ -1,7 +1,6 @@
 package de.keksuccino.konkrete.gui.content;
 
 import java.awt.Color;
-
 import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.events.SubscribeEvent;
 import de.keksuccino.konkrete.events.client.AfterRenderScreenEvent;
@@ -10,6 +9,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 
+@Deprecated
 public class AdvancedButtonHandler {
 
 	private static AdvancedButton activeDescBtn;

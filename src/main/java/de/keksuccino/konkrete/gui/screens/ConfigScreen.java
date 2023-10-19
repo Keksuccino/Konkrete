@@ -23,6 +23,7 @@ import de.keksuccino.konkrete.math.MathUtils;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraft.network.chat.Component;
 
+@Deprecated
 public class ConfigScreen extends Screen {
 
 	protected Config config;

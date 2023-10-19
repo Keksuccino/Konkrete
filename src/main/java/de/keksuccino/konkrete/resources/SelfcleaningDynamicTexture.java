@@ -4,6 +4,7 @@ import de.keksuccino.konkrete.mixin.mixins.client.IMixinDynamicTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import com.mojang.blaze3d.platform.NativeImage;
 
+@Deprecated(forRemoval = true)
 public class SelfcleaningDynamicTexture extends DynamicTexture {
 
 	public SelfcleaningDynamicTexture(NativeImage nativeImageIn) {

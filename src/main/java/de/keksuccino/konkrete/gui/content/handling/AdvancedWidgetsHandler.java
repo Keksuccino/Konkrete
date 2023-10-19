@@ -5,12 +5,12 @@ import de.keksuccino.konkrete.events.*;
 import de.keksuccino.konkrete.events.client.*;
 import de.keksuccino.konkrete.input.CharData;
 import de.keksuccino.konkrete.input.KeyboardData;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 public class AdvancedWidgetsHandler {
 
     protected static Map<IAdvancedWidgetBase, Long> widgets = new HashMap<>();

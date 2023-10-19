@@ -3,6 +3,7 @@ package de.keksuccino.konkrete.gui.content.handling;
 import de.keksuccino.konkrete.input.CharData;
 import de.keksuccino.konkrete.input.KeyboardData;
 
+@Deprecated
 public interface IAdvancedWidgetBase {
 
     void onTick();

@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import com.mojang.blaze3d.platform.NativeImage;
 import de.keksuccino.konkrete.input.CharacterFilter;
 
+@Deprecated
 public class WebTextureResourceLocation implements ITextureResourceLocation {
 
 	private String url;

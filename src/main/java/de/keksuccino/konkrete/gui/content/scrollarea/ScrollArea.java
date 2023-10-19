@@ -16,6 +16,7 @@ import de.keksuccino.konkrete.events.client.GuiScreenEvent;
 import de.keksuccino.konkrete.input.MouseInput;
 import net.minecraft.resources.ResourceLocation;
 
+@Deprecated
 public class ScrollArea {
 	
 	public Color backgroundColor = new Color(0, 0, 0, 240);

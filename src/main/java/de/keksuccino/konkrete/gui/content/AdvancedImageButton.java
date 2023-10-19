@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraft.resources.ResourceLocation;
 
+@Deprecated
 public class AdvancedImageButton extends AdvancedButton {
 
 	private ResourceLocation image;
