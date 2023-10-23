@@ -19,7 +19,6 @@ import de.keksuccino.konkrete.objecthunter.exp4j.operator.Operator;
 import de.keksuccino.konkrete.objecthunter.exp4j.operator.Operators;
 import de.keksuccino.konkrete.objecthunter.exp4j.function.Function;
 import de.keksuccino.konkrete.objecthunter.exp4j.function.Functions;
-
 import java.util.Map;
 import java.util.Set;
 
@@ -74,7 +73,7 @@ public class Tokenizer {
         if (Character.isDigit(ch) || ch == '.') {
             if (lastToken != null) {
                 if (lastToken.getType() == Token.TOKEN_NUMBER) {
-                    throw new IllegalArgumentException("Unable to parse char '" + ch + "' (Code:" + (int) ch + ") at [" + pos + "]");
+                    throw new IllegalArgumentException("Unable to parse char '" + ch + "' (Code:" + (int) ch + ") at [" + pos + "] | Expression: " + new String(this.expression));
                 } else if (implicitMultiplication && (lastToken.getType() != Token.TOKEN_OPERATOR
                         && lastToken.getType() != Token.TOKEN_PARENTHESES_OPEN
                         && lastToken.getType() != Token.TOKEN_FUNCTION
@@ -116,7 +115,7 @@ public class Tokenizer {
             return parseFunctionOrVariable();
 
         }
-        throw new IllegalArgumentException("Unable to parse char '" + ch + "' (Code:" + (int) ch + ") at [" + pos + "]");
+        throw new IllegalArgumentException("Unable to parse char '" + ch + "' (Code:" + (int) ch + ") at [" + pos + "] | Expression: " + new String(this.expression));
     }
 
     private Token parseArgumentSeparatorToken() {
