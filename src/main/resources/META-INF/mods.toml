@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[46,)"
+loaderVersion="[48,)"
 license="GPLv3"
 [[mods]]
 modId="konkrete"
@@ -28,13 +28,13 @@ https://github.com/fasseg/exp4j'''
 [[dependencies.konkrete]]
 modId="forge"
 mandatory=true
-versionRange="[46.0.0,)"
+versionRange="[48.0.0,)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.konkrete]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.20,)"
+versionRange="[1.20.2,)"
 ordering="NONE"
 side="BOTH"

@@ -199,7 +199,7 @@ public class ScrollArea {
 	@SubscribeEvent
 	public void onMouseScrollPre(ScreenEvent.MouseScrolled.Pre e) {
 		if (this.isAreaHovered()) {
-			int scroll = this.scrollpos - (int) e.getScrollDelta() * 7;
+			int scroll = this.scrollpos - (int) e.getDeltaY() * 7;
 			if (scroll < 0) {
 				this.scrollpos = 0;
 			} else if (scroll > this.height - this.grabberheight) {

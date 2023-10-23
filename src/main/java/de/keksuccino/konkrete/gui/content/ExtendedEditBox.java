@@ -54,7 +54,8 @@ public class ExtendedEditBox extends EditBox implements IAdvancedWidgetBase {
 
     @Override
     public void onTick() {
-        this.tick();
+        //TODO EXPERIMENTAL
+//        this.tick();
     }
 
     @Override

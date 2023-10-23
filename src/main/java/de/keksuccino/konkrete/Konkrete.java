@@ -1,10 +1,8 @@
 package de.keksuccino.konkrete;
 
 import java.io.File;
-
 import de.keksuccino.konkrete.gui.content.handling.AdvancedWidgetsHandler;
 import net.minecraft.resources.ResourceLocation;
-
 import de.keksuccino.konkrete.gui.content.AdvancedButtonHandler;
 import de.keksuccino.konkrete.gui.screens.popup.PopupHandler;
 import de.keksuccino.konkrete.input.KeyboardHandler;

@@ -74,7 +74,7 @@ public class Tokenizer {
         if (Character.isDigit(ch) || ch == '.') {
             if (lastToken != null) {
                 if (lastToken.getType() == Token.TOKEN_NUMBER) {
-                    throw new IllegalArgumentException("Unable to parse char '" + ch + "' (Code:" + (int) ch + ") at [" + pos + "]");
+                    throw new IllegalArgumentException("Unable to parse char '" + ch + "' (Code:" + (int) ch + ") at [" + pos + "] | Expression: " + new String(this.expression));
                 } else if (implicitMultiplication && (lastToken.getType() != Token.TOKEN_OPERATOR
                         && lastToken.getType() != Token.TOKEN_PARENTHESES_OPEN
                         && lastToken.getType() != Token.TOKEN_FUNCTION
@@ -116,7 +116,7 @@ public class Tokenizer {
             return parseFunctionOrVariable();
 
         }
-        throw new IllegalArgumentException("Unable to parse char '" + ch + "' (Code:" + (int) ch + ") at [" + pos + "]");
+        throw new IllegalArgumentException("Unable to parse char '" + ch + "' (Code:" + (int) ch + ") at [" + pos + "] | Expression: " + new String(this.expression));
     }
 
     private Token parseArgumentSeparatorToken() {
