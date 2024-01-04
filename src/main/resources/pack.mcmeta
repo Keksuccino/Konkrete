@@ -1,6 +1,6 @@
 {
-    "pack": {
-        "description": "examplemod resources",
-        "pack_format": 8
-    }
+  "pack": {
+    "description": "${mod_id} resources",
+    "pack_format": 22
+  }
 }

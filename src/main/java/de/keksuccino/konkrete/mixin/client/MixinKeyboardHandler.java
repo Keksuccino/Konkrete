@@ -1,11 +1,8 @@
 package de.keksuccino.konkrete.mixin.client;
 
-import de.keksuccino.konkrete.events.ScreenCharTypedEvent;
-import de.keksuccino.konkrete.events.ScreenKeyPressedEvent;
-import de.keksuccino.konkrete.events.ScreenKeyReleasedEvent;
+import de.keksuccino.konkrete.events.EventHooks;
 import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,7 +15,7 @@ public class MixinKeyboardHandler {
     private void onKeyPressHandlePress(long window, int keycode, int scancode, int i1, int modifiers, CallbackInfo info) {
         Screen.wrapScreenError(() -> {
             if (i1 == 1 || (i1 == 2)) {
-                MinecraftForge.EVENT_BUS.post(new ScreenKeyPressedEvent(keycode, scancode, modifiers));
+                EventHooks.onScreenKeyPressed(keycode, scancode, modifiers);
             }
         }, "Konkrete keyPressed (handlePress) event handler", this.getClass().getCanonicalName());
     }
@@ -28,7 +25,7 @@ public class MixinKeyboardHandler {
         Screen.wrapScreenError(() -> {
             if (i1 != 1 && (i1 != 2)) {
                 if (i1 == 0) {
-                    MinecraftForge.EVENT_BUS.post(new ScreenKeyReleasedEvent(keycode, scancode, modifiers));
+                    EventHooks.onScreenKeyReleased(keycode, scancode, modifiers);
                 }
             }
         }, "Konkrete keyPressed (handleRelease) event handler", this.getClass().getCanonicalName());
@@ -36,9 +33,7 @@ public class MixinKeyboardHandler {
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;wrapScreenError(Ljava/lang/Runnable;Ljava/lang/String;Ljava/lang/String;)V"), method = "charTyped")
     private void onCharTyped(long window, int character, int modifiers, CallbackInfo info) {
-        Screen.wrapScreenError(() -> {
-            MinecraftForge.EVENT_BUS.post(new ScreenCharTypedEvent((char)character, modifiers));
-        }, "Konkrete charTyped event handler", this.getClass().getCanonicalName());
+        Screen.wrapScreenError(() -> EventHooks.onScreenCharTyped((char)character, modifiers), "Konkrete charTyped event handler", this.getClass().getCanonicalName());
     }
 
 }

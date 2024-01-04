@@ -1,9 +1,11 @@
 package de.keksuccino.konkrete.resources;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import com.mojang.blaze3d.platform.NativeImage;
 import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.input.CharacterFilter;
@@ -11,14 +13,22 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import javax.imageio.ImageIO;
 
 public class WebTextureResourceLocation implements ITextureResourceLocation {
 
-	private String url;
-	private ResourceLocation location;
-	private boolean loaded = false;
-	private int width = 0;
-	private int height = 0;
+	private static final Logger LOGGER = LogManager.getLogger();
+
+	protected String url;
+	protected ResourceLocation location;
+	protected boolean loaded = false;
+	protected int width = 0;
+	protected int height = 0;
 	
 	public WebTextureResourceLocation(String url) {
 		this.url = url;
@@ -31,38 +41,66 @@ public class WebTextureResourceLocation implements ITextureResourceLocation {
 	 * After loading the texture, {@code WebTextureResourceLocation.isReady()} will return true.
 	 */
 	public void loadTexture() {
-
 		if (this.loaded) {
 			return;
 		}
-
 		try {
 			if (Minecraft.getInstance().getTextureManager() == null) {
 				Konkrete.LOGGER.error("[KONKRETE] ERROR: Can't load texture '" + this.url + "'! Minecraft TextureManager instance not ready yet!");
 				return;
 			}
-
 			URL u = new URL(this.url);
 			HttpURLConnection httpcon = (HttpURLConnection) u.openConnection();
 			httpcon.addRequestProperty("User-Agent", "Mozilla/4.0");
-			InputStream s = httpcon.getInputStream();
-			if (s == null) {
-				return;
+			InputStream httpIn = httpcon.getInputStream();
+			if (httpIn == null) return;
+			boolean isDirectJpegLink = this.url.toLowerCase().endsWith(".jpeg") || this.url.toLowerCase().endsWith(".jpg");
+			NativeImage i = null;
+			try {
+				i = isDirectJpegLink ? convertJpegToPng(httpIn) : NativeImage.read(httpIn);
+			} catch (Exception ex) {
+				ex.printStackTrace();
 			}
-			NativeImage i = NativeImage.read(s);
+			if ((i == null) && !isDirectJpegLink) {
+				IOUtils.closeQuietly(httpIn);
+				httpIn = httpcon.getInputStream();
+				if (httpIn == null) return;
+				i = convertJpegToPng(httpIn);
+			}
+			if (i == null) {
+				IOUtils.closeQuietly(httpIn);
+				throw new NullPointerException("Unable to load web image! NativeImage was NULL!");
+			}
 			this.width = i.getWidth();
 			this.height = i.getHeight();
 			location = Minecraft.getInstance().getTextureManager().register(filterUrl(this.url), new DynamicTexture(i));
-			s.close();
+			httpIn.close();
 			loaded = true;
-		} catch (Exception e) {
-			Konkrete.LOGGER.error("[KONKRETE] ERROR: Can't load texture '" + this.url + "'! Invalid URL!");
+		} catch (Exception ex) {
+			LOGGER.error("[KONKRETE] ERROR: Can't load texture '" + this.url + "'! Invalid URL!", ex);
 			loaded = false;
-			for (StackTraceElement st : e.getStackTrace()) {
-				Konkrete.LOGGER.error(st.toString());
-			}
 		}
+	}
 
+	/**
+	 * Converts JPEG images to PNG, because Minecraft dropped support for JPEGs.
+	 */
+	@Nullable
+	protected static NativeImage convertJpegToPng(@NotNull InputStream in) {
+		NativeImage nativeImage = null;
+		ByteArrayOutputStream byteArrayOut = null;
+		try {
+			BufferedImage bufferedImage = ImageIO.read(in);
+			byteArrayOut = new ByteArrayOutputStream();
+			ImageIO.write(bufferedImage, "png", byteArrayOut);
+			//ByteArrayInputStream is important, because using NativeImage#read(byte[]) causes OutOfMemoryExceptions
+			nativeImage = NativeImage.read(new ByteArrayInputStream(byteArrayOut.toByteArray()));
+		} catch (Exception ex) {
+			LOGGER.error("[KONKRETE] Failed to convert web JPEG image to PNG!", ex);
+		}
+		IOUtils.closeQuietly(in);
+		IOUtils.closeQuietly(byteArrayOut);
+		return nativeImage;
 	}
 	
 	public ResourceLocation getResourceLocation() {

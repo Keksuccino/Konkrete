@@ -12,6 +12,6 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "refmap": "konkrete.mixin-refmap.json",
+  "refmap": "konkrete.refmap.json",
   "minVersion": "0.8"
 }

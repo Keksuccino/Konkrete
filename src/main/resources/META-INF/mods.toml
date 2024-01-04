@@ -1,16 +1,18 @@
 modLoader="javafml"
-loaderVersion="[48,)"
-license="GPLv3"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+clientSideOnly=false
 [[mods]]
-modId="konkrete"
-version="1.6.1"
-displayName="Konkrete"
-logoFile="konkrete.png"
-authors="Keksuccino"
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="${mod_authors}" #optional
+#If mod is present on server, only let users with same client-side mod version join
+displayTest="MATCH_VERSION"
 description='''COPYRIGHT:
 
 Konkrete Copyright © 2020-2023 Keksuccino.
-Konkrete is licensed under GPLv3.
+Konkrete is licensed under Apache-2.0.
 
 Open Imaging Copyright © 2014 Dhyan Blum.
 Open Imaging is licensed under Apache-2.0.
@@ -25,16 +27,19 @@ Exp4j Copyright © Frank Asseg.
 Exp4j is licensed under Apache-2.0.
 https://github.com/fasseg/exp4j'''
 
-[[dependencies.konkrete]]
-modId="forge"
-mandatory=true
-versionRange="[48.0.0,)"
-ordering="NONE"
-side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="forge"
+    mandatory=true
+    versionRange="${forge_version_range}"
+    ordering="NONE"
+    side="BOTH"
+	
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
 
-[[dependencies.konkrete]]
-modId="minecraft"
-mandatory=true
-versionRange="[1.20.2,)"
-ordering="NONE"
-side="BOTH"
+#[features.${mod_id}]
+#openGLVersion="[3.2,)"
