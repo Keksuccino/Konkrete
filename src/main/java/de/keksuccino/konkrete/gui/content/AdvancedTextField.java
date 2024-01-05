@@ -5,8 +5,7 @@ import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.mixin.mixins.client.IMixinEditBox;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 @Deprecated
 public class AdvancedTextField extends ExtendedEditBox {

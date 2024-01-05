@@ -18,13 +18,12 @@
     "client.MixinKeyboardHandler",
     "client.MixinMinecraft",
     "client.MixinMouseHandler",
-    "client.MixinScreen",
-    "client.MixinScreenEvents"
+    "client.MixinScreen"
   ],
   "server": [],
   "injectors": {
     "defaultRequire": 1
   },
-  "refmap": "konkrete.mixin-refmap.json",
+  "refmap": "konkrete.refmap.json",
   "plugin": "de.keksuccino.konkrete.mixin.KonkreteMixinPlugin"
 }
