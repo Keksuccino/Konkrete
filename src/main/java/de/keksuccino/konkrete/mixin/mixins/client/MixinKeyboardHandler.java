@@ -17,6 +17,8 @@ import net.minecraft.client.KeyboardHandler;
 @Mixin(KeyboardHandler.class)
 public class MixinKeyboardHandler {
 
+	@Shadow private boolean sendRepeatsToGui;
+
 	/**
 	 * Caching args of onKey() method to use it in {@link MixinScreen}.
 	 */
@@ -40,7 +42,7 @@ public class MixinKeyboardHandler {
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;wrapScreenError(Ljava/lang/Runnable;Ljava/lang/String;Ljava/lang/String;)V", shift = At.Shift.AFTER), method = "keyPress")
 	private void onKeyPressHandlePress(long window, int keycode, int scancode, int i1, int modifiers, CallbackInfo info) {
 		Screen.wrapScreenError(() -> {
-			if (i1 == 1 || (i1 == 2)) {
+			if (i1 == 1 || (i1 == 2 && this.sendRepeatsToGui)) {
 				Konkrete.getEventHandler().callEventsFor(new ScreenKeyPressedEvent(keycode, scancode, modifiers));
 			}
 		}, "Konkrete keyPressed (handlePress) event handler", this.getClass().getCanonicalName());
@@ -49,7 +51,7 @@ public class MixinKeyboardHandler {
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;wrapScreenError(Ljava/lang/Runnable;Ljava/lang/String;Ljava/lang/String;)V"), method = "keyPress")
 	private void onKeyPressHandleRelease(long window, int keycode, int scancode, int i1, int modifiers, CallbackInfo info) {
 		Screen.wrapScreenError(() -> {
-			if (i1 != 1 && (i1 != 2)) {
+			if (i1 != 1 && (i1 != 2 || !this.sendRepeatsToGui)) {
 				if (i1 == 0) {
 					Konkrete.getEventHandler().callEventsFor(new ScreenKeyReleasedEvent(keycode, scancode, modifiers));
 				}

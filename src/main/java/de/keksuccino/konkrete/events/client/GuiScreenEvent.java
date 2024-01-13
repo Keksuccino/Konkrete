@@ -6,8 +6,12 @@ import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.screens.Screen;
 import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.events.EventBase;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GuiScreenEvent extends EventBase {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
 	private Screen screen;
 	
@@ -104,6 +108,11 @@ public class GuiScreenEvent extends EventBase {
 			public Pre(Screen screen, PoseStack matrix, int mouseX, int mouseY, float renderPartialTicks) {
 				super(screen, matrix, mouseX, mouseY, renderPartialTicks);
 			}
+
+            @Override
+            public void setCanceled(boolean b) {
+                LOGGER.error("[KONKRETE] Another mod tried to cancel DrawScreenEvent.Pre! This is not possible anymore and the event will NOT get canceled!", new Throwable());
+            }
 
 		}
 		

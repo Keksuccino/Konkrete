@@ -2,8 +2,6 @@ package de.keksuccino.konkrete.gui.content;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.keksuccino.konkrete.gui.content.widget.WidgetUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -57,7 +55,7 @@ public class ContextMenu implements IMenu {
 			for (AdvancedButton b : this.content) {
 				b.setHandleClick(true);
 				b.setWidth(this.getScaledWidth());
-				WidgetUtils.setHeight(b, this.getScaledButtonHeight());
+				b.setHeight(this.getScaledButtonHeight());
 				b.labelScale = this.menuScale;
 
 				if (this.parent != null) {

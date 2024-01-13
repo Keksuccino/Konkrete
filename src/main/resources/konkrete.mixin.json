@@ -11,6 +11,7 @@
     "client.MixinGameRenderer",
     "client.MixinKeyboardHandler",
     "client.MixinScreenEvents",
+    "client.IMixinKeyboardHandler",
     "client.IMixinEditBox",
     "client.IMixinAbstractWidget",
     "client.IMixinMouseHandler",
