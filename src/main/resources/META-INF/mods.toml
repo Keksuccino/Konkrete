@@ -11,8 +11,8 @@ authors="${mod_authors}" #optional
 displayTest="MATCH_VERSION"
 description='''COPYRIGHT:
 
-Konkrete Copyright © 2020-2023 Keksuccino.
-Konkrete is licensed under Apache-2.0.
+Konkrete Copyright © 2020-2024 Keksuccino.
+Konkrete is licensed under ${mod_license}.
 
 Open Imaging Copyright © 2014 Dhyan Blum.
 Open Imaging is licensed under Apache-2.0.
