@@ -1,16 +1,16 @@
 modLoader="javafml"
 loaderVersion="[46,)"
-license="GPLv3"
+license="Apache-2.0"
 [[mods]]
 modId="konkrete"
-version="1.6.1"
+version="1.8.0"
 displayName="Konkrete"
 logoFile="konkrete.png"
 authors="Keksuccino"
 description='''COPYRIGHT:
 
-Konkrete Copyright © 2020-2023 Keksuccino.
-Konkrete is licensed under GPLv3.
+Konkrete Copyright © 2020-2024 Keksuccino.
+Konkrete is licensed under Apache-2.0.
 
 Open Imaging Copyright © 2014 Dhyan Blum.
 Open Imaging is licensed under Apache-2.0.
