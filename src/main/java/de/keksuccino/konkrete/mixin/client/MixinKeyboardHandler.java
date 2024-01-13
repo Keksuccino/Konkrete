@@ -7,6 +7,7 @@ import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -14,10 +15,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(KeyboardHandler.class)
 public class MixinKeyboardHandler {
 
+    @Shadow private boolean sendRepeatsToGui;
+
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;wrapScreenError(Ljava/lang/Runnable;Ljava/lang/String;Ljava/lang/String;)V", shift = At.Shift.AFTER), method = "keyPress")
     private void onKeyPressHandlePress(long window, int keycode, int scancode, int i1, int modifiers, CallbackInfo info) {
         Screen.wrapScreenError(() -> {
-            if (i1 == 1 || (i1 == 2)) {
+            if (i1 == 1 || (i1 == 2 && this.sendRepeatsToGui)) {
                 MinecraftForge.EVENT_BUS.post(new ScreenKeyPressedEvent(keycode, scancode, modifiers));
             }
         }, "Konkrete keyPressed (handlePress) event handler", this.getClass().getCanonicalName());
@@ -26,7 +29,7 @@ public class MixinKeyboardHandler {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;wrapScreenError(Ljava/lang/Runnable;Ljava/lang/String;Ljava/lang/String;)V"), method = "keyPress")
     private void onKeyPressHandleRelease(long window, int keycode, int scancode, int i1, int modifiers, CallbackInfo info) {
         Screen.wrapScreenError(() -> {
-            if (i1 != 1 && (i1 != 2)) {
+            if (i1 != 1 && (i1 != 2 || !this.sendRepeatsToGui)) {
                 if (i1 == 0) {
                     MinecraftForge.EVENT_BUS.post(new ScreenKeyReleasedEvent(keycode, scancode, modifiers));
                 }

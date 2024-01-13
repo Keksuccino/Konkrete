@@ -1,16 +1,16 @@
 modLoader="javafml"
-loaderVersion="[44,)"
-license="GPLv3"
+loaderVersion="[41,)"
+license="Apache-2.0"
 [[mods]]
 modId="konkrete"
-version="1.6.0"
+version="1.8.0"
 displayName="Konkrete"
 logoFile="konkrete.png"
 authors="Keksuccino"
 description='''COPYRIGHT:
 
-Konkrete Copyright © 2020-2022 Keksuccino.
-Konkrete is licensed under GPLv3.
+Konkrete Copyright © 2020-2024 Keksuccino.
+Konkrete is licensed under Apache-2.0.
 
 Open Imaging Copyright © 2014 Dhyan Blum.
 Open Imaging is licensed under Apache-2.0.
@@ -28,13 +28,13 @@ https://github.com/fasseg/exp4j'''
 [[dependencies.konkrete]]
 modId="forge"
 mandatory=true
-versionRange="[44.0.0,)"
+versionRange="[41.0.64,)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.konkrete]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.19.3,)"
+versionRange="[1.19,)"
 ordering="NONE"
 side="BOTH"

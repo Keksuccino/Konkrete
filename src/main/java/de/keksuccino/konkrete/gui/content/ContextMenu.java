@@ -183,8 +183,14 @@ public class ContextMenu implements IMenu {
 		}
 		return false;
 	}
-	
+
+	@Deprecated
 	public boolean isHoveredOrFocused() {
+		return this.isHovered();
+	}
+
+	//TODO übernehmen
+	public boolean isHovered() {
 		if (!this.isOpen()) {
 			return false;
 		}

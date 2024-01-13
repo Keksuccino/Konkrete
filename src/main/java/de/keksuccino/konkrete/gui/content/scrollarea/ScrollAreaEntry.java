@@ -29,7 +29,13 @@ public abstract class ScrollAreaEntry extends GuiComponent {
 		return this.parent.width;
 	}
 
+	@Deprecated
 	public boolean isHoveredOrFocused() {
+		return this.isHovered();
+	}
+
+	//TODO übernehmen
+	public boolean isHovered() {
 		int mx = MouseInput.getMouseX();
 		int my = MouseInput.getMouseY();
 		if ((this.x <= mx) && (this.y <= my) && ((this.x + this.parent.width) >= mx) && ((this.y + this.getHeight()) >= my)) {

@@ -1,10 +1,8 @@
 package de.keksuccino.konkrete;
 
 import java.io.File;
-
 import de.keksuccino.konkrete.gui.content.handling.AdvancedWidgetsHandler;
 import net.minecraft.resources.ResourceLocation;
-
 import de.keksuccino.konkrete.gui.content.AdvancedButtonHandler;
 import de.keksuccino.konkrete.gui.screens.popup.PopupHandler;
 import de.keksuccino.konkrete.input.KeyboardHandler;
@@ -24,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 public class Konkrete {
 
 	//TODO übernehmen
-	public static final String VERSION = "1.6.0";
+	public static final String VERSION = "1.8.0";
 
 	public static Logger LOGGER = LogManager.getLogger();
 

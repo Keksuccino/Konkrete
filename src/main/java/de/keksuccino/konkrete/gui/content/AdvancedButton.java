@@ -50,16 +50,12 @@ public class AdvancedButton extends Button {
 	protected OnPress press;
 	
 	public AdvancedButton(int x, int y, int widthIn, int heightIn, String buttonText, OnPress onPress) {
-		super(x, y, widthIn, heightIn, Component.literal(buttonText), onPress, (narration) -> {
-			return Component.literal(buttonText);
-		});
+		super(x, y, widthIn, heightIn, Component.literal(buttonText), onPress);
 		this.press = onPress;
 	}
 	
 	public AdvancedButton(int x, int y, int widthIn, int heightIn, String buttonText, boolean handleClick, OnPress onPress) {
-		super(x, y, widthIn, heightIn, Component.literal(buttonText), onPress, (narration) -> {
-			return Component.literal(buttonText);
-		});
+		super(x, y, widthIn, heightIn, Component.literal(buttonText), onPress);
 		this.handleClick = handleClick;
 		this.press = onPress;
 	}
