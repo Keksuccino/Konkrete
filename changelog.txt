@@ -1,0 +1,489 @@
+
+CHANGELOG | KONKRETE v1.9.0 [ W I P - Not public yet! ]
+ 
+- Added support for NeoForge 1.20.4+
+- Deprecated LOTS of stuff that will get removed in the future to make the library more light-wight
+- Modernized some stuff, but due to how I extend some of Konkrete's classes in other mods, I can't really modernize it as much as I would like to
+
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.8.0
+
+- Preparing for the upcoming FancyMenu v3.0.0 and Drippy Loading Screen v3.0.0
+- Tried to fix the Fabric issue with mixins in GameRenderer conflicting with the Fabric API mixins
+- Changed Konkrete's license to Apache-2.0
+
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE
+
+- Ported to MC 1.20.4
+
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE
+
+- Added more detailed error output when Exp4J fails to parse an expression
+
+%changelog:end%
+
+
+
+
+
+CHANGELOG | KONKRETE v1.7.0
+ 
+- IMPORTANT: This update contains breaking changes that could make mods crash that were made with older versions of Konkrete!
+ 
+- LICENSE CHANGED: Konkrete is now licensed under Apache-2.0
+
+%changelog:end%
+
+
+
+
+
+- Added support for MC 1.20.2
+
+%changelog:end%
+
+
+
+
+- Ported some stuff of the Fabric build to the Forge build
+
+%changelog:end%
+
+
+
+
+- Fixed crash on 1.20
+
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.6.1 for MC 1.20
+ 
+- Added support for MC 1.20
+
+%changelog:end%
+
+
+
+
+
+CHANGELOG | KONKRETE v1.6.1
+ 
+- Fixed: Forge 1.18+: Method name mismatches between Forge and Fabric in ContextMenu and ScrollAreaEntry
+
+%changelog:end%
+
+
+
+
+
+CHANGELOG | KONKRETE v1.6.0-2 for Fabric 1.19.4
+ 
+- Fixed broken DrawScreenEvent causing issues like invisible player models, etc.
+
+%changelog:end%
+
+
+
+
+
+CHANGELOG | KONKRETE for MC 1.19.4
+ 
+- Added support for MC 1.19.4
+
+%changelog:end%
+
+
+
+
+
+CHANGELOG | KONKRETE v1.6.0-1 for Fabric 1.19.3
+ 
+- Fixed: Access wideners
+
+%changelog:end%
+
+
+
+
+
+CHANGELOG | KONKRETE v1.6.0
+ 
+- Added: Exp4j library
+
+%changelog:end%
+
+
+
+
+- Initial Modrinth release
+
+%changelog:end%
+
+
+
+
+
+CHANGELOG | KONKRETE v1.5.3-1 for Forge 1.16.X
+ 
+- Fixed: ClassNotFoundException that broke the JSON parser
+
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.5.3
+ 
+- BREAKING CHANGE: Fabric 1.19.X: Removed handler and event classes related to client commands
+--> This will break old mods using these handlers and events! If your game crashes, try to load it with Konkrete v1.5.2!
+--> Fabric API is now used to register client commands
+ 
+- Fixed: Potentially fixed a bug related to text input fields that caused them to not react to key-hold actions anymore
+--> (like holding the arrow keys to quickly move the cursor in a text field)
+
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.5.2
+ 
+- Improved: Error handling of legacy sound engine
+ 
+- Fixed: Memory leak caused by the legacy sound engine
+
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.5.1 for Forge 1.18.X
+ 
+- Added custom client-only command handling, because Forge handling in 1.18.X was..special..
+
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.5.0
+ 
+- Several improvements made to ScrollArea
+- New bundled library JsonPath
+- New bundled library Json-smart
+- New class JsonUtils
+
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.4.0-1 for Fabric 1.18
+ 
+- Fixed: Removed test command accidentally left in the code
+
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.4.0
+ 
+- Added: [1.16+] Support for client-only commands
+
+%changelog:end%
+
+
+
+
+
+CHANGELOG | KONKRETE v1.3.3-4 for Fabric 1.18.X
+ 
+- Fixed: Crash related to invalid Mixin target method
+
+%changelog:end%
+
+
+
+
+
+CHANGELOG | KONKRETE v1.3.3-1 for Forge 1.16.X
+
+- Fixed: Missing DisplayTest extension point (This thing was removed just one version later, because even Forge realized it's frickin random and over-complicated)
+
+%changelog:end%
+
+
+
+
+
+CHANGELOG | KONKRETE v1.3.3-3 for Fabric
+ 
+- Fixed: Possible Nullpointer when getting the screen from the DrawScreenEvent
+
+%changelog:end%
+
+
+
+
+
+CHANGELOG | KONKRETE v1.3.3-1 for Fabric 1.18.X
+ 
+- Improved: DrawScreenEvent mixins for better compatibility with other mods
+
+
+
+
+
+CHANGELOG | KONKRETE v1.3.3
+ 
+- Added: getWebResource() method in TextureHandler that allows for getting the texture without loading it
+
+
+
+
+
+
+CHANGELOG | KONKRETE v1.3.2-1 for Forge 1.12
+ 
+- Fixed: Broken reflections
+
+
+
+
+
+
+CHANGELOG | KONKRETE v1.3.2
+ 
+- Fixed: Compatibility issues with Optifine
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE v1.3.1
+ 
+- Added: Server-side support (lib can now be loaded and used on servers)
+ 
+- Fixed: Fabric 1.18: Crash with FancyMenu when using the 'joinserver' button action
+- Fixed: Max text length of text input fields in ConfigScreen too short
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE v1.3.0-1 for Fabric 1.18
+ 
+- Improved: Hook for GuiInitCompletedEvent
+
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE v1.3.0
+ 
+- Skipping v1.2.X for Forge to unify version number with Fabric build
+ 
+- Added: Animation support for AdvancedButton
+- Added: 'renderLabel' to AdvancedButton to set if the button should render its label
+
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE [FORGE] v1.1.7 FOR MC 1.12
+ 
+- Konkrete for MC 1.12 now depends on MixinBootstrap
+ 
+- Improved Mixin loading behaviour
+
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE [FABRIC] v1.2.3
+ 
+- Fixed: Sounds loaded too early into the SoundHandler will play at max volume instead of the current Minecraft volume
+
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE [FABRIC] v1.2.2
+ 
+- Official support for MC 1.17.1
+ 
+- Added: Support for Optifine (OptiFabric)
+
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE [FABRIC] v1.2.0
+ 
+- Added support for MC 1.17
+- Dropped support for MC 1.16
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE [FABRIC] v1.1.7
+ 
+- Fixed: IndexOutOfBounds when loading highly compressed or corrupted GIF images into animation renderers
+
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE [FORGE] v1.1.7
+ 
+- Fixed: IndexOutOfBounds when loading highly compressed or corrupted GIF images into animation renderers
+
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE [FABRIC] v1.1.6
+ 
+- Added: GuiInitCompletedEvent
+ 
+- Fixed: Rare error spam when trying to get localization key for string
+
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE v1.1.5
+ 
+- Fixed: ContextMenu bug with older versions of FancyMenu
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE v1.1.4
+
+- Added: setButtonHeight() to ContextMenu
+- Added: fill() to RenderUtils
+- Added: 'scale' to AdvancedButton
+- Added: setRenderScale() to MouseInput
+- Added: resetRenderScale() to MouseInput
+- Added: ConfigScreen class to edit a selected config ingame
+
+- Changed: Improved sub-child behaviour of ContextMenus
+- Changed: It's not needed anymore to name animation frames of AnimationRenderer and ExternalTextureAnimationRenderer by numbers, their names can contain letters now
+- Changed: The border width of AdvancedButtons now supports decimal values
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE v1.1.3
+ 
+- Added: setZLevelPre() to RenderUtils
+- Added: setZLevelPost() to RenderUtils
+- Added: setAlwaysOnTop() to ContextMenu
+ 
+- Changed: Renamed PopupMenu to ContextMenu (PopupMenu is deprecated now)
+- Changed: Improved clientside-only behaviour of the mod in MC 1.15+
+ 
+- Removed: Unused third-party audio libs
+ 
+- Fixed: NullPointerException in AdvancedButtonHandler when rendering button descriptions
+
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE v1.1.2
+ 
+- Added: Support for MC 1.16.5
+ 
+- Added: 'ignoreLeftMouseDownClickBlock' to AdvancedButton to set if the button should still be clickable when another button is already getting clicked
+- Added: 'enableRightclick' to AdvancedButton to enable rightlicking as alternative click action
+- Added: 'labelScale' to AdvancedButton to set the text scale of the button label
+- Added: setParentButton() to PopupMenu to set the parent button that was used to open the menu
+- Added: 'menuScale' to PopupMenu to set the scale of the menu
+- Added: closeChilds() to PopupMenu to close all child menus
+- Added: setAutoAlignment() to PopupMenu to enable/disable auto-alignment
+ 
+- Other: Improved autoclosing of PopupMenu
+- Other: Bug fixes and improvements
+
+
+
+
+
+
+
+
+CHANGELOG | KONKRETE v1.1.0
+ 
+- Added ability to set a description for AdvancedButtons that will be displayed when hovering them
+- Added splitLines() method to StringUtils
+- Added getColorFromHexString() method to RenderUtils
+- Added setLoadingAnimationColor() method to SimpleLoadingScreen
+ 
+- Changed the SimpleLoadingScreen animation
+ 
+- Fixed issues when trying to load JPEG frames into an ExternalTextureAnimationRenderer
+
+
+
+
+
