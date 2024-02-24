@@ -9,7 +9,7 @@ import de.keksuccino.konkrete.gui.content.AdvancedButton;
 /**
  * Does not work anymore. Don't use this.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public abstract class Popup {
 	
 	private boolean displayed = false;

@@ -19,102 +19,107 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
-
 import org.apache.commons.io.IOUtils;
-
 import com.google.common.io.Files;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 public class FileUtils {
 
-	public static void writeTextToFile(File f, boolean append, String... text) throws IOException {
-		FileOutputStream fo = new FileOutputStream(f, append);
+	private static final Logger LOGGER = LogManager.getLogger();
+
+	public static void writeTextToFile(@NotNull File file, boolean append, String... text) throws IOException {
+		FileOutputStream fo = new FileOutputStream(file, append);
 		OutputStreamWriter os = new OutputStreamWriter(fo, StandardCharsets.UTF_8);
 		BufferedWriter writer = new BufferedWriter(os);
         if (text.length == 1) {
         	writer.write(text[0]);
-        } else if (text.length > 0) {
+        } else {
         	for (String s : text) {
         		writer.write(s + "\n");
         	}
         }
         writer.flush();
-        try {
-        	if (writer != null) {
-        		writer.close();
-        	}
-        	if (fo != null) {
-        		fo.close();
-        	}
-        	if (os != null) {
-        		os.close();
-        	}
-		} catch (Exception e) {}
+		IOUtils.closeQuietly(fo);
+		IOUtils.closeQuietly(os);
+		IOUtils.closeQuietly(writer);
 	}
 	
-	public static List<String> getFileLines(File f) {
+	public static List<String> getFileLines(@NotNull File file) {
 		List<String> list = new ArrayList<>();
-		
+		BufferedReader in = null;
+		FileInputStream fileIn = null;
+		InputStreamReader inReader = null;
 		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
+			fileIn = new FileInputStream(file);
+			inReader = new InputStreamReader(fileIn, StandardCharsets.UTF_8);
+			in = new BufferedReader(inReader);
 			String line = in.readLine();
 			while (line != null) {
 				list.add(line);
 				line = in.readLine();
 			}
-			in.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			LOGGER.error("[KONKRETE] Failed to read text lines of file: " + file.getAbsolutePath(), ex);
 		}
-		
+		IOUtils.closeQuietly(in);
+		IOUtils.closeQuietly(fileIn);
+		IOUtils.closeQuietly(inReader);
 		return list;
 	}
 	
-	public static List<String> getFiles(String path) {
+	public static List<String> getFiles(@NotNull String path) {
 		List<String> list = new ArrayList<>();
 		File f = new File(path);
 		if (f.exists()) {
-			for (File file : f.listFiles()) {
-				list.add(file.getAbsolutePath());
-			}
-		}
-		
-		return list;
-	}
-	
-	public static List<String> getFilenames(String path, boolean includeExtension) {
-		List<String> list = new ArrayList<>();
-		File f = new File(path);
-		if (f.exists()) {
-			for (File file : f.listFiles()) {
-				if (includeExtension) {
-					list.add(file.getName());
-				} else {
-					list.add(Files.getNameWithoutExtension(file.getName()));
+			File[] files = f.listFiles();
+			if (files != null) {
+				for (File file : files) {
+					list.add(file.getAbsolutePath());
 				}
 			}
 		}
-		
 		return list;
 	}
 	
-	public static String generateAvailableFilename(String dir, String baseName, String extension) {
+	public static List<String> getFilenames(@NotNull String path, boolean includeExtension) {
+		List<String> list = new ArrayList<>();
+		File f = new File(path);
+		if (f.exists()) {
+			File[] files = f.listFiles();
+			if (files != null) {
+				for (File file : files) {
+					if (includeExtension) {
+						list.add(file.getName());
+					} else {
+						list.add(Files.getNameWithoutExtension(file.getName()));
+					}
+				}
+			}
+		}
+		return list;
+	}
+	
+	public static String generateAvailableFilename(@NotNull String dir, @NotNull String baseName, @NotNull String extension) {
 		File f = new File(dir);
 		if (!f.exists() && f.isDirectory()) {
 			f.mkdirs();
 		}
-
 		File f2 = new File(f.getPath() + "/" + baseName + "." + extension.replace(".", ""));
 		int i = 1;
 		while (f2.exists()) {
 			f2 = new File(f.getPath() + "/" + baseName + "_" + i + "." + extension.replace(".", ""));
 			i++;
 		}
-		
 		return f2.getName();
 	}
 
-	public static boolean copyFile(File from, File to) {
-		
+	/**
+	 * @deprecated Use {@link Files#copy(File, File)} instead.
+	 */
+	@Deprecated
+	public static boolean copyFile(@NotNull File from, @NotNull File to) {
 		if (!from.getAbsolutePath().replace("\\", "/").equals(to.getAbsolutePath().replace("\\", "/"))) {
 			if (from.exists() && from.isFile()) {
 				File toParent = to.getParentFile();
@@ -123,7 +128,6 @@ public class FileUtils {
 				}
 				InputStream in = null;
 				OutputStream out = null;
-				
 				try {
 					in = new BufferedInputStream(new FileInputStream(from));
 					out = new BufferedOutputStream(new FileOutputStream(to));
@@ -136,10 +140,8 @@ public class FileUtils {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
 				IOUtils.closeQuietly(in);
 		        IOUtils.closeQuietly(out);
-		        
 		        //Should never be triggered
 		        try {
 		        	int i = 0;
@@ -150,16 +152,17 @@ public class FileUtils {
 		        } catch (Exception e) {
 		        	e.printStackTrace();
 		        }
-
 		        return to.exists();
 			}
 		}
-		
 		return false;
 	}
 
-	public static boolean moveFile(File from, File to) throws IOException, InterruptedException {
-		
+	/**
+	 * @deprecated Use {@link Files#move(File, File)} instead.
+	 */
+	@Deprecated
+	public static boolean moveFile(@NotNull File from, @NotNull File to) throws InterruptedException {
 		if (!from.getAbsolutePath().replace("\\", "/").equals(to.getAbsolutePath().replace("\\", "/"))) {
 			if (from.exists() && from.isFile()) {
 				if (from.renameTo(to)) {
@@ -182,11 +185,10 @@ public class FileUtils {
 				}
 			}
 		}
-		
 		return false;
 	}
 	
-	public static void compressToZip(String pathToCompare, String zipFile) {
+	public static void compressToZip(@NotNull String pathToCompare, @NotNull String zipFile) {
         byte[] buffer = new byte[1024];
         String source = new File(pathToCompare).getName();
 		FileOutputStream fos = null;
@@ -194,40 +196,33 @@ public class FileUtils {
         try {
             fos = new FileOutputStream(zipFile);
             zos = new ZipOutputStream(fos);
-            
             for (String file: getFiles(pathToCompare)) {
                 ZipEntry ze = new ZipEntry(source + File.separator + file);
                 zos.putNextEntry(ze);
+				FileInputStream in = null;
                 try {
-                	FileInputStream in = new FileInputStream(file);
+                	in = new FileInputStream(file);
                     int len;
-                    while ((len = in .read(buffer)) > 0) {
+                    while ((len = in.read(buffer)) > 0) {
                         zos.write(buffer, 0, len);
                     }
-                    in.close();
-                } catch (Exception e) {
-                	e.printStackTrace();
+                } catch (Exception ex) {
+					LOGGER.error("[KONKRETE] Error while trying to compress ZIP: " + zipFile, ex);
                 }
+				IOUtils.closeQuietly(in);
             }
-            
-            zos.closeEntry();
-            fos.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
             try {
-                zos.close();
-                fos.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+				zos.closeEntry();
+			} catch (Exception ignore) {}
+        } catch (Exception ex) {
+			LOGGER.error("[KONKRETE] Error while trying to compress ZIP: " + zipFile, ex);
         }
+		IOUtils.closeQuietly(fos);
+		IOUtils.closeQuietly(zos);
     }
 	
-	public static void compressToZip(List<String> filePathsToCompare, String zipFile) {
+	public static void compressToZip(@NotNull List<String> filePathsToCompare, @NotNull String zipFile) {
         byte[] buffer = new byte[1024];
-
         FileOutputStream fos = null;
         ZipOutputStream zos = null;
         try {
@@ -236,31 +231,29 @@ public class FileUtils {
             for (String file: filePathsToCompare) {
                 ZipEntry ze = new ZipEntry(Files.getNameWithoutExtension(zipFile) + "/" + file);
                 zos.putNextEntry(ze);
+				FileInputStream in = null;
                 try {
-                	FileInputStream in = new FileInputStream(file);
+                	in = new FileInputStream(file);
                     int len;
-                    while ((len = in .read(buffer)) > 0) {
+                    while ((len = in.read(buffer)) > 0) {
                         zos.write(buffer, 0, len);
                     }
-                    in.close();
-                } catch (Exception e) {
-                	e.printStackTrace();
+                } catch (Exception ex) {
+					LOGGER.error("[KONKRETE] Error while trying to compress ZIP: " + zipFile, ex);
                 }
+				IOUtils.closeQuietly(in);
             }
-            zos.closeEntry();
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
             try {
-                zos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+				zos.closeEntry();
+			} catch (Exception ignore) {}
+        } catch (IOException ex) {
+            LOGGER.error("[KONKRETE] Error while trying to compress ZIP: " + zipFile, ex);
         }
+		IOUtils.closeQuietly(fos);
+		IOUtils.closeQuietly(zos);
     }
 
-	public static void unpackZip(String zipPath, String outputDir) throws IOException {
+	public static void unpackZip(@NotNull String zipPath, @NotNull String outputDir) throws IOException {
 		ZipFile zipFile = new ZipFile(zipPath);
 		Enumeration<? extends ZipEntry> entries = zipFile.entries();
 		while (entries.hasMoreElements()) {
@@ -275,9 +268,7 @@ public class FileUtils {
 				IOUtils.copy(in, out);
 			}
 		}
-		try {
-			zipFile.close();
-		} catch (Exception e) {}
+		IOUtils.closeQuietly(zipFile);
 	}
 	
 }

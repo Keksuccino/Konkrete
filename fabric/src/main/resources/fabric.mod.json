@@ -12,30 +12,32 @@
   ],
   "contact": {},
   "license": "${mod_license}",
-  "icon": "fancymenu_logo_128x128.png",
+  "icon": "konkrete_logo_128x128.png",
   "entrypoints": {
     "main": [
-      "de.keksuccino.fancymenu.FancyMenuFabric"
+      "de.keksuccino.konkrete.KonkreteFabric"
     ],
     "client": [],
     "server": []
   },
   "mixins": [
-    "fancymenu.mixins.json",
-    "fancymenu.fabric.mixins.json"
+    "konkrete.mixins.json",
+    "konkrete.fabric.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
     "fabric": ">=${fabric_short_version}",
-    "konkrete": ">=1.8.0",
-    "melody": ">=1.0.0",
     "minecraft": ">=${minecraft_version}",
     "java": ">=17"
   },
   "breaks": {
-    "drippyloadingscreen": "<3.0.0",
-    "fmextension_audio": "*",
-    "fmextension_video": "*"
+    "drippyloadingscreen": "<3.0.1",
+    "fancymenu": "<3.1.0"
   },
-  "accessWidener": "fancymenu.accesswidener"
+  "accessWidener": "konkrete.accesswidener",
+  "custom": {
+    "modmenu": {
+      "badges": [ "library" ]
+    }
+  }
 }

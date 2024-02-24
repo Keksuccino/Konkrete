@@ -3,6 +3,7 @@ package de.keksuccino.konkrete.properties;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("all")
 public class PropertiesSet {
 	
 	private String propertiesType;

@@ -3,6 +3,7 @@ package de.keksuccino.konkrete.properties;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@SuppressWarnings("all")
 public class PropertiesSection {
 	
 	private String sectionType;
@@ -25,9 +26,7 @@ public class PropertiesSection {
 	}
 	
 	public void removeEntry(String name) {
-		if (this.entries.containsKey(name)) {
-			this.entries.remove(name);
-		}
+		this.entries.remove(name);
 	}
 	
 	public boolean hasEntry(String name) {

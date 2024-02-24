@@ -3,7 +3,7 @@ package de.keksuccino.konkrete.gui.screens.popup;
 /**
  * Does not work anymore. Don't use this.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public class PopupHandler {
 
 	/**

@@ -1,24 +1,11 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "de.keksuccino.konkrete.mixin.mixins",
+  "package": "de.keksuccino.konkrete.mixin.mixins.fabric",
   "compatibilityLevel": "JAVA_17",
   "mixins": [],
   "client": [
-    "client.IMixinAbstractWidget",
-    "client.IMixinClientLanguage",
-    "client.IMixinClientPacketListener",
-    "client.IMixinDynamicTexture",
-    "client.IMixinEditBox",
-    "client.IMixinLocalPlayer",
-    "client.IMixinMouseHandler",
-    "client.IMixinScreen",
-    "client.MixinClientPacketListener",
-    "client.MixinGameRenderer",
-    "client.MixinKeyboardHandler",
-    "client.MixinMinecraft",
-    "client.MixinMouseHandler",
-    "client.MixinScreen"
+    "client.MixinGameRenderer"
   ],
   "server": [],
   "injectors": {

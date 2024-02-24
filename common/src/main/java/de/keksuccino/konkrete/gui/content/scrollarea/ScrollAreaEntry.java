@@ -3,7 +3,7 @@ package de.keksuccino.konkrete.gui.content.scrollarea;
 import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.input.MouseInput;
 
-@Deprecated
+@Deprecated(forRemoval = true)
 public abstract class ScrollAreaEntry {
 	
 	public int x = 0;

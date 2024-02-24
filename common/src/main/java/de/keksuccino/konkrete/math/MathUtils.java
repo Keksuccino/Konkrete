@@ -12,7 +12,7 @@ public class MathUtils {
     			Integer.parseInt(value);
     		}
     		return true;
-    	} catch (Exception e) {}
+    	} catch (Exception ignored) {}
     	return false;
     }
 	
@@ -20,7 +20,7 @@ public class MathUtils {
 		try {
 			Integer.parseInt(value);
     		return true;
-    	} catch (Exception e) {}
+    	} catch (Exception ignored) {}
     	return false;
 	}
 	
@@ -28,7 +28,7 @@ public class MathUtils {
 		try {
 			Double.parseDouble(value);
     		return true;
-    	} catch (Exception e) {}
+    	} catch (Exception ignored) {}
     	return false;
 	}
 	
@@ -36,7 +36,7 @@ public class MathUtils {
 		try {
 			Long.parseLong(value);
     		return true;
-    	} catch (Exception e) {}
+    	} catch (Exception ignored) {}
     	return false;
 	}
 	
@@ -44,7 +44,7 @@ public class MathUtils {
 		try {
 			Float.parseFloat(value);
     		return true;
-    	} catch (Exception e) {}
+    	} catch (Exception ignored) {}
     	return false;
 	}
 	
@@ -60,19 +60,15 @@ public class MathUtils {
 	 * Returns the calculated value.
 	 */
 	public static double calculateFromString(final String in) {
-		
 		if (MathUtils.isDouble(in)) {
 			return Double.parseDouble(in);
 		}
-		
 	    try {
 	    	return new Object() {
 		        int pos = -1, ch;
-
 		        void nextChar() {
 		            ch = (++pos < in.length()) ? in.charAt(pos) : -1;
 		        }
-
 		        boolean eat(int charToEat) {
 		            while (ch == ' ') nextChar();
 		            if (ch == charToEat) {
@@ -81,14 +77,12 @@ public class MathUtils {
 		            }
 		            return false;
 		        }
-
 		        double parse() {
 		            nextChar();
 		            double x = parseExpression();
 		            if (pos < in.length()) throw new RuntimeException("[KONKRETE] Unexpected: " + (char)ch);
 		            return x;
 		        }
-
 		        double parseExpression() {
 		            double x = parseTerm();
 		            for (;;) {
@@ -97,7 +91,6 @@ public class MathUtils {
 		                else return x;
 		            }
 		        }
-
 		        double parseTerm() {
 		            double x = parseFactor();
 		            for (;;) {
@@ -106,7 +99,6 @@ public class MathUtils {
 		                else return x;
 		            }
 		        }
-
 		        double parseFactor() {
 		            if (eat('+')) return parseFactor();
 		            if (eat('-')) return -parseFactor();
@@ -131,16 +123,13 @@ public class MathUtils {
 		            } else {
 		                throw new RuntimeException("[KONKRETE] Unexpected: " + (char)ch);
 		            }
-
 		            if (eat('^')) x = Math.pow(x, parseFactor());
-
 		            return x;
 		        }
 		    }.parse();
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    }
-	    
 	    return 0.0D;
 	}
 
@@ -148,17 +137,14 @@ public class MathUtils {
 	 * Returns true if the given string can be calculated using {@link MathUtils#calculateFromString}.
 	 */
 	public static boolean isCalculateableString(String in) {
-		
 		if (MathUtils.isDouble(in)) {
 			return true;
 		}
-		
 		try {
 			calculateFromString(in);
 			return true;
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
-		
 		return false;
 	}
 

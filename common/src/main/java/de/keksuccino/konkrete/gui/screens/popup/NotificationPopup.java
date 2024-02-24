@@ -17,7 +17,7 @@ import de.keksuccino.konkrete.localization.Locals;
 /**
  * Does not work anymore. Don't use this.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public class NotificationPopup extends Popup {
 
 	protected List<String> text;

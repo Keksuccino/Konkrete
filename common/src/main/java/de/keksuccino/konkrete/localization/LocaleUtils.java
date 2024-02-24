@@ -5,7 +5,7 @@ import de.keksuccino.konkrete.mixin.mixins.client.IMixinClientLanguage;
 import net.minecraft.client.resources.language.ClientLanguage;
 import net.minecraft.locale.Language;
 
-@Deprecated
+@Deprecated(forRemoval = true)
 public class LocaleUtils {
 	
 	/**

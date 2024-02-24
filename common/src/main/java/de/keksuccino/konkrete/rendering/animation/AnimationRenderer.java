@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 /**
  * Does not work anymore. Don't use this class.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public class AnimationRenderer implements IAnimationRenderer {
 	
 	private String resourceDir;

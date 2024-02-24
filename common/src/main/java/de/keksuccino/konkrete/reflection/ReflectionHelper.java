@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+@SuppressWarnings("unused")
 public class ReflectionHelper {
 	
 	public static Field findField(@NotNull Class<?> c, @NotNull String... names) throws NoSuchFieldException {

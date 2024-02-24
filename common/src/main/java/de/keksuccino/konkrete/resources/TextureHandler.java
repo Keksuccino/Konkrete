@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import de.keksuccino.konkrete.rendering.animation.ExternalGifAnimationRenderer;
 
-@Deprecated
+@Deprecated(forRemoval = true)
 public class TextureHandler {
 	
 	private static Map<String, ITextureResourceLocation> textures = new HashMap<String, ITextureResourceLocation>();

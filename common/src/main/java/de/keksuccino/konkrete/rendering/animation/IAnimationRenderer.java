@@ -2,7 +2,7 @@ package de.keksuccino.konkrete.rendering.animation;
 
 import net.minecraft.client.gui.GuiGraphics;
 
-@SuppressWarnings("all")
+@Deprecated(forRemoval = true)
 public interface IAnimationRenderer {
 
 	/**

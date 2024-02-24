@@ -1,3 +1,4 @@
+
 plugins {
     id 'idea'
     id 'maven-publish'
@@ -5,33 +6,34 @@ plugins {
     id 'java-library'
 }
 base {
-    archivesName = "${mod_name}-neoforge-${minecraft_version}"
+    archivesName = "${mod_id}"
 }
 
 // Automatically enable neoforge AccessTransformers if the file exists
 // This location is hardcoded in FML and can not be changed.
 // https://github.com/neoforged/FancyModLoader/blob/a952595eaaddd571fbc53f43847680b00894e0c1/loader/src/main/java/net/neoforged/fml/loading/moddiscovery/ModFile.java#L118
-if (file('src/main/resources/META-INF/accesstransformer.cfg').exists()) {
-    minecraft.accessTransformers.file file('src/main/resources/META-INF/accesstransformer.cfg')
+//if (file('src/main/resources/META-INF/accesstransformer.cfg').exists()) {
+//    minecraft.accessTransformers.file file('src/main/resources/META-INF/accesstransformer.cfg')
+//}
+
+minecraft {
+    accessTransformers {
+        file('src/main/resources/META-INF/accesstransformer.cfg')
+    }
 }
+
 runs {
     configureEach {
         modSource project.sourceSets.main
     }
     client {
+	    workingDirectory project.file('../run_client')
         systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
     }
     server {
+	    workingDirectory project.file('../run_server')
         systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         programArgument '--nogui'
-    }
-
-    gameTestServer {
-        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-    }
-
-    data {
-        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
     }
 }
 

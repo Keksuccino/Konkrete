@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
  * This class is outdated. You should not use it anymore.<br>
  * There is no replacement for this class.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 
 	private static final Logger LOGGER = LogManager.getLogger();

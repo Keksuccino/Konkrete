@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import javax.imageio.ImageIO;
 
-@Deprecated
+@Deprecated(forRemoval = true)
 public class ExternalTextureResourceLocation implements ITextureResourceLocation {
 
 	private static final Logger LOGGER = LogManager.getLogger();

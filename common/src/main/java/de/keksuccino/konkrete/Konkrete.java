@@ -1,14 +1,8 @@
 package de.keksuccino.konkrete;
 
-import de.keksuccino.konkrete.command.ClientExecutor;
-import de.keksuccino.konkrete.gui.content.handling.AdvancedWidgetsHandler;
 import de.keksuccino.konkrete.platform.Services;
 import net.minecraft.resources.ResourceLocation;
 import java.io.File;
-import de.keksuccino.konkrete.gui.content.AdvancedButtonHandler;
-import de.keksuccino.konkrete.gui.screens.popup.PopupHandler;
-import de.keksuccino.konkrete.input.KeyboardHandler;
-import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.localization.Locals;
 import de.keksuccino.konkrete.sound.SoundHandler;
 import org.apache.logging.log4j.LogManager;
@@ -19,10 +13,11 @@ public class Konkrete {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
+	public static final String MOD_ID = "konkrete";
 	public static final String VERSION = "1.9.0";
 	public static final String MOD_LOADER = Services.PLATFORM.getPlatformName();
 
-	@Deprecated
+	@Deprecated(forRemoval = true)
     public static boolean isOptifineLoaded = false;
 
 	public static void init() {
@@ -34,18 +29,6 @@ public class Konkrete {
 		}
     	
     	if (Services.PLATFORM.isOnClient()) {
-
-			ClientExecutor.init();
-
-			PopupHandler.init();
-
-			AdvancedWidgetsHandler.init();
-
-			KeyboardHandler.init();
-
-			MouseInput.init();
-			
-			AdvancedButtonHandler.init();
 
 			try {
 				Class.forName("optifine.Installer");
@@ -60,7 +43,6 @@ public class Konkrete {
     	
     }
 
-	//TODO call this in all mod loaders
 	public static void onGameInitCompleted() {
 
 		SoundHandler.init();
@@ -75,7 +57,6 @@ public class Konkrete {
 
 	}
 
-	@SuppressWarnings("all")
     private static void initLocals() {
 		File f = new File("config/konkrete/locals");
 		if (!f.exists()) {

@@ -22,7 +22,7 @@ import java.util.Map;
  * This class is outdated and doesn't work really well. You should not use it anymore.<br>
  * There's currently no replacement for this class.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public class SoundHandler {
 
 	private static final Logger LOGGER = LogManager.getLogger();

@@ -14,36 +14,22 @@ version="${mod_version}" #mandatory
 displayName="${mod_name}" #mandatory
 # A text field displayed in the mod UI
 authors="${mod_authors}" #optional
-logoFile="fancymenu_logo_128x128.png"
+logoFile="konkrete_logo_128x128.png"
 # The description text for the mod (multi line!) (#mandatory)
 description='''${mod_description}'''
 
 [[dependencies.${mod_id}]]
-modId="konkrete"
-mandatory=true
-ordering="NONE"
-versionRange="[1.8.0,)"
-side="BOTH"
-
-[[dependencies.${mod_id}]]
-modId="melody"
-mandatory=true
-ordering="NONE"
-versionRange="[1.0.0,)"
-side="CLIENT"
-
-[[dependencies.${mod_id}]]
-modId="findme"
+modId="fancymenu"
 mandatory=false
-ordering="AFTER"
-versionRange="[1.0.0,)"
+ordering="NONE"
+versionRange="[3.1.0,)"
 side="BOTH"
 
 [[dependencies.${mod_id}]]
 modId="drippyloadingscreen"
 mandatory=false
 ordering="NONE"
-versionRange="[3.0.0,)"
+versionRange="[3.0.1,)"
 side="BOTH"
 
 [[dependencies.${mod_id}]]
@@ -57,19 +43,5 @@ side="BOTH"
 modId="minecraft"
 mandatory=true
 versionRange="[${minecraft_version},)"
-ordering="NONE"
-side="BOTH"
-
-[[dependencies.${mod_id}]]
-modId="fmextension_audio"
-mandatory=false
-versionRange="[9999.9.9,)"
-ordering="NONE"
-side="BOTH"
-
-[[dependencies.${mod_id}]]
-modId="fmextension_video"
-mandatory=false
-versionRange="[9999.9.9,)"
 ordering="NONE"
 side="BOTH"

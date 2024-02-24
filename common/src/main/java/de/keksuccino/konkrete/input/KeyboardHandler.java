@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 /**
  * Does not work anymore. Do not use this class.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public class KeyboardHandler {
 
 	private static boolean ctrlPressed = false;

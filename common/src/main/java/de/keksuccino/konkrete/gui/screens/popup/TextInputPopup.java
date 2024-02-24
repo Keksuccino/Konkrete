@@ -16,7 +16,7 @@ import de.keksuccino.konkrete.localization.Locals;
 /**
  * Does not work anymore. Don't use this.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public class TextInputPopup extends Popup {
 	
 	protected Consumer<String> callback;

@@ -25,7 +25,7 @@ import de.keksuccino.konkrete.localization.Locals;
 /**
  * Does not work anymore. Don't use this.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public class FilePickerPopup extends Popup {
 
 	private static ResourceLocation fileIcon = new ResourceLocation("keksuccino", "filechooser/file_icon.png");

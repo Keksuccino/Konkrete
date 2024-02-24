@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import com.google.common.io.Files;
 import de.keksuccino.konkrete.file.FileUtils;
 
-@Deprecated
+@Deprecated(forRemoval = true)
 public class Locals {
 	
 	private static Map<String, LocalizationPackage> locals = new HashMap<String, LocalizationPackage>();

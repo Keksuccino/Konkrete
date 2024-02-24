@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import com.mojang.blaze3d.platform.NativeImage;
-import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.input.CharacterFilter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -20,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import javax.imageio.ImageIO;
 
-@Deprecated
+@Deprecated(forRemoval = true)
 public class WebTextureResourceLocation implements ITextureResourceLocation {
 
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -47,7 +46,7 @@ public class WebTextureResourceLocation implements ITextureResourceLocation {
 		}
 		try {
 			if (Minecraft.getInstance().getTextureManager() == null) {
-				Konkrete.LOGGER.error("[KONKRETE] ERROR: Can't load texture '" + this.url + "'! Minecraft TextureManager instance not ready yet!");
+				LOGGER.error("[KONKRETE] Can't load texture '" + this.url + "'! Minecraft TextureManager instance not ready yet!", new IllegalStateException("TextureManager not initialized yet."));
 				return;
 			}
 			URL u = new URL(this.url);

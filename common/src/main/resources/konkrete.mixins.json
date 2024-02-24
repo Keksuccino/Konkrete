@@ -13,7 +13,6 @@
     "client.IMixinLocalPlayer",
     "client.IMixinMouseHandler",
     "client.IMixinScreen",
-    "client.MixinGameRenderer",
     "client.MixinKeyboardHandler",
     "client.MixinMinecraft",
     "client.MixinMouseHandler"
