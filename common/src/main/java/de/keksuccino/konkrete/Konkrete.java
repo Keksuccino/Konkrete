@@ -27,7 +27,23 @@ public class Konkrete {
 		} else {
 			LOGGER.info("[KONKRETE] Loading v" + VERSION + " in server-side mode on " + MOD_LOADER.toUpperCase() + "!");
 		}
-    	
+
+		LOGGER.info("---------------------------");
+		LOGGER.info("KONKRETE SHIPS AND USES THE FOLLOWING LIBRARIES:");
+		LOGGER.info(" ");
+		LOGGER.info("Open Imaging Copyright © 2014 Dhyan Blum.");
+		LOGGER.info("Open Imaging is licensed under Apache-2.0.");
+		LOGGER.info(" ");
+		LOGGER.info("JsonPath Copyright © 2017 Jayway.");
+		LOGGER.info("JsonPath is licensed under Apache-2.0.");
+		LOGGER.info(" ");
+		LOGGER.info("Json-smart Copyright © netplex.");
+		LOGGER.info("Json-smart is licensed under Apache-2.0.");
+		LOGGER.info(" ");
+		LOGGER.info("Exp4j Copyright © Frank Asseg.");
+		LOGGER.info("Exp4j is licensed under Apache-2.0. https://github.com/fasseg/exp4j");
+		LOGGER.info("---------------------------");
+
     	if (Services.PLATFORM.isOnClient()) {
 
 			try {
