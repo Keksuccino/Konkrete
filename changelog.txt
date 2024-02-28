@@ -10,6 +10,15 @@ CHANGELOG | KONKRETE v1.9.0 [ W I P - Not public yet! ]
 
 
 
+CHANGELOG | KONKRETE v1.8.1
+ 
+- Lowered required Fabric API version for Fabric 1.20.1 to FAPI v0.88.1
+
+%changelog:end%
+
+
+
+
 CHANGELOG | KONKRETE v1.8.0
 
 - Preparing for the upcoming FancyMenu v3.0.0 and Drippy Loading Screen v3.0.0
