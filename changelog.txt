@@ -1,5 +1,5 @@
 
-CHANGELOG | KONKRETE v1.9.0 [ W I P - Not public yet! ]
+CHANGELOG | KONKRETE v1.9.0
  
 - Added support for NeoForge 1.20.4+
 - Deprecated LOTS of stuff that will get removed in the future to make the library more light-wight
