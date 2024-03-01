@@ -1,4 +1,12 @@
 
+CHANGELOG | KONKRETE v1.9.1
+ 
+- Fixed MouseInput#leftMouseDown() and MouseInput#rightMouseDown() not working
+
+%changelog:end%
+
+
+
 CHANGELOG | KONKRETE v1.9.0
  
 - Added support for NeoForge 1.20.4+
