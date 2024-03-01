@@ -12,7 +12,7 @@
   ],
   "contact": {},
   "license": "${mod_license}",
-  "icon": "konkrete_logo_128x128.png",
+  "icon": "${mod_id}_logo_128x128.png",
   "entrypoints": {
     "main": [
       "de.keksuccino.konkrete.KonkreteFabric"
@@ -21,8 +21,8 @@
     "server": []
   },
   "mixins": [
-    "konkrete.mixins.json",
-    "konkrete.fabric.mixins.json"
+    "${mod_id}.mixins.json",
+    "${mod_id}.fabric.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
@@ -34,7 +34,7 @@
     "drippyloadingscreen": "<3.0.1",
     "fancymenu": "<3.1.0"
   },
-  "accessWidener": "konkrete.accesswidener",
+  "accessWidener": "${mod_id}.accesswidener",
   "custom": {
     "modmenu": {
       "badges": [ "library" ]

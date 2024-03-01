@@ -2,31 +2,27 @@ package de.keksuccino.konkrete.input;
 
 import de.keksuccino.konkrete.mixin.mixins.client.IMixinMouseHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.MouseHandler;
+import org.jetbrains.annotations.ApiStatus;
 
 public class MouseInput {
 
 	private static boolean useRenderScale = false;
 	private static float renderScale = 1.0F;
+	@ApiStatus.Internal
+	public static boolean mouseHandler_screenLeftMouseDown = false;
+	@ApiStatus.Internal
+	public static boolean mouseHandler_screenRightMouseDown = false;
 	
 	public static int getActiveMouseButton() {
 		return ((IMixinMouseHandler)Minecraft.getInstance().mouseHandler).getActiveButtonKonkrete();
 	}
 
-	/**
-	 * @deprecated Use {@link MouseHandler#isLeftPressed()} from {@link Minecraft#mouseHandler} instead.
-	 */
-	@Deprecated
 	public static boolean isLeftMouseDown() {
-		return Minecraft.getInstance().mouseHandler.isLeftPressed();
+		return mouseHandler_screenLeftMouseDown;
 	}
 
-	/**
-	 * @deprecated Use {@link MouseHandler#isRightPressed()} from {@link Minecraft#mouseHandler} instead.
-	 */
-	@Deprecated
 	public static boolean isRightMouseDown() {
-		return Minecraft.getInstance().mouseHandler.isRightPressed();
+		return mouseHandler_screenRightMouseDown;
 	}
 	
 	public static int getMouseX() {

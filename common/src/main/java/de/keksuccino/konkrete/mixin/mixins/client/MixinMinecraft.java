@@ -3,6 +3,7 @@ package de.keksuccino.konkrete.mixin.mixins.client;
 import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.command.ClientExecutor;
 import de.keksuccino.konkrete.gui.content.handling.AdvancedWidgetsHandler;
+import de.keksuccino.konkrete.input.MouseInput;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.main.GameConfig;
@@ -40,6 +41,18 @@ public class MixinMinecraft {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    @Inject(method = "setScreen", at = @At("HEAD"))
+    private void headSetScreen_Konkrete(Screen $$0, CallbackInfo info) {
+        MouseInput.mouseHandler_screenLeftMouseDown = false;
+        MouseInput.mouseHandler_screenRightMouseDown = false;
+    }
+
+    @Inject(method = "resizeDisplay", at = @At("HEAD"))
+    private void headResizeDisplay_Konkrete(CallbackInfo info) {
+        MouseInput.mouseHandler_screenLeftMouseDown = false;
+        MouseInput.mouseHandler_screenRightMouseDown = false;
     }
 
 }
