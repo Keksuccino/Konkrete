@@ -1,4 +1,12 @@
 
+CHANGELOG | KONKRETE v1.9.2
+ 
+- Fixed crash in Forge and Fabric due to missing methods in Config class
+
+%changelog:end%
+
+
+
 CHANGELOG | KONKRETE v1.9.1
  
 - Fixed MouseInput#leftMouseDown() and MouseInput#rightMouseDown() not working
