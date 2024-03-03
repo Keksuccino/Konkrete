@@ -483,7 +483,24 @@ public class Config {
 			throw new InvalidValueException("This value's type is " + e.getType() + "! It isn't possible to set a STRING value to it!");
 		}
 	}
-	
+
+	/**
+	 * @deprecated Use {@link Config#setValue(String, int)} instead.
+	 */
+	@Deprecated(forRemoval = true)
+	public void setValue(@NotNull String name, @NotNull Integer value) throws InvalidValueException {
+		if (!this.valueExists(name)) {
+			return;
+		}
+		ConfigEntry e = this.getAsEntry(name);
+		if (e.getType() == EntryType.INTEGER) {
+			e.setValue(String.valueOf(value));
+			this.syncConfig();
+		} else {
+			throw new InvalidValueException("This value's type is " + e.getType() + "! It isn't possible to set an INTEGER value to it!");
+		}
+	}
+
 	public void setValue(@NotNull String name, int value) throws InvalidValueException {
 		if (!this.valueExists(name)) {
 			return;
@@ -496,7 +513,24 @@ public class Config {
 			throw new InvalidValueException("This value's type is " + e.getType() + "! It isn't possible to set an INTEGER value to it!");
 		}
 	}
-	
+
+	/**
+	 * @deprecated Use {@link Config#setValue(String, boolean)} instead.
+	 */
+	@Deprecated(forRemoval = true)
+	public void setValue(@NotNull String name, @NotNull Boolean value) throws InvalidValueException {
+		if (!this.valueExists(name)) {
+			return;
+		}
+		ConfigEntry e = this.getAsEntry(name);
+		if (e.getType() == EntryType.BOOLEAN) {
+			e.setValue(String.valueOf(value));
+			this.syncConfig();
+		} else {
+			throw new InvalidValueException("This value's type is " + e.getType() + "! It isn't possible to set a BOOLEAN value to it!");
+		}
+	}
+
 	public void setValue(@NotNull String name, boolean value) throws InvalidValueException {
 		if (!this.valueExists(name)) {
 			return;
@@ -509,7 +543,24 @@ public class Config {
 			throw new InvalidValueException("This value's type is " + e.getType() + "! It isn't possible to set a BOOLEAN value to it!");
 		}
 	}
-	
+
+	/**
+	 * @deprecated Use {@link Config#setValue(String, float)} instead.
+	 */
+	@Deprecated(forRemoval = true)
+	public void setValue(@NotNull String name, @NotNull Float value) throws InvalidValueException {
+		if (!this.valueExists(name)) {
+			return;
+		}
+		ConfigEntry e = this.getAsEntry(name);
+		if (e.getType() == EntryType.FLOAT) {
+			e.setValue(String.valueOf(value));
+			this.syncConfig();
+		} else {
+			throw new InvalidValueException("This value's type is " + e.getType() + "! It isn't possible to set a FLOAT value to it!");
+		}
+	}
+
 	public void setValue(@NotNull String name, float value) throws InvalidValueException {
 		if (!this.valueExists(name)) {
 			return;
@@ -522,7 +573,24 @@ public class Config {
 			throw new InvalidValueException("This value's type is " + e.getType() + "! It isn't possible to set a FLOAT value to it!");
 		}
 	}
-	
+
+	/**
+	 * @deprecated Use {@link Config#setValue(String, double)} instead.
+	 */
+	@Deprecated(forRemoval = true)
+	public void setValue(@NotNull String name, @NotNull Double value) throws InvalidValueException {
+		if (!this.valueExists(name)) {
+			return;
+		}
+		ConfigEntry e = this.getAsEntry(name);
+		if (e.getType() == EntryType.DOUBLE) {
+			e.setValue(String.valueOf(value));
+			this.syncConfig();
+		} else {
+			throw new InvalidValueException("This value's type is " + e.getType() + "! It isn't possible to set a DOUBLE value to it!");
+		}
+	}
+
 	public void setValue(@NotNull String name, double value) throws InvalidValueException {
 		if (!this.valueExists(name)) {
 			return;
@@ -535,7 +603,24 @@ public class Config {
 			throw new InvalidValueException("This value's type is " + e.getType() + "! It isn't possible to set a DOUBLE value to it!");
 		}
 	}
-	
+
+	/**
+	 * @deprecated Use {@link Config#setValue(String, long)} instead.
+	 */
+	@Deprecated(forRemoval = true)
+	public void setValue(@NotNull String name, @NotNull Long value) throws InvalidValueException {
+		if (!this.valueExists(name)) {
+			return;
+		}
+		ConfigEntry e = this.getAsEntry(name);
+		if (e.getType() == EntryType.LONG) {
+			e.setValue(String.valueOf(value));
+			this.syncConfig();
+		} else {
+			throw new InvalidValueException("This value's type is " + e.getType() + "! It isn't possible to set a LONG value to it!");
+		}
+	}
+
 	public void setValue(@NotNull String name, long value) throws InvalidValueException {
 		if (!this.valueExists(name)) {
 			return;
