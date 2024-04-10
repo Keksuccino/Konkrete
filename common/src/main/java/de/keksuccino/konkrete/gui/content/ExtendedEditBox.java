@@ -37,7 +37,8 @@ public class ExtendedEditBox extends EditBox implements IAdvancedWidgetBase {
             AdvancedWidgetsHandler.handleWidget(this);
             Screen s = Minecraft.getInstance().screen;
             if ((s != null) && !((IMixinScreen)s).getChildrenKonkrete().contains(this)) {
-                ((IMixinScreen)s).invokeAddWidgetKonkrete(this);
+                ((IMixinScreen)s).getChildrenKonkrete().add(this);
+                ((IMixinScreen)s).getNarratables_Konkrete().add(this);
             }
         }
         super.render(graphics, mouseX, mouseY, partial);
