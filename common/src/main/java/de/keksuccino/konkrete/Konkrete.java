@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("all")
 public class Konkrete {
 
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -78,10 +79,10 @@ public class Konkrete {
 		if (!f.exists()) {
 			f.mkdirs();
 		}
-		Locals.copyLocalsFileToDir(new ResourceLocation("konkrete", "locals/en_us.local"), "en_us", f.getPath());
-		Locals.copyLocalsFileToDir(new ResourceLocation("konkrete", "locals/de_de.local"), "de_de", f.getPath());
-		Locals.copyLocalsFileToDir(new ResourceLocation("konkrete", "locals/pl_pl.local"), "pl_pl", f.getPath());
-		Locals.copyLocalsFileToDir(new ResourceLocation("konkrete", "locals/pt_br.local"), "pt_br", f.getPath());
+		Locals.copyLocalsFileToDir(ResourceLocation.parse("konkrete:locals/en_us.local"), "en_us", f.getPath());
+		Locals.copyLocalsFileToDir(ResourceLocation.parse("konkrete:locals/de_de.local"), "de_de", f.getPath());
+		Locals.copyLocalsFileToDir(ResourceLocation.parse("konkrete:locals/pl_pl.local"), "pl_pl", f.getPath());
+		Locals.copyLocalsFileToDir(ResourceLocation.parse("konkrete:locals/pt_br.local"), "pt_br", f.getPath());
 		Locals.getLocalsFromDir(f.getPath());
 	}
 

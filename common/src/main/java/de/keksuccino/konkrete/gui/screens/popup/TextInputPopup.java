@@ -16,6 +16,7 @@ import de.keksuccino.konkrete.localization.Locals;
 /**
  * Does not work anymore. Don't use this.
  */
+@SuppressWarnings("all")
 @Deprecated(forRemoval = true)
 public class TextInputPopup extends Popup {
 	
@@ -78,7 +79,7 @@ public class TextInputPopup extends Popup {
 			
 			this.textField.setX((renderIn.width / 2) - (this.textField.getWidth() / 2));
 			this.textField.setY((renderIn.height / 2) - (this.textField.getHeight() / 2));
-			this.textField.renderWidget(graphics, mouseX, mouseY, Minecraft.getInstance().getFrameTime());
+			this.textField.renderWidget(graphics, mouseX, mouseY, Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false));
 			
 			this.doneButton.setX((renderIn.width / 2) - (this.doneButton.getWidth() / 2));
 			this.doneButton.setY(((renderIn.height / 2) + (height / 2)) - this.doneButton.getHeight() - 5);

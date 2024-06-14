@@ -45,7 +45,7 @@ public class ContextMenu implements IMenu {
 	public void render(GuiGraphics graphics, int mouseX, int mouseY, int screenWidth, int screenHeight) {
 		this.updateHovered(mouseX, mouseY);
 		
-		float ticks = Minecraft.getInstance().getFrameTime();
+		float ticks = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false);
 		
 		int stackedHeight = 0;
 		

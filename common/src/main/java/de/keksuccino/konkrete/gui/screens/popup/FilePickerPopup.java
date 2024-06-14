@@ -25,12 +25,13 @@ import de.keksuccino.konkrete.localization.Locals;
 /**
  * Does not work anymore. Don't use this.
  */
+@SuppressWarnings("all")
 @Deprecated(forRemoval = true)
 public class FilePickerPopup extends Popup {
 
-	private static ResourceLocation fileIcon = new ResourceLocation("keksuccino", "filechooser/file_icon.png");
-	private static ResourceLocation folderIcon = new ResourceLocation("keksuccino", "filechooser/folder_icon.png");
-	private static ResourceLocation backIcon = new ResourceLocation("keksuccino", "filechooser/back_icon.png");
+	private static ResourceLocation fileIcon = ResourceLocation.parse("keksuccino:filechooser/file_icon.png");
+	private static ResourceLocation folderIcon = ResourceLocation.parse("keksuccino:filechooser/folder_icon.png");
+	private static ResourceLocation backIcon = ResourceLocation.parse("keksuccino:filechooser/back_icon.png");
 
 	private static String lastpath;
 	private boolean checklastpath;

@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 @Deprecated(forRemoval = true)
 public class AdvancedButton extends Button {
 
-	protected static final WidgetSprites SPRITES = new WidgetSprites(new ResourceLocation("widget/button"), new ResourceLocation("widget/button_disabled"), new ResourceLocation("widget/button_highlighted"));
+	protected static final WidgetSprites SPRITES = new WidgetSprites(ResourceLocation.parse("widget/button"), ResourceLocation.parse("widget/button_disabled"), ResourceLocation.parse("widget/button_highlighted"));
 
 	protected boolean handleClick = false;
 	protected static boolean leftDown = false;

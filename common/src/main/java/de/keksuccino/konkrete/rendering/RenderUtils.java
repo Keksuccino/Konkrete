@@ -54,13 +54,12 @@ public class RenderUtils {
 
     public static void innerDoubleBlit(double x, double xEnd, double y, double yEnd, int z, float f1, float f2, float f3, float f4) {
     	RenderSystem.setShader(GameRenderer::getPositionTexShader);
-    	BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
-        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferbuilder.vertex(x, yEnd, (double)z).uv(f1, f4).endVertex();
-        bufferbuilder.vertex(xEnd, yEnd, (double)z).uv(f2, f4).endVertex();
-        bufferbuilder.vertex(xEnd, y, (double)z).uv(f2, f3).endVertex();
-        bufferbuilder.vertex(x, y, (double)z).uv(f1, f3).endVertex();
-        BufferUploader.drawWithShader(bufferbuilder.end());
+    	BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        bufferbuilder.addVertex((float) x, (float) yEnd, z).setUv(f1, f4);
+        bufferbuilder.addVertex((float) xEnd, (float) yEnd, z).setUv(f2, f4);
+        bufferbuilder.addVertex((float) xEnd, (float) y, z).setUv(f2, f3);
+        bufferbuilder.addVertex((float) x, (float) y, z).setUv(f1, f3);
+        BufferUploader.drawWithShader(bufferbuilder.build());
     }
     
     /**
@@ -146,17 +145,16 @@ public class RenderUtils {
 
 		a = a * opacity;
 
-		BufferBuilder bb = Tesselator.getInstance().getBuilder();
+		BufferBuilder bb = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 		RenderSystem.enableBlend();
 		RenderSystem.setShader(GameRenderer::getPositionColorShader);
-		bb.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 
-		bb.vertex(graphics4f, minX, maxY, 0.0F).color(r, g, b, a).endVertex();
-		bb.vertex(graphics4f, maxX, maxY, 0.0F).color(r, g, b, a).endVertex();
-		bb.vertex(graphics4f, maxX, minY, 0.0F).color(r, g, b, a).endVertex();
-		bb.vertex(graphics4f, minX, minY, 0.0F).color(r, g, b, a).endVertex();
+		bb.addVertex(graphics4f, minX, maxY, 0.0F).setColor(r, g, b, a);
+		bb.addVertex(graphics4f, maxX, maxY, 0.0F).setColor(r, g, b, a);
+		bb.addVertex(graphics4f, maxX, minY, 0.0F).setColor(r, g, b, a);
+		bb.addVertex(graphics4f, minX, minY, 0.0F).setColor(r, g, b, a);
 
-		BufferUploader.drawWithShader(bb.end());
+		BufferUploader.drawWithShader(bb.build());
 		RenderSystem.disableBlend();
 
 	}

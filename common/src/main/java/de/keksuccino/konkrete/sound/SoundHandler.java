@@ -3,6 +3,7 @@ package de.keksuccino.konkrete.sound;
 import de.keksuccino.konkrete.platform.Services;
 import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
+import net.minecraft.ReportType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundSource;
 import org.apache.logging.log4j.LogManager;
@@ -193,7 +194,7 @@ public class SoundHandler {
 		CrashReportCategory cat = c.addCategory("Audio Information");
 		cat.setDetail("Key", audioKey);
 		cat.setDetail("Volume", audioVolume);
-		LOGGER.error(c.getFriendlyReport());
+		LOGGER.error(c.getFriendlyReport(ReportType.TEST));
 	}
 
 	private static int getMinecraftMasterVolume() {

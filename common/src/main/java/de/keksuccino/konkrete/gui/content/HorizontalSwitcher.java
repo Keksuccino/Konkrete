@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.input.MouseInput;
 
+@SuppressWarnings("all")
 @Deprecated(forRemoval = true)
 public class HorizontalSwitcher {
 	
@@ -21,7 +22,7 @@ public class HorizontalSwitcher {
 	private Color valuebackcolor = Color.LIGHT_GRAY;
 	
 	public HorizontalSwitcher(int displayWidth, boolean ignoreBlockedInput, String... values) {
-		this.prev = new AdvancedImageButton(0, 0, 20, 20, new ResourceLocation("keksuccino", "arrow_left.png"), true, (press) -> {
+		this.prev = new AdvancedImageButton(0, 0, 20, 20, ResourceLocation.parse("keksuccino:arrow_left.png"), true, (press) -> {
 			int i = this.selected - 1;
 			if (i >= 0) {
 				this.selected = i;
@@ -29,7 +30,7 @@ public class HorizontalSwitcher {
 		});
 		this.prev.ignoreBlockedInput = ignoreBlockedInput;
 		
-		this.next = new AdvancedImageButton(0, 0, 20, 20, new ResourceLocation("keksuccino", "arrow_right.png"), true, (press) -> {
+		this.next = new AdvancedImageButton(0, 0, 20, 20, ResourceLocation.parse("keksuccino:arrow_right.png"), true, (press) -> {
 			int i = this.selected + 1;
 			if (i <= this.values.size()-1) {
 				this.selected = i;
@@ -48,7 +49,7 @@ public class HorizontalSwitcher {
 	public void render(GuiGraphics graphics, int x, int y) {
 		int mouseX = MouseInput.getMouseX();
 		int mouseY = MouseInput.getMouseY();
-		float partial = Minecraft.getInstance().getFrameTime();
+		float partial = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false);
 		String sel = "-------";
 		if (!this.values.isEmpty()) {
 			sel = this.values.get(this.selected);
