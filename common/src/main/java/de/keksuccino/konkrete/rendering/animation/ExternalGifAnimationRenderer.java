@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureManager;
 import com.google.common.io.Files;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -153,7 +154,7 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 			y2 = 0;
 		}
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.opacity);
-		graphics.blit(this.resources.get(this.frame).getResourceLocation(), x2, y2, 0.0F, 0.0F, w, h, w, h);
+		graphics.blit(RenderType::guiTextured, this.resources.get(this.frame).getResourceLocation(), x2, y2, 0.0F, 0.0F, w, h, w, h);
 		RenderSystem.disableBlend();
 	}
 	

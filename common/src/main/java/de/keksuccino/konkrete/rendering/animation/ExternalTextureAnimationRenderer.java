@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureManager;
 import com.google.common.io.Files;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -238,7 +239,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 			r.loadTexture();
 		}
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.opacity);
-		graphics.blit(r.getResourceLocation(), x2, y2, 0.0F, 0.0F, w, h, w, h);
+		graphics.blit(RenderType::guiTextured, r.getResourceLocation(), x2, y2, 0.0F, 0.0F, w, h, w, h);
 		RenderSystem.disableBlend();
 	}
 	

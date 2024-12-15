@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import de.keksuccino.konkrete.input.MouseInput;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 @Deprecated(forRemoval = true)
@@ -92,13 +93,13 @@ public class ScrollArea {
 					if (this.grabberTextureNormal == null) {
 						graphics.fill(scrollXStart, scrollYStart, scrollXEnd, scrollYEnd, this.grabberColorNormal.getRGB());
 					} else {
-						graphics.blit(this.grabberTextureNormal, scrollXStart, scrollYStart, 0.0F, 0.0F, grabberwidth, grabberheight, grabberwidth, grabberheight);
+						graphics.blit(RenderType::guiTextured, this.grabberTextureNormal, scrollXStart, scrollYStart, 0.0F, 0.0F, grabberwidth, grabberheight, grabberwidth, grabberheight);
 					}
 				} else {
 					if (this.grabberTextureHover == null) {
 						graphics.fill(scrollXStart, scrollYStart, scrollXEnd, scrollYEnd, this.grabberColorHover.getRGB());
 					} else {
-						graphics.blit(this.grabberTextureHover, scrollXStart, scrollYStart, 0.0F, 0.0F, grabberwidth, grabberheight, grabberwidth, grabberheight);
+						graphics.blit(RenderType::guiTextured, this.grabberTextureHover, scrollXStart, scrollYStart, 0.0F, 0.0F, grabberwidth, grabberheight, grabberwidth, grabberheight);
 					}
 				}
 			}

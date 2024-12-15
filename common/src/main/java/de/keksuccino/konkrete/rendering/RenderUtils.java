@@ -1,8 +1,14 @@
 package de.keksuccino.konkrete.rendering;
 
 import java.awt.Color;
+import java.util.Objects;
+
 import com.mojang.blaze3d.vertex.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.resources.ResourceLocation;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
@@ -53,7 +59,7 @@ public class RenderUtils {
     }
 
     public static void innerDoubleBlit(double x, double xEnd, double y, double yEnd, int z, float f1, float f2, float f3, float f4) {
-    	RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		RenderSystem.setShader(CoreShaders.POSITION_TEX);
     	BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         bufferbuilder.addVertex((float) x, (float) yEnd, z).setUv(f1, f4);
         bufferbuilder.addVertex((float) xEnd, (float) yEnd, z).setUv(f2, f4);
@@ -107,7 +113,7 @@ public class RenderUtils {
     }
 
     public static void bindTexture(ResourceLocation texture, boolean depthTest) {
-    	RenderSystem.setShader(GameRenderer::getPositionTexShader);
+    	RenderSystem.setShader(CoreShaders.POSITION_TEX);
         RenderSystem.setShaderTexture(0, texture);
         RenderSystem.enableBlend();
         if (depthTest) {
@@ -147,7 +153,7 @@ public class RenderUtils {
 
 		BufferBuilder bb = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 		RenderSystem.enableBlend();
-		RenderSystem.setShader(GameRenderer::getPositionColorShader);
+		RenderSystem.setShader(CoreShaders.POSITION_COLOR);
 
 		bb.addVertex(graphics4f, minX, maxY, 0.0F).setColor(r, g, b, a);
 		bb.addVertex(graphics4f, maxX, maxY, 0.0F).setColor(r, g, b, a);
@@ -157,6 +163,15 @@ public class RenderUtils {
 		BufferUploader.drawWithShader(bb.build());
 		RenderSystem.disableBlend();
 
+	}
+
+	@NotNull
+	public static ResourceLocation register(@NotNull String location, @NotNull AbstractTexture texture) {
+		Objects.requireNonNull(location);
+		Objects.requireNonNull(texture);
+		ResourceLocation loc = location.contains(":") ? ResourceLocation.parse(location) : ResourceLocation.fromNamespaceAndPath("konkrete", location);
+		Minecraft.getInstance().getTextureManager().register(loc, texture);
+		return loc;
 	}
 
 }

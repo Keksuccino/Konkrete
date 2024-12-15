@@ -79,7 +79,7 @@ public class TextInputPopup extends Popup {
 			
 			this.textField.setX((renderIn.width / 2) - (this.textField.getWidth() / 2));
 			this.textField.setY((renderIn.height / 2) - (this.textField.getHeight() / 2));
-			this.textField.renderWidget(graphics, mouseX, mouseY, Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false));
+			this.textField.renderWidget(graphics, mouseX, mouseY, Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false));
 			
 			this.doneButton.setX((renderIn.width / 2) - (this.doneButton.getWidth() / 2));
 			this.doneButton.setY(((renderIn.height / 2) + (height / 2)) - this.doneButton.getHeight() - 5);

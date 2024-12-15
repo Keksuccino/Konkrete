@@ -348,7 +348,7 @@ public class ConfigScreen extends Screen {
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false));
+			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false));
 			
 		}
 		
@@ -383,7 +383,7 @@ public class ConfigScreen extends Screen {
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false));
+			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false));
 			
 		}
 		
@@ -430,7 +430,7 @@ public class ConfigScreen extends Screen {
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false));
+			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false));
 			
 		}
 		
@@ -477,7 +477,7 @@ public class ConfigScreen extends Screen {
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false));
+			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false));
 			
 		}
 		
@@ -524,7 +524,7 @@ public class ConfigScreen extends Screen {
 			
 			input.setX(center + 10);
 			input.setY(this.y + 3);
-			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false));
+			input.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false));
 			
 		}
 		
@@ -590,7 +590,7 @@ public class ConfigScreen extends Screen {
 			
 			toggleBtn.setX(center + 9);
 			toggleBtn.setY(this.y + 3);
-			toggleBtn.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false));
+			toggleBtn.render(graphics, MouseInput.getMouseX(), MouseInput.getMouseY(), Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false));
 			
 		}
 		

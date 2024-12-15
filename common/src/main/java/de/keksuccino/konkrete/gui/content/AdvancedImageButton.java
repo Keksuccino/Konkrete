@@ -2,6 +2,7 @@ package de.keksuccino.konkrete.gui.content;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 @Deprecated(forRemoval = true)
@@ -25,7 +26,7 @@ public class AdvancedImageButton extends AdvancedButton {
 
 //		RenderUtils.bindTexture(this.image);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		graphics.blit(this.image, this.getX(), this.getY(), 0.0F, 0.0F, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
+		graphics.blit(RenderType::guiTextured, this.image, this.getX(), this.getY(), 0.0F, 0.0F, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
 	}
 	
 	public void setImage(ResourceLocation image) {

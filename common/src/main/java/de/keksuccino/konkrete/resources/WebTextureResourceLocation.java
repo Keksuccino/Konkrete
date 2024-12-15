@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import com.mojang.blaze3d.platform.NativeImage;
 import de.keksuccino.konkrete.input.CharacterFilter;
+import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -73,7 +74,7 @@ public class WebTextureResourceLocation implements ITextureResourceLocation {
 			}
 			this.width = i.getWidth();
 			this.height = i.getHeight();
-			location = Minecraft.getInstance().getTextureManager().register(filterUrl(this.url), new DynamicTexture(i));
+			location = RenderUtils.register(filterUrl(this.url), new DynamicTexture(i));
 			httpIn.close();
 			loaded = true;
 		} catch (Exception ex) {

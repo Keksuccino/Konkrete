@@ -70,7 +70,8 @@ public class ExternalTextureResourceLocation implements ITextureResourceLocation
 			if (i == null) throw new NullPointerException("Failed to load image! NativeImage was null!");
 			this.width = i.getWidth();
 			this.height = i.getHeight();
-			this.location = Minecraft.getInstance().getTextureManager().register("konkrete_external_texture", new SelfcleaningDynamicTexture(i));
+			this.location = ResourceLocation.fromNamespaceAndPath("konkrete", "konkrete_external_texture");
+			Minecraft.getInstance().getTextureManager().register(this.location, new SelfcleaningDynamicTexture(i));
 			this.in.close();
 			loaded = true;
 		} catch (Exception ex) {

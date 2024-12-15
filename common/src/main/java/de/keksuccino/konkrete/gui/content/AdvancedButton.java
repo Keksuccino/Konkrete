@@ -12,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.WidgetSprites;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -165,7 +166,7 @@ public class AdvancedButton extends Button {
 						if (this.backgroundHover != null) {
 //							RenderUtils.bindTexture(this.backgroundHover);
 							RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-							graphics.blit(this.backgroundHover, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
+							graphics.blit(RenderType::guiTextured, this.backgroundHover, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
 						} else {
 							int aniX = this.backgroundAnimationHover.getPosX();
 							int aniY = this.backgroundAnimationHover.getPosY();
@@ -208,7 +209,7 @@ public class AdvancedButton extends Button {
 					if (this.backgroundNormal != null) {
 //						RenderUtils.bindTexture(this.backgroundNormal);
 						RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-						graphics.blit(this.backgroundNormal, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
+						graphics.blit(RenderType::guiTextured, this.backgroundNormal, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
 					} else {
 						int aniX = this.backgroundAnimationNormal.getPosX();
 						int aniY = this.backgroundAnimationNormal.getPosY();
@@ -242,11 +243,11 @@ public class AdvancedButton extends Button {
 	}
 
 	protected void renderDefaultBackground(GuiGraphics graphics) {
-		graphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
 		RenderSystem.enableBlend();
 		RenderSystem.enableDepthTest();
-		graphics.blitSprite(SPRITES.get(this.active, this.isHoveredOrFocused()), this.getX(), this.getY(), this.getWidth(), this.getHeight());
-		graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+		graphics.blitSprite(RenderType::guiTextured, SPRITES.get(this.active, this.isHoveredOrFocused()), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	private int getTextureY() {
@@ -385,7 +386,7 @@ public class AdvancedButton extends Button {
 			if (this.useable) {
 				if (this.active && this.visible) {
 					if (this.isValidClickButton(p_mouseClicked_5_)) {
-						boolean flag = this.clicked(p_mouseClicked_1_, p_mouseClicked_3_);
+						boolean flag = this.isMouseOver(p_mouseClicked_1_, p_mouseClicked_3_);
 						if (flag) {
 							if (this.clicksound == null) {
 								this.playDownSound(Minecraft.getInstance().getSoundManager());

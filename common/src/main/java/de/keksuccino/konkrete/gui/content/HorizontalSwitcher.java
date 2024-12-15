@@ -49,7 +49,7 @@ public class HorizontalSwitcher {
 	public void render(GuiGraphics graphics, int x, int y) {
 		int mouseX = MouseInput.getMouseX();
 		int mouseY = MouseInput.getMouseY();
-		float partial = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false);
+		float partial = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false);
 		String sel = "-------";
 		if (!this.values.isEmpty()) {
 			sel = this.values.get(this.selected);

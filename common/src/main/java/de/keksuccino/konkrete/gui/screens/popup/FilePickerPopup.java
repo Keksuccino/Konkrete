@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 import com.google.common.io.Files;
@@ -300,7 +301,7 @@ public class FilePickerPopup extends Popup {
 			if (r != null) {
 //				RenderUtils.bindTexture(r);
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-				graphics.blit(r, this.x, this.y, 0.0F, 0.0F, 20, 20, 20, 20);
+				graphics.blit(RenderType::guiTextured, r, this.x, this.y, 0.0F, 0.0F, 20, 20, 20, 20);
 			}
 			
 			if (this.type == Type.BACK) {
