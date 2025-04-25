@@ -1,6 +1,5 @@
 package de.keksuccino.konkrete.mixin.mixins.client;
 
-import de.keksuccino.konkrete.gui.content.scrollarea.LegacyScrollAreaCompat;
 import de.keksuccino.konkrete.input.MouseInput;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
@@ -14,18 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinMouseHandler {
 
     @Shadow private int fakeRightMouse;
-
-    @Inject(method = "onScroll", at = @At(value = "HEAD"))
-    private void beforeOnScroll_Konkrete(long window, double horizontal, double vertical, CallbackInfo info) {
-        if (window == Minecraft.getInstance().getWindow().getWindow()) {
-            double delta = (Minecraft.getInstance().options.discreteMouseScroll().get() ? Math.signum(vertical) : vertical) * Minecraft.getInstance().options.mouseWheelSensitivity().get();
-            if (Minecraft.getInstance().getOverlay() == null) {
-                if (Minecraft.getInstance().screen != null) {
-                    LegacyScrollAreaCompat.notifyCallbacks((float)delta);
-                }
-            }
-        }
-    }
 
     @Inject(method = "onPress", at = @At("HEAD"))
     private void headOnPress_Konkrete(long windowHandle, int buttonRaw, int p_91533_, int p_91534_, CallbackInfo info) {

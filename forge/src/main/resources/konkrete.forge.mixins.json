@@ -4,8 +4,6 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [],
   "client": [
-    "client.MixinForgeKeyboardHandler",
-    "client.MixinGameRenderer"
   ],
   "server": [],
   "injectors": {

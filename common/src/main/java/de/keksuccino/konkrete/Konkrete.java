@@ -1,10 +1,6 @@
 package de.keksuccino.konkrete;
 
 import de.keksuccino.konkrete.platform.Services;
-import net.minecraft.resources.ResourceLocation;
-import java.io.File;
-import de.keksuccino.konkrete.localization.Locals;
-import de.keksuccino.konkrete.sound.SoundHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +11,7 @@ public class Konkrete {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public static final String MOD_ID = "konkrete";
-	public static final String VERSION = "1.9.10";
+	public static final String VERSION = "1.9.11";
 	public static final String MOD_LOADER = Services.PLATFORM.getPlatformName();
 
 	@Deprecated(forRemoval = true)
@@ -62,28 +58,8 @@ public class Konkrete {
 
 	public static void onGameInitCompleted() {
 
-		SoundHandler.init();
-
-		SoundHandler.updateVolume();
-
-		initLocals();
-
-		LOGGER.info("[KONKRETE] Client-side modules initialized and ready to use!");
-
 		PostClientInitTaskExecutor.executeAll();
 
-	}
-
-    private static void initLocals() {
-		File f = new File("config/konkrete/locals");
-		if (!f.exists()) {
-			f.mkdirs();
-		}
-		Locals.copyLocalsFileToDir(ResourceLocation.parse("konkrete:locals/en_us.local"), "en_us", f.getPath());
-		Locals.copyLocalsFileToDir(ResourceLocation.parse("konkrete:locals/de_de.local"), "de_de", f.getPath());
-		Locals.copyLocalsFileToDir(ResourceLocation.parse("konkrete:locals/pl_pl.local"), "pl_pl", f.getPath());
-		Locals.copyLocalsFileToDir(ResourceLocation.parse("konkrete:locals/pt_br.local"), "pt_br", f.getPath());
-		Locals.getLocalsFromDir(f.getPath());
 	}
 
 	/**
@@ -91,14 +67,6 @@ public class Konkrete {
 	 */
 	public static void addPostClientInitTask(@NotNull String modId, @NotNull Runnable task) {
 		PostClientInitTaskExecutor.addTask(modId, task);
-	}
-
-	/**
-	 * @deprecated Use {@link Konkrete#addPostClientInitTask(String, Runnable)} instead.
-	 */
-	@Deprecated
-    public static void addPostLoadingEvent(@NotNull String modId, @NotNull Runnable task) {
-		addPostClientInitTask(modId, task);
 	}
 
 }
