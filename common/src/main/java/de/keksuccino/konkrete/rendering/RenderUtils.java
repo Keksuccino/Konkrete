@@ -2,12 +2,9 @@ package de.keksuccino.konkrete.rendering;
 
 import java.awt.Color;
 import java.util.Objects;
-import de.keksuccino.konkrete.mixin.mixins.client.IMixinGuiGraphics;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("all")
@@ -36,11 +33,6 @@ public class RenderUtils {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	@NotNull
-	public static MultiBufferSource.BufferSource getGuiGraphicsBufferSource(@NotNull GuiGraphics graphics) {
-		return ((IMixinGuiGraphics)graphics).get_bufferSource_Konkrete();
 	}
 
 	@NotNull

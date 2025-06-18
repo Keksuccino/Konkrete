@@ -10,7 +10,6 @@
     "client.IMixinClientPacketListener",
     "client.IMixinDynamicTexture",
     "client.IMixinEditBox",
-    "client.IMixinGuiGraphics",
     "client.IMixinLocalPlayer",
     "client.IMixinMouseHandler",
     "client.IMixinScreen",
