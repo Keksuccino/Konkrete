@@ -14,7 +14,7 @@ public class MouseInput {
 	public static boolean mouseHandler_screenRightMouseDown = false;
 	
 	public static int getActiveMouseButton() {
-		return ((IMixinMouseHandler)Minecraft.getInstance().mouseHandler).getActiveButtonKonkrete();
+		return ((IMixinMouseHandler)Minecraft.getInstance().mouseHandler).get_lastClickButton_Konkrete();
 	}
 
 	public static boolean isLeftMouseDown() {

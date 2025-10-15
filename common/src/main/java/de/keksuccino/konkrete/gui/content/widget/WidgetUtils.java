@@ -1,13 +1,13 @@
 package de.keksuccino.konkrete.gui.content.widget;
 
-import de.keksuccino.konkrete.mixin.mixins.client.IMixinAbstractWidget;
 import net.minecraft.client.gui.components.AbstractWidget;
 import org.jetbrains.annotations.NotNull;
 
 public class WidgetUtils {
-	
+
+    @Deprecated
 	public static AbstractWidget setHeight(@NotNull AbstractWidget widget, int height) {
-		((IMixinAbstractWidget)widget).setHeightKonkrete(height);
+		widget.setHeight(height);
 		return widget;
 	}
 
