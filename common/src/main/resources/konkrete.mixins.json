@@ -5,13 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [],
   "client": [
-    "client.IMixinClientLanguage",
-    "client.IMixinClientPacketListener",
-    "client.IMixinDynamicTexture",
-    "client.IMixinEditBox",
-    "client.IMixinLocalPlayer",
     "client.IMixinMouseHandler",
-    "client.IMixinScreen",
     "client.MixinMinecraft",
     "client.MixinMouseHandler"
   ],
