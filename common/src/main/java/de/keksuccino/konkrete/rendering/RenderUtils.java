@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.Objects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("all")
@@ -36,10 +36,10 @@ public class RenderUtils {
 	}
 
 	@NotNull
-	public static ResourceLocation register(@NotNull String location, @NotNull AbstractTexture texture) {
+	public static Identifier register(@NotNull String location, @NotNull AbstractTexture texture) {
 		Objects.requireNonNull(location);
 		Objects.requireNonNull(texture);
-		ResourceLocation loc = location.contains(":") ? ResourceLocation.parse(location) : ResourceLocation.fromNamespaceAndPath("konkrete", location);
+        Identifier loc = location.contains(":") ? Identifier.parse(location) : Identifier.fromNamespaceAndPath("konkrete", location);
 		Minecraft.getInstance().getTextureManager().register(loc, texture);
 		return loc;
 	}

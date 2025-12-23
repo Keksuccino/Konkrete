@@ -1,10 +1,9 @@
 package de.keksuccino.konkrete.json;
 
 import com.google.gson.JsonArray;
+import com.jayway.jsonpath.JsonPath;
 import de.keksuccino.konkrete.file.FileUtils;
-import de.keksuccino.konkrete.json.jsonpath.JsonPath;
 import de.keksuccino.konkrete.web.WebUtils;
-
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
