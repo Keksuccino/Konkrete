@@ -29,10 +29,10 @@ public class Konkrete {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public static final String MOD_ID = "konkrete";
-	public static final String VERSION = "1.9.13";
+	public static final String VERSION = "1.9.14";
 	public static final String MOD_LOADER = Services.PLATFORM.getPlatformName();
 
-	@Deprecated(forRemoval = true)
+	@Deprecated
     public static boolean isOptifineLoaded = false;
 
 	public static void init() {
@@ -67,6 +67,7 @@ public class Konkrete {
 	/**
 	 * ONLY WORKS CLIENT-SIDE! DOES NOTHING ON A SERVER!
 	 */
+    @Deprecated
 	public static void addPostClientInitTask(@NotNull String modId, @NotNull Runnable task) {
 		PostClientInitTaskExecutor.addTask(modId, task);
 	}

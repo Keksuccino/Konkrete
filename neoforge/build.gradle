@@ -26,7 +26,9 @@ runs {
         systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         dependencies {
             runtime "net.objecthunter:exp4j:0.4.8"
-            //runtime "com.github.rtyley:animated-gif-lib-for-java:animated-gif-lib-1.7"
+            runtime "com.jayway.jsonpath:json-path:2.9.0"
+            //runtime "com.github.DhyanB:Open-Imaging:317b2cb6e5"
+            runtime "net.minidev:json-smart:2.6.0"
         }
     }
     server {
@@ -59,6 +61,15 @@ dependencies {
     //Also needs to get added to the client run configuration (runs -> client -> dependencies) since it's a non-Minecraft library
     implementation(jarJar("net.objecthunter:exp4j:0.4.8")) {
         jarJar.ranged(it, "[0.4.8,)")
+    }
+    implementation(jarJar("com.jayway.jsonpath:json-path:2.9.0")) {
+        jarJar.ranged(it, "[2.9.0,)")
+    }
+//    implementation(jarJar("com.github.DhyanB:Open-Imaging:317b2cb6e5")) {
+//        jarJar.ranged(it, "[317b2cb6e5,)")
+//    }
+    implementation(jarJar("net.minidev:json-smart:2.6.0")) {
+        jarJar.ranged(it, "[2.6.0,)")
     }
     compileOnly project(":common")
 }
