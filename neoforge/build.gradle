@@ -57,9 +57,13 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
     implementation "net.neoforged:neoforge:${neoforge_version}"
     shadow "net.objecthunter:exp4j:0.4.8"
-    shadow "com.jayway.jsonpath:json-path:2.9.0"
+    shadow("com.jayway.jsonpath:json-path:2.9.0") {
+        exclude group: "org.slf4j", module: "slf4j-api"
+    }
     //    shadow "com.github.DhyanB:Open-Imaging:317b2cb6e5"
-    shadow "net.minidev:json-smart:2.6.0"
+    shadow("net.minidev:json-smart:2.6.0") {
+        exclude group: "org.ow2.asm", module: "asm"
+    }
     compileOnly project(":common")
 }
 
@@ -96,11 +100,11 @@ tasks.named("shadowJar") {
     archiveClassifier.set("")
     configurations = [project.configurations.shadow]
     mergeServiceFiles()
+    exclude 'org/slf4j/**'
+    exclude 'org/objectweb/asm/**'
     relocate 'com.jayway.jsonpath', 'de.keksuccino.com.jayway.jsonpath'
     relocate 'net.minidev', 'de.keksuccino.net.minidev'
     relocate 'net.objecthunter.exp4j', 'de.keksuccino.net.objecthunter.exp4j'
-    relocate 'org.objectweb.asm', 'de.keksuccino.org.objectweb.asm'
-    relocate 'org.slf4j', 'de.keksuccino.org.slf4j'
 }
 
 tasks.named("assemble") {

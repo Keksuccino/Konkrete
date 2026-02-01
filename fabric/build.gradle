@@ -29,8 +29,12 @@ dependencies {
     implementation project(":common")
     include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${mixin_extras_version}")))
     shadow "net.objecthunter:exp4j:0.4.8"
-    shadow "com.jayway.jsonpath:json-path:2.9.0"
-    shadow "net.minidev:json-smart:2.6.0"
+    shadow("com.jayway.jsonpath:json-path:2.9.0") {
+        exclude group: "org.slf4j", module: "slf4j-api"
+    }
+    shadow("net.minidev:json-smart:2.6.0") {
+        exclude group: "org.ow2.asm", module: "asm"
+    }
     modImplementation "maven.modrinth:modmenu:17.0.0-beta.1"
 
 }
@@ -63,11 +67,11 @@ tasks.named("shadowJar") {
     archiveClassifier.set("dev-shadow")
     configurations = [project.configurations.shadow]
     mergeServiceFiles()
+    exclude 'org/slf4j/**'
+    exclude 'org/objectweb/asm/**'
     relocate 'com.jayway.jsonpath', 'de.keksuccino.com.jayway.jsonpath'
     relocate 'net.minidev', 'de.keksuccino.net.minidev'
     relocate 'net.objecthunter.exp4j', 'de.keksuccino.net.objecthunter.exp4j'
-    relocate 'org.objectweb.asm', 'de.keksuccino.org.objectweb.asm'
-    relocate 'org.slf4j', 'de.keksuccino.org.slf4j'
 }
 
 tasks.named("remapJar") {
