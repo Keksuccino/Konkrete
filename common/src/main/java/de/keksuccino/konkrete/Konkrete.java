@@ -29,12 +29,8 @@ public class Konkrete {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public static final String MOD_ID = "konkrete";
-	public static final String VERSION = "1.9.16";
+	public static final String VERSION = "1.9.17";
 	public static final String MOD_LOADER = Services.PLATFORM.getPlatformName();
-
-    public static final boolean JSON_PATH_LIBRARY_LOADED = isJsonPathLibraryLoaded();
-    public static final boolean JSON_SMART_LIBRARY_LOADED = isJsonSmartLibraryLoaded();
-    public static final boolean EXP4J_LIBRARY_LOADED = isExp4JLibraryLoaded();
 
 	@Deprecated
     public static boolean isOptifineLoaded = false;
@@ -44,24 +40,6 @@ public class Konkrete {
 		if (Services.PLATFORM.isOnClient()) {
 
 			LOGGER.info("[KONKRETE] Loading v" + VERSION + " in client-side mode on " + MOD_LOADER.toUpperCase() + "!");
-
-            if (JSON_PATH_LIBRARY_LOADED) {
-                LOGGER.info("[KONKRETE] Jayway JsonPath library found! Seems to be loaded correctly!");
-            } else {
-                LOGGER.warn("[KONKRETE] Jayway JsonPath library NOT found! Something went wrong here, but what? o.O");
-            }
-
-            if (JSON_SMART_LIBRARY_LOADED) {
-                LOGGER.info("[KONKRETE] JsonSmart library found! Seems to be loaded correctly!");
-            } else {
-                LOGGER.warn("[KONKRETE] JsonSmart library NOT found! Something went wrong here, but what? o.O");
-            }
-
-            if (EXP4J_LIBRARY_LOADED) {
-                LOGGER.info("[KONKRETE] Exp4J library found! Seems to be loaded correctly!");
-            } else {
-                LOGGER.warn("[KONKRETE] Exp4J library NOT found! Something went wrong here, but what? o.O");
-            }
 
 		} else {
 			LOGGER.info("[KONKRETE] Loading v" + VERSION + " in server-side mode on " + MOD_LOADER.toUpperCase() + "!");
@@ -96,28 +74,16 @@ public class Konkrete {
 		PostClientInitTaskExecutor.addTask(modId, task);
 	}
 
-    public static boolean isJsonPathLibraryLoaded() {
-        try {
-            Class.forName("com.jayway.jsonpath.JsonPath", false, Konkrete.class.getClassLoader());
-            return true;
-        } catch (Exception ignored) {}
-        return false;
+    private static void forceLoadJsonPathLibrary() {
+        Class<?> c = com.jayway.jsonpath.JsonPath.class;
     }
 
-    public static boolean isJsonSmartLibraryLoaded() {
-        try {
-            Class.forName("net.minidev.asm.FieldFilter", false, Konkrete.class.getClassLoader());
-            return true;
-        } catch (Exception ignored) {}
-        return false;
+    private static void forceLoadJsonSmartLibrary() {
+        Class<?> c = net.minidev.asm.FieldFilter.class;
     }
 
-    public static boolean isExp4JLibraryLoaded() {
-        try {
-            Class.forName("net.objecthunter.exp4j.Expression", false, Konkrete.class.getClassLoader());
-            return true;
-        } catch (Exception ignored) {}
-        return false;
+    private static void forceLoadExp4JLibrary() {
+        Class<?> c = net.objecthunter.exp4j.Expression.class;
     }
 
 }

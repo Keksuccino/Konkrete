@@ -24,7 +24,6 @@ dependencies {
     include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${mixin_extras_version}")))
     include(implementation("net.objecthunter:exp4j:0.4.8"))
     include(implementation("com.jayway.jsonpath:json-path:2.9.0"))
-//    include(implementation("com.github.DhyanB:Open-Imaging:317b2cb6e5"))
     include(implementation("net.minidev:json-smart:2.6.0"))
     modImplementation "maven.modrinth:modmenu:17.0.0-beta.1"
 
