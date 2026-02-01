@@ -4,10 +4,16 @@ plugins {
     id 'maven-publish'
     id "net.neoforged.gradle.userdev" version "$neogradle_version"
     id 'java-library'
+    id "com.gradleup.shadow"
 }
 
 base {
     archivesName = "${mod_id}"
+}
+
+configurations {
+    shadow
+    implementation.extendsFrom(shadow)
 }
 
 // Automatically enable neoforge AccessTransformers if the file exists
@@ -24,12 +30,6 @@ runs {
     client {
         workingDirectory project.file('../run_client')
         systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        dependencies {
-            runtime "net.objecthunter:exp4j:0.4.8"
-            runtime "com.jayway.jsonpath:json-path:2.9.0"
-            //runtime "com.github.DhyanB:Open-Imaging:317b2cb6e5"
-            runtime "net.minidev:json-smart:2.6.0"
-        }
     }
     server {
         workingDirectory project.file('../run_server')
@@ -45,8 +45,6 @@ test {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-jarJar.enable()
-
 subsystems {
     parchment {
         minecraftVersion = "${parchment_mc_version}"
@@ -58,19 +56,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
     implementation "net.neoforged:neoforge:${neoforge_version}"
-    //Also needs to get added to the client run configuration (runs -> client -> dependencies) since it's a non-Minecraft library
-    implementation(jarJar("net.objecthunter:exp4j:0.4.8")) {
-        jarJar.ranged(it, "[0.4.8,)")
-    }
-    implementation(jarJar("com.jayway.jsonpath:json-path:2.9.0")) {
-        jarJar.ranged(it, "[2.9.0,)")
-    }
-//    implementation(jarJar("com.github.DhyanB:Open-Imaging:317b2cb6e5")) {
-//        jarJar.ranged(it, "[317b2cb6e5,)")
-//    }
-    implementation(jarJar("net.minidev:json-smart:2.6.0")) {
-        jarJar.ranged(it, "[2.6.0,)")
-    }
+    shadow "net.objecthunter:exp4j:0.4.8"
+    shadow "com.jayway.jsonpath:json-path:2.9.0"
+    //    shadow "com.github.DhyanB:Open-Imaging:317b2cb6e5"
+    shadow "net.minidev:json-smart:2.6.0"
     compileOnly project(":common")
 }
 
@@ -99,6 +88,25 @@ tasks.named("compileJava", JavaCompile).configure {
     source(project(":common").sourceSets.main.allSource)
 }
 
+tasks.named("jar") {
+    archiveClassifier.set("unshaded")
+}
+
+tasks.named("shadowJar") {
+    archiveClassifier.set("")
+    configurations = [project.configurations.shadow]
+    mergeServiceFiles()
+    relocate 'com.jayway.jsonpath', 'de.keksuccino.com.jayway.jsonpath'
+    relocate 'net.minidev', 'de.keksuccino.net.minidev'
+    relocate 'net.objecthunter.exp4j', 'de.keksuccino.net.objecthunter.exp4j'
+    relocate 'org.objectweb.asm', 'de.keksuccino.org.objectweb.asm'
+    relocate 'org.slf4j', 'de.keksuccino.org.slf4j'
+}
+
+tasks.named("assemble") {
+    dependsOn tasks.shadowJar
+}
+
 tasks.withType(JavaCompile).matching(notNeoTask).configureEach {
     it.options.compilerArgs += ['-Xlint:-deprecation', '-Xlint:-removal']
 }
@@ -119,7 +127,8 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             artifactId base.archivesName.get()
-            from components.java
+            artifact tasks.shadowJar
+            artifact tasks.sourcesJar
         }
     }
     repositories {

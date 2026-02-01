@@ -4,10 +4,16 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id "fabric-loom" version "$fabric_loom_version"
+    id "com.gradleup.shadow"
 }
 
 base {
     archivesName = "${mod_id}"
+}
+
+configurations {
+    shadow
+    implementation.extendsFrom(shadow)
 }
 
 dependencies {
@@ -22,9 +28,9 @@ dependencies {
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
     implementation project(":common")
     include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${mixin_extras_version}")))
-    include(implementation("net.objecthunter:exp4j:0.4.8"))
-    include(implementation("com.jayway.jsonpath:json-path:2.9.0"))
-    include(implementation("net.minidev:json-smart:2.6.0"))
+    shadow "net.objecthunter:exp4j:0.4.8"
+    shadow "com.jayway.jsonpath:json-path:2.9.0"
+    shadow "net.minidev:json-smart:2.6.0"
     modImplementation "maven.modrinth:modmenu:17.0.0-beta.1"
 
 }
@@ -51,6 +57,22 @@ loom {
             runDir("run_server")
         }
     }
+}
+
+tasks.named("shadowJar") {
+    archiveClassifier.set("dev-shadow")
+    configurations = [project.configurations.shadow]
+    mergeServiceFiles()
+    relocate 'com.jayway.jsonpath', 'de.keksuccino.com.jayway.jsonpath'
+    relocate 'net.minidev', 'de.keksuccino.net.minidev'
+    relocate 'net.objecthunter.exp4j', 'de.keksuccino.net.objecthunter.exp4j'
+    relocate 'org.objectweb.asm', 'de.keksuccino.org.objectweb.asm'
+    relocate 'org.slf4j', 'de.keksuccino.org.slf4j'
+}
+
+tasks.named("remapJar") {
+    dependsOn tasks.shadowJar
+    inputFile.set(tasks.shadowJar.archiveFile)
 }
 
 tasks.withType(JavaCompile).configureEach {

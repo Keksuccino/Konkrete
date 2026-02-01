@@ -2,6 +2,7 @@
 plugins {
     // Required for NeoGradle
     id "org.jetbrains.gradle.plugin.idea-ext" version "1.3"
+    id "com.gradleup.shadow" version "8.3.9" apply false
 }
 
 subprojects {

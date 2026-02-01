@@ -74,16 +74,4 @@ public class Konkrete {
 		PostClientInitTaskExecutor.addTask(modId, task);
 	}
 
-    private static void forceLoadJsonPathLibrary() {
-        Class<?> c = com.jayway.jsonpath.JsonPath.class;
-    }
-
-    private static void forceLoadJsonSmartLibrary() {
-        Class<?> c = net.minidev.asm.FieldFilter.class;
-    }
-
-    private static void forceLoadExp4JLibrary() {
-        Class<?> c = net.objecthunter.exp4j.Expression.class;
-    }
-
 }
