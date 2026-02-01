@@ -29,16 +29,25 @@ public class Konkrete {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public static final String MOD_ID = "konkrete";
-	public static final String VERSION = "1.9.14";
+	public static final String VERSION = "1.9.15";
 	public static final String MOD_LOADER = Services.PLATFORM.getPlatformName();
 
+    public static final boolean JSON_PATH_LIBRARY_LOADED = isJsonPathLibraryLoaded();
 	@Deprecated
     public static boolean isOptifineLoaded = false;
 
 	public static void init() {
 
 		if (Services.PLATFORM.isOnClient()) {
+
 			LOGGER.info("[KONKRETE] Loading v" + VERSION + " in client-side mode on " + MOD_LOADER.toUpperCase() + "!");
+
+            if (JSON_PATH_LIBRARY_LOADED) {
+                LOGGER.info("[KONKRETE] Jayway JsonPath library found! Seems to be loaded correctly!");
+            } else {
+                LOGGER.warn("[KONKRETE] Jayway JsonPath library not found! Something went wrong here, but what? o.O");
+            }
+
 		} else {
 			LOGGER.info("[KONKRETE] Loading v" + VERSION + " in server-side mode on " + MOD_LOADER.toUpperCase() + "!");
 		}
@@ -71,5 +80,13 @@ public class Konkrete {
 	public static void addPostClientInitTask(@NotNull String modId, @NotNull Runnable task) {
 		PostClientInitTaskExecutor.addTask(modId, task);
 	}
+
+    public static boolean isJsonPathLibraryLoaded() {
+        try {
+            Class.forName("com.jayway.jsonpath.JsonPath", false, Konkrete.class.getClassLoader());
+            return true;
+        } catch (Exception ignored) {}
+        return false;
+    }
 
 }
