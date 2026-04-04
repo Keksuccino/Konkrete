@@ -2,8 +2,8 @@
 
 Source code for the Konkrete mod.
 
-**The source code for the different versions of Konkrete (Forge, Fabric, multiple MC versions) is separated by branches.**<br>
-**For example, if you want to see the code for Konkrete Forge MC 1.16, use the `forge-1.16` branch.**
+**The source code for the different versions of Konkrete is separated by branches.**<br>
+**For example, if you want to see the code for Konkrete for MC 26.1.1, use the `26.1.1` branch.**
 
 ## Download
 
@@ -11,7 +11,7 @@ Konkrete is available on [CurseForge](https://www.curseforge.com/minecraft/mc-mo
 
 ## Copyright
 
-Konkrete Copyright © 2020-2023 Keksuccino.<br>
+Konkrete Copyright © 2020-2026 Keksuccino.<br>
 Konkrete is licensed under Apache-2.0.<br>
 
 Open Imaging Copyright © 2014 Dhyan Blum.<br>
