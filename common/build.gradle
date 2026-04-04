@@ -36,15 +36,6 @@ dependencies {
 
 }
 
-loom {
-    if (file("src/main/resources/${mod_id}.accesswidener").exists()) {
-        accessWidenerPath.set(file("src/main/resources/${mod_id}.accesswidener"))
-    }
-    mixin {
-        defaultRefmapName.set("${mod_id}.refmap.json")
-    }
-}
-
 tasks.named("shadowJar") {
     archiveClassifier.set("shadow")
     configurations = [project.configurations.shadow]

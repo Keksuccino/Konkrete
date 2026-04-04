@@ -47,9 +47,6 @@ loom {
             configuration configurations.shadow
         }
     }
-    mixin {
-        defaultRefmapName.set("${mod_id}.refmap.json")
-    }
     runs {
         client {
             client()

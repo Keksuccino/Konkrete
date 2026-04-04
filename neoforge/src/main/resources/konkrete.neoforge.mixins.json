@@ -9,7 +9,6 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "refmap": "konkrete.refmap.json",
   "plugin": "de.keksuccino.konkrete.mixin.KonkreteMixinPlugin",
   "minVersion": "0.8"
 }
