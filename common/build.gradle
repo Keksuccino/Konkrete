@@ -18,10 +18,10 @@ configurations {
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
-    mappings loom.layered() {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-${parchment_mc_version}:${parchment_version}@zip")
-    }
+//    mappings loom.layered() {
+//        officialMojangMappings()
+//        parchment("org.parchmentmc.data:parchment-${parchment_mc_version}:${parchment_version}@zip")
+//    }
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
     implementation group: 'org.ow2.asm', name: 'asm-tree', version: '9.7'
     annotationProcessor group: 'org.ow2.asm', name: 'asm-util', version: '9.7'

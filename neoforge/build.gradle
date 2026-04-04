@@ -45,12 +45,12 @@ test {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-subsystems {
-    parchment {
-        minecraftVersion = "${parchment_mc_version}"
-        mappingsVersion = "${parchment_version}"
-    }
-}
+//subsystems {
+//    parchment {
+//        minecraftVersion = "${parchment_mc_version}"
+//        mappingsVersion = "${parchment_version}"
+//    }
+//}
 
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")

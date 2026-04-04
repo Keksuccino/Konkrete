@@ -19,10 +19,10 @@ configurations {
 dependencies {
 
     minecraft "com.mojang:minecraft:${minecraft_version}"
-    mappings loom.layered() {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-${parchment_mc_version}:${parchment_version}@zip")
-    }
+//    mappings loom.layered() {
+//        officialMojangMappings()
+//        parchment("org.parchmentmc.data:parchment-${parchment_mc_version}:${parchment_version}@zip")
+//    }
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
@@ -35,7 +35,7 @@ dependencies {
     shadow("net.minidev:json-smart:2.6.0") {
         exclude group: "org.ow2.asm", module: "asm"
     }
-    modImplementation "maven.modrinth:modmenu:17.0.0-beta.1"
+    modImplementation "maven.modrinth:modmenu:18.0.0-alpha.8"
 
 }
 
