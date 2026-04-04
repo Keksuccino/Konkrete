@@ -24,7 +24,7 @@ public class MixinMinecraft {
         MouseInput.mouseHandler_screenRightMouseDown = false;
     }
 
-    @Inject(method = "resizeDisplay", at = @At("HEAD"))
+    @Inject(method = "resizeGui", at = @At("HEAD"))
     private void headResizeDisplay_Konkrete(CallbackInfo info) {
         MouseInput.mouseHandler_screenLeftMouseDown = false;
         MouseInput.mouseHandler_screenRightMouseDown = false;
