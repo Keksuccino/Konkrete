@@ -1,7 +1,7 @@
 ## Project Overview
 
 - This project is a Minecraft Java 26.1.1 mod called "Konkrete". Version 26.1.1 is not a typo, it's the new versioning scheme of Minecraft Java.
-- The project targets Java 21.
+- The project targets Java 25.
 - The project is a "MultiLoader" project with modules for `common`, `fabric` and `neoforge`, to be able to write code for multiple mod launchers at once.
 
 ## Working Environment
