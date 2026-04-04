@@ -15,4 +15,4 @@
 ## Minecraft Sources
 
 - You have access to the full Minecraft 26.1.1 sources in `/library_sources/minecraft_26.1.1/`. Use it for research.
-- You have access to the full Minecraft 1.21.11 sources in `/library_sources/minecraft_26.1.1/`. Use it for research. Minecraft 1.21.11 is the version before 26.1.1.
+- You have access to the full Minecraft 1.21.11 sources in `/library_sources/minecraft_1.21.11/`. Use it for research. Minecraft 1.21.11 is the version before 26.1.1.
