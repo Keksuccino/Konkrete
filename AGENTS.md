@@ -25,19 +25,9 @@
 - Prefer using features from Mixin Extras instead of using normal Mixin redirects or overrides.
 - When leveraging Mixin Extras (`WrapOperation`, `WrapWithCondition`, etc.), name helpers after the intent (`wrap_..._Konkrete`, `cancel_..._Konkrete`) and call the provided `Operation` when returning to vanilla flow.
 
-## Localization
-- Always add en_us localizations for the features you add. Only en_us.
-- The en_us.json file is pretty large, too large for you to read the full file, so if you need something from it, search for specific lines.
-- ALWAYS add new locals to the END OF THE FILE (without breaking the JSON syntax).
-- When you add something to a system that already has localizations available for other parts of the system, first read the existing localizations to understand how the new localizations should get formatted.
-- Always read and write en_us.json with an explicit UTF-8-without-BOM encoding.
-
 ## Minecraft Sources
 - You have access to the full Minecraft 26.1.1 sources in `/library_sources/minecraft_26.1.1/fabric/` and `/library_sources/minecraft_26.1.1/neoforge/`.
 - You have access to the full Minecraft 1.21.11 sources in `/library_sources/minecraft_1.21.11/fabric/` and `/library_sources/minecraft_1.21.11/neoforge/`.
 - Use the Minecraft sources for research when working with Minecraft-related code.
 - Always prefer the sources provided in the `/library_sources/` folder instead of trying to unpack source JARs yourself. Only do that when the provided sources don't contain what you need.
 - Minecraft 1.21.11 is the version before Minecraft 26.1.1.
-
-## Run/Compile
-- NEVER try to run/compile the project!
