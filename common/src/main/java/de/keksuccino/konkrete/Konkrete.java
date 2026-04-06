@@ -19,6 +19,7 @@ Exp4j is licensed under Apache-2.0. https://github.com/fasseg/exp4j
 
 package de.keksuccino.konkrete;
 
+import de.keksuccino.konkrete.commandline.CommandLineDebugSystem;
 import de.keksuccino.konkrete.platform.Services;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -63,6 +64,7 @@ public class Konkrete {
 	public static void onGameInitCompleted() {
 
 		PostClientInitTaskExecutor.executeAll();
+		CommandLineDebugSystem.start();
 
 	}
 

@@ -1,6 +1,7 @@
 package de.keksuccino.konkrete.mixin.mixins.client;
 
 import de.keksuccino.konkrete.Konkrete;
+import de.keksuccino.konkrete.commandline.CommandLineDebugSystem;
 import de.keksuccino.konkrete.input.MouseInput;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -28,6 +29,11 @@ public class MixinMinecraft {
     private void headResizeDisplay_Konkrete(CallbackInfo info) {
         MouseInput.mouseHandler_screenLeftMouseDown = false;
         MouseInput.mouseHandler_screenRightMouseDown = false;
+    }
+
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void tailTick_Konkrete(CallbackInfo info) {
+        CommandLineDebugSystem.onClientTick();
     }
 
 }
