@@ -22,6 +22,24 @@ is_wsl() {
     [[ -n "${WSL_INTEROP:-}" ]] || grep -qi 'microsoft' /proc/version 2>/dev/null
 }
 
+ensure_gitattributes() {
+    local attributes_file="$project_root/.gitattributes"
+    local marker="# Added by run-loader-wsl.sh for WSL launcher compatibility."
+    local -a missing_lines=()
+
+    [[ -f "$attributes_file" ]] || : > "$attributes_file"
+
+    grep -Fxq '*.sh text eol=lf' "$attributes_file" || missing_lines+=('*.sh text eol=lf')
+    grep -Fxq 'gradlew text eol=lf' "$attributes_file" || missing_lines+=('gradlew text eol=lf')
+    grep -Fxq 'gradlew.bat text eol=crlf' "$attributes_file" || missing_lines+=('gradlew.bat text eol=crlf')
+
+    if ((${#missing_lines[@]} > 0)); then
+        [[ -s "$attributes_file" ]] && printf '\n' >> "$attributes_file"
+        printf '%s\n' "$marker" >> "$attributes_file"
+        printf '%s\n' "${missing_lines[@]}" >> "$attributes_file"
+    fi
+}
+
 detect_windows_gradle_home() {
     local windows_gradle_home_raw
 
@@ -42,6 +60,7 @@ cd "$project_root"
 
 [[ -f "$project_root/gradlew.bat" ]] || fail "No gradlew.bat script exists in $project_root."
 is_wsl || fail "This launcher is meant to be run from WSL."
+ensure_gitattributes
 
 loader="${1:-}"
 case "$loader" in
