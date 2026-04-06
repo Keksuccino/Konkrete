@@ -10,7 +10,7 @@
 
 ## Coding Style & Naming Conventions
 - Target Java 25 with 4-space indentation and UTF-8 encoding (WITHOUT BOM), matching the Gradle toolchain configuration.
-- Follow existing packages under `de.keksuccino.konkrete`, mirroring existing sub-packages like `customization`, `events`, and `platform` to keep cross-loader boundaries clear.
+- Follow existing packages under `de.keksuccino.konkrete`, mirroring existing sub-packages to keep cross-loader boundaries clear.
 - Name resources with the `konkrete` prefix (e.g., `konkrete.mixins.json`, `konkrete.accesswidener`) so Gradle and the loaders resolve them consistently.
 - Prefer explicit nullability annotations from `jsr305`.
 - Keep Mixin classes lightweight.
