@@ -31,3 +31,31 @@
 - Use the Minecraft sources for research when working with Minecraft-related code.
 - Always prefer the sources provided in the `/library_sources/` folder instead of trying to unpack source JARs yourself. Only do that when the provided sources don't contain what you need.
 - Minecraft 1.21.11 is the version before Minecraft 26.1.1.
+
+## Debug Testing
+- Use the repo-root launcher script `./run-loader-wsl.sh` from WSL to run loader dev clients and servers. It intentionally calls Windows `gradlew.bat`, not Linux `gradlew`, so it reuses the existing Windows Gradle cache and Windows Java installation instead of requiring a separate WSL toolchain.
+- The shared instance directories are the repo-root `run_client` and `run_server` folders for both loaders. Fabric is configured via Loom `runDir("../run_client")` and `runDir("../run_server")`, while NeoForge uses `../run_client` and `../run_server` as working directories.
+- Supported launch forms are `./run-loader-wsl.sh fabric`, `./run-loader-wsl.sh fabric server`, `./run-loader-wsl.sh neoforge`, and `./run-loader-wsl.sh neoforge server`. Additional Gradle arguments can be appended, for example `./run-loader-wsl.sh fabric --stacktrace`.
+- For command-line control of the running game, the launcher must be started in an interactive TTY session. Plain pipe-based execution shows the game log, but stdin ends up closed and `konkretedebug` commands cannot be delivered.
+- When the TTY session starts, `cmd.exe` may emit a cursor-position query escape (`ESC [ 6 n`). Reply with `\u001b[1;1R` once so the Windows console handshake completes and Gradle output continues normally.
+- Wait for the Konkrete readiness line before sending commands: `[KONKRETE DEBUG] Command line debugging is ready. Use 'konkretedebug help'.`
+- Send debug commands with CRLF line endings, for example `konkretedebug help\r\n`. Using only `\n` is less reliable through the Windows console chain.
+- Commands verified working through this path on Fabric:
+- `konkretedebug help`
+- `konkretedebug screen`
+- `konkretedebug widgets`
+- `konkretedebug loadworld`
+- `konkretedebug command time set day`
+- `konkretedebug chat hello-from-terminal`
+- A proven Fabric smoke-test flow is:
+- Launch `./run-loader-wsl.sh fabric` in a TTY.
+- Answer the initial `cmd.exe` cursor query with `\u001b[1;1R` if it appears.
+- Wait for the Konkrete debug readiness line.
+- Send `konkretedebug help\r\n`.
+- Send `konkretedebug screen\r\n` and `konkretedebug widgets\r\n` to confirm the title screen is interactive.
+- Send `konkretedebug loadworld\r\n` and wait for `Created and loaded debug world 'konkrete_debug_world' successfully.`
+- Send `konkretedebug command time set day\r\n` and `konkretedebug chat hello-from-terminal\r\n` to verify in-world control.
+- During that verified run, `konkretedebug screen` returned `net.minecraft.client.gui.screens.TitleScreen` on the menu and `null` in-world, `konkretedebug widgets` listed the title-screen buttons, `loadworld` created and joined `konkrete_debug_world`, and the command/chat actions appeared in the integrated server and chat logs.
+- Before launching another test client, make sure no previous repo-backed `java.exe`, `javaw.exe`, or `cmd.exe` processes for `konkrete-26.1.1` are still running. Do not stack multiple leftover instances.
+- A safe cleanup command from WSL is:
+- `powershell.exe -NoProfile -Command 'Get-CimInstance Win32_Process | Where-Object { $_.Name -match "^(java|javaw|cmd)\.exe$" -and $_.CommandLine -and $_.CommandLine -like "*konkrete-26.1.1*" } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }'`

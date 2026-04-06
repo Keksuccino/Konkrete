@@ -1,0 +1,4 @@
+# Keep shell launchers runnable from WSL even when the workspace is checked out on Windows.
+*.sh text eol=lf
+gradlew text eol=lf
+gradlew.bat text eol=crlf
