@@ -1,8 +1,10 @@
 package de.keksuccino.konkrete.mixin.mixins.client;
 
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.commandline.CommandLineDebugSystem;
 import de.keksuccino.konkrete.input.MouseInput;
+import de.keksuccino.konkrete.platform.Services;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.main.GameConfig;
@@ -34,6 +36,14 @@ public class MixinMinecraft {
     @Inject(method = "tick", at = @At("TAIL"))
     private void tailTick_Konkrete(CallbackInfo info) {
         CommandLineDebugSystem.onClientTick();
+    }
+
+    @WrapWithCondition(
+        method = "pauseIfInactive",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;pauseGame(Z)V")
+    )
+    private boolean wrap_pauseIfInactive_pauseGame_Konkrete(Minecraft instance, boolean showPauseMenu) {
+        return !Services.PLATFORM.isDevelopmentEnvironment() || instance.level == null;
     }
 
 }
