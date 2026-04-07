@@ -2,10 +2,13 @@ package de.keksuccino.konkrete.commandline;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.NativeImage;
+import com.mojang.blaze3d.platform.Window;
 import de.keksuccino.konkrete.mixin.mixins.common.client.IMixinKeyboardHandler;
 import de.keksuccino.konkrete.mixin.mixins.common.client.IMixinScreen;
+import de.keksuccino.konkrete.mixin.mixins.client.IMixinMouseHandler;
 import de.keksuccino.konkrete.platform.Services;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.MouseHandler;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Renderable;
@@ -13,8 +16,10 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.screens.GenericMessageScreen;
 import net.minecraft.client.gui.screens.LevelLoadingScreen;
+import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.ProgressScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -136,7 +141,20 @@ public final class CommandLineDebugSystem {
         return switch (subCommand) {
             case "help" -> createHelpResponse();
             case "screen" -> runOnGameThread(CommandLineDebugSystem::describeCurrentScreen);
+            case "size", "screensize" -> runOnGameThread(CommandLineDebugSystem::describeScaledScreenSize);
             case "widgets" -> runOnGameThread(CommandLineDebugSystem::describeWidgets);
+            case "mousemove" -> {
+                ensureMinimumArgumentCount(tokens, 4);
+                double x = parseDouble(tokens.get(2), "x");
+                double y = parseDouble(tokens.get(3), "y");
+                yield runOnGameThread(() -> moveMouseTo(x, y));
+            }
+            case "mousedelta" -> {
+                ensureMinimumArgumentCount(tokens, 4);
+                double deltaX = parseDouble(tokens.get(2), "dx");
+                double deltaY = parseDouble(tokens.get(3), "dy");
+                yield runOnGameThread(() -> moveMouseBy(deltaX, deltaY));
+            }
             case "widgetclick" -> {
                 ensureMinimumArgumentCount(tokens, 4);
                 double x = parseDouble(tokens.get(2), "x");
@@ -155,6 +173,8 @@ public final class CommandLineDebugSystem {
                 RequestedKey requestedKey = parseRequestedKey(tokens.get(2));
                 yield runOnGameThread(() -> invokeKeyPress(requestedKey));
             }
+            case "pause" -> runOnGameThread(CommandLineDebugSystem::openPauseScreen);
+            case "leaveworld", "leave", "title" -> runOnGameThread(CommandLineDebugSystem::leaveWorldAndReturnToTitleScreen);
             case "loadworld" -> awaitResponse(runOnGameThread(CommandLineDebugSystem::startDebugWorldLoad));
             case "screenshot" -> {
                 ensureMinimumArgumentCount(tokens, 3);
@@ -179,6 +199,7 @@ public final class CommandLineDebugSystem {
                 ensureMinimumArgumentCount(tokens, 3);
                 yield runOnGameThread(() -> sendCommand(joinArguments(tokens, 2)));
             }
+            case "quit", "close", "exit" -> runOnGameThread(CommandLineDebugSystem::quitGame);
             default -> CommandResponse.failure("Unknown subcommand '" + subCommand + "'. Use 'konkretedebug help'.");
         };
     }
@@ -188,16 +209,22 @@ public final class CommandLineDebugSystem {
             "Konkrete command line debug commands:",
             BASE_COMMAND + " help - Lists every debug command and shows how to use it.",
             BASE_COMMAND + " screen - Prints the full class name of the current screen, or null if no screen is open.",
+            BASE_COMMAND + " size - Prints the current GUI-scaled screen size used by the coordinate-based debug commands.",
             BASE_COMMAND + " widgets - Lists targetable widgets from the current screen renderable list with bounds, labels, and class names.",
+            BASE_COMMAND + " mousemove <x> <y> - Moves the simulated mouse to GUI coordinates.",
+            BASE_COMMAND + " mousedelta <dx> <dy> - Moves the simulated mouse by GUI-coordinate deltas. Useful while the mouse is grabbed.",
             BASE_COMMAND + " widgetclick <x> <y> - Invokes a widget's onClick flow by targeting a point inside its bounds.",
             BASE_COMMAND + " click <x> <y> [left|right] - Sends a normal mouse click to the current screen at GUI coordinates.",
             BASE_COMMAND + " key <key> - Simulates a key press. Supports inputs like enter, f11, a, and ctrl+tab.",
+            BASE_COMMAND + " pause - Opens the pause screen while in a world.",
+            BASE_COMMAND + " leaveworld - Leaves the current world and returns to the title screen.",
             BASE_COMMAND + " loadworld - Loads the singleplayer debug world '" + DEBUG_WORLD_ID + "' and waits for it to finish loading.",
             BASE_COMMAND + " screenshot <path> - Takes a screenshot and saves it to the provided path.",
             BASE_COMMAND + " scroll <x> <y> <up|down> [amount] - Scrolls at GUI coordinates in the current screen.",
             BASE_COMMAND + " fullscreen [on|off|toggle] - Turns fullscreen on, off, or toggles it.",
             BASE_COMMAND + " chat <message> - Sends a chat message while in a world.",
             BASE_COMMAND + " command <command> - Sends a command while in a world. A leading '/' is optional.",
+            BASE_COMMAND + " quit - Closes the game client.",
             "Use double quotes around paths or messages with spaces."
         ));
     }
@@ -205,6 +232,13 @@ public final class CommandLineDebugSystem {
     private static CommandResponse describeCurrentScreen() {
         Screen screen = Minecraft.getInstance().screen;
         return CommandResponse.success(screen == null ? "null" : screen.getClass().getName());
+    }
+
+    private static CommandResponse describeScaledScreenSize() {
+        Window window = Minecraft.getInstance().getWindow();
+        return CommandResponse.success(
+            "Current GUI-scaled screen size: " + window.getGuiScaledWidth() + " x " + window.getGuiScaledHeight() + "."
+        );
     }
 
     private static CommandResponse describeWidgets() {
@@ -295,6 +329,36 @@ public final class CommandLineDebugSystem {
         );
     }
 
+    private static CommandResponse moveMouseTo(final double x, final double y) {
+        Minecraft minecraft = Minecraft.getInstance();
+        Window window = minecraft.getWindow();
+        MouseHandler mouseHandler = minecraft.mouseHandler;
+        double previousX = MouseHandler.getScaledXPos(window, mouseHandler.xpos());
+        double previousY = MouseHandler.getScaledYPos(window, mouseHandler.ypos());
+
+        moveMouseRaw(mouseHandler, window, unscaleX(window, x), unscaleY(window, y));
+
+        double currentX = MouseHandler.getScaledXPos(window, mouseHandler.xpos());
+        double currentY = MouseHandler.getScaledYPos(window, mouseHandler.ypos());
+        return CommandResponse.success("Moved the mouse from " + formatPoint(previousX, previousY) + " to " + formatPoint(currentX, currentY) + ".");
+    }
+
+    private static CommandResponse moveMouseBy(final double deltaX, final double deltaY) {
+        Minecraft minecraft = Minecraft.getInstance();
+        Window window = minecraft.getWindow();
+        MouseHandler mouseHandler = minecraft.mouseHandler;
+        double previousX = MouseHandler.getScaledXPos(window, mouseHandler.xpos());
+        double previousY = MouseHandler.getScaledYPos(window, mouseHandler.ypos());
+
+        moveMouseRaw(mouseHandler, window, mouseHandler.xpos() + unscaleX(window, deltaX), mouseHandler.ypos() + unscaleY(window, deltaY));
+
+        double currentX = MouseHandler.getScaledXPos(window, mouseHandler.xpos());
+        double currentY = MouseHandler.getScaledYPos(window, mouseHandler.ypos());
+        return CommandResponse.success(
+            "Moved the mouse by " + formatPoint(deltaX, deltaY) + " from " + formatPoint(previousX, previousY) + " to " + formatPoint(currentX, currentY) + "."
+        );
+    }
+
     private static CommandResponse setFullscreen(final String mode) {
         Minecraft minecraft = Minecraft.getInstance();
         boolean fullscreen = minecraft.getWindow().isFullscreen();
@@ -342,6 +406,39 @@ public final class CommandLineDebugSystem {
 
         minecraft.player.connection.sendCommand(command);
         return CommandResponse.success("Sent the command.");
+    }
+
+    private static CommandResponse openPauseScreen() {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (!hasWorldLoaded(minecraft)) {
+            return CommandResponse.failure("This command only works while the client is inside a world.");
+        }
+
+        if (minecraft.screen instanceof PauseScreen) {
+            return CommandResponse.success("The pause screen is already open.");
+        }
+
+        minecraft.setScreen(new PauseScreen(true));
+        return CommandResponse.success("Opened the pause screen.");
+    }
+
+    private static CommandResponse leaveWorldAndReturnToTitleScreen() {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (!hasWorldLoaded(minecraft)) {
+            return CommandResponse.failure("This command only works while the client is inside a world.");
+        }
+
+        if (minecraft.level != null) {
+            minecraft.level.disconnect(Component.literal("Konkrete debug leave world"));
+        }
+
+        minecraft.disconnect(new TitleScreen(), false);
+        return CommandResponse.success("Left the current world and returned to the title screen.");
+    }
+
+    private static CommandResponse quitGame() {
+        Minecraft.getInstance().stop();
+        return CommandResponse.success("Stopping the game client.");
     }
 
     private static CompletableFuture<CommandResponse> beginScreenshot(final String rawPath) {
@@ -595,6 +692,23 @@ public final class CommandLineDebugSystem {
         }
 
         return path;
+    }
+
+    private static void moveMouseRaw(final MouseHandler mouseHandler, final Window window, final double rawX, final double rawY) {
+        ((IMixinMouseHandler) mouseHandler).invoke_onMove_Konkrete(window.handle(), rawX, rawY);
+        mouseHandler.handleAccumulatedMovement();
+    }
+
+    private static boolean hasWorldLoaded(final Minecraft minecraft) {
+        return minecraft.level != null || minecraft.getConnection() != null;
+    }
+
+    private static double unscaleX(final Window window, final double scaledX) {
+        return scaledX * window.getScreenWidth() / (double) window.getGuiScaledWidth();
+    }
+
+    private static double unscaleY(final Window window, final double scaledY) {
+        return scaledY * window.getScreenHeight() / (double) window.getGuiScaledHeight();
     }
 
     private static KeyDefinition parseKeyDefinition(final String keyToken, final String rawKey) {
