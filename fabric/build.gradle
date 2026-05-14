@@ -63,8 +63,12 @@ loom {
     }
 }
 
-tasks.named("shadowJar") {
-    archiveClassifier.set("dev-shadow")
+tasks.named("jar") {
+    archiveClassifier.set("unshaded")
+}
+
+tasks.named("shadowJar", Jar) { shadowJar ->
+    archiveClassifier.set("")
     configurations = [project.configurations.shadow]
     mergeServiceFiles()
     exclude 'org/slf4j/**'
@@ -72,6 +76,18 @@ tasks.named("shadowJar") {
     relocate 'com.jayway.jsonpath', 'de.keksuccino.com.jayway.jsonpath'
     relocate 'net.minidev', 'de.keksuccino.net.minidev'
     relocate 'net.objecthunter.exp4j', 'de.keksuccino.net.objecthunter.exp4j'
+
+    def processIncludeJars = tasks.named("processIncludeJars", net.fabricmc.loom.build.nesting.NestableJarGenerationTask)
+    dependsOn processIncludeJars
+
+    def nestedJars = project.fileTree(processIncludeJars.flatMap { it.outputDirectory }) {
+        include "*.jar"
+    }
+    net.fabricmc.loom.task.NestJarsAction.addToTask(shadowJar, nestedJars)
+}
+
+tasks.named("assemble") {
+    dependsOn tasks.shadowJar
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -96,7 +112,8 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             artifactId base.archivesName.get()
-            from components.java
+            artifact tasks.shadowJar
+            artifact tasks.sourcesJar
         }
     }
     repositories {
