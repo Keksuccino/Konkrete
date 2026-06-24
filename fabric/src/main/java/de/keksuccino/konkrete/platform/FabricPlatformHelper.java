@@ -1,7 +1,7 @@
 package de.keksuccino.konkrete.platform;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import de.keksuccino.konkrete.mixin.mixins.client.IMixinKeyMapping;
+import de.keksuccino.konkrete.mixin.mixins.common.client.AccessorMixinKeyMapping;
 import de.keksuccino.konkrete.platform.services.IPlatformHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
@@ -68,7 +68,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
 
     @Override
     public InputConstants.Key getKeyMappingKey(KeyMapping keyMapping) {
-        return ((IMixinKeyMapping) keyMapping).get_key_Konkrete();
+        return ((AccessorMixinKeyMapping) keyMapping).get_key_Konkrete();
     }
 
 }

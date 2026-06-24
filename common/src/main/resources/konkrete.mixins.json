@@ -1,14 +1,14 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "de.keksuccino.konkrete.mixin.mixins",
+  "package": "de.keksuccino.konkrete.mixin.mixins.common",
   "compatibilityLevel": "JAVA_17",
   "mixins": [],
   "client": [
-    "common.client.IMixinKeyboardHandler",
-    "common.client.IMixinScreen",
-    "client.IMixinKeyMapping",
-    "client.IMixinMouseHandler",
+    "client.AccessorMixinGui",
+    "client.AccessorMixinKeyMapping",
+    "client.AccessorMixinMouseHandler",
+    "client.MixinGui",
     "client.MixinMinecraft",
     "client.MixinMouseHandler"
   ],

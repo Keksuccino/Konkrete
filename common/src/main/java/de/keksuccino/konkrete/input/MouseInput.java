@@ -1,6 +1,6 @@
 package de.keksuccino.konkrete.input;
 
-import de.keksuccino.konkrete.mixin.mixins.client.IMixinMouseHandler;
+import de.keksuccino.konkrete.mixin.mixins.common.client.AccessorMixinMouseHandler;
 import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -14,7 +14,7 @@ public class MouseInput {
 	public static boolean mouseHandler_screenRightMouseDown = false;
 	
 	public static int getActiveMouseButton() {
-		return ((IMixinMouseHandler)Minecraft.getInstance().mouseHandler).get_lastClickButton_Konkrete();
+		return ((AccessorMixinMouseHandler)Minecraft.getInstance().mouseHandler).get_lastClickButton_Konkrete();
 	}
 
 	public static boolean isLeftMouseDown() {
