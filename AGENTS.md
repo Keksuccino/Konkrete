@@ -6,7 +6,7 @@
 - Loader-only hooks belong inside each module's `src/main/java` tree; keep local run directories like `run_client` and `run_server` for iterative testing but never depend on them for assets.
 
 ## Environment
-- You are operating in a WSL2 environment running inside a Windows system.
+- You are operating on macOS 27 Beta.
 
 ## Coding Style & Naming Conventions
 - Target Java 25 with 4-space indentation and UTF-8 encoding (WITHOUT BOM), matching the Gradle toolchain configuration.
@@ -20,16 +20,18 @@
 - Declare `@Mixin` classes (and accessor interfaces) with imports grouped at the top, list `@Unique` members before any `@Shadow` declarations, and extend or implement the vanilla type when necessary; supply a suppressed dummy constructor when subclasses require it.
 - Suffix every unique field or helper with `_Konkrete`. Static finals use all caps with `_KONKRETE`, and injected method names follow the `before/after/on/wrap/cancel_<VanillaMethod>_Konkrete` pattern. Accessor/invoker methods also end in `_Konkrete`.
 - Cluster related injections together (for example, all `setScreen` hooks in `MixinMinecraft`) and keep helper wrappers private unless a wider contract is required.
-- Use short `//` comments for quick reminders and `/** @reason ... */` blocks ahead of injections that change vanilla behaviour, matching the authoring tone in existing files.
+- Use short `//` comments for quick reminders and `/** @reason ... */` blocks ahead of injections that change vanilla behavior, matching the authoring tone in existing files.
 - Konkrete has access to Mixin Extras.
 - Prefer using features from Mixin Extras instead of using normal Mixin redirects or overrides.
 - When leveraging Mixin Extras (`WrapOperation`, `WrapWithCondition`, etc.), name helpers after the intent (`wrap_..._Konkrete`, `cancel_..._Konkrete`) and call the provided `Operation` when returning to vanilla flow.
 
 ## Minecraft Sources
-- You have access to the full Minecraft 26.2 sources in `/library_sources/minecraft_26.2/fabric/` and `/library_sources/minecraft_26.2/neoforge/`.
-- You have access to the full Minecraft 26.1.1 sources in `/library_sources/minecraft_26.1.1/fabric/` and `/library_sources/minecraft_26.1.1/neoforge/`.
+- You have access to the full Minecraft 26.2 sources in `/Volumes/STUFF/CODING/WORKSPACES/Java/Minecraft Mods/.MINECRAFT_SOURCES/26.2/minecraft/fabric/` and `/Volumes/STUFF/CODING/WORKSPACES/Java/Minecraft Mods/.MINECRAFT_SOURCES/26.2/minecraft/neoforge/`.
+- Sources for some libraries used by Minecraft 26.2 are in `/Volumes/STUFF/CODING/WORKSPACES/Java/Minecraft Mods/.MINECRAFT_SOURCES/26.2/libraries/`.
+- You have access to the full Minecraft 26.1.1 sources in `/Volumes/STUFF/CODING/WORKSPACES/Java/Minecraft Mods/.MINECRAFT_SOURCES/26.1.1/minecraft/fabric/` and `/Volumes/STUFF/CODING/WORKSPACES/Java/Minecraft Mods/.MINECRAFT_SOURCES/26.1.1/minecraft/neoforge/`.
+- Sources for some libraries used by Minecraft 26.1.1 are in `/Volumes/STUFF/CODING/WORKSPACES/Java/Minecraft Mods/.MINECRAFT_SOURCES/26.1.1/libraries/`.
 - Use the Minecraft sources for research when working with Minecraft-related code.
-- Always prefer the sources provided in the `/library_sources/` folder instead of trying to unpack source JARs yourself. Only do that when the provided sources don't contain what you need.
+- Always prefer the sources provided in the `/<mc_version>/libraries/` folder instead of trying to unpack source JARs yourself. Only do that when the provided sources don't contain what you need.
 - Minecraft 26.1.1 is the version before Minecraft 26.2.
 
 ## Testing
