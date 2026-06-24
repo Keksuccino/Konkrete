@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- Konkrete is a Minecraft Java 26.1.1 mod (the version number is not a typo) that uses the MultiLoader layout with shared logic under `common` and loader-specific wrappers under `fabric` and `neoforge`.
+- Konkrete is a Minecraft Java 26.2 mod (the version number is not a typo) that uses the MultiLoader layout with shared logic under `common` and loader-specific wrappers under `fabric` and `neoforge`.
 - Place shared Java sources in `common/src/main/java` and assets such as menu JSON, translations, or textures in `common/src/main/resources` so they ship with every loader build.
 - Loader-only hooks belong inside each module's `src/main/java` tree; keep local run directories like `run_client` and `run_server` for iterative testing but never depend on them for assets.
 
@@ -26,23 +26,14 @@
 - When leveraging Mixin Extras (`WrapOperation`, `WrapWithCondition`, etc.), name helpers after the intent (`wrap_..._Konkrete`, `cancel_..._Konkrete`) and call the provided `Operation` when returning to vanilla flow.
 
 ## Minecraft Sources
+- You have access to the full Minecraft 26.2 sources in `/library_sources/minecraft_26.2/fabric/` and `/library_sources/minecraft_26.2/neoforge/`.
 - You have access to the full Minecraft 26.1.1 sources in `/library_sources/minecraft_26.1.1/fabric/` and `/library_sources/minecraft_26.1.1/neoforge/`.
-- You have access to the full Minecraft 1.21.11 sources in `/library_sources/minecraft_1.21.11/fabric/` and `/library_sources/minecraft_1.21.11/neoforge/`.
 - Use the Minecraft sources for research when working with Minecraft-related code.
 - Always prefer the sources provided in the `/library_sources/` folder instead of trying to unpack source JARs yourself. Only do that when the provided sources don't contain what you need.
-- Minecraft 1.21.11 is the version before Minecraft 26.1.1.
+- Minecraft 26.1.1 is the version before Minecraft 26.2.
 
 ## Testing
-- After making changes to the code, use the repo-root launcher script `./run-loader-wsl.sh` from WSL to run loader dev clients for testing. It intentionally calls Windows `gradlew.bat`, not Linux `gradlew`, so it reuses the existing Windows Gradle cache and Windows Java installation instead of requiring a separate WSL toolchain.
-- The shared instance directories are the repo-root `run_client` and `run_server` folders for both loaders.
-- Supported launch forms are `./run-loader-wsl.sh fabric`, `./run-loader-wsl.sh fabric server`, `./run-loader-wsl.sh neoforge`, and `./run-loader-wsl.sh neoforge server`. Additional Gradle arguments can be appended, for example `./run-loader-wsl.sh fabric --stacktrace`.
-- For command-line control of the running game, the launcher must be started in an interactive TTY session. Plain pipe-based execution shows the game log, but stdin ends up closed and `konkretedebug` commands cannot be delivered.
-- When the TTY session starts, `cmd.exe` may emit a cursor-position query escape (`ESC [ 6 n`). Reply with `\u001b[1;1R` once so the Windows console handshake completes and Gradle output continues normally.
-- Wait for the Konkrete readiness line before sending commands: `[KONKRETE DEBUG] Command line debugging is ready. Use 'konkretedebug help'.`
-- Send debug commands with CRLF line endings, for example `konkretedebug help\r\n`. Using only `\n` is less reliable through the Windows console chain.
-- A proven Fabric test flow is:
-  - Launch `./run-loader-wsl.sh fabric` in a TTY.
-  - Answer the initial `cmd.exe` cursor query with `\u001b[1;1R` if it appears.
-  - Wait for the Konkrete debug readiness line.
-  - Send `konkretedebug help\r\n` to see all available debug commands, including ones to navigate in menus and load into a world.
-- Before launching another test client, make sure no previous repo-backed `java.exe`, `javaw.exe`, or `cmd.exe` processes of the game are still running. Do not stack multiple leftover instances.
+- Use "Computer Use" and terminal commands to test your changes.
+- For simple "does it compile" checks, build the `fabric` and `neoforge` submodules. Never the `common` submodule!
+- At the end, also do visual testing via Computer Use, so check if everything still works.
+- There is IntelliJ IDE open with the project active, so for visual testing you should run the project via the "Run" button in the top-right of IntelliJ, via Computer Use, instead of trying to manually run it via terminal. Never manually run the project via terminal, always use IntelliJ for launching!
