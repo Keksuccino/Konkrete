@@ -69,6 +69,13 @@ class StagedArtifact:
 
 
 @dataclass(frozen=True)
+class ModrinthTargets:
+    project: Dict[str, Any]
+    project_id: str
+    dependency_ids_by_slug: Dict[str, str]
+
+
+@dataclass(frozen=True)
 class CurseForgeTags:
     minecraft_version_id: int
     minecraft_version_name: str
@@ -895,17 +902,52 @@ def modrinth_environment_values(project_config: Dict[str, Any]) -> Tuple[str, st
     return values[0], values[1]
 
 
+def modrinth_version_environment(project_config: Dict[str, Any]) -> str:
+    supported = set(project_config["supported_environments"])
+    mandatory = set(project_config.get("mandatory_environments", []))
+
+    client_supported = "client" in supported
+    server_supported = "server" in supported
+    client_required = "client" in mandatory
+    server_required = "server" in mandatory
+
+    if client_supported and server_supported:
+        if client_required and server_required:
+            return "client_and_server"
+        if client_required:
+            return "client_only_server_optional"
+        if server_required:
+            return "server_only_client_optional"
+        return "client_or_server"
+    if client_supported:
+        return "client_only"
+    if server_supported:
+        return "server_only"
+    return "unknown"
+
+
+def require_modrinth_project_id(project: Dict[str, Any], lookup_name: str) -> str:
+    project_id = project.get("id")
+    if not isinstance(project_id, str) or not project_id:
+        raise UploadError(
+            f"Modrinth project lookup for '{lookup_name}' did not return a project ID."
+        )
+    return project_id
+
+
 def validate_modrinth_targets(
     client: ModrinthClient,
     loaders: Sequence[str],
     minecraft_version: str,
     project_id_or_slug: str,
-) -> Dict[str, Any]:
+    artifacts: Sequence[StagedArtifact],
+) -> ModrinthTargets:
     section("Modrinth Validation")
 
     project = client.get_project(project_id_or_slug)
+    project_id = require_modrinth_project_id(project, project_id_or_slug)
     project_title = project.get("title") or project.get("slug") or project_id_or_slug
-    print(f"Project: {project_title}")
+    print(f"Project: {project_title} -> ID {project_id}")
 
     loader_names = {
         str(loader.get("name"))
@@ -928,7 +970,38 @@ def validate_modrinth_targets(
             f"Modrinth does not list Minecraft version '{minecraft_version}'."
         )
     print(f"Minecraft version: {minecraft_version}")
-    return project
+
+    dependency_ids_by_slug: Dict[str, str] = {}
+    dependency_slugs = sorted(
+        {
+            dependency
+            for artifact in artifacts
+            for dependency in artifact.dependencies
+        }
+    )
+    if dependency_slugs:
+        print("Dependencies:")
+    for dependency_slug in dependency_slugs:
+        try:
+            dependency_project = client.get_project(dependency_slug)
+        except ApiError as exc:
+            raise UploadError(
+                f"Could not resolve Modrinth dependency slug '{dependency_slug}' to a project ID."
+            ) from exc
+        dependency_id = require_modrinth_project_id(dependency_project, dependency_slug)
+        dependency_title = (
+            dependency_project.get("title")
+            or dependency_project.get("slug")
+            or dependency_slug
+        )
+        dependency_ids_by_slug[dependency_slug] = dependency_id
+        print(f"  {dependency_slug}: {dependency_title} -> ID {dependency_id}")
+
+    return ModrinthTargets(
+        project=project,
+        project_id=project_id,
+        dependency_ids_by_slug=dependency_ids_by_slug,
+    )
 
 
 def resolve_curseforge_tags(
@@ -968,19 +1041,27 @@ def modrinth_version_metadata(
     properties: Dict[str, str],
     artifact: StagedArtifact,
     release_type: str,
+    modrinth_project_id: str,
+    modrinth_dependency_ids_by_slug: Dict[str, str],
 ) -> Dict[str, Any]:
-    dependencies = [
-        {
-            "project_id": dependency,
-            "version_id": None,
-            "file_name": None,
-            "dependency_type": "required",
-        }
-        for dependency in artifact.dependencies
-    ]
+    dependencies = []
+    for dependency in artifact.dependencies:
+        dependency_id = modrinth_dependency_ids_by_slug.get(dependency)
+        if not dependency_id:
+            raise UploadError(
+                f"Missing resolved Modrinth project ID for dependency '{dependency}'."
+            )
+        dependencies.append(
+            {
+                "project_id": dependency_id,
+                "version_id": None,
+                "file_name": None,
+                "dependency_type": "required",
+            }
+        )
 
     return {
-        "project_id": project_config["modrinth_project_id"],
+        "project_id": modrinth_project_id,
         "name": artifact.display_name,
         "version_number": artifact.modrinth_version_number,
         "changelog": f"CHANGELOG: {project_config['changelog_url']}",
@@ -993,6 +1074,7 @@ def modrinth_version_metadata(
         "requested_status": None,
         "file_parts": ["primary"],
         "primary_file": "primary",
+        "environment": modrinth_version_environment(project_config),
     }
 
 
@@ -1092,6 +1174,7 @@ def print_plan_summary(
     )
     mandatory = project_config.get("mandatory_environments", [])
     print("Mandatory environments: " + (", ".join(mandatory) if mandatory else "none"))
+    print(f"Modrinth version environment: {modrinth_version_environment(project_config)}")
 
     for artifact in artifacts:
         dependencies = ", ".join(artifact.dependencies) if artifact.dependencies else "none"
@@ -1127,6 +1210,7 @@ def upload_artifacts(
     project_config: Dict[str, Any],
     properties: Dict[str, str],
     artifacts: Sequence[StagedArtifact],
+    modrinth_targets: ModrinthTargets,
     cf_tags: CurseForgeTags,
     release_type: str,
 ) -> None:
@@ -1139,6 +1223,8 @@ def upload_artifacts(
             properties,
             artifact,
             release_type,
+            modrinth_targets.project_id,
+            modrinth_targets.dependency_ids_by_slug,
         )
         modrinth_result = modrinth_client.create_version(modrinth_metadata, artifact)
         modrinth_id = (
@@ -1263,11 +1349,12 @@ def main(argv: Sequence[str]) -> int:
         modrinth_client = ModrinthClient(tokens["modrinth"])
         curseforge_client = CurseForgeClient(tokens["curseforge"])
 
-        modrinth_project = validate_modrinth_targets(
+        modrinth_targets = validate_modrinth_targets(
             modrinth_client,
             loaders,
             properties["minecraft_version"],
             project_config["modrinth_project_id"],
+            artifacts,
         )
         cf_tags = resolve_curseforge_tags(
             curseforge_client,
@@ -1290,7 +1377,7 @@ def main(argv: Sequence[str]) -> int:
             sync_modrinth_environment(
                 modrinth_client,
                 project_config,
-                modrinth_project,
+                modrinth_targets.project,
                 upload_enabled=False,
             )
             print("\nDry run complete. Re-run without --dry-run to upload.")
@@ -1299,7 +1386,7 @@ def main(argv: Sequence[str]) -> int:
             sync_modrinth_environment(
                 modrinth_client,
                 project_config,
-                modrinth_project,
+                modrinth_targets.project,
                 upload_enabled=True,
             )
             upload_artifacts(
@@ -1308,6 +1395,7 @@ def main(argv: Sequence[str]) -> int:
                 project_config=project_config,
                 properties=properties,
                 artifacts=artifacts,
+                modrinth_targets=modrinth_targets,
                 cf_tags=cf_tags,
                 release_type=args.release_type,
             )
