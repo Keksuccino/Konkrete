@@ -91,12 +91,163 @@ class ApiError(UploadError):
     pass
 
 
+class Console:
+    STYLES = {
+        "reset": "0",
+        "bold": "1",
+        "dim": "2",
+        "red": "31",
+        "green": "32",
+        "yellow": "33",
+        "blue": "34",
+        "magenta": "35",
+        "cyan": "36",
+        "white": "37",
+        "muted": "90",
+        "bright_red": "91",
+        "bright_green": "92",
+        "bright_yellow": "93",
+        "bright_blue": "94",
+        "bright_magenta": "95",
+        "bright_cyan": "96",
+    }
+
+    THEME = {
+        "section": ("bold", "bright_cyan"),
+        "subsection": ("bold", "cyan"),
+        "key": ("muted",),
+        "value": ("bold", "white"),
+        "muted": ("muted",),
+        "path": ("muted",),
+        "file": ("bold", "bright_blue"),
+        "id": ("bold", "bright_magenta"),
+        "version": ("bold", "bright_green"),
+        "loader": ("bold", "bright_cyan"),
+        "platform": ("bold", "bright_blue"),
+        "prompt": ("bold", "bright_cyan"),
+        "success": ("bold", "bright_green"),
+        "warning": ("bold", "bright_yellow"),
+        "error": ("bold", "bright_red"),
+        "command": ("muted",),
+        "upload": ("bold", "bright_yellow"),
+        "dry_run": ("bold", "bright_green"),
+    }
+
+    def __init__(self, color_mode: str = "auto") -> None:
+        self.color_mode = color_mode
+        self.stdout_color = self._should_color(sys.stdout)
+        self.stderr_color = self._should_color(sys.stderr)
+
+    def _should_color(self, stream: Any) -> bool:
+        if self.color_mode == "always":
+            return True
+        if self.color_mode == "never":
+            return False
+        if os.environ.get("NO_COLOR"):
+            return False
+        if os.environ.get("CLICOLOR_FORCE"):
+            return True
+        return bool(getattr(stream, "isatty", lambda: False)()) and os.environ.get("TERM") != "dumb"
+
+    def style(self, text: Any, *style_names: str, stderr: bool = False) -> str:
+        value = str(text)
+        if not (self.stderr_color if stderr else self.stdout_color):
+            return value
+
+        codes: List[str] = []
+        for style_name in style_names:
+            for token in self.THEME.get(style_name, (style_name,)):
+                code = self.STYLES.get(token)
+                if code:
+                    codes.append(code)
+        if not codes:
+            return value
+        return f"\033[{';'.join(codes)}m{value}\033[0m"
+
+    def section(self, title: str) -> None:
+        width = min(max(shutil.get_terminal_size((88, 20)).columns, 64), 110)
+        label = f"== {title} "
+        suffix = "=" * max(2, width - len(label))
+        print("\n" + self.style(label + suffix, "section"), flush=True)
+
+    def subsection(self, title: str) -> None:
+        print()
+        print(self.style(title, "subsection"))
+        print(self.style("-" * len(title), "muted"))
+
+    def key_value(
+        self,
+        label: str,
+        value: Any,
+        *,
+        value_style: str = "value",
+        indent: int = 0,
+    ) -> None:
+        prefix = " " * indent
+        print(
+            f"{prefix}{self.style(label + ':', 'key')} "
+            f"{self.style(value, value_style)}"
+        )
+
+    def bullet(
+        self,
+        text: str,
+        *,
+        marker: str = "-",
+        style_name: str = "value",
+        indent: int = 0,
+    ) -> None:
+        prefix = " " * indent
+        print(
+            f"{prefix}{self.style(marker, 'muted')} "
+            f"{self.style(text, style_name)}"
+        )
+
+    def status(self, label: str, message: str, style_name: str = "value") -> None:
+        print(
+            f"{self.style('[' + label + ']', style_name)} "
+            f"{message}"
+        )
+
+    def success(self, message: str) -> None:
+        self.status("OK", message, "success")
+
+    def warning(self, message: str) -> None:
+        self.status("WARN", message, "warning")
+
+    def error(self, message: str) -> None:
+        print(
+            f"{self.style('[ERROR]', 'error', stderr=True)} {message}",
+            file=sys.stderr,
+        )
+
+    def prompt(self, prompt: str) -> str:
+        return self.style(prompt, "prompt")
+
+    def command(self, command: Sequence[str]) -> None:
+        print(self.style("+ " + shlex.join(command), "command"), flush=True)
+
+    def blank(self) -> None:
+        print()
+
+
+CONSOLE = Console()
+
+
+def configure_console(color_mode: str) -> None:
+    global CONSOLE
+    CONSOLE = Console(color_mode)
+
+
 def eprint(message: str = "") -> None:
-    print(message, file=sys.stderr)
+    if message:
+        CONSOLE.error(message)
+    else:
+        print(file=sys.stderr)
 
 
 def section(title: str) -> None:
-    print(f"\n== {title} ==", flush=True)
+    CONSOLE.section(title)
 
 
 def ordered_sides(sides: Iterable[str]) -> List[str]:
@@ -122,10 +273,10 @@ def prompt_line(prompt: str, *, allow_empty: bool = False) -> str:
         )
 
     while True:
-        value = input(prompt).strip()
+        value = input(CONSOLE.prompt(prompt)).strip()
         if value or allow_empty:
             return value
-        print("Please enter a value.")
+        CONSOLE.warning("Please enter a value.")
 
 
 def prompt_choice(prompt: str, choices: Sequence[str]) -> str:
@@ -134,7 +285,7 @@ def prompt_choice(prompt: str, choices: Sequence[str]) -> str:
         value = prompt_line(f"{prompt} [{choices_text}]: ").strip().lower()
         if value in choices:
             return value
-        print(f"Please choose one of: {choices_text}")
+        CONSOLE.warning(f"Please choose one of: {choices_text}")
 
 
 def prompt_http_url(prompt: str) -> str:
@@ -142,7 +293,7 @@ def prompt_http_url(prompt: str) -> str:
         value = prompt_line(prompt)
         if value.startswith("http://") or value.startswith("https://"):
             return value
-        print("Please enter a full http:// or https:// URL.")
+        CONSOLE.warning("Please enter a full http:// or https:// URL.")
 
 
 def prompt_numeric_id(prompt: str) -> str:
@@ -150,7 +301,7 @@ def prompt_numeric_id(prompt: str) -> str:
         value = prompt_line(prompt)
         if value.isdigit():
             return value
-        print("Please enter the numeric CurseForge project ID.")
+        CONSOLE.warning("Please enter the numeric CurseForge project ID.")
 
 
 def parse_gradle_properties(path: Path) -> Dict[str, str]:
@@ -356,7 +507,9 @@ def ensure_project_config(
                 changed = True
                 break
             supported_text = "/".join(ordered_sides(supported))
-            print(f"Mandatory environments must be within supported environments: {supported_text}")
+            CONSOLE.warning(
+                f"Mandatory environments must be within supported environments: {supported_text}"
+            )
 
     mandatory = set(project_config.get("mandatory_environments", []))
     if not mandatory.issubset(supported):
@@ -451,7 +604,7 @@ def build_loader_modules(project_root: Path, loaders: Sequence[str]) -> None:
     for loader in loaders:
         task = f":{loader}:build"
         command = command_prefix + [task]
-        print("+ " + shlex.join(command), flush=True)
+        CONSOLE.command(command)
         result = subprocess.run(command, cwd=str(project_root))
         if result.returncode != 0:
             raise UploadError(
@@ -482,15 +635,24 @@ def confirm_ambiguous_jar(
     *,
     assume_yes: bool,
 ) -> None:
-    print()
-    print(f"Could not confidently identify the {loader} upload JAR.")
-    print("Remaining candidates:")
+    CONSOLE.blank()
+    CONSOLE.warning(f"Could not confidently identify the {loader} upload JAR.")
+    print(CONSOLE.style("Remaining candidates:", "key"))
     for candidate in candidates:
-        print(f"  - {candidate.name} ({format_size(candidate.stat().st_size)})")
-    print(f"Selected the largest candidate: {selected.name}")
+        size = format_size(candidate.stat().st_size)
+        CONSOLE.bullet(
+            f"{candidate.name} ({size})",
+            style_name="file",
+            indent=2,
+        )
+    CONSOLE.key_value(
+        "Selected largest candidate",
+        selected.name,
+        value_style="file",
+    )
 
     if assume_yes:
-        print("Accepted because --yes was provided.")
+        CONSOLE.success("Accepted because --yes was provided.")
         return
 
     if not sys.stdin.isatty():
@@ -498,7 +660,9 @@ def confirm_ambiguous_jar(
             f"Ambiguous {loader} JAR selection requires confirmation, but stdin is not a terminal."
         )
 
-    answer = input("Is this the correct file to upload? [y/N]: ").strip().lower()
+    answer = input(
+        CONSOLE.prompt("Is this the correct file to upload? [y/N]: ")
+    ).strip().lower()
     if answer not in ("y", "yes"):
         raise UploadError(f"Aborted because the {loader} upload JAR was not confirmed.")
 
@@ -610,8 +774,11 @@ def stage_artifacts(
         modrinth_version_number = f"{mod_version}-{minecraft_version}-{loader}"
 
         print(
-            f"{loader}: {selected.source_path.name} -> {file_name} "
-            f"({selected.reason})"
+            f"{CONSOLE.style(loader, 'loader')}: "
+            f"{CONSOLE.style(selected.source_path.name, 'file')} "
+            f"{CONSOLE.style('->', 'muted')} "
+            f"{CONSOLE.style(file_name, 'file')} "
+            f"{CONSOLE.style('(' + selected.reason + ')', 'muted')}"
         )
 
         artifacts.append(
@@ -947,7 +1114,8 @@ def validate_modrinth_targets(
     project = client.get_project(project_id_or_slug)
     project_id = require_modrinth_project_id(project, project_id_or_slug)
     project_title = project.get("title") or project.get("slug") or project_id_or_slug
-    print(f"Project: {project_title} -> ID {project_id}")
+    CONSOLE.key_value("Project", project_title, value_style="platform")
+    CONSOLE.key_value("Project ID", project_id, value_style="id", indent=2)
 
     loader_names = {
         str(loader.get("name"))
@@ -959,7 +1127,7 @@ def validate_modrinth_targets(
         modrinth_loader = LOADER_INFOS[loader].modrinth_name
         if modrinth_loader not in loader_names:
             raise UploadError(f"Modrinth does not list loader '{modrinth_loader}'.")
-        print(f"Loader: {modrinth_loader}")
+        CONSOLE.key_value("Loader", modrinth_loader, value_style="loader", indent=2)
 
     game_versions = {
         str(version.get("version"))
@@ -969,7 +1137,7 @@ def validate_modrinth_targets(
         raise UploadError(
             f"Modrinth does not list Minecraft version '{minecraft_version}'."
         )
-    print(f"Minecraft version: {minecraft_version}")
+    CONSOLE.key_value("Minecraft version", minecraft_version, value_style="version")
 
     dependency_ids_by_slug: Dict[str, str] = {}
     dependency_slugs = sorted(
@@ -980,7 +1148,7 @@ def validate_modrinth_targets(
         }
     )
     if dependency_slugs:
-        print("Dependencies:")
+        print(CONSOLE.style("Dependencies:", "key"))
     for dependency_slug in dependency_slugs:
         try:
             dependency_project = client.get_project(dependency_slug)
@@ -995,7 +1163,15 @@ def validate_modrinth_targets(
             or dependency_slug
         )
         dependency_ids_by_slug[dependency_slug] = dependency_id
-        print(f"  {dependency_slug}: {dependency_title} -> ID {dependency_id}")
+        print(
+            "  "
+            + CONSOLE.style(dependency_slug, "file")
+            + CONSOLE.style(" -> ", "muted")
+            + CONSOLE.style(dependency_title, "value")
+            + CONSOLE.style(" (ID ", "muted")
+            + CONSOLE.style(dependency_id, "id")
+            + CONSOLE.style(")", "muted")
+        )
 
     return ModrinthTargets(
         project=project,
@@ -1012,21 +1188,36 @@ def resolve_curseforge_tags(
 ) -> CurseForgeTags:
     section("CurseForge Validation")
     minecraft_version_id = client.resolve_minecraft_version_id(minecraft_version)
-    print(f"Minecraft version: {minecraft_version} -> ID {minecraft_version_id}")
+    CONSOLE.key_value("Minecraft version", minecraft_version, value_style="version")
+    CONSOLE.key_value("Minecraft version ID", minecraft_version_id, value_style="id", indent=2)
 
     loader_ids_by_module: Dict[str, int] = {}
     for loader in loaders:
         curseforge_loader = LOADER_INFOS[loader].curseforge_name
         loader_id = client.resolve_tag_id(curseforge_loader, "modloader")
         loader_ids_by_module[loader] = loader_id
-        print(f"Loader: {curseforge_loader} -> ID {loader_id}")
+        print(
+            "  "
+            + CONSOLE.style("Loader:", "key")
+            + " "
+            + CONSOLE.style(curseforge_loader, "loader")
+            + CONSOLE.style(" -> ID ", "muted")
+            + CONSOLE.style(loader_id, "id")
+        )
 
     environment_ids_by_side: Dict[str, int] = {}
     for side in supported_sides:
         tag_name = side[:1].upper() + side[1:]
         tag_id = client.resolve_tag_id(tag_name, "environment")
         environment_ids_by_side[side] = tag_id
-        print(f"Environment: {tag_name} -> ID {tag_id}")
+        print(
+            "  "
+            + CONSOLE.style("Environment:", "key")
+            + " "
+            + CONSOLE.style(tag_name, "value")
+            + CONSOLE.style(" -> ID ", "muted")
+            + CONSOLE.style(tag_id, "id")
+        )
 
     return CurseForgeTags(
         minecraft_version_id=minecraft_version_id,
@@ -1128,7 +1319,7 @@ def sync_modrinth_environment(
         current_client_side == desired_client_side
         and current_server_side == desired_server_side
     ):
-        print(
+        CONSOLE.success(
             "Modrinth environment is already "
             f"client={desired_client_side}, server={desired_server_side}."
         )
@@ -1145,9 +1336,9 @@ def sync_modrinth_environment(
             client_side=desired_client_side,
             server_side=desired_server_side,
         )
-        print(message + " (updated)")
+        CONSOLE.success(message + " (updated)")
     else:
-        print(message + " (dry run, not updated)")
+        CONSOLE.warning(message + " (dry run, not updated)")
 
 
 def print_plan_summary(
@@ -1161,30 +1352,42 @@ def print_plan_summary(
     release_type: str,
 ) -> None:
     section("Upload Plan")
-    print(f"Project root: {project_root}")
-    print(f"Config project key: {project_key}")
-    print(f"Mod ID: {properties['mod_id']}")
-    print(f"Mod version: {properties['mod_version']} (from mod_version)")
-    print(f"Minecraft version: {properties['minecraft_version']}")
-    print(f"Release type: {release_type}")
-    print(f"Mode: {'upload after confirmation' if upload_enabled else 'dry run'}")
-    print(
-        "Supported environments: "
-        + ", ".join(project_config["supported_environments"])
+    CONSOLE.key_value("Project root", project_root, value_style="path")
+    CONSOLE.key_value("Config key", project_key)
+    CONSOLE.key_value("Mod ID", properties["mod_id"], value_style="file")
+    CONSOLE.key_value("Mod version", properties["mod_version"], value_style="version")
+    CONSOLE.key_value("Minecraft version", properties["minecraft_version"], value_style="version")
+    CONSOLE.key_value("Release type", release_type)
+    mode_text = "upload after confirmation" if upload_enabled else "dry run"
+    mode_style = "upload" if upload_enabled else "dry_run"
+    CONSOLE.key_value("Mode", mode_text, value_style=mode_style)
+    CONSOLE.key_value(
+        "Supported environments",
+        ", ".join(project_config["supported_environments"]),
     )
     mandatory = project_config.get("mandatory_environments", [])
-    print("Mandatory environments: " + (", ".join(mandatory) if mandatory else "none"))
-    print(f"Modrinth version environment: {modrinth_version_environment(project_config)}")
+    CONSOLE.key_value(
+        "Mandatory environments",
+        ", ".join(mandatory) if mandatory else "none",
+    )
+    CONSOLE.key_value(
+        "Modrinth version environment",
+        modrinth_version_environment(project_config),
+    )
 
     for artifact in artifacts:
         dependencies = ", ".join(artifact.dependencies) if artifact.dependencies else "none"
-        print()
-        print(f"{loader_fancy_name(artifact.loader)}")
-        print(f"  Source: {artifact.source_path}")
-        print(f"  Staged: {artifact.staged_path}")
-        print(f"  Display name: {artifact.display_name}")
-        print(f"  Modrinth version number: {artifact.modrinth_version_number}")
-        print(f"  Required dependencies: {dependencies}")
+        CONSOLE.subsection(loader_fancy_name(artifact.loader))
+        CONSOLE.key_value("Source", artifact.source_path, value_style="path", indent=2)
+        CONSOLE.key_value("Staged", artifact.staged_path, value_style="file", indent=2)
+        CONSOLE.key_value("Display name", artifact.display_name, indent=2)
+        CONSOLE.key_value(
+            "Modrinth version",
+            artifact.modrinth_version_number,
+            value_style="version",
+            indent=2,
+        )
+        CONSOLE.key_value("Required dependencies", dependencies, indent=2)
     sys.stdout.flush()
 
 
@@ -1194,11 +1397,11 @@ def confirm_real_upload(artifacts: Sequence[StagedArtifact], *, assume_yes: bool
     if not sys.stdin.isatty():
         raise UploadError("Real upload requires confirmation, but stdin is not a terminal.")
 
-    print()
-    print("This will upload these files to Modrinth and CurseForge:")
+    CONSOLE.blank()
+    CONSOLE.warning("This will upload these files to Modrinth and CurseForge:")
     for artifact in artifacts:
-        print(f"  - {artifact.file_name}")
-    answer = input("Type 'upload' to continue: ").strip()
+        CONSOLE.bullet(artifact.file_name, style_name="file", indent=2)
+    answer = input(CONSOLE.prompt("Type 'upload' to continue: ")).strip()
     if answer != "upload":
         raise UploadError("Upload aborted before any files were sent.")
 
@@ -1216,7 +1419,7 @@ def upload_artifacts(
 ) -> None:
     section("Uploading")
     for artifact in artifacts:
-        print(f"\n{loader_fancy_name(artifact.loader)}")
+        CONSOLE.subsection(loader_fancy_name(artifact.loader))
 
         modrinth_metadata = modrinth_version_metadata(
             project_config,
@@ -1232,7 +1435,10 @@ def upload_artifacts(
             if isinstance(modrinth_result, dict)
             else modrinth_result
         )
-        print(f"Modrinth version created: {modrinth_id}")
+        CONSOLE.success(
+            "Modrinth version created: "
+            + CONSOLE.style(modrinth_id, "id")
+        )
 
         curseforge_metadata = curseforge_file_metadata(
             project_config,
@@ -1250,7 +1456,10 @@ def upload_artifacts(
             if isinstance(curseforge_result, dict)
             else curseforge_result
         )
-        print(f"CurseForge file uploaded: {curseforge_id}")
+        CONSOLE.success(
+            "CurseForge file uploaded: "
+            + CONSOLE.style(curseforge_id, "id")
+        )
 
 
 def parse_args(argv: Sequence[str]) -> argparse.Namespace:
@@ -1303,11 +1512,18 @@ def parse_args(argv: Sequence[str]) -> argparse.Namespace:
             "Override config path. Defaults to mod_upload_config.json next to this script."
         ),
     )
+    parser.add_argument(
+        "--color",
+        choices=("auto", "always", "never"),
+        default="auto",
+        help="Control colored terminal output. Defaults to auto.",
+    )
     return parser.parse_args(argv)
 
 
 def main(argv: Sequence[str]) -> int:
     args = parse_args(argv)
+    configure_console(args.color)
     script_dir = Path(__file__).resolve().parent
     config_path = (args.config_path or (script_dir / CONFIG_FILE_NAME)).resolve()
     project_root = args.project_root.resolve()
@@ -1328,11 +1544,14 @@ def main(argv: Sequence[str]) -> int:
         )
         if config_changed or not config_path.exists():
             save_config(config_path, config)
-            print(f"\nSaved config: {config_path}")
+            CONSOLE.blank()
+            CONSOLE.success(
+                "Saved config: " + CONSOLE.style(config_path, "path")
+            )
 
         if args.skip_build:
             section("Gradle Build")
-            print("Skipped because --skip-build was provided.")
+            CONSOLE.warning("Skipped because --skip-build was provided.")
         else:
             build_loader_modules(project_root, loaders)
 
@@ -1380,7 +1599,13 @@ def main(argv: Sequence[str]) -> int:
                 modrinth_targets.project,
                 upload_enabled=False,
             )
-            print("\nDry run complete. Re-run without --dry-run to upload.")
+            CONSOLE.blank()
+            CONSOLE.success("Dry run complete.")
+            CONSOLE.key_value(
+                "Next step",
+                "Re-run without --dry-run to upload.",
+                value_style="command",
+            )
         else:
             confirm_real_upload(artifacts, assume_yes=args.yes)
             sync_modrinth_environment(
@@ -1399,15 +1624,18 @@ def main(argv: Sequence[str]) -> int:
                 cf_tags=cf_tags,
                 release_type=args.release_type,
             )
-            print("\nDone.")
+            CONSOLE.blank()
+            CONSOLE.success("Done.")
 
         return 0
 
     except UploadError as exc:
-        eprint(f"\nERROR: {exc}")
+        CONSOLE.blank()
+        eprint(str(exc))
         return 1
     except KeyboardInterrupt:
-        eprint("\nAborted.")
+        CONSOLE.blank()
+        eprint("Aborted.")
         return 130
 
 
