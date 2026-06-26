@@ -6,6 +6,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.Screen;
 import javax.annotation.Nullable;
 
+@SuppressWarnings("unused")
 public class GuiUtils {
 
     /**
