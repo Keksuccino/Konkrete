@@ -1,9 +1,29 @@
 
+CHANGELOG | KONKRETE v1.11.1
+
+**Added**
+- Added `RenderUtils.isVulkanActive()` to detect whether Minecraft is currently running on the Vulkan render backend.
+
+**Changed**
+- Replaced broad `@SuppressWarnings("all")` in `RenderUtils` with narrower unused-warning suppression
+- Added unused-warning suppression to `GuiUtils`
+
+**Improved**
+- `RenderUtils.getColorFromHexString(...)` now explicitly marks its nullable return with `@Nullable`
+- Hex color parsing failures now log through Log4j instead of printing stack traces directly
+
+%changelog:end%
+
+
+
+
+
 CHANGELOG | KONKRETE v1.11.0
  
 - Ported to Minecraft 26.2.0
 
 %changelog:end%
+
 
 
 
