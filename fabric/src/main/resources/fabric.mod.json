@@ -15,7 +15,7 @@
   "icon": "${mod_id}_logo_128x128.png",
   "entrypoints": {
     "main": [
-      "de.keksuccino.konkrete.KonkreteFabric"
+      "de.keksuccino.persephone.PersephoneFabric"
     ],
     "client": [],
     "server": []

@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "de.keksuccino.persephone.mixin.mixins.neoforge",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
+  "client": [
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "plugin": "de.keksuccino.persephone.mixin.PersephoneMixinPlugin",
+  "minVersion": "0.8"
+}

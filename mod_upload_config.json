@@ -1,8 +1,8 @@
 {
   "config_version": 1,
   "projects": {
-    "konkrete": {
-      "changelog_url": "https://github.com/Keksuccino/Konkrete/blob/main/changelog.txt",
+    "persephone": {
+      "changelog_url": "https://github.com/Keksuccino/Persephone/blob/main/changelog.txt",
       "curseforge_project_id": "410295",
       "dependencies": {
         "fabric": [
