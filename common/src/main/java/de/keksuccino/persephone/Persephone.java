@@ -29,11 +29,8 @@ public class Persephone {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public static final String MOD_ID = "persephone";
-	public static final String VERSION = "1.11.1";
+	public static final String VERSION = "2.0.0";
 	public static final String MOD_LOADER = Services.PLATFORM.getPlatformName();
-
-	@Deprecated
-    public static boolean isOptifineLoaded = false;
 
 	public static void init() {
 
