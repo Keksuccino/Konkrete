@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.keksuccino.persephone.rendering;
+package de.keksuccino.persephone.resources;
 
 import static java.lang.System.arraycopy;
 

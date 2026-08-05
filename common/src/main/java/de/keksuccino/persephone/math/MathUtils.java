@@ -1,8 +1,28 @@
 package de.keksuccino.persephone.math;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Random;
 
 public class MathUtils {
+
+	public static double round(double value, int places) {
+		if (places < 0) throw new IllegalArgumentException();
+		if (!Double.isFinite(value)) return value;
+		BigDecimal bd = BigDecimal.valueOf(value);
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
+	}
+
+	/**
+	 * Formats finite whole-number doubles as plain integer text without narrowing them to the range of a {@code long}.
+	 * Non-finite and fractional values retain Java's canonical double representation so callers do not silently change their semantics.
+	 */
+	public static String formatWholeNumber(double value) {
+		if (!Double.isFinite(value) || value != Math.rint(value)) return Double.toString(value);
+		// The exact double constructor is intentional; valueOf would round large integers through Double.toString before formatting them.
+		return new BigDecimal(value).toBigIntegerExact().toString();
+	}
 
 	public static boolean isIntegerOrDouble(String value) {
     	try {
@@ -54,98 +74,6 @@ public class MathUtils {
 		}
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
-	}
-
-	/**
-	 * Returns the calculated value.
-	 */
-	public static double calculateFromString(final String in) {
-		if (MathUtils.isDouble(in)) {
-			return Double.parseDouble(in);
-		}
-	    try {
-	    	return new Object() {
-		        int pos = -1, ch;
-		        void nextChar() {
-		            ch = (++pos < in.length()) ? in.charAt(pos) : -1;
-		        }
-		        boolean eat(int charToEat) {
-		            while (ch == ' ') nextChar();
-		            if (ch == charToEat) {
-		                nextChar();
-		                return true;
-		            }
-		            return false;
-		        }
-		        double parse() {
-		            nextChar();
-		            double x = parseExpression();
-		            if (pos < in.length()) throw new RuntimeException("[PERSEPHONE] Unexpected: " + (char)ch);
-		            return x;
-		        }
-		        double parseExpression() {
-		            double x = parseTerm();
-		            for (;;) {
-		                if      (eat('+')) x += parseTerm();
-		                else if (eat('-')) x -= parseTerm();
-		                else return x;
-		            }
-		        }
-		        double parseTerm() {
-		            double x = parseFactor();
-		            for (;;) {
-		                if      (eat('*')) x *= parseFactor();
-		                else if (eat('/')) x /= parseFactor();
-		                else return x;
-		            }
-		        }
-		        double parseFactor() {
-		            if (eat('+')) return parseFactor();
-		            if (eat('-')) return -parseFactor();
-
-		            double x;
-		            int startPos = this.pos;
-		            if (eat('(')) {
-		                x = parseExpression();
-		                eat(')');
-		            } else if ((ch >= '0' && ch <= '9') || ch == '.') {
-		                while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
-		                x = Double.parseDouble(in.substring(startPos, this.pos));
-		            } else if (ch >= 'a' && ch <= 'z') {
-		                while (ch >= 'a' && ch <= 'z') nextChar();
-		                String func = in.substring(startPos, this.pos);
-		                x = parseFactor();
-		                if (func.equals("sqrt")) x = Math.sqrt(x);
-		                else if (func.equals("sin")) x = Math.sin(Math.toRadians(x));
-		                else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
-		                else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
-		                else throw new RuntimeException("[PERSEPHONE] Unknown function: " + func);
-		            } else {
-		                throw new RuntimeException("[PERSEPHONE] Unexpected: " + (char)ch);
-		            }
-		            if (eat('^')) x = Math.pow(x, parseFactor());
-		            return x;
-		        }
-		    }.parse();
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	    }
-	    return 0.0D;
-	}
-
-	/**
-	 * Returns true if the given string can be calculated using {@link MathUtils#calculateFromString}.
-	 */
-	public static boolean isCalculateableString(String in) {
-		if (MathUtils.isDouble(in)) {
-			return true;
-		}
-		try {
-			calculateFromString(in);
-			return true;
-		} catch (Exception ignored) {
-		}
-		return false;
 	}
 
 }

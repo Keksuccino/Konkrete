@@ -22,7 +22,6 @@ package de.keksuccino.persephone;
 import de.keksuccino.persephone.platform.Services;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 
 public class Persephone {
 
@@ -35,40 +34,15 @@ public class Persephone {
 	public static void init() {
 
 		if (Services.PLATFORM.isOnClient()) {
-
-			LOGGER.info("[PERSEPHONE] Loading v" + VERSION + " in client-side mode on " + MOD_LOADER.toUpperCase() + "!");
-
+			LOGGER.info("[PERSEPHONE] Loading v" + VERSION + " in client-side mode on " + MOD_LOADER.toUpperCase() + "..");
 		} else {
-			LOGGER.info("[PERSEPHONE] Loading v" + VERSION + " in server-side mode on " + MOD_LOADER.toUpperCase() + "!");
+			LOGGER.info("[PERSEPHONE] Loading v" + VERSION + " in server-side mode on " + MOD_LOADER.toUpperCase() + "..");
 		}
-
-    	if (Services.PLATFORM.isOnClient()) {
-
-			try {
-				Class.forName("optifine.Installer");
-				isOptifineLoaded = true;
-			}
-			catch (ClassNotFoundException ignore) {}
-		
-		}
-
-		//Nothing server-side needs to get initialized here
-		LOGGER.info("[PERSEPHONE] Server-side modules initialized and ready to use!");
     	
     }
 
 	public static void onGameInitCompleted() {
 
-		PostClientInitTaskExecutor.executeAll();
-
-	}
-
-	/**
-	 * ONLY WORKS CLIENT-SIDE! DOES NOTHING ON A SERVER!
-	 */
-    @Deprecated
-	public static void addPostClientInitTask(@NotNull String modId, @NotNull Runnable task) {
-		PostClientInitTaskExecutor.addTask(modId, task);
 	}
 
 }
