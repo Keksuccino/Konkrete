@@ -6,9 +6,9 @@ import de.keksuccino.konkrete.input.CharData;
 import de.keksuccino.konkrete.input.CharacterFilter;
 import de.keksuccino.konkrete.input.KeyboardData;
 import de.keksuccino.konkrete.mixin.mixins.client.IMixinScreen;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -32,7 +32,7 @@ public class ExtendedEditBox extends EditBox implements IAdvancedWidgetBase {
     }
 
     @Override
-    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partial) {
+    public void renderButton(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partial) {
         if (this.handleSelf) {
             AdvancedWidgetsHandler.handleWidget(this);
             Screen s = Minecraft.getInstance().screen;
@@ -41,7 +41,7 @@ public class ExtendedEditBox extends EditBox implements IAdvancedWidgetBase {
                 ((IMixinScreen)s).getNarratables_Konkrete().add(this);
             }
         }
-        super.render(graphics, mouseX, mouseY, partial);
+        super.renderButton(poseStack, mouseX, mouseY, partial);
     }
 
     @Nullable

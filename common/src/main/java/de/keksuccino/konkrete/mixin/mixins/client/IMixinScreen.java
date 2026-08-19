@@ -1,7 +1,7 @@
 package de.keksuccino.konkrete.mixin.mixins.client;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
@@ -14,7 +14,7 @@ public interface IMixinScreen {
 
     @Accessor("font") void setFontKonkrete(Font font);
 
-    @Accessor("renderables") List<Renderable> getRenderablesKonkrete();
+    @Accessor("renderables") List<Widget> getRenderablesKonkrete();
 
     @Accessor("children") List<GuiEventListener> getChildrenKonkrete();
 

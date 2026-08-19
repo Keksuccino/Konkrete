@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.gui.content.AdvancedButton;
 import de.keksuccino.konkrete.gui.content.AdvancedTextField;
 import de.keksuccino.konkrete.input.CharacterFilter;
@@ -64,26 +64,26 @@ public class TextInputPopup extends Popup {
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, int mouseX, int mouseY, Screen renderIn) {
-		super.render(graphics, mouseX, mouseY, renderIn);
+	public void render(PoseStack matrix, int mouseX, int mouseY, Screen renderIn) {
+		super.render(matrix, mouseX, mouseY, renderIn);
 		
 		if (this.isDisplayed()) {
 			int height = 100;
 			
 			RenderSystem.enableBlend();
-			graphics.fill((renderIn.width / 2) - (this.width / 2), (renderIn.height / 2) - (height / 2), (renderIn.width / 2) + (this.width / 2), (renderIn.height / 2) + (height / 2), this.color.getRGB());
+			fill(matrix, (renderIn.width / 2) - (this.width / 2), (renderIn.height / 2) - (height / 2), (renderIn.width / 2) + (this.width / 2), (renderIn.height / 2) + (height / 2), this.color.getRGB());
 			RenderSystem.disableBlend();
 			
-			graphics.drawCenteredString(Minecraft.getInstance().font, title, renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10, Color.WHITE.getRGB());
+			drawCenteredString(matrix, Minecraft.getInstance().font, title, renderIn.width / 2, (renderIn.height / 2) - (height / 2) + 10, Color.WHITE.getRGB());
 			
 			this.textField.setX((renderIn.width / 2) - (this.textField.getWidth() / 2));
 			this.textField.setY((renderIn.height / 2) - (this.textField.getHeight() / 2));
-			this.textField.renderWidget(graphics, mouseX, mouseY, Minecraft.getInstance().getFrameTime());
+			this.textField.renderButton(matrix, mouseX, mouseY, Minecraft.getInstance().getFrameTime());
 			
 			this.doneButton.setX((renderIn.width / 2) - (this.doneButton.getWidth() / 2));
 			this.doneButton.setY(((renderIn.height / 2) + (height / 2)) - this.doneButton.getHeight() - 5);
 			
-			this.renderButtons(graphics, mouseX, mouseY);
+			this.renderButtons(matrix, mouseX, mouseY);
 		}
 	}
 	

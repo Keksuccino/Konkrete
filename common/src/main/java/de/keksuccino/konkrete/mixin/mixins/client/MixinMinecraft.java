@@ -34,7 +34,7 @@ public class MixinMinecraft {
         }
     }
 
-    @Inject(method = "setScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;added()V"))
+    @Inject(method = "setScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;init(Lnet/minecraft/client/Minecraft;II)V"))
     private void beforeScreenAdded_Konkrete(Screen screen, CallbackInfo info) {
         try {
             AdvancedWidgetsHandler.onOpenScreen();

@@ -1,14 +1,18 @@
 package de.keksuccino.konkrete.rendering;
 
 import java.awt.Color;
-import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Matrix4f;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
 
 @SuppressWarnings("all")
 public class RenderUtils {
@@ -31,42 +35,34 @@ public class RenderUtils {
 		return null;
 	}
 
-	public static void setScale(GuiGraphics graphics, float scale) {
-		setScale(graphics.pose(), scale);
+	public static void setScale(PoseStack matrix, float scale) {
+		matrix.pushPose();
+		matrix.scale(scale, scale, scale);
 	}
 
-	public static void setScale(PoseStack graphics, float scale) {
-		graphics.pushPose();
-		graphics.scale(scale, scale, scale);
-    }
-
-	public static void postScale(GuiGraphics graphics) {
-		postScale(graphics.pose());
+	public static void postScale(PoseStack matrix) {
+		matrix.popPose();
 	}
 
-    public static void postScale(PoseStack graphics) {
-    	graphics.popPose();
-    }
+	public static void doubleBlit(double x, double y, float f1, float f2, int w, int h) {
+		innerDoubleBlit(x, x + (double)w, y, y + (double)h, 0, (f1 + 0.0F) / (float)w, (f1 + (float)w) / (float)w, (f2 + 0.0F) / (float)h, (f2 + (float)h) / (float)h);
+	}
 
-    public static void doubleBlit(double x, double y, float f1, float f2, int w, int h) {
-    	innerDoubleBlit(x, x + (double)w, y, y + (double)h, 0, (f1 + 0.0F) / (float)w, (f1 + (float)w) / (float)w, (f2 + 0.0F) / (float)h, (f2 + (float)h) / (float)h);
-    }
+	public static void innerDoubleBlit(double x, double xEnd, double y, double yEnd, int z, float f1, float f2, float f3, float f4) {
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+		bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+		bufferbuilder.vertex(x, yEnd, (double)z).uv(f1, f4).endVertex();
+		bufferbuilder.vertex(xEnd, yEnd, (double)z).uv(f2, f4).endVertex();
+		bufferbuilder.vertex(xEnd, y, (double)z).uv(f2, f3).endVertex();
+		bufferbuilder.vertex(x, y, (double)z).uv(f1, f3).endVertex();
+		BufferUploader.drawWithShader(bufferbuilder.end());
+	}
 
-    public static void innerDoubleBlit(double x, double xEnd, double y, double yEnd, int z, float f1, float f2, float f3, float f4) {
-    	RenderSystem.setShader(GameRenderer::getPositionTexShader);
-    	BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
-        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferbuilder.vertex(x, yEnd, (double)z).uv(f1, f4).endVertex();
-        bufferbuilder.vertex(xEnd, yEnd, (double)z).uv(f2, f4).endVertex();
-        bufferbuilder.vertex(xEnd, y, (double)z).uv(f2, f3).endVertex();
-        bufferbuilder.vertex(x, y, (double)z).uv(f1, f3).endVertex();
-        BufferUploader.drawWithShader(bufferbuilder.end());
-    }
-    
-    /**
-     * Returns the converted color or NULL if the color could not be converted.
-     */
-    public static Color getColorFromHexString(@NotNull String hex) {
+	/**
+	 * Returns the converted color or NULL if the color could not be converted.
+	 */
+	public static Color getColorFromHexString(@NotNull String hex) {
 		try {
 			hex = hex.replace("#", "");
 			if (hex.length() == 6) {
@@ -88,45 +84,32 @@ public class RenderUtils {
 		return null;
 	}
 
-	public static void setZLevelPre(GuiGraphics graphics, int zLevel) {
-		setZLevelPre(graphics.pose(), zLevel);
-	}
-
-    public static void setZLevelPre(PoseStack graphics, int zLevel) {
+	public static void setZLevelPre(PoseStack matrix, int zLevel) {
 		RenderSystem.disableDepthTest();
-		graphics.pushPose();
-		graphics.translate(0.0D, 0.0D, zLevel);
-    }
-
-	public static void setZLevelPost(GuiGraphics graphics) {
-		setZLevelPost(graphics.pose());
+		matrix.pushPose();
+		matrix.translate(0.0D, 0.0D, zLevel);
 	}
 
-    public static void setZLevelPost(PoseStack graphics) {
-    	graphics.popPose();
-    	RenderSystem.enableDepthTest();
-    }
-
-    public static void bindTexture(ResourceLocation texture, boolean depthTest) {
-    	RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, texture);
-        RenderSystem.enableBlend();
-        if (depthTest) {
-        	RenderSystem.enableDepthTest();
-        }
-    }
-
-    public static void bindTexture(ResourceLocation texture) {
-    	bindTexture(texture, false);
-    }
-
-	public static void fill(GuiGraphics graphics, float minX, float minY, float maxX, float maxY, int color, float opacity) {
-		fill(graphics.pose(), minX, minY, maxX, maxY, color, opacity);
+	public static void setZLevelPost(PoseStack matrix) {
+		matrix.popPose();
+		RenderSystem.enableDepthTest();
 	}
 
-	public static void fill(PoseStack graphics, float minX, float minY, float maxX, float maxY, int color, float opacity) {
+	public static void bindTexture(ResourceLocation texture, boolean depthTest) {
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		RenderSystem.setShaderTexture(0, texture);
+		RenderSystem.enableBlend();
+		if (depthTest) {
+			RenderSystem.enableDepthTest();
+		}
+	}
 
-		Matrix4f graphics4f = graphics.last().pose();
+	public static void bindTexture(ResourceLocation texture) {
+		bindTexture(texture, false);
+	}
+
+	public static void fill(PoseStack matrix, float minX, float minY, float maxX, float maxY, int color, float opacity) {
+		Matrix4f matrix4f = matrix.last().pose();
 
 		if (minX < maxX) {
 			float i = minX;
@@ -148,17 +131,17 @@ public class RenderUtils {
 
 		BufferBuilder bb = Tesselator.getInstance().getBuilder();
 		RenderSystem.enableBlend();
+		RenderSystem.disableTexture();
+		RenderSystem.defaultBlendFunc();
 		RenderSystem.setShader(GameRenderer::getPositionColorShader);
 		bb.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-
-		bb.vertex(graphics4f, minX, maxY, 0.0F).color(r, g, b, a).endVertex();
-		bb.vertex(graphics4f, maxX, maxY, 0.0F).color(r, g, b, a).endVertex();
-		bb.vertex(graphics4f, maxX, minY, 0.0F).color(r, g, b, a).endVertex();
-		bb.vertex(graphics4f, minX, minY, 0.0F).color(r, g, b, a).endVertex();
-
+		bb.vertex(matrix4f, minX, maxY, 0.0F).color(r, g, b, a).endVertex();
+		bb.vertex(matrix4f, maxX, maxY, 0.0F).color(r, g, b, a).endVertex();
+		bb.vertex(matrix4f, maxX, minY, 0.0F).color(r, g, b, a).endVertex();
+		bb.vertex(matrix4f, minX, minY, 0.0F).color(r, g, b, a).endVertex();
 		BufferUploader.drawWithShader(bb.end());
+		RenderSystem.enableTexture();
 		RenderSystem.disableBlend();
-
 	}
 
 }

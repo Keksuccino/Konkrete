@@ -2,16 +2,17 @@ package de.keksuccino.konkrete.gui.screens.popup;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.gui.content.AdvancedButton;
 
 /**
  * Does not work anymore. Don't use this.
  */
 @Deprecated(forRemoval = true)
-public abstract class Popup {
-	
+public abstract class Popup extends GuiComponent {
+
 	private boolean displayed = false;
 	private int alpha;
 	private List<AdvancedButton> buttons = new ArrayList<>();
@@ -28,42 +29,42 @@ public abstract class Popup {
 	 * Does not work anymore. Don't use this.
 	 */
 	@Deprecated
-	public void render(GuiGraphics graphics, int mouseX, int mouseY, Screen renderIn) {
+	public void render(PoseStack matrix, int mouseX, int mouseY, Screen renderIn) {
 	}
 
 	/**
-	 * Does not work anymore. Don't use this.
-	 */
+	  * Does not work anymore. Don't use this.
+	  */
 	@Deprecated
 	public boolean isDisplayed() {
 		return false;
 	}
 
 	/**
-	 * Does not work anymore. Don't use this.
-	 */
+	  * Does not work anymore. Don't use this.
+	  */
 	@Deprecated
 	public void setDisplayed(boolean b) {
 	}
 
 	/**
-	 * Does not work anymore. Don't use this.
-	 */
+	  * Does not work anymore. Don't use this.
+	  */
 	@Deprecated
 	public List<AdvancedButton> getButtons() {
 		return this.buttons;
 	}
 
 	/**
-	 * Does not work anymore. Don't use this.
-	 */
+	  * Does not work anymore. Don't use this.
+	  */
 	@Deprecated
 	protected void addButton(AdvancedButton b) {
 	}
 
 	/**
-	 * Does not work anymore. Don't use this.
-	 */
+	  * Does not work anymore. Don't use this.
+	  */
 	@Deprecated
 	protected void removeButton(AdvancedButton b) {
 	}
@@ -72,12 +73,12 @@ public abstract class Popup {
 	 * Does not work anymore. Don't use this.
 	 */
 	@Deprecated
-	protected void renderButtons(GuiGraphics graphics, int mouseX, int mouseY) {
+	protected void renderButtons(PoseStack matrix, int mouseX, int mouseY) {
 	}
 
 	/**
-	 * Does not work anymore. Don't use this.
-	 */
+	  * Does not work anymore. Don't use this.
+	  */
 	@Deprecated
 	protected void colorizePopupButton(AdvancedButton b) {
 	}

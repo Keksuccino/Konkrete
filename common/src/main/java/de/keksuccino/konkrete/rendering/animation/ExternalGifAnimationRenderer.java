@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.texture.TextureManager;
 import com.google.common.io.Files;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.rendering.GifDecoder;
 import de.keksuccino.konkrete.rendering.GifDecoder.GifImage;
+import de.keksuccino.konkrete.rendering.RenderUtils;
 import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +30,7 @@ import org.apache.logging.log4j.Logger;
 public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
-	
+
 	private String resourceDir;
 	private int fps = 0;
 	private boolean loop;
@@ -47,14 +49,14 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	protected float opacity = 1.0F;
 
 	/**
-	 * Renders an animation out of multiple images (frames) stored outside the mod JAR.<br><br>
-	 * 
-	 * Just create a new directory and put all animation frames in it.<br>
-	 * The frames must be named like: 1.png, 2.png, 3.png, ...
-	 * 
-	 * @param resourcePath The path pointing to the GIF.
-	 * @param loop If the animation should run in an endless loop or just a single time.
-	 */
+	  * Renders an animation out of multiple images (frames) stored outside the mod JAR.<br><br>
+	  *
+	  * Just create a new directory and put all animation frames in it.<br>
+	  * The frames must be named like: 1.png, 2.png, 3.png, ...
+	  *
+	  * @param resourcePath The path pointing to the GIF.
+	  * @param loop If the animation should run in an endless loop or just a single time.
+	  */
 	public ExternalGifAnimationRenderer(String resourcePath, boolean loop, int posX, int posY, int width, int height) {
 		this.loop = loop;
 		this.x = posX;
@@ -63,10 +65,10 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 		this.height = height;
 		this.resourceDir = resourcePath;
 	}
-	
+
 	/**
-	 * Needs to be called before calling {@link ExternalGifAnimationRenderer#render(GuiGraphics)} and after Minecraft's {@link TextureManager} instance got loaded.
-	 */
+	 * Needs to be called before calling {@link ExternalGifAnimationRenderer#render(PoseStack)} and after Minecraft's {@link TextureManager} instance got loaded.
+	  */
 	@Override
 	public void prepareAnimation() {
 		if (this.ready) {
@@ -104,7 +106,7 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	}
 
 	@Override
-	public void render(GuiGraphics graphics) {
+	public void render(PoseStack matrix) {
 		if ((this.resources == null) || (this.resources.isEmpty())) {
 			this.done = true;
 			return;
@@ -125,7 +127,8 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 			}
 		}
 		//Rendering the current frame
-		this.renderFrame(graphics);
+		this.renderFrame(matrix);
+
 		//Updating the current frame based on the fps value
 		long time = System.currentTimeMillis();
 		if (this.fps == -1) {
@@ -140,8 +143,8 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 			}
 		}
 	}
-	
-	private void renderFrame(GuiGraphics graphics) {
+
+	private void renderFrame(PoseStack matrix) {
 		int h = this.height;
 		int w = this.width;
 		int x2 = this.x;
@@ -152,11 +155,13 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 			x2 = 0;
 			y2 = 0;
 		}
+
+		RenderUtils.bindTexture(this.resources.get(this.frame).getResourceLocation());
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.opacity);
-		graphics.blit(this.resources.get(this.frame).getResourceLocation(), x2, y2, 0.0F, 0.0F, w, h, w, h);
+		GuiComponent.blit(matrix, x2, y2, 0.0F, 0.0F, w, h, w, h);
 		RenderSystem.disableBlend();
 	}
-	
+
 	public void setOpacity(float opacity) {
 		this.opacity = opacity;
 	}
@@ -164,12 +169,12 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	public float getOpacity() {
 		return this.opacity;
 	}
-	
+
 	private void updateFrame(long time) {
 		this.frame++;
 		this.prevTime = time;
 	}
-	
+
 	@Override
 	public void resetAnimation() {
 		this.frame = 0;
@@ -191,17 +196,17 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	public boolean isFinished() {
 		return this.done;
 	}
-	
+
 	@Override
 	public void setWidth(int width) {
 		this.width = width;
 	}
-	
+
 	@Override
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
+
 	@Override
 	public int currentFrame() {
 		return this.frame;
@@ -221,7 +226,7 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	public void setPosY(int y) {
 		this.y = y;
 	}
-	
+
 	@Override
 	public int animationFrames() {
 		return this.resources.size();
@@ -241,7 +246,7 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	public int getFPS() {
 		return this.fps;
 	}
-	
+
 	@Override
 	public void setLooped(boolean b) {
 		this.loop = b;
@@ -256,7 +261,7 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	public boolean isStretchedToStreensize() {
 		return this.stretch;
 	}
-	
+
 	@Override
 	public int getWidth() {
 		return this.width;
@@ -276,44 +281,44 @@ public class ExternalGifAnimationRenderer implements IAnimationRenderer {
 	public int getPosY() {
 		return this.y;
 	}
-	
+
 	private static List<GifFramePackage> getGifFrames(String gifPath) {
 		File f = new File(gifPath);
 		List<GifFramePackage> l = new ArrayList<>();
 		try {
-		    if (f.exists() && f.isFile() && Files.getFileExtension(f.getName()).equalsIgnoreCase("gif")) {
-			    FileInputStream is = new FileInputStream(f);
-			    GifImage gif = GifDecoder.read(is);
-			    int noi = gif.getFrameCount();
-			    for (int i = 0; i < noi; i++) {
-			    	try {
-			    		int delay = gif.getDelay(i);
-				        BufferedImage image = gif.getFrame(i);
-				        ByteArrayOutputStream os = new ByteArrayOutputStream();
-				        ImageIO.write(image, "PNG", os);
-				        ByteArrayInputStream bis = new ByteArrayInputStream(os.toByteArray());
-				        l.add(new GifFramePackage(bis, delay));
-			    	} catch (Exception ex) {
+			if (f.exists() && f.isFile() && Files.getFileExtension(f.getName()).equalsIgnoreCase("gif")) {
+				FileInputStream is = new FileInputStream(f);
+				GifImage gif = GifDecoder.read(is);
+				int noi = gif.getFrameCount();
+				for (int i = 0; i < noi; i++) {
+					try {
+						int delay = gif.getDelay(i);
+						BufferedImage image = gif.getFrame(i);
+						ByteArrayOutputStream os = new ByteArrayOutputStream();
+						ImageIO.write(image, "PNG", os);
+						ByteArrayInputStream bis = new ByteArrayInputStream(os.toByteArray());
+						l.add(new GifFramePackage(bis, delay));
+					} catch (Exception ex) {
 						LOGGER.error("[KONKRETE] Error while trying to read GIF frame " + (i + 1) + " of '" + gifPath + "'! This most probably happened because the GIF is slightly corrupted. Reconverting it could fix this.", ex);
-			    	}
-			    }
-		    }
+					}
+				}
+			}
 		} catch (IOException ex) {
-		    LOGGER.error("[KONKRETE] Failed to get GIF frames: " + gifPath, ex);
+			LOGGER.error("[KONKRETE] Failed to get GIF frames: " + gifPath, ex);
 		}
 		return l;
 	}
-	
+
 	public static class GifFramePackage {
-		
+
 		ByteArrayInputStream gif;
 		int delay;
-		
+
 		public GifFramePackage(ByteArrayInputStream gif, int delay) {
 			this.gif = gif;
 			this.delay = delay;
 		}
-		
+
 	}
 
 }

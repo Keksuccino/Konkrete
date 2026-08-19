@@ -1,33 +1,33 @@
 package de.keksuccino.konkrete.rendering.animation;
 
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 @Deprecated(forRemoval = true)
 public interface IAnimationRenderer {
 
 	/**
-	 * Needs to be called every tick in the render event.
-	 */
-	public void render(GuiGraphics graphics);
+	  * Needs to be called every tick in the render event.
+	  */
+	public void render(PoseStack matrix);
 
 	/**
-	 * This overrides the specified height and width values and stretches the animation over the whole screen.
-	 */
+	  * This overrides the specified height and width values and stretches the animation over the whole screen.
+	  */
 	public void setStretchImageToScreensize(boolean b);
 	
 	public boolean isStretchedToStreensize();
 	
 	/**
-	 * Only has affect if the animation isn't getting looped.
-	 */
+	  * Only has affect if the animation isn't getting looped.
+	  */
 	public void setHideAfterLastFrame(boolean b);
 	
 	/**
-	 * Returns true if the animation is finished.<br>
-	 * <b>Thats never the case if the animation is getting looped!</b>
-	 * 
-	 * @return True if the animation is finished.
-	 */
+	  * Returns true if the animation is finished.<br>
+	  * <b>Thats never the case if the animation is getting looped!</b>
+	  *
+	  * @return True if the animation is finished.
+	  */
 	public boolean isFinished();
 	
 	public void setWidth(int width);

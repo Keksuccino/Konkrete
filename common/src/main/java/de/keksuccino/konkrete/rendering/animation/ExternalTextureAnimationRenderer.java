@@ -7,12 +7,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.texture.TextureManager;
 import com.google.common.io.Files;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.input.CharacterFilter;
 import de.keksuccino.konkrete.math.MathUtils;
+import de.keksuccino.konkrete.rendering.RenderUtils;
 import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +27,7 @@ import org.apache.logging.log4j.Logger;
 public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 
 	private static final Logger LOGGER = LogManager.getLogger();
-	
+
 	private String resourceDir;
 	private int fps;
 	private boolean loop;
@@ -44,15 +46,15 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	protected float opacity = 1.0F;
 
 	/**
-	 * Renders an animation out of multiple images (frames) stored outside the mod JAR.<br><br>
-	 * 
-	 * Just create a new directory and put all animation frames in it.<br>
-	 * The frames must be named like: 1.png, 2.png, 3.png, ...
-	 * 
-	 * @param resourceDir The path pointing to the animation resource directory.
-	 * @param fps Frames per second. A value of -1 sets the fps to unlimited.
-	 * @param loop If the animation should run in an endless loop or just a single time.
-	 */
+	  * Renders an animation out of multiple images (frames) stored outside the mod JAR.<br><br>
+	  *
+	  * Just create a new directory and put all animation frames in it.<br>
+	  * The frames must be named like: 1.png, 2.png, 3.png, ...
+	  *
+	  * @param resourceDir The path pointing to the animation resource directory.
+	  * @param fps Frames per second. A value of -1 sets the fps to unlimited.
+	  * @param loop If the animation should run in an endless loop or just a single time.
+	  */
 	public ExternalTextureAnimationRenderer(String resourceDir, int fps, boolean loop, int posX, int posY, int width, int height) {
 		this.fps = fps;
 		this.loop = loop;
@@ -62,7 +64,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 		this.height = height;
 		this.resourceDir = resourceDir;
 	}
-	
+
 	public ExternalTextureAnimationRenderer(int fps, boolean loop, int posX, int posY, int width, int height, String... resourcePaths) {
 		this.fps = fps;
 		this.loop = loop;
@@ -72,14 +74,14 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 		this.height = height;
 		this.resourcePaths.addAll(Arrays.asList(resourcePaths));
 	}
-	
+
 	/**
-	 * Needs to be called before calling {@link ExternalTextureAnimationRenderer#render(GuiGraphics)} and after minecraft's {@link TextureManager} instance was loaded.
-	 */
+	 * Needs to be called before calling {@link ExternalTextureAnimationRenderer#render(PoseStack)} and after minecraft's {@link TextureManager} instance was loaded.
+	  */
 	@Override
 	public void prepareAnimation() {
 		try {
-			
+
 			List<String> pathsFinal = new ArrayList<String>();
 
 			if (this.resourcePaths.isEmpty()) {
@@ -99,12 +101,12 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 					}
 				}
 			}
-			
+
 			CharacterFilter c = CharacterFilter.getIntegerCharacterFiler();
-			
+
 			List<String> nonNumberNames = new ArrayList<String>();
 			List<String> numberNames = new ArrayList<String>();
-			
+
 			for (String s : pathsFinal) {
 				String name = Files.getNameWithoutExtension(s);
 				if (name != null) {
@@ -115,11 +117,11 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 						nonNumberNames.add(s);
 					}
 				}
-				
+
 			}
-			
+
 			Collections.sort(nonNumberNames, String.CASE_INSENSITIVE_ORDER);
-			
+
 			Collections.sort(numberNames, new Comparator<String>() {
 				@Override
 				public int compare(String o1, String o2) {
@@ -131,7 +133,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 						if (MathUtils.isInteger(n1) && MathUtils.isInteger(n2)) {
 							int i1 = Integer.parseInt(n1);
 							int i2 = Integer.parseInt(n2);
-							
+
 							if (i1 > i2) {
 								return 1;
 							}
@@ -139,7 +141,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 								return -1;
 							}
 							return 0;
-							
+
 						}
 					}
 					return 0;
@@ -154,7 +156,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 					this.resources.add(er);
 				}
 			}
-			
+
 			for (String s : numberNames) {
 				File in = new File(s);
 				ExternalTextureResourceLocation er = new ExternalTextureResourceLocation(in.getAbsolutePath());
@@ -174,14 +176,14 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 			}
 
 			this.ready = true;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void render(GuiGraphics graphics) {
+	public void render(PoseStack matrix) {
 		if ((this.resources == null) || (this.resources.isEmpty())) {
 			return;
 		}
@@ -189,7 +191,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 		if (!this.ready) {
 			return;
 		}
-		
+
 		//A value of -1 sets the max fps to unlimited
 		if (this.fps < 0) {
 			this.fps = -1;
@@ -209,8 +211,8 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 		}
 
 		//Rendering the current frame
-		this.renderFrame(graphics);
-		
+		this.renderFrame(matrix);
+
 		//Updating the current frame based on the fps value
 		long time = System.currentTimeMillis();
 		if (this.fps == -1) {
@@ -221,8 +223,8 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 			}
 		}
 	}
-	
-	private void renderFrame(GuiGraphics graphics) {
+
+	private void renderFrame(PoseStack matrix) {
 		int h = this.height;
 		int w = this.width;
 		int x2 = this.x;
@@ -237,11 +239,13 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 		if (!r.isReady()) {
 			r.loadTexture();
 		}
+
+		RenderUtils.bindTexture(r.getResourceLocation());
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.opacity);
-		graphics.blit(r.getResourceLocation(), x2, y2, 0.0F, 0.0F, w, h, w, h);
+		GuiComponent.blit(matrix, x2, y2, 0.0F, 0.0F, w, h, w, h);
 		RenderSystem.disableBlend();
 	}
-	
+
 	public void setOpacity(float opacity) {
 		this.opacity = opacity;
 	}
@@ -249,12 +253,12 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	public float getOpacity() {
 		return this.opacity;
 	}
-	
+
 	private void updateFrame(long time) {
 		this.frame++;
 		this.prevTime = time;
 	}
-	
+
 	private static boolean isValidFrame(File f) {
 		if (!f.exists() || !f.isFile()) {
 			return false;
@@ -266,7 +270,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public void resetAnimation() {
 		this.frame = 0;
@@ -288,17 +292,17 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	public boolean isFinished() {
 		return this.done;
 	}
-	
+
 	@Override
 	public void setWidth(int width) {
 		this.width = width;
 	}
-	
+
 	@Override
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
+
 	@Override
 	public int currentFrame() {
 		return this.frame;
@@ -318,7 +322,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	public void setPosY(int y) {
 		this.y = y;
 	}
-	
+
 	@Override
 	public int animationFrames() {
 		return this.resources.size();
@@ -338,7 +342,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	public int getFPS() {
 		return this.fps;
 	}
-	
+
 	@Override
 	public void setLooped(boolean b) {
 		this.loop = b;
@@ -353,7 +357,7 @@ public class ExternalTextureAnimationRenderer implements IAnimationRenderer {
 	public boolean isStretchedToStreensize() {
 		return this.stretch;
 	}
-	
+
 	@Override
 	public int getWidth() {
 		return this.width;

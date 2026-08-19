@@ -2,7 +2,7 @@ package de.keksuccino.konkrete.rendering.animation;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -43,10 +43,10 @@ public class AnimationRenderer implements IAnimationRenderer {
 	}
 
 	@Override
-	public void render(GuiGraphics graphics) {
+	public void render(PoseStack matrix) {
 	}
 	
-	protected void renderFrame(GuiGraphics graphics) {
+	protected void renderFrame(PoseStack matrix) {
 	}
 	
 	public void setOpacity(float opacity) {

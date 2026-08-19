@@ -1,26 +1,24 @@
 package de.keksuccino.konkrete.gui.content;
 
 import java.awt.Color;
-import net.minecraft.client.gui.GuiGraphics;
-import com.mojang.blaze3d.systems.RenderSystem;
-import de.keksuccino.konkrete.input.MouseInput;
-import de.keksuccino.konkrete.rendering.RenderUtils;
-import de.keksuccino.konkrete.rendering.animation.IAnimationRenderer;
-import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
-import de.keksuccino.konkrete.sound.SoundHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import de.keksuccino.konkrete.rendering.animation.IAnimationRenderer;
 import org.jetbrains.annotations.Nullable;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import de.keksuccino.konkrete.input.MouseInput;
+import de.keksuccino.konkrete.rendering.RenderUtils;
+import de.keksuccino.konkrete.resources.ExternalTextureResourceLocation;
+import de.keksuccino.konkrete.sound.SoundHandler;
 
 @Deprecated(forRemoval = true)
 public class AdvancedButton extends Button {
-
-	protected static final WidgetSprites SPRITES = new WidgetSprites(new ResourceLocation("widget/button"), new ResourceLocation("widget/button_disabled"), new ResourceLocation("widget/button_highlighted"));
 
 	protected boolean handleClick = false;
 	protected static boolean leftDown = false;
@@ -51,16 +49,12 @@ public class AdvancedButton extends Button {
 	protected OnPress press;
 
 	public AdvancedButton(int x, int y, int widthIn, int heightIn, String buttonText, OnPress onPress) {
-		super(x, y, widthIn, heightIn, Component.literal(buttonText), onPress, (narration) -> {
-			return Component.literal(buttonText);
-		});
+		super(x, y, widthIn, heightIn, Component.literal(buttonText), onPress);
 		this.press = onPress;
 	}
 
 	public AdvancedButton(int x, int y, int widthIn, int heightIn, String buttonText, boolean handleClick, OnPress onPress) {
-		super(x, y, widthIn, heightIn, Component.literal(buttonText), onPress, (narration) -> {
-			return Component.literal(buttonText);
-		});
+		super(x, y, widthIn, heightIn, Component.literal(buttonText), onPress);
 		this.handleClick = handleClick;
 		this.press = onPress;
 	}
@@ -72,10 +66,8 @@ public class AdvancedButton extends Button {
 
 	//renderButton
 	@Override
-	public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partialTicks) {
 		if (this.visible) {
-			Minecraft mc = Minecraft.getInstance();
-
 			this.isHovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 
 			if (this.lastHoverState != this.isHoveredOrFocused()) {
@@ -95,34 +87,34 @@ public class AdvancedButton extends Button {
 			RenderSystem.enableBlend();
 			if (this.hasColorBackground()) {
 				Color border;
-				if (!isHoveredOrFocused()) {
-					graphics.fill(this.x, this.y, this.x + this.width, this.y + this.height, this.idleColor.getRGB() | Mth.ceil(this.alpha * 255.0F) << 24);
+				if (!this.isHoveredOrFocused()) {
+					fill(matrix, this.x, this.y, this.x + this.width, this.y + this.height, this.idleColor.getRGB() | Mth.ceil(this.alpha * 255.0F) << 24);
 					border = this.idleBorderColor;
 				} else {
 					if (this.active) {
-						graphics.fill(this.x, this.y, this.x + this.width, this.y + this.height, this.hoveredColor.getRGB() | Mth.ceil(this.alpha * 255.0F) << 24);
+						fill(matrix, this.x, this.y, this.x + this.width, this.y + this.height, this.hoveredColor.getRGB() | Mth.ceil(this.alpha * 255.0F) << 24);
 						border = this.hoveredBorderColor;
 					} else {
-						graphics.fill(this.x, this.y, this.x + this.width, this.y + this.height, this.idleColor.getRGB() | Mth.ceil(this.alpha * 255.0F) << 24);
+						fill(matrix, this.x, this.y, this.x + this.width, this.y + this.height, this.idleColor.getRGB() | Mth.ceil(this.alpha * 255.0F) << 24);
 						border = this.idleBorderColor;
 					}
 				}
 				if (this.hasBorder()) {
 					//top
-					RenderUtils.fill(graphics, this.x, this.y, this.x + this.width, this.y + this.borderWidth, border.getRGB(), this.alpha);
+					RenderUtils.fill(matrix, this.x, this.y, this.x + this.width, this.y + this.borderWidth, border.getRGB(), this.alpha);
 					//bottom
-					RenderUtils.fill(graphics, this.x, this.y + this.height - this.borderWidth, this.x + this.width, this.y + this.height, border.getRGB(), this.alpha);
+					RenderUtils.fill(matrix, this.x, this.y + this.height - this.borderWidth, this.x + this.width, this.y + this.height, border.getRGB(), this.alpha);
 					//left
-					RenderUtils.fill(graphics, this.x, this.y + this.borderWidth, this.x + this.borderWidth, this.y + this.height - this.borderWidth, border.getRGB(), this.alpha);
+					RenderUtils.fill(matrix, this.x, this.y + this.borderWidth, this.x + this.borderWidth, this.y + this.height - this.borderWidth, border.getRGB(), this.alpha);
 					//right
-					RenderUtils.fill(graphics, this.x + this.width - this.borderWidth, this.y + this.borderWidth, this.x + this.width, this.y + this.height - this.borderWidth, border.getRGB(), this.alpha);
+					RenderUtils.fill(matrix, this.x + this.width - this.borderWidth, this.y + this.borderWidth, this.x + this.width, this.y + this.height - this.borderWidth, border.getRGB(), this.alpha);
 				}
 			} else {
-				this.renderBackgroundNormal(graphics);
-				this.renderBackgroundHover(graphics);
+				this.renderBackgroundNormal(matrix);
+				this.renderBackgroundHover(matrix);
 			}
 
-			this.renderLabel(graphics);
+			this.renderLabel(matrix);
 
 			if (this.isHoveredOrFocused()) {
 				AdvancedButtonHandler.setActiveDescriptionButton(this);
@@ -157,15 +149,15 @@ public class AdvancedButton extends Button {
 		}
 	}
 
-	protected void renderBackgroundHover(GuiGraphics graphics) {
+	protected void renderBackgroundHover(PoseStack matrix) {
 		try {
 			if (this.isHoveredOrFocused()) {
 				if (this.active) {
 					if (this.hasCustomBackgroundHover()) {
 						if (this.backgroundHover != null) {
-//							RenderUtils.bindTexture(this.backgroundHover);
+							RenderUtils.bindTexture(this.backgroundHover);
 							RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-							graphics.blit(this.backgroundHover, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
+							blit(matrix, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
 						} else {
 							int aniX = this.backgroundAnimationHover.getPosX();
 							int aniY = this.backgroundAnimationHover.getPosY();
@@ -180,7 +172,7 @@ public class AdvancedButton extends Button {
 							this.backgroundAnimationHover.setLooped(this.loopBackgroundAnimations);
 							this.backgroundAnimationHover.setOpacity(this.alpha);
 
-							this.backgroundAnimationHover.render(graphics);
+							this.backgroundAnimationHover.render(matrix);
 
 							this.backgroundAnimationHover.setPosX(aniX);
 							this.backgroundAnimationHover.setPosY(aniY);
@@ -190,10 +182,10 @@ public class AdvancedButton extends Button {
 							this.backgroundAnimationHover.setOpacity(1.0F);
 						}
 					} else {
-						this.renderDefaultBackground(graphics);
+						this.renderDefaultBackground(matrix);
 					}
 				} else {
-					this.renderBackgroundNormal(graphics);
+					this.renderBackgroundNormal(matrix);
 				}
 			}
 		} catch (Exception e) {
@@ -201,14 +193,14 @@ public class AdvancedButton extends Button {
 		}
 	}
 
-	protected void renderBackgroundNormal(GuiGraphics graphics) {
+	protected void renderBackgroundNormal(PoseStack matrix) {
 		try {
 			if (!this.isHoveredOrFocused()) {
 				if (this.hasCustomBackgroundNormal()) {
 					if (this.backgroundNormal != null) {
-//						RenderUtils.bindTexture(this.backgroundNormal);
+						RenderUtils.bindTexture(this.backgroundNormal);
 						RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-						graphics.blit(this.backgroundNormal, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
+						blit(matrix, this.x, this.y, 0.0F, 0.0F, this.width, this.height, this.width, this.height);
 					} else {
 						int aniX = this.backgroundAnimationNormal.getPosX();
 						int aniY = this.backgroundAnimationNormal.getPosY();
@@ -223,7 +215,7 @@ public class AdvancedButton extends Button {
 						this.backgroundAnimationNormal.setLooped(this.loopBackgroundAnimations);
 						this.backgroundAnimationNormal.setOpacity(this.alpha);
 
-						this.backgroundAnimationNormal.render(graphics);
+						this.backgroundAnimationNormal.render(matrix);
 
 						this.backgroundAnimationNormal.setPosX(aniX);
 						this.backgroundAnimationNormal.setPosY(aniY);
@@ -233,7 +225,7 @@ public class AdvancedButton extends Button {
 						this.backgroundAnimationNormal.setOpacity(1.0F);
 					}
 				} else {
-					this.renderDefaultBackground(graphics);
+					this.renderDefaultBackground(matrix);
 				}
 			}
 		} catch (Exception e) {
@@ -241,25 +233,18 @@ public class AdvancedButton extends Button {
 		}
 	}
 
-	protected void renderDefaultBackground(GuiGraphics graphics) {
-		graphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
-		RenderSystem.enableBlend();
+	protected void renderDefaultBackground(PoseStack matrix) {
+		RenderUtils.bindTexture(WIDGETS_LOCATION);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
+		int i = this.getYImage(this.isHoveredOrFocused());
+		RenderSystem.defaultBlendFunc();
 		RenderSystem.enableDepthTest();
-		graphics.blitSprite(SPRITES.get(this.active, this.isHoveredOrFocused()), this.getX(), this.getY(), this.getWidth(), this.getHeight());
-		graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+		blit(matrix, this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
+		blit(matrix, this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
+		RenderSystem.disableDepthTest();
 	}
 
-	private int getTextureY() {
-		int i = 1;
-		if (!this.active) {
-			i = 0;
-		} else if (this.isHoveredOrFocused()) {
-			i = 2;
-		}
-		return 46 + i * 20;
-	}
-
-	protected void renderLabel(GuiGraphics graphics) {
+	protected void renderLabel(PoseStack matrix) {
 		if (!renderLabel) {
 			return;
 		}
@@ -270,12 +255,16 @@ public class AdvancedButton extends Button {
 		int pX = (int) (((this.x + (this.width / 2)) - ((stringWidth * this.labelScale) / 2)) / this.labelScale);
 		int pY = (int) (((this.y + (this.height / 2)) - ((stringHeight * this.labelScale) / 2)) / this.labelScale);
 
-		graphics.pose().pushPose();
-		graphics.pose().scale(this.labelScale, this.labelScale, this.labelScale);
+		matrix.pushPose();
+		matrix.scale(this.labelScale, this.labelScale, this.labelScale);
 
-		graphics.drawString(font, getMessageString(), pX, pY, getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24, this.labelShadow);
+		if (this.labelShadow) {
+			font.drawShadow(matrix, getMessageString(), pX, pY, getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
+		} else {
+			font.draw(matrix, getMessageString(), pX, pY, getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
+		}
 
-		graphics.pose().popPose();
+		matrix.popPose();
 	}
 
 	protected boolean isInputBlocked() {
@@ -384,29 +373,30 @@ public class AdvancedButton extends Button {
 		if (!this.handleClick) {
 			if (this.useable) {
 				if (this.active && this.visible) {
-					if (this.isValidClickButton(p_mouseClicked_5_)) {
+					  if (this.isValidClickButton(p_mouseClicked_5_)) {
 						boolean flag = this.clicked(p_mouseClicked_1_, p_mouseClicked_3_);
 						if (flag) {
-							if (this.clicksound == null) {
-								this.playDownSound(Minecraft.getInstance().getSoundManager());
-							} else {
-								SoundHandler.resetSound(this.clicksound);
-								SoundHandler.playSound(this.clicksound);
-							}
-							this.onClick(p_mouseClicked_1_, p_mouseClicked_3_);
-							return true;
+						      if (this.clicksound == null) {
+							      this.playDownSound(Minecraft.getInstance().getSoundManager());
+						      } else {
+							      SoundHandler.resetSound(this.clicksound);
+							      SoundHandler.playSound(this.clicksound);
+						      }
+						      this.onClick(p_mouseClicked_1_, p_mouseClicked_3_);
+						      return true;
 						}
-					}
+					  }
 
-					return false;
-				} else {
-					return false;
-				}
+					  return false;
+				    } else {
+					  return false;
+				    }
 			}
 		}
 		return false;
 	}
 
+	//keyPressed
 	@Override
 	public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
 		if (this.handleClick) {
@@ -479,16 +469,16 @@ public class AdvancedButton extends Button {
 		return this.description;
 	}
 
+	public int getFGColor() {
+		return this.active ? 16777215 : 10526880;
+	}
+
 	public void setLabelShadow(boolean shadow) {
 		this.labelShadow = shadow;
 	}
 
 	public static boolean isAnyButtonLeftClicked() {
 		return leftDown;
-	}
-
-	public int getFGColor() {
-		return this.active ? 16777215 : 10526880;
 	}
 
 }

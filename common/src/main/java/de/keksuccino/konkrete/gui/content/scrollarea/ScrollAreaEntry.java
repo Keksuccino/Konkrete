@@ -1,29 +1,30 @@
 package de.keksuccino.konkrete.gui.content.scrollarea;
 
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.input.MouseInput;
+import net.minecraft.client.gui.GuiComponent;
 
 @Deprecated(forRemoval = true)
-public abstract class ScrollAreaEntry {
-	
+public abstract class ScrollAreaEntry extends GuiComponent {
+
 	public int x = 0;
 	public int y = 0;
 	public final ScrollArea parent;
-	
+
 	public ScrollAreaEntry(ScrollArea parent) {
 		this.parent = parent;
 	}
-	
-	public abstract void renderEntry(GuiGraphics graphics);
-	
-	public void render(GuiGraphics graphics) {
+
+	public abstract void renderEntry(PoseStack matrix);
+
+	public void render(PoseStack matrix) {
 		if (this.isVisible()) {
-			this.renderEntry(graphics);
+			this.renderEntry(matrix);
 		}
 	}
-	
+
 	public abstract int getHeight();
-	
+
 	public int getWidth() {
 		return this.parent.width;
 	}
@@ -36,7 +37,7 @@ public abstract class ScrollAreaEntry {
 		}
 		return false;
 	}
-	
+
 	public boolean isVisible() {
 		if ((this.parent.y >= this.y + this.getHeight()) || (this.parent.y + this.parent.height <= this.y)) {
 			return false;

@@ -20,7 +20,7 @@ public class AdvancedTextField extends ExtendedEditBox {
 	public boolean isEditable() {
 		return this.getAccessor().getIsEditableKonkrete();
 	}
-	
+
 	public boolean isLeftClicked() {
 		return (this.isHoveredOrFocused() && MouseInput.isLeftMouseDown());
 	}
@@ -32,6 +32,21 @@ public class AdvancedTextField extends ExtendedEditBox {
 	@Deprecated
 	public boolean isHoveredOrFocused() {
 		return this.isHovered();
+	}
+
+	public boolean isHovered() {
+		int mouseX = MouseInput.getMouseX();
+		int mouseY = MouseInput.getMouseY();
+		return mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + this.height;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	@Override
+	public void setFocused(boolean focused) {
+		super.setFocused(focused);
 	}
 
 	@Deprecated

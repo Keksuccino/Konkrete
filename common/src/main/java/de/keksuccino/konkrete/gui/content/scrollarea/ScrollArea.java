@@ -3,16 +3,19 @@ package de.keksuccino.konkrete.gui.content.scrollarea;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.mojang.blaze3d.platform.Window;
+import de.keksuccino.konkrete.rendering.RenderUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.keksuccino.konkrete.input.MouseInput;
 import net.minecraft.resources.ResourceLocation;
 
 @Deprecated(forRemoval = true)
-public class ScrollArea {
-	
+public class ScrollArea extends GuiComponent {
+
 	public Color backgroundColor = new Color(0, 0, 0, 240);
 	public Color grabberColorNormal = Color.LIGHT_GRAY;
 	public Color grabberColorHover = Color.GRAY;
@@ -26,13 +29,16 @@ public class ScrollArea {
 	public int grabberwidth = 10;
 	public boolean enableScrolling = true;
 	private List<ScrollAreaEntry> entries = new ArrayList<ScrollAreaEntry>();
+
 	private boolean grabberHovered = false;
 	private boolean grabberPressed = false;
+
 	private int scrollpos = 0;
 	private int entryheight = 0;
+
 	private int startY = 0;
 	private int startPos = 0;
-	
+
 	public ScrollArea(int x, int y, int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -40,11 +46,15 @@ public class ScrollArea {
 		this.y = y;
 		LegacyScrollAreaCompat.registerScrollCallback(this::onMouseScrollPre);
 	}
-	
-	public void render(GuiGraphics graphics) {
+
+	public void render(PoseStack matrix) {
+
 		RenderSystem.enableBlend();
-		this.renderBackground(graphics);
-		this.renderScrollbar(graphics);
+
+		this.renderBackground(matrix);
+
+		this.renderScrollbar(matrix);
+
 		Window win = Minecraft.getInstance().getWindow();
 		double scale = win.getGuiScale();
 		int sciBottom = this.height + this.y;
@@ -58,13 +68,14 @@ public class ScrollArea {
 			int scroll = this.scrollpos * (this.entryheight / i2);
 			e.x = this.x;
 			e.y = this.y + i - scroll;
-			e.render(graphics);
+			e.render(matrix);
+
 			i += e.getHeight();
 		}
 		RenderSystem.disableScissor();
 	}
-	
-	protected void renderScrollbar(GuiGraphics graphics) {
+
+	protected void renderScrollbar(PoseStack matrix) {
 		if (this.height < this.entryheight) {
 			int mouseX = MouseInput.getMouseX();
 			int mouseY = MouseInput.getMouseY();
@@ -90,15 +101,17 @@ public class ScrollArea {
 				int scrollYEnd = this.y + this.scrollpos + grabberheight;
 				if (!this.isGrabberHovered()) {
 					if (this.grabberTextureNormal == null) {
-						graphics.fill(scrollXStart, scrollYStart, scrollXEnd, scrollYEnd, this.grabberColorNormal.getRGB());
+						fill(matrix, scrollXStart, scrollYStart, scrollXEnd, scrollYEnd, this.grabberColorNormal.getRGB());
 					} else {
-						graphics.blit(this.grabberTextureNormal, scrollXStart, scrollYStart, 0.0F, 0.0F, grabberwidth, grabberheight, grabberwidth, grabberheight);
+						RenderUtils.bindTexture(this.grabberTextureNormal);
+						blit(matrix, scrollXStart, scrollYStart, 0.0F, 0.0F, grabberwidth, grabberheight, grabberwidth, grabberheight);
 					}
 				} else {
 					if (this.grabberTextureHover == null) {
-						graphics.fill(scrollXStart, scrollYStart, scrollXEnd, scrollYEnd, this.grabberColorHover.getRGB());
+						fill(matrix, scrollXStart, scrollYStart, scrollXEnd, scrollYEnd, this.grabberColorHover.getRGB());
 					} else {
-						graphics.blit(this.grabberTextureHover, scrollXStart, scrollYStart, 0.0F, 0.0F, grabberwidth, grabberheight, grabberwidth, grabberheight);
+						RenderUtils.bindTexture(this.grabberTextureHover);
+						blit(matrix, scrollXStart, scrollYStart, 0.0F, 0.0F, grabberwidth, grabberheight, grabberwidth, grabberheight);
 					}
 				}
 			}
@@ -115,13 +128,13 @@ public class ScrollArea {
 			}
 		}
 	}
-	
+
 	public boolean isAreaHovered() {
 		int mouseX = MouseInput.getMouseX();
 		int mouseY = MouseInput.getMouseY();
-        return (this.x <= mouseX) && ((this.x + this.width + this.grabberwidth) >= mouseX) && (this.y <= mouseY) && ((this.y + this.height) >= mouseY);
-    }
-	
+		return (this.x <= mouseX) && ((this.x + this.width + this.grabberwidth) >= mouseX) && (this.y <= mouseY) && ((this.y + this.height) >= mouseY);
+	}
+
 	protected void handleGrabberScrolling() {
 		int i = this.startY - MouseInput.getMouseY();
 		int scroll = this.startPos - i;
@@ -133,17 +146,19 @@ public class ScrollArea {
 			this.scrollpos = scroll;
 		}
 	}
-	
-	protected void renderBackground(GuiGraphics graphics) {
-		graphics.fill(this.x, this.y, this.x + this.width, this.y + this.height, this.backgroundColor.getRGB());
+
+	protected void renderBackground(PoseStack matrix) {
+		matrix.pushPose();
+		fill(matrix, this.x, this.y, this.x + this.width, this.y + this.height, this.backgroundColor.getRGB());
+		matrix.popPose();
 	}
-	
+
 	public void addEntry(ScrollAreaEntry e) {
 		this.entries.add(e);
 		this.scrollpos = 0;
 		this.entryheight += e.getHeight();
 	}
-	
+
 	public void removeEntry(ScrollAreaEntry e) {
 		if (this.entries.contains(e)) {
 			this.entries.remove(e);
@@ -151,19 +166,19 @@ public class ScrollArea {
 			this.entryheight -= e.getHeight();
 		}
 	}
-	
+
 	public List<ScrollAreaEntry> getEntries() {
 		return this.entries;
 	}
-	
+
 	public int getStackedEntryHeight() {
 		return this.entryheight;
 	}
-	
+
 	public boolean isGrabberHovered() {
 		return this.grabberHovered;
 	}
-	
+
 	public boolean isGrabberPressed() {
 		return this.grabberPressed;
 	}
