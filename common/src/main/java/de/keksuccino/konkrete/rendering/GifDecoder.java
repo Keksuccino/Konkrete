@@ -45,14 +45,11 @@ import java.util.List;
  * int width = gifImage.getWidth();
  * int height = gifImage.getHeight();
  * int frameCount = gifImage.getFrameCount();
- * for (int i = 0; i < frameCount; i++) {
+ * for (int i = 0; i &lt; frameCount; i++) {
  * 	final BufferedImage image = gifImage.getFrame(i);
  * 	final int delay = gif.getDelay(i);
  * }
  * </pre>
- *
- * </p>
- *
  * @author Dhyan Blum
  * @version 1.09 November 2017
  *

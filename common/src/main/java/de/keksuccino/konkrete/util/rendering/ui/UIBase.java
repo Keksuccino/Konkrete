@@ -1,0 +1,543 @@
+package de.keksuccino.konkrete.util.rendering.ui;
+
+import java.awt.Color;
+import java.util.List;
+import java.util.Objects;
+import de.keksuccino.konkrete.util.rendering.DrawableColor;
+import de.keksuccino.konkrete.util.rendering.RenderingUtils;
+import de.keksuccino.konkrete.util.rendering.SmoothRectangleRenderer;
+import de.keksuccino.konkrete.util.rendering.text.TextFormattingUtils;
+import de.keksuccino.konkrete.util.rendering.text.smooth.SmoothFont;
+import de.keksuccino.konkrete.util.rendering.text.smooth.SmoothFonts;
+import de.keksuccino.konkrete.util.rendering.text.smooth.SmoothTextRenderer;
+import de.keksuccino.konkrete.util.rendering.text.smooth.TextDimensions;
+import de.keksuccino.konkrete.util.rendering.ui.theme.UIColorThemeRegistry;
+import de.keksuccino.konkrete.util.rendering.ui.theme.UITheme;
+import de.keksuccino.konkrete.util.rendering.ui.widget.button.ExtendedButton;
+import de.keksuccino.konkrete.util.rendering.ui.widget.editbox.EditBoxSuggestions;
+import de.keksuccino.konkrete.util.rendering.ui.widget.editbox.ExtendedEditBox;
+import de.keksuccino.konkrete.util.rendering.ui.widget.slider.v2.AbstractExtendedSlider;
+import de.keksuccino.konkrete.util.window.WindowHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+/** Centralizes scale-aware rendering and styling for Konkrete UI components. */
+@SuppressWarnings("unused")
+public class UIBase extends RenderingUtils {
+
+    /** Element border thickness in GUI pixels. */
+    public static final int ELEMENT_BORDER_THICKNESS = 1;
+    /** Width in GUI units for vertical scroll bar. */
+    public static final int VERTICAL_SCROLL_BAR_WIDTH = 5;
+    /** Height in GUI units for vertical scroll bar. */
+    public static final int VERTICAL_SCROLL_BAR_HEIGHT = 40;
+    /** Width in GUI units for horizontal scroll bar. */
+    public static final int HORIZONTAL_SCROLL_BAR_WIDTH = 40;
+    /** Height in GUI units for horizontal scroll bar. */
+    public static final int HORIZONTAL_SCROLL_BAR_HEIGHT = 5;
+    private static int uiScaleRenderingDepth = 0;
+
+    /**
+     * Marks the current rendering pass as UI scale rendering.
+     * Call {@link #stopUIScaleRendering()} after finishing the pass.
+     */
+    public static void startUIScaleRendering() {
+        uiScaleRenderingDepth++;
+    }
+
+    /**
+     * Ends a UI scale rendering pass started by {@link #startUIScaleRendering()}.
+     */
+    public static void stopUIScaleRendering() {
+        if (uiScaleRenderingDepth > 0) {
+            uiScaleRenderingDepth--;
+        }
+    }
+
+    /**
+     * @return true if rendering is currently marked as UI scale rendering.
+     */
+    public static boolean isCurrentlyRenderingAtUIScale() {
+        return uiScaleRenderingDepth > 0;
+    }
+
+    /**
+     * Retrieves the currently active UI color theme for Konkrete.
+     *
+     * @return active {@link UITheme}
+     */
+    @NotNull
+    public static UITheme getUITheme() {
+        return UIColorThemeRegistry.getActiveTheme();
+    }
+
+    /**
+     * Returns the logical UI scale used for Konkrete's UI elements, after applying
+     * automatic adjustments (4K auto scale and Unicode font enforcement).
+     */
+    public static float getUIScale() {
+        return UIScale.getUIScaleFloat();
+    }
+
+    /**
+     * Returns the current Konkrete UI scale corrected for the game's GUI scale,
+     * ready to be used directly for rendering in window pixel space.
+     */
+    public static float getFixedUIRenderScale() {
+        return calculateFixedRenderScale(getUIScale());
+    }
+
+    /**
+     * Converts a logical Konkrete UI scale to a render-ready scale by compensating
+     * for the current Minecraft GUI scale.
+     *
+     * @param logicalScale logical Konkrete UI scale (typically from user options)
+     * @return render-scale multiplier that aligns with window pixels
+     */
+    public static float calculateFixedRenderScale(float logicalScale) {
+        double guiScale = WindowHandler.getGuiScale();
+        if (guiScale == 0.0D) return logicalScale; // fallback to avoid divide-by-zero
+        return logicalScale / (float) guiScale;
+    }
+
+    /** Returns UI font. */
+    @NotNull
+    public static SmoothFont getUIFont() {
+        return Objects.requireNonNull(SmoothFonts.NOTO_SANS.get());
+    }
+
+    /** Returns whether use minecraft font for UI rendering. */
+    public static boolean shouldUseMinecraftFontForUIRendering() {
+        return UIConfiguration.get().useMinecraftFont();
+    }
+
+    private static float resolveTextRenderScale() {
+        if (isCurrentlyRenderingAtUIScale()) {
+            return UIBase.getUIScale();
+        }
+        float guiScale = (float) WindowHandler.getGuiScale();
+        if (!Float.isFinite(guiScale) || guiScale <= 0.0F) {
+            return 1.0F;
+        }
+        return guiScale;
+    }
+
+    /** Returns UI text size normal. */
+    public static float getUITextSizeNormal() {
+        if (isCurrentlyRenderingAtUIScale()) {
+            if (UIBase.getUIScale() <= 1) return SmoothFonts.DEFAULT_TEXT_SIZE + 1; // make text easier to read on small scales
+        }
+        return SmoothFonts.DEFAULT_TEXT_SIZE;
+    }
+
+    /** Returns UI text size large. */
+    public static float getUITextSizeLarge() {
+        return getUITextSizeNormal() + 5;
+    }
+
+    /** Returns UI text size small. */
+    public static float getUITextSizeSmall() {
+        return Math.max(3, getUITextSizeNormal() - 2);
+    }
+
+    /** Returns UI text height normal. */
+    public static float getUITextHeightNormal() {
+        if (shouldUseMinecraftFontForUIRendering()) return Minecraft.getInstance().font.lineHeight;
+        return getUIFont().getLineHeight(getUITextSizeNormal());
+    }
+
+    /** Returns UI text height large. */
+    public static float getUITextHeightLarge() {
+        if (shouldUseMinecraftFontForUIRendering()) return Minecraft.getInstance().font.lineHeight;
+        return getUIFont().getLineHeight(getUITextSizeLarge());
+    }
+
+    /** Returns UI text height small. */
+    public static float getUITextHeightSmall() {
+        if (shouldUseMinecraftFontForUIRendering()) return Minecraft.getInstance().font.lineHeight;
+        return getUIFont().getLineHeight(getUITextSizeSmall());
+    }
+
+    /** Returns UI text height. */
+    public static float getUITextHeight(float textSize) {
+        if (shouldUseMinecraftFontForUIRendering()) return Minecraft.getInstance().font.lineHeight;
+        return getUIFont().getLineHeight(textSize);
+    }
+
+    /** Returns UI text width normal. */
+    public static float getUITextWidthNormal(@NotNull Component text) {
+        if (shouldUseMinecraftFontForUIRendering()) return Minecraft.getInstance().font.width(text);
+        float renderScale = resolveTextRenderScale();
+        return SmoothTextRenderer.getTextWidth(getUIFont(), text, getUITextSizeNormal(), renderScale);
+    }
+
+    /** Returns UI text width large. */
+    public static float getUITextWidthLarge(@NotNull Component text) {
+        if (shouldUseMinecraftFontForUIRendering()) return Minecraft.getInstance().font.width(text);
+        float renderScale = resolveTextRenderScale();
+        return SmoothTextRenderer.getTextWidth(getUIFont(), text, getUITextSizeLarge(), renderScale);
+    }
+
+    /** Returns UI text width small. */
+    public static float getUITextWidthSmall(@NotNull Component text) {
+        if (shouldUseMinecraftFontForUIRendering()) return Minecraft.getInstance().font.width(text);
+        float renderScale = resolveTextRenderScale();
+        return SmoothTextRenderer.getTextWidth(getUIFont(), text, getUITextSizeSmall(), renderScale);
+    }
+
+    /** Returns the measured UI-text width in GUI units. */
+    public static float getUITextWidth(@NotNull String text) {
+        if (shouldUseMinecraftFontForUIRendering()) return Minecraft.getInstance().font.width(text);
+        float renderScale = resolveTextRenderScale();
+        return SmoothTextRenderer.getTextWidth(getUIFont(), text, getUITextSizeNormal(), renderScale);
+    }
+
+    /** Returns the measured UI-text width in GUI units. */
+    public static float getUITextWidth(@NotNull Component text, float textSize) {
+        if (shouldUseMinecraftFontForUIRendering()) return Minecraft.getInstance().font.width(text);
+        float renderScale = resolveTextRenderScale();
+        return SmoothTextRenderer.getTextWidth(getUIFont(), text, textSize, renderScale);
+    }
+
+    /** Returns the measured UI-text width in GUI units. */
+    public static float getUITextWidth(@NotNull String text, float textSize) {
+        if (shouldUseMinecraftFontForUIRendering()) return Minecraft.getInstance().font.width(text);
+        float renderScale = resolveTextRenderScale();
+        return SmoothTextRenderer.getTextWidth(getUIFont(), text, textSize, renderScale);
+    }
+
+    /** Returns area label vertical padding. */
+    public static float getAreaLabelVerticalPadding() {
+        return 10.0F;
+    }
+
+    /** Returns widget corner rounding radius. */
+    public static float getWidgetCornerRoundingRadius() {
+        return getUITheme().widget_corner_rounding_radius;
+    }
+
+    /**
+     * Default corner radius for UI interfaces.
+     */
+    public static float getInterfaceCornerRoundingRadius() {
+        return getUITheme().interface_corner_rounding_radius;
+    }
+
+    /**
+     * Blur strength applied to supported UI surfaces.
+     */
+    public static float getBlurRadius() {
+        return 4.0F;
+    }
+
+    /**
+     * Whether UI blur is currently enabled in Konkrete options.
+     */
+    public static boolean shouldBlur() {
+        if (!getUITheme().allow_blur) return false;
+        return UIConfiguration.get().blurEnabled();
+    }
+
+    /** Returns whether play animations. */
+    public static boolean shouldPlayAnimations() {
+        if (!getUITheme().allow_animations) return false;
+        return UIConfiguration.get().animationsEnabled();
+    }
+
+    /**
+     * Applies the default UI skin to the given widget and returns it.<br>
+     * Does not apply skins for blurred environments.
+     */
+    public static <T> T applyDefaultWidgetSkinTo(@Nullable T widget) {
+        return applyDefaultWidgetSkinTo(widget, false);
+    }
+
+    /**
+     * Applies the default UI skin to the given widget and returns it.
+     */
+    @SuppressWarnings("all")
+    public static <T> T applyDefaultWidgetSkinTo(@Nullable T widget, boolean forBlur) {
+        if (widget == null) return null;
+        if (widget instanceof ExtendedButton e) {
+            return (T) applyDefaultButtonSkinTo(e, forBlur);
+        }
+        if (widget instanceof ExtendedEditBox e) {
+            return (T) applyDefaultEditBoxSkinTo(e, forBlur);
+        }
+        if (widget instanceof EditBoxSuggestions s) {
+            return (T) applyDefaultEditBoxSuggestionsSkinTo(s);
+        }
+        if (widget instanceof AbstractExtendedSlider s) {
+            return (T) applyDefaultV2SliderSkinTo(s, forBlur);
+        }
+        return widget;
+    }
+
+    /**
+     * Applies the default Konkrete slider skin depending on blur state.
+     */
+    private static AbstractExtendedSlider applyDefaultV2SliderSkinTo(AbstractExtendedSlider slider, boolean forBlur) {
+        if (forBlur) {
+            slider.setSliderBackgroundColorNormal(UIBase.getUITheme().ui_blur_interface_widget_background_color_normal_type_1);
+            slider.setSliderBorderColorNormal(UIBase.getUITheme().ui_blur_interface_widget_border_color);
+            slider.setSliderHandleColorNormal(UIBase.getUITheme().ui_blur_interface_widget_background_color_normal_type_2);
+            slider.setSliderHandleColorHover(UIBase.getUITheme().ui_blur_interface_widget_background_color_hover_type_1);
+            slider.setSliderHandleColorInactive(UIBase.getUITheme().ui_blur_interface_widget_background_color_normal_type_2);
+            slider.setLabelColorNormal(UIBase.getUITheme().ui_blur_interface_widget_label_color_normal);
+            slider.setLabelColorInactive(UIBase.getUITheme().ui_blur_interface_widget_label_color_inactive);
+        } else {
+            slider.setSliderBackgroundColorNormal(UIBase.getUITheme().ui_interface_widget_background_color_normal_type_1);
+            slider.setSliderBorderColorNormal(UIBase.getUITheme().ui_interface_widget_border_color);
+            slider.setSliderHandleColorNormal(UIBase.getUITheme().ui_interface_widget_background_color_normal_type_2);
+            slider.setSliderHandleColorHover(UIBase.getUITheme().ui_interface_widget_background_color_hover_type_1);
+            slider.setSliderHandleColorInactive(UIBase.getUITheme().ui_interface_widget_background_color_normal_type_2);
+            slider.setLabelColorNormal(UIBase.getUITheme().ui_interface_widget_label_color_normal);
+            slider.setLabelColorInactive(UIBase.getUITheme().ui_interface_widget_label_color_inactive);
+        }
+        slider.setLabelShadow(false);
+        slider.setLabelRenderedWithUiBase(true);
+        slider.setRoundedColorBackgroundEnabled(true);
+        return slider;
+    }
+
+    /**
+     * Applies Konkrete's default suggestion list colors and shadow settings.
+     */
+    private static EditBoxSuggestions applyDefaultEditBoxSuggestionsSkinTo(EditBoxSuggestions editBoxSuggestions) {
+        editBoxSuggestions.setBackgroundColor(UIBase.getUITheme().input_field_suggestions_background_color);
+        editBoxSuggestions.setNormalTextColor(UIBase.getUITheme().input_field_suggestions_text_color_normal);
+        editBoxSuggestions.setSelectedTextColor(UIBase.getUITheme().input_field_suggestions_text_color_selected);
+        editBoxSuggestions.setTextShadow(false);
+        return editBoxSuggestions;
+    }
+
+    /**
+     * Applies the default Konkrete edit box skin, optionally using the blur palette.
+     */
+    private static ExtendedEditBox applyDefaultEditBoxSkinTo(ExtendedEditBox editBox, boolean forBlur) {
+        UITheme theme = UIBase.getUITheme();
+        if (forBlur) {
+            editBox.setTextColor(theme.ui_blur_interface_input_field_text_color_normal);
+            editBox.setTextColorUneditable(theme.ui_blur_interface_input_field_text_color_uneditable);
+            editBox.setBackgroundColor(theme.ui_blur_interface_input_field_background_color);
+            editBox.setBorderNormalColor(theme.ui_blur_interface_input_field_border_color_normal);
+            editBox.setBorderFocusedColor(theme.ui_blur_interface_input_field_border_color_focused);
+            editBox.setSuggestionTextColor(theme.ui_blur_interface_input_field_suggestion_text_color);
+        } else {
+            editBox.setTextColor(theme.ui_interface_input_field_text_color_normal);
+            editBox.setTextColorUneditable(theme.ui_interface_input_field_text_color_uneditable);
+            editBox.setBackgroundColor(theme.ui_interface_input_field_background_color);
+            editBox.setBorderNormalColor(theme.ui_interface_input_field_border_color_normal);
+            editBox.setBorderFocusedColor(theme.ui_interface_input_field_border_color_focused);
+            editBox.setSuggestionTextColor(theme.ui_interface_input_field_suggestion_text_color);
+        }
+        editBox.setTextShadow_Konkrete(false);
+        editBox.setLabelRenderedWithUiBase(true);
+        editBox.setRoundedColorBackgroundEnabled(true);
+        return editBox;
+    }
+
+    /**
+     * Applies the default Konkrete button skin, optionally using the blur palette.
+     */
+    private static ExtendedButton applyDefaultButtonSkinTo(ExtendedButton button, boolean forBlur) {
+        if (forBlur) {
+            button.setBackgroundColorNormal(UIBase.getUITheme().ui_blur_interface_widget_background_color_normal_type_1);
+            button.setBackgroundColorHover(UIBase.getUITheme().ui_blur_interface_widget_background_color_hover_type_1);
+            button.setBackgroundColorInactive(UIBase.getUITheme().ui_blur_interface_widget_background_color_normal_type_1);
+            button.setBorderColorNormal(UIBase.getUITheme().ui_blur_interface_widget_border_color);
+            button.setBorderColorHover(UIBase.getUITheme().ui_blur_interface_widget_border_color);
+            button.setBorderColorInactive(UIBase.getUITheme().ui_blur_interface_widget_border_color);
+            button.setLabelBaseColorNormal(UIBase.getUITheme().ui_blur_interface_widget_label_color_normal);
+            button.setLabelBaseColorInactive(UIBase.getUITheme().ui_blur_interface_widget_label_color_inactive);
+        } else {
+            button.setBackgroundColorNormal(UIBase.getUITheme().ui_interface_widget_background_color_normal_type_1);
+            button.setBackgroundColorHover(UIBase.getUITheme().ui_interface_widget_background_color_hover_type_1);
+            button.setBackgroundColorInactive(UIBase.getUITheme().ui_interface_widget_background_color_normal_type_1);
+            button.setBorderColorNormal(UIBase.getUITheme().ui_interface_widget_border_color);
+            button.setBorderColorHover(UIBase.getUITheme().ui_interface_widget_border_color);
+            button.setBorderColorInactive(UIBase.getUITheme().ui_interface_widget_border_color);
+            button.setLabelBaseColorNormal(UIBase.getUITheme().ui_interface_widget_label_color_normal);
+            button.setLabelBaseColorInactive(UIBase.getUITheme().ui_interface_widget_label_color_inactive);
+        }
+        button.setLabelShadowEnabled(false);
+        button.setLabelRenderedWithUiBase(true);
+        button.setRoundedColorBackgroundEnabled(true);
+        return button;
+    }
+
+    /**
+     * Draws a 4x4 dot at the given floating-point position with the provided RGB color.
+     */
+    public static void renderListingDot(GuiGraphicsExtractor graphics, float x, float y, int color) {
+        fillF(graphics, x, y, x + 4, y + 4, color);
+    }
+
+    /**
+     * Draws a 4x4 dot at the given integer position using the provided {@link Color}.
+     */
+    public static void renderListingDot(GuiGraphicsExtractor graphics, int x, int y, Color color) {
+        graphics.fill(x, y, x + 4, y + 4, color.getRGB());
+    }
+
+    /**
+     * Renders a rectangular border using a {@link DrawableColor} abstraction.
+     */
+    public static void renderBorder(GuiGraphicsExtractor graphics, int xMin, int yMin, int xMax, int yMax, int borderThickness, DrawableColor borderColor, boolean renderTop, boolean renderLeft, boolean renderRight, boolean renderBottom) {
+        renderBorder(graphics, xMin, yMin, xMax, yMax, borderThickness, borderColor.getColorInt(), renderTop, renderLeft, renderRight, renderBottom);
+    }
+
+    /**
+     * Renders a rectangular border using an AWT {@link Color}.
+     */
+    public static void renderBorder(GuiGraphicsExtractor graphics, int xMin, int yMin, int xMax, int yMax, int borderThickness, Color borderColor, boolean renderTop, boolean renderLeft, boolean renderRight, boolean renderBottom) {
+        renderBorder(graphics, xMin, yMin, xMax, yMax, borderThickness, borderColor.getRGB(), renderTop, renderLeft, renderRight, renderBottom);
+    }
+
+    /**
+     * Renders a rectangular border with configurable sides and thickness.
+     */
+    public static void renderBorder(GuiGraphicsExtractor graphics, float xMin, float yMin, float xMax, float yMax, float borderThickness, int borderColor, boolean renderTop, boolean renderLeft, boolean renderRight, boolean renderBottom) {
+        if (renderTop) {
+            RenderingUtils.fillF(graphics, xMin, yMin, xMax, yMin + borderThickness, borderColor);
+        }
+        if (renderLeft) {
+            RenderingUtils.fillF(graphics, xMin, yMin + borderThickness, xMin + borderThickness, yMax - borderThickness, borderColor);
+        }
+        if (renderRight) {
+            RenderingUtils.fillF(graphics, xMax - borderThickness, yMin + borderThickness, xMax, yMax - borderThickness, borderColor);
+        }
+        if (renderBottom) {
+            RenderingUtils.fillF(graphics, xMin, yMax - borderThickness, xMax, yMax, borderColor);
+        }
+    }
+
+    /** Renders rounded rect into the active GUI extraction pass. */
+    public static void renderRoundedRect(@NotNull GuiGraphicsExtractor graphics, float x, float y, float width, float height, float topLeftRadius, float topRightRadius, float bottomRightRadius, float bottomLeftRadius, int color) {
+        if (width <= 0.0F || height <= 0.0F) return;
+        SmoothRectangleRenderer.renderSmoothRectRoundAllCornersScaled(graphics, x, y, width, height, topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius, color, 1.0F);
+    }
+
+    /** Renders icon button hover background into the active GUI extraction pass. */
+    public static void renderIconButtonHoverBackground(@NotNull GuiGraphicsExtractor graphics, float x, float y, float width, float height) {
+        if (width <= 0.0F || height <= 0.0F) return;
+        float radius = getWidgetCornerRoundingRadius();
+        int color = shouldBlur()
+                ? getUITheme().ui_blur_icon_button_hover_color.getColorInt()
+                : getUITheme().ui_icon_button_hover_color.getColorInt();
+        SmoothRectangleRenderer.renderSmoothRectRoundAllCornersScaled(graphics, x, y, width, height, radius, radius, radius, radius, color, 1.0F);
+    }
+
+    /** Renders rounded border into the active GUI extraction pass. */
+    public static void renderRoundedBorder(@NotNull GuiGraphicsExtractor graphics, float xMin, float yMin, float xMax, float yMax, float borderThickness, float innerTopLeftRadius, float innerTopRightRadius, float innerBottomRightRadius, float innerBottomLeftRadius, int borderColor) {
+        float width = xMax - xMin;
+        float height = yMax - yMin;
+        if (width <= 0.0F || height <= 0.0F || borderThickness <= 0.0F) return;
+        SmoothRectangleRenderer.renderSmoothBorderRoundAllCornersScaled(graphics, xMin, yMin, width, height, borderThickness, innerTopLeftRadius, innerTopRightRadius, innerBottomRightRadius, innerBottomLeftRadius, borderColor, 1.0F);
+    }
+
+    /**
+     * Draws a default-colored label component at integer coordinates.
+     */
+    public static TextDimensions renderText(GuiGraphicsExtractor graphics, Component text, float x, float y) {
+        return renderText(graphics, text, x, y, getUITheme().ui_interface_widget_label_color_normal.getColorInt());
+    }
+
+    /**
+     * Draws a default-colored label string at integer coordinates.
+     */
+    public static TextDimensions renderText(GuiGraphicsExtractor graphics, String text, float x, float y) {
+        return renderText(graphics, Component.literal(text), x, y, getUITheme().ui_interface_widget_label_color_normal.getColorInt());
+    }
+
+    /**
+     * Draws a label string with the given base color.
+     */
+    public static TextDimensions renderText(GuiGraphicsExtractor graphics, String text, float x, float y, int baseColor) {
+        return renderText(graphics, Component.literal(text), x, y, baseColor);
+    }
+
+    /**
+     * Draws a label component with the given base color.
+     */
+    public static TextDimensions renderText(GuiGraphicsExtractor graphics, Component text, float x, float y, int baseColor) {
+        return renderText(graphics, text, x, y, baseColor, getUITextSizeNormal());
+    }
+
+    /** Renders text into the active GUI extraction pass. */
+    public static TextDimensions renderText(GuiGraphicsExtractor graphics, Component text, float x, float y, int baseColor, float textSize) {
+        if (shouldUseMinecraftFontForUIRendering()) {
+            int width = (int)getUITextWidthNormal(text);
+            TextDimensions dimensions = new TextDimensions(width, Minecraft.getInstance().font.lineHeight);
+            graphics.text(Minecraft.getInstance().font, text, (int)x, (int)y, baseColor, false);
+            return dimensions;
+        }
+        float renderScale = resolveTextRenderScale();
+        return SmoothTextRenderer.renderText(graphics, getUIFont(), text, x, y, baseColor, textSize, renderScale, false);
+    }
+
+    /**
+     * Line-wraps UI components at the given width using the normal UI font size.
+     */
+    @NotNull
+    public static <C extends Component> List<MutableComponent> lineWrapUIComponentsNormal(@NotNull List<C> lines, float maxWidth) {
+        if (shouldUseMinecraftFontForUIRendering()) return TextFormattingUtils.lineWrapComponents(lines, (int) maxWidth);
+        float renderScale = resolveTextRenderScale();
+        return TextFormattingUtils.lineWrapComponentsSmooth(lines, getUIFont(), getUITextSizeNormal(), maxWidth, renderScale);
+    }
+
+    /**
+     * Line-wraps a UI component at the given width using the normal UI font size.
+     */
+    @NotNull
+    public static <C extends Component> List<MutableComponent> lineWrapUIComponentsNormal(@NotNull C lines, float maxWidth) {
+        if (shouldUseMinecraftFontForUIRendering()) return TextFormattingUtils.lineWrapComponents(lines, (int) maxWidth);
+        float renderScale = resolveTextRenderScale();
+        return TextFormattingUtils.lineWrapComponentsSmooth(lines, getUIFont(), getUITextSizeNormal(), maxWidth, renderScale);
+    }
+
+    /**
+     * Line-wraps UI components at the given width using the small UI font size.
+     */
+    @NotNull
+    public static <C extends Component> List<MutableComponent> lineWrapUIComponentsSmall(@NotNull List<C> lines, float maxWidth) {
+        if (shouldUseMinecraftFontForUIRendering()) return TextFormattingUtils.lineWrapComponents(lines, (int) maxWidth);
+        float renderScale = resolveTextRenderScale();
+        return TextFormattingUtils.lineWrapComponentsSmooth(lines, getUIFont(), getUITextSizeSmall(), maxWidth, renderScale);
+    }
+
+    /**
+     * Line-wraps a UI component at the given width using the small UI font size.
+     */
+    @NotNull
+    public static <C extends Component> List<MutableComponent> lineWrapUIComponentsSmall(@NotNull C lines, float maxWidth) {
+        if (shouldUseMinecraftFontForUIRendering()) return TextFormattingUtils.lineWrapComponents(lines, (int) maxWidth);
+        float renderScale = resolveTextRenderScale();
+        return TextFormattingUtils.lineWrapComponentsSmooth(lines, getUIFont(), getUITextSizeSmall(), maxWidth, renderScale);
+    }
+
+    /**
+     * Line-wraps UI components at the given width using the large UI font size.
+     */
+    @NotNull
+    public static <C extends Component> List<MutableComponent> lineWrapUIComponentsLarge(@NotNull List<C> lines, float maxWidth) {
+        if (shouldUseMinecraftFontForUIRendering()) return TextFormattingUtils.lineWrapComponents(lines, (int) maxWidth);
+        float renderScale = resolveTextRenderScale();
+        return TextFormattingUtils.lineWrapComponentsSmooth(lines, getUIFont(), getUITextSizeLarge(), maxWidth, renderScale);
+    }
+
+    /**
+     * Line-wraps a UI component at the given width using the large UI font size.
+     */
+    @NotNull
+    public static <C extends Component> List<MutableComponent> lineWrapUIComponentsLarge(@NotNull C lines, float maxWidth) {
+        if (shouldUseMinecraftFontForUIRendering()) return TextFormattingUtils.lineWrapComponents(lines, (int) maxWidth);
+        float renderScale = resolveTextRenderScale();
+        return TextFormattingUtils.lineWrapComponentsSmooth(lines, getUIFont(), getUITextSizeLarge(), maxWidth, renderScale);
+    }
+
+}
