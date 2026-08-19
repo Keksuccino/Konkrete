@@ -340,6 +340,7 @@ public final class BuiltinPlaceholders {
     public static final SlotItemDisplayNamePlaceholder SLOT_ITEM_DISPLAY_NAME = new SlotItemDisplayNamePlaceholder();
     /** Opt-in built-in for {@code last_world_server}; registration requires a consumer-owned recent-destination provider. */
     public static final LastWorldOrServerPlaceholder LAST_WORLD_OR_SERVER = new LastWorldOrServerPlaceholder();
+
     private static final List<Placeholder> ALL;
     private static final List<Placeholder> REMOTE_BACKED = List.of(NBT_DATA_GET_SERVER, GAMERULE_VALUE);
     private static final List<Placeholder> RECENT_DESTINATION_BACKED = List.of(LAST_WORLD_OR_SERVER);
@@ -584,4 +585,5 @@ public final class BuiltinPlaceholders {
             if (PlaceholderRegistry.getPlaceholder(PlaceholderRegistry.KONKRETE_NAMESPACE + ":" + placeholder.getIdentifier()) == placeholder) PlaceholderRegistry.unregister(PlaceholderRegistry.KONKRETE_NAMESPACE, placeholder.getIdentifier());
         }
     }
+
 }
