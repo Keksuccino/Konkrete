@@ -31,7 +31,6 @@ import de.keksuccino.konkrete.util.rendering.ui.widget.editbox.ExtendedEditBox;
 import de.keksuccino.konkrete.util.resource.Resource;
 import de.keksuccino.konkrete.util.resource.ResourceSource;
 import de.keksuccino.konkrete.util.resource.ResourceSourceType;
-import de.keksuccino.konkrete.util.resource.resources.texture.afma.AfmaDecoder;
 import de.keksuccino.konkrete.util.resource.resources.texture.fma.FmaDecoder;
 import de.keksuccino.konkrete.util.resource.resources.audio.IAudio;
 import de.keksuccino.konkrete.util.resource.resources.text.IText;
@@ -622,17 +621,6 @@ public class ResourceChooserWindowBody<R extends Resource, F extends FileType<R>
             }
         }
 
-        if (fileType == FileTypes.AFMA_IMAGE) {
-            try {
-                this.validateAfmaSource_Konkrete(source);
-                return true;
-            } catch (Exception ex) {
-                LOGGER.error("[KONKRETE] Failed to validate selected AFMA resource before applying it: {}", sourceWithPrefix, ex);
-                Dialogs.openMessage(Component.translatable("konkrete.resources.chooser_screen.invalid_afma.error"), MessageDialogStyle.ERROR);
-                return false;
-            }
-        }
-
         return true;
     }
 
@@ -654,29 +642,6 @@ public class ResourceChooserWindowBody<R extends Resource, F extends FileType<R>
             }
 
             try (FmaDecoder decoder = new FmaDecoder(); InputStream in = Minecraft.getInstance().getResourceManager().open(location)) {
-                decoder.read(in);
-            }
-        }
-    }
-
-    /** Validates AFMA source against current constraints. */
-    protected void validateAfmaSource_Konkrete(@NotNull ResourceSource source) throws Exception {
-        if (source.getSourceType() == ResourceSourceType.LOCAL) {
-            File localFile = source.getValidatedLocalFile();
-            if (localFile == null) throw new IOException("The selected local AFMA source is outside its allowed roots.");
-            try (AfmaDecoder decoder = new AfmaDecoder()) {
-                decoder.read(localFile);
-            }
-            return;
-        }
-
-        if (source.getSourceType() == ResourceSourceType.LOCATION) {
-            Identifier location = Identifier.tryParse(source.getSourceWithoutPrefix());
-            if (location == null) {
-                throw new IllegalArgumentException("Failed to parse Identifier of selected AFMA resource: " + source);
-            }
-
-            try (AfmaDecoder decoder = new AfmaDecoder(); InputStream in = Minecraft.getInstance().getResourceManager().open(location)) {
                 decoder.read(in);
             }
         }
