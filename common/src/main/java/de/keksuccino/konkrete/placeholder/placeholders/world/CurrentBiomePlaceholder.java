@@ -1,0 +1,73 @@
+package de.keksuccino.konkrete.placeholder.placeholders.world;
+
+import net.minecraft.locale.Language;
+
+import de.keksuccino.konkrete.placeholder.DeserializedPlaceholderString;
+import net.minecraft.util.Util;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.biome.Biome;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Optional;
+
+/** Reads current biome state from the current vanilla world/player for {@code current_biome}. */
+public class CurrentBiomePlaceholder extends AbstractWorldPlaceholder {
+
+    /** Creates the {@code current_biome} placeholder. */
+    public CurrentBiomePlaceholder() {
+        super("current_biome");
+    }
+
+    @Override
+    public String getReplacementFor(DeserializedPlaceholderString dps) {
+        ClientLevel level = this.getLevel();
+        LocalPlayer player = this.getPlayer();
+        if (level == null || player == null) return "";
+
+        Holder<Biome> biomeHolder = level.getBiome(player.blockPosition());
+        Optional<ResourceKey<Biome>> biomeKey = biomeHolder.unwrapKey();
+        if (biomeKey.isEmpty()) return "";
+
+        Identifier biomeId = biomeKey.get().identifier();
+        String asKeyString = dps.values.get("as_key");
+        boolean asKey = true;
+        if ((asKeyString != null) && asKeyString.equalsIgnoreCase("false")) {
+            asKey = false;
+        }
+
+        if (!asKey) {
+            String translationKey = Util.makeDescriptionId("biome", biomeId);
+            if (Language.getInstance().has(translationKey)) {
+                return I18n.get(translationKey);
+            }
+        }
+
+        return biomeId.toString();
+    }
+
+    @Override
+    public @Nullable List<String> getValueNames() {
+        return List.of("as_key");
+    }
+
+    @Override
+    protected @NotNull String getLocalizationBase() {
+        return "konkrete.placeholders.world.current_biome";
+    }
+
+    @Override
+    public @NotNull DeserializedPlaceholderString getDefaultPlaceholderString() {
+        HashMap<String, String> values = new LinkedHashMap<>();
+        values.put("as_key", "true");
+        return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
+    }
+}
