@@ -17,8 +17,6 @@ import de.keksuccino.konkrete.util.file.type.types.VideoFileType;
 import de.keksuccino.konkrete.util.rendering.RenderingUtils;
 import de.keksuccino.konkrete.util.rendering.ui.UIBase;
 import de.keksuccino.konkrete.util.rendering.ui.UIConfiguration;
-import de.keksuccino.konkrete.util.rendering.ui.dialog.Dialogs;
-import de.keksuccino.konkrete.util.rendering.ui.dialog.message.MessageDialogStyle;
 import de.keksuccino.konkrete.util.rendering.ui.pipwindow.PiPCellWindowBody;
 import de.keksuccino.konkrete.util.rendering.ui.pipwindow.PiPWindow;
 import de.keksuccino.konkrete.util.rendering.ui.pipwindow.PiPWindowHandler;
@@ -29,9 +27,7 @@ import de.keksuccino.konkrete.util.rendering.ui.widget.button.CycleButton;
 import de.keksuccino.konkrete.util.rendering.ui.widget.button.ExtendedButton;
 import de.keksuccino.konkrete.util.rendering.ui.widget.editbox.ExtendedEditBox;
 import de.keksuccino.konkrete.util.resource.Resource;
-import de.keksuccino.konkrete.util.resource.ResourceSource;
 import de.keksuccino.konkrete.util.resource.ResourceSourceType;
-import de.keksuccino.konkrete.util.resource.resources.texture.fma.FmaDecoder;
 import de.keksuccino.konkrete.util.resource.resources.audio.IAudio;
 import de.keksuccino.konkrete.util.resource.resources.text.IText;
 import de.keksuccino.konkrete.util.resource.resources.texture.ITexture;
@@ -42,15 +38,12 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -605,46 +598,7 @@ public class ResourceChooserWindowBody<R extends Resource, F extends FileType<R>
 
     /** Validates source before apply against current constraints. */
     protected boolean validateSourceBeforeApply_Konkrete(@NotNull String sourceWithPrefix) {
-        if (sourceWithPrefix.isBlank()) return true;
-        if (PlaceholderParser.containsPlaceholders(sourceWithPrefix)) return true;
-
-        ResourceSource source = ResourceSource.of(sourceWithPrefix);
-        FileType<?> fileType = FileTypes.getType(source, false);
-        if (fileType == FileTypes.FMA_IMAGE) {
-            try {
-                this.validateFmaSource_Konkrete(source);
-                return true;
-            } catch (Exception ex) {
-                LOGGER.error("[KONKRETE] Failed to validate selected FMA resource before applying it: {}", sourceWithPrefix, ex);
-                Dialogs.openMessage(Component.translatable("konkrete.resources.chooser_screen.invalid_fma.error"), MessageDialogStyle.ERROR);
-                return false;
-            }
-        }
-
         return true;
-    }
-
-    /** Validates FMA source against current constraints. */
-    protected void validateFmaSource_Konkrete(@NotNull ResourceSource source) throws Exception {
-        if (source.getSourceType() == ResourceSourceType.LOCAL) {
-            File localFile = source.getValidatedLocalFile();
-            if (localFile == null) throw new IOException("The selected local FMA source is outside its allowed roots.");
-            try (FmaDecoder decoder = new FmaDecoder()) {
-                decoder.read(localFile);
-            }
-            return;
-        }
-
-        if (source.getSourceType() == ResourceSourceType.LOCATION) {
-            Identifier location = Identifier.tryParse(source.getSourceWithoutPrefix());
-            if (location == null) {
-                throw new IllegalArgumentException("Failed to parse Identifier of selected FMA resource: " + source);
-            }
-
-            try (FmaDecoder decoder = new FmaDecoder(); InputStream in = Minecraft.getInstance().getResourceManager().open(location)) {
-                decoder.read(in);
-            }
-        }
     }
 
     /** Handles window closed externally for this resource chooser window body. */

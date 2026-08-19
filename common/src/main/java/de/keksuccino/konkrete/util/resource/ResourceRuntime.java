@@ -34,7 +34,6 @@ public final class ResourceRuntime {
     private static volatile UnaryOperator<String> sourceResolver = UnaryOperator.identity();
     private static volatile Supplier<String> preLoadConfigurationReader = () -> "";
     private static volatile Consumer<String> preLoadConfigurationWriter = ignored -> {};
-    private static volatile Consumer<String> expensiveFmaWarningHandler = ignored -> {};
     private static volatile ResourceSafetyLimits safetyLimits = ResourceSafetyLimits.DEFAULT;
 
     private ResourceRuntime() {}
@@ -108,16 +107,6 @@ public final class ResourceRuntime {
     /** Persists the serialized preload registry through the configured caller hook. */
     public static void writePreLoadConfiguration(@NotNull String serialized) {
         preLoadConfigurationWriter.accept(Objects.requireNonNull(serialized, "serialized"));
-    }
-
-    /** Installs the caller-owned presentation hook for expensive legacy FMA frame warnings. */
-    public static void setExpensiveFmaWarningHandler(@NotNull Consumer<String> warningHandler) {
-        expensiveFmaWarningHandler = Objects.requireNonNull(warningHandler, "warningHandler");
-    }
-
-    /** Publishes an expensive legacy FMA warning without depending on a particular UI toolkit. */
-    public static void warnAboutExpensiveFma(@NotNull String displayName) {
-        expensiveFmaWarningHandler.accept(Objects.requireNonNull(displayName, "displayName"));
     }
 
     /** Sets the bounds enforced while decoding untrusted resource containers and images. */

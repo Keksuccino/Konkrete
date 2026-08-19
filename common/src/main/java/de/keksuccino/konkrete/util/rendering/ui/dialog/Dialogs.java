@@ -43,17 +43,6 @@ public class Dialogs {
         return openMessage(message, MessageDialogStyle.WARNING).setForceOkOnly(true);
     }
 
-    /** Opens expensive FMA warning. */
-    public static MessageDialogBody openExpensiveFmaWarning(@NotNull String fmaName) {
-        MessageDialogBody body = openWarningMessage(Component.translatable("konkrete.resources.fma.expensive.warning", Objects.requireNonNull(fmaName)));
-        PiPWindow window = body.getWindow();
-        if (window != null) {
-            window.setMinSize(514, 254);
-            window.setSize(514, 254);
-        }
-        return body;
-    }
-
     /** Opens message with callback. */
     public static MessageDialogBody openMessageWithCallback(@NotNull Component message, @NotNull MessageDialogStyle style, @NotNull Consumer<Boolean> callback) {
         MessageDialogBody body = openMessageInternal(message, style, Objects.requireNonNull(callback));
