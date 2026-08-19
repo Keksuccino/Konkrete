@@ -4,7 +4,6 @@ import de.keksuccino.konkrete.placeholder.DeserializedPlaceholderString;
 import de.keksuccino.konkrete.placeholder.Placeholder;
 import de.keksuccino.konkrete.placeholder.PlaceholderRegistry;
 import de.keksuccino.konkrete.placeholder.placeholders.client.RecentDestinationProviders;
-import de.keksuccino.konkrete.placeholder.remote.RemotePlaceholderProviders;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.ResourceLock;
@@ -19,7 +18,6 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ResourceLock("PlaceholderRegistry global state")
@@ -28,7 +26,6 @@ class BuiltinPlaceholdersTest {
     @AfterEach
     void clearRegistry() {
         PlaceholderRegistry.clear();
-        RemotePlaceholderProviders.reset();
         RecentDestinationProviders.reset();
     }
 
@@ -51,7 +48,6 @@ class BuiltinPlaceholdersTest {
         }
 
         List<Placeholder> managed = new ArrayList<>(BuiltinPlaceholders.all());
-        managed.addAll(BuiltinPlaceholders.remoteBacked());
         managed.addAll(BuiltinPlaceholders.recentDestinationBacked());
         assertEquals(declared, new HashSet<>(managed));
         assertEquals(BuiltinPlaceholders.all().size(), new HashSet<>(BuiltinPlaceholders.all()).size());
@@ -89,30 +85,23 @@ class BuiltinPlaceholdersTest {
 
     @Test
     void clientRenderAndWindowBuiltinsDeclareMainThreadConfinement() {
-        List<Placeholder> confined = List.of(BuiltinPlaceholders.LOADED_MODS, BuiltinPlaceholders.TOTAL_MODS, BuiltinPlaceholders.WORLD_LOAD_PROGRESS, BuiltinPlaceholders.MINECRAFT_OPTION_VALUE, BuiltinPlaceholders.SCREEN_WIDTH, BuiltinPlaceholders.SCREEN_HEIGHT, BuiltinPlaceholders.CURRENT_SCREEN_IDENTIFIER, BuiltinPlaceholders.MOUSE_POS_X, BuiltinPlaceholders.MOUSE_POS_Y, BuiltinPlaceholders.GUI_SCALE, BuiltinPlaceholders.NBT_DATA_GET, BuiltinPlaceholders.LAST_WORLD_OR_SERVER, BuiltinPlaceholders.GPU_INFO, BuiltinPlaceholders.OPEN_GL_VERSION, BuiltinPlaceholders.FPS, BuiltinPlaceholders.TEXT_WIDTH, BuiltinPlaceholders.CLIPBOARD_CONTENT);
+        List<Placeholder> confined = List.of(BuiltinPlaceholders.LOADED_MODS, BuiltinPlaceholders.TOTAL_MODS, BuiltinPlaceholders.WORLD_LOAD_PROGRESS, BuiltinPlaceholders.MINECRAFT_OPTION_VALUE, BuiltinPlaceholders.SCREEN_WIDTH, BuiltinPlaceholders.SCREEN_HEIGHT, BuiltinPlaceholders.CURRENT_SCREEN_IDENTIFIER, BuiltinPlaceholders.MOUSE_POS_X, BuiltinPlaceholders.MOUSE_POS_Y, BuiltinPlaceholders.GUI_SCALE, BuiltinPlaceholders.NBT_DATA_GET, BuiltinPlaceholders.NBT_DATA_GET_SERVER, BuiltinPlaceholders.GAMERULE_VALUE, BuiltinPlaceholders.LAST_WORLD_OR_SERVER, BuiltinPlaceholders.GPU_INFO, BuiltinPlaceholders.OPEN_GL_VERSION, BuiltinPlaceholders.FPS, BuiltinPlaceholders.TEXT_WIDTH, BuiltinPlaceholders.CLIPBOARD_CONTENT);
 
         for (Placeholder placeholder : confined) assertFalse(placeholder.canRunAsync(), placeholder.getIdentifier());
         assertTrue(BuiltinPlaceholders.CLICKS_PER_SECOND.canRunAsync());
     }
 
     @Test
-    void providerBackedBuiltinsRequireExplicitConfigurationAndRegistration() {
+    void packetBackedBuiltinsRegisterByDefaultWhileHistoryStillRequiresItsProvider() {
         BuiltinPlaceholders.registerAll();
-        assertSame(null, PlaceholderRegistry.getPlaceholder("nbt_data_get_server"));
-        assertSame(null, PlaceholderRegistry.getPlaceholder("gamerule_value"));
-        assertSame(null, PlaceholderRegistry.getPlaceholder("last_world_server"));
-        assertThrows(IllegalStateException.class, BuiltinPlaceholders::registerRemoteBacked);
-        assertThrows(IllegalStateException.class, BuiltinPlaceholders::registerRecentDestinationBacked);
-
-        RemotePlaceholderProviders.set((providerKey, requestKey, arguments) -> "available");
-        RecentDestinationProviders.set(() -> null);
-        BuiltinPlaceholders.registerRemoteBacked();
-        BuiltinPlaceholders.registerRemoteBacked();
-        BuiltinPlaceholders.registerRecentDestinationBacked();
-        BuiltinPlaceholders.registerRecentDestinationBacked();
-
         assertSame(BuiltinPlaceholders.NBT_DATA_GET_SERVER, PlaceholderRegistry.getPlaceholder("nbt_data_get_server"));
         assertSame(BuiltinPlaceholders.GAMERULE_VALUE, PlaceholderRegistry.getPlaceholder("gamerule_value"));
+        assertSame(null, PlaceholderRegistry.getPlaceholder("last_world_server"));
+
+        RecentDestinationProviders.set(() -> null);
+        BuiltinPlaceholders.registerRecentDestinationBacked();
+        BuiltinPlaceholders.registerRecentDestinationBacked();
+
         assertSame(BuiltinPlaceholders.LAST_WORLD_OR_SERVER, PlaceholderRegistry.getPlaceholder("last_world_server"));
     }
 

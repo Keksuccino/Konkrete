@@ -2,8 +2,9 @@ package de.keksuccino.konkrete.placeholder.placeholders.advanced;
 
 import de.keksuccino.konkrete.placeholder.DeserializedPlaceholderString;
 import de.keksuccino.konkrete.placeholder.Placeholder;
+import de.keksuccino.konkrete.networking.packets.placeholders.ServerPlaceholderRequests;
+import de.keksuccino.konkrete.networking.packets.placeholders.nbt.ServerNbtQuery;
 import de.keksuccino.konkrete.util.LocalizationUtils;
-import de.keksuccino.konkrete.placeholder.remote.RemotePlaceholderProviders;
 import net.minecraft.client.resources.language.I18n;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,18 +13,21 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-/** Provider-backed server NBT query placeholder. */
+/** Packet-backed server NBT query placeholder. */
 public final class ServerSideNbtDataGetPlaceholder extends Placeholder {
-    /** Creates the provider-backed {@code nbt_data_get_server} placeholder. */
+    /** Creates the packet-backed {@code nbt_data_get_server} placeholder. */
     public ServerSideNbtDataGetPlaceholder() {
         super("nbt_data_get_server");
     }
 
-    /** Resolves the query through the configured remote provider. */
-    @Override @Nullable public String getReplacementFor(@NotNull DeserializedPlaceholderString placeholder) {
-        String key = placeholder.placeholderString.isEmpty() ? placeholder.toString() : placeholder.placeholderString;
-        String value = RemotePlaceholderProviders.get().resolve("server_nbt", key, java.util.Map.copyOf(placeholder.values));
-        return value == null ? "" : value;
+    /** Returns the latest cached result while refreshing it through Konkrete's packet channel. */
+    @Override @NotNull public String getReplacementFor(@NotNull DeserializedPlaceholderString placeholder) {
+        return ServerPlaceholderRequests.resolveNbt(ServerNbtQuery.fromPlaceholderValues(placeholder.values));
+    }
+
+    /** Network access and the active client connection are confined to the client thread. */
+    @Override public boolean canRunAsync() {
+        return false;
     }
 
     /** Returns supported vanilla data-command source arguments. */

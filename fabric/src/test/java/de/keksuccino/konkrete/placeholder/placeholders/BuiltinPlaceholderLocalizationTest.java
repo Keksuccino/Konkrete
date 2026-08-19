@@ -342,7 +342,7 @@ class BuiltinPlaceholderLocalizationTest {
 
     @Test
     void everyLocaleContainsEveryRetainedBuiltinMetadataKey() throws IOException {
-        int managedBuiltins = BuiltinPlaceholders.all().size() + BuiltinPlaceholders.remoteBacked().size() + BuiltinPlaceholders.recentDestinationBacked().size();
+        int managedBuiltins = BuiltinPlaceholders.all().size() + BuiltinPlaceholders.recentDestinationBacked().size();
         assertEquals(160, managedBuiltins, "Update the explicit localization contract when built-in coverage changes");
 
         for (String locale : EXPECTED_LOCALES) {

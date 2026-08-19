@@ -5,6 +5,7 @@ import de.keksuccino.konkrete.networking.bridge.BridgeChunkReassembler;
 import de.keksuccino.konkrete.networking.bridge.BridgeMessageSender;
 import de.keksuccino.konkrete.networking.bridge.BridgeProtocol;
 import de.keksuccino.konkrete.networking.packets.handshake.HandshakePacket;
+import de.keksuccino.konkrete.networking.packets.placeholders.ServerPlaceholderRequests;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.Connection;
 import net.minecraft.resources.Identifier;
@@ -42,7 +43,10 @@ public final class PacketHandler {
     public static void onClientConnected(@NotNull Connection connection) {
         PacketRegistry.freezeRegistrations();
         Connection exactConnection = Objects.requireNonNull(connection);
-        if (NETWORK_CAPABILITIES.beginClientSession(exactConnection)) BRIDGE_REASSEMBLER.beginClientSession(exactConnection);
+        if (NETWORK_CAPABILITIES.beginClientSession(exactConnection)) {
+            BRIDGE_REASSEMBLER.beginClientSession(exactConnection);
+            ServerPlaceholderRequests.onClientConnected(exactConnection);
+        }
     }
 
     /**
@@ -52,7 +56,10 @@ public final class PacketHandler {
      */
     public static void onClientDisconnected(@Nullable Connection connection) {
         // A null or delayed logout must not erase a replacement connection's negotiated state.
-        if (NETWORK_CAPABILITIES.endClientSession(connection)) BRIDGE_REASSEMBLER.endSession(connection);
+        if (NETWORK_CAPABILITIES.endClientSession(connection)) {
+            BRIDGE_REASSEMBLER.endSession(connection);
+            ServerPlaceholderRequests.onClientDisconnected(connection);
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 package de.keksuccino.konkrete.placeholder.placeholders.world;
 
 import de.keksuccino.konkrete.placeholder.DeserializedPlaceholderString;
-import de.keksuccino.konkrete.placeholder.remote.RemotePlaceholderProviders;
+import de.keksuccino.konkrete.networking.packets.placeholders.ServerPlaceholderRequests;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.world.level.gamerules.GameRule;
@@ -12,16 +12,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-/** Integrated-server or provider-backed gamerule placeholder. */
+/** Integrated-server or packet-backed gamerule placeholder. */
 public final class GameruleValuePlaceholder extends AbstractWorldPlaceholder {
-    /** Creates the local-or-provider-backed {@code gamerule_value} placeholder. */
+    /** Creates the local-or-packet-backed {@code gamerule_value} placeholder. */
     public GameruleValuePlaceholder() {
         super("gamerule_value");
     }
 
-    /** Resolves a local integrated-server rule or delegates remote work. */
+    /** Resolves an integrated-server rule directly or refreshes a multiplayer value without blocking. */
     @Override @NotNull public String getReplacementFor(@NotNull DeserializedPlaceholderString placeholder) {
         String name = normalize(placeholder.values.get("name"));
         if (name == null) return "";
@@ -30,9 +29,7 @@ public final class GameruleValuePlaceholder extends AbstractWorldPlaceholder {
             String value = findRule(server.getGameRules(), name);
             return value == null ? "" : value;
         }
-        String key = placeholder.placeholderString.isEmpty() ? placeholder.toString() : placeholder.placeholderString;
-        String value = RemotePlaceholderProviders.get().resolve("gamerule", key, Map.of("name", name));
-        return value == null ? "" : value;
+        return ServerPlaceholderRequests.resolveGamerule(name);
     }
 
     /** Returns the gamerule-name argument. */

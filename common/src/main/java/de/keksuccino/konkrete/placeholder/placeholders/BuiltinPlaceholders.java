@@ -2,7 +2,6 @@ package de.keksuccino.konkrete.placeholder.placeholders;
 
 import de.keksuccino.konkrete.placeholder.Placeholder;
 import de.keksuccino.konkrete.placeholder.PlaceholderRegistry;
-import de.keksuccino.konkrete.placeholder.remote.RemotePlaceholderProviders;
 import de.keksuccino.konkrete.placeholder.placeholders.advanced.*;
 import de.keksuccino.konkrete.placeholder.placeholders.client.*;
 import de.keksuccino.konkrete.placeholder.placeholders.gui.*;
@@ -82,7 +81,7 @@ public final class BuiltinPlaceholders {
     public static final JsonPlaceholder JSON = new JsonPlaceholder();
     /** Shared built-in instance for the serialized {@code nbt_data_get} identifier. */
     public static final ClientSideNbtDataGetPlaceholder NBT_DATA_GET = new ClientSideNbtDataGetPlaceholder();
-    /** Opt-in built-in for {@code nbt_data_get_server}; registration requires a consumer-owned multiplayer transport. */
+    /** Shared packet-backed built-in for the serialized {@code nbt_data_get_server} identifier. */
     public static final ServerSideNbtDataGetPlaceholder NBT_DATA_GET_SERVER = new ServerSideNbtDataGetPlaceholder();
     /** Shared built-in instance for the serialized {@code local} identifier. */
     public static final LocalizationPlaceholder LOCALIZATION = new LocalizationPlaceholder();
@@ -148,7 +147,7 @@ public final class BuiltinPlaceholders {
     public static final CurrentPlayerHealthPlaceholder CURRENT_PLAYER_HEALTH = new CurrentPlayerHealthPlaceholder();
     /** Shared built-in instance for the serialized {@code game_time} identifier. */
     public static final GameTimePlaceholder GAME_TIME = new GameTimePlaceholder();
-    /** Opt-in built-in for {@code gamerule_value}; registration requires a consumer-owned multiplayer transport. */
+    /** Shared packet-backed built-in for the serialized {@code gamerule_value} identifier. */
     public static final GameruleValuePlaceholder GAMERULE_VALUE = new GameruleValuePlaceholder();
     /** Shared built-in instance for the serialized {@code slot_item} identifier. */
     public static final SlotItemPlaceholder SLOT_ITEM = new SlotItemPlaceholder();
@@ -342,7 +341,6 @@ public final class BuiltinPlaceholders {
     public static final LastWorldOrServerPlaceholder LAST_WORLD_OR_SERVER = new LastWorldOrServerPlaceholder();
 
     private static final List<Placeholder> ALL;
-    private static final List<Placeholder> REMOTE_BACKED = List.of(NBT_DATA_GET_SERVER, GAMERULE_VALUE);
     private static final List<Placeholder> RECENT_DESTINATION_BACKED = List.of(LAST_WORLD_OR_SERVER);
     private static final List<Placeholder> MANAGED;
 
@@ -396,6 +394,7 @@ public final class BuiltinPlaceholders {
         placeholders.add(CURRENT_MOUNT_HEALTH_PERCENTAGE);
         placeholders.add(CURRENT_MOUNT_JUMP_METER);
         placeholders.add(GAME_TIME);
+        placeholders.add(GAMERULE_VALUE);
         placeholders.add(SLOT_ITEM);
         placeholders.add(INVENTORY_ITEM_COUNT);
         placeholders.add(SLOT_ITEM_COUNT);
@@ -496,6 +495,7 @@ public final class BuiltinPlaceholders {
         placeholders.add(SWITCH_CASE);
         placeholders.add(REPLACE_TEXT);
         placeholders.add(NBT_DATA_GET);
+        placeholders.add(NBT_DATA_GET_SERVER);
         placeholders.add(FILE_TEXT);
         placeholders.add(FILE_SIZE);
         placeholders.add(FILE_MD5);
@@ -522,7 +522,6 @@ public final class BuiltinPlaceholders {
         placeholders.add(CLIPBOARD_CONTENT);
         ALL = List.copyOf(placeholders);
         List<Placeholder> managed = new ArrayList<>(ALL);
-        managed.addAll(REMOTE_BACKED);
         managed.addAll(RECENT_DESTINATION_BACKED);
         MANAGED = List.copyOf(managed);
     }
@@ -535,11 +534,6 @@ public final class BuiltinPlaceholders {
         return ALL;
     }
 
-    /** Returns built-ins that require a consumer-owned multiplayer transport and are excluded from {@link #registerAll()}. */
-    public static List<Placeholder> remoteBacked() {
-        return REMOTE_BACKED;
-    }
-
     /** Returns the recent-destination built-in, which is excluded from defaults until a history provider is installed. */
     public static List<Placeholder> recentDestinationBacked() {
         return RECENT_DESTINATION_BACKED;
@@ -548,12 +542,6 @@ public final class BuiltinPlaceholders {
     /** Idempotently registers every retained built-in under the {@code konkrete} namespace. */
     public static synchronized void registerAll() {
         register(ALL);
-    }
-
-    /** Registers server-NBT and multiplayer-gamerule placeholders after a consumer installs its own transport. */
-    public static synchronized void registerRemoteBacked() {
-        if (!RemotePlaceholderProviders.isConfigured()) throw new IllegalStateException("A RemotePlaceholderProvider must be configured before remote-backed built-ins are registered");
-        register(REMOTE_BACKED);
     }
 
     /** Registers recent world/server history after a consumer installs its own history provider. */
