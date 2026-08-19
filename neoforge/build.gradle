@@ -14,6 +14,10 @@ base {
 configurations {
     shadow
     implementation.extendsFrom(shadow)
+    rinkuClientRuntime {
+        canBeConsumed = false
+        canBeResolved = true
+    }
 }
 
 // Automatically enable neoforge AccessTransformers if the file exists
@@ -42,6 +46,9 @@ tasks.withType(JavaExec).configureEach {
     if (name == "runClient" || name == "runServer") {
         standardInput = System.in
     }
+    if (name == "runClient") {
+        classpath += configurations.rinkuClientRuntime
+    }
 }
 
 //Temporarily disabled tests so compiling doesn't fail until I figure out why tf neoforge:test fails
@@ -50,6 +57,8 @@ test {
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+jarJar.enable()
 
 //subsystems {
 //    parchment {
@@ -70,16 +79,18 @@ dependencies {
     shadow("net.minidev:json-smart:2.6.0") {
         exclude group: "org.ow2.asm", module: "asm"
     }
-    compileOnly project(":common")
-}
-
-// Exclude Fabric Loader from NeoForge
-configurations {
-    runtimeClasspath    { exclude group: 'net.fabricmc', module: 'fabric-loader' }
-    developmentRuntimeClasspath {
-        // Gradle 8 names used by ForgeGradle 6
-        exclude group: 'net.fabricmc', module: 'fabric-loader'
+    implementation(jarJar("com.github.Keksuccino:japng:${japng_version}")) {
+        jarJar.ranged(it, "[${japng_version},)")
     }
+    implementation(jarJar("com.github.rtyley:animated-gif-lib-for-java:animated-gif-lib-${animated_gif_lib_version}")) {
+        jarJar.ranged(it, "[${animated_gif_lib_version},)")
+    }
+    implementation "maven.modrinth:melody:${melody_artifact_version}-neoforge"
+    compileOnly "de.keksuccino:rinku-neoforge:${rinku_artifact_version}"
+    rinkuClientRuntime "de.keksuccino:rinku-neoforge:${rinku_artifact_version}"
+    compileOnly "maven.modrinth:watermedia:${watermedia_version}"
+    compileOnly "maven.modrinth:watermedia-binaries:${watermedia_binaries_version}"
+    compileOnly project(":common")
 }
 
 // Exclude Fabric Loader from NeoForge
@@ -111,6 +122,14 @@ tasks.named("shadowJar") {
     relocate 'com.jayway.jsonpath', 'de.keksuccino.com.jayway.jsonpath'
     relocate 'net.minidev', 'de.keksuccino.net.minidev'
     relocate 'net.objecthunter.exp4j', 'de.keksuccino.net.objecthunter.exp4j'
+
+    // NeoGradle creates jarJar payloads in a separate archive. Copy only that payload into the shaded distributable
+    // so exp4j/jsonpath stay relocated while the animated-image libraries remain loader-managed nested libraries.
+    def jarJarTask = tasks.named("jarJar")
+    dependsOn jarJarTask
+    from({ zipTree(jarJarTask.get().archiveFile.get().asFile) }) {
+        include 'META-INF/jarjar/**'
+    }
 }
 
 tasks.named("assemble") {
