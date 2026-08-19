@@ -1,0 +1,245 @@
+package de.keksuccino.konkrete.util.resource.resources.text;
+
+import de.keksuccino.konkrete.util.WebUtils;
+import de.keksuccino.konkrete.util.file.FileUtils;
+import de.keksuccino.konkrete.util.input.TextValidators;
+import de.keksuccino.konkrete.util.threading.KonkreteThreads;
+import de.keksuccino.konkrete.util.threading.MainThreadTaskExecutor;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.Identifier;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Objects;
+
+/** Loads immutable text lines from local, web, or resource-pack sources. */
+public class PlainText implements IText {
+
+    private static final Logger LOGGER = LogManager.getLogger();
+
+    /** Holds the lines collection used by this text resource instance. */
+    @Nullable
+    protected volatile List<String> lines = null;
+    /** Original resource-pack identifier, or null when another source kind is used. */
+    protected Identifier sourceLocation;
+    /** Holds the sourceFile handle whose lifecycle follows this text resource instance. */
+    protected File sourceFile;
+    /** Original web URL, or null when another source kind is used. */
+    protected String sourceURL;
+    /** Whether decoded currently applies to this text resource instance. */
+    protected volatile boolean decoded = false;
+    /** Whether loading completed currently applies to this text resource instance. */
+    protected volatile boolean loadingCompleted = false;
+    /** Whether loading failed currently applies to this text resource instance. */
+    protected volatile boolean loadingFailed = false;
+    /** Whether closed currently applies to this text resource instance. */
+    protected volatile boolean closed = false;
+
+    /** Creates the location text resource variant. */
+    @NotNull
+    public static PlainText location(@NotNull Identifier location) {
+        return location(location, null);
+    }
+
+    /** Creates the location text resource variant. */
+    @NotNull
+    public static PlainText location(@NotNull Identifier location, @Nullable PlainText writeTo) {
+
+        Objects.requireNonNull(location);
+        PlainText text = (writeTo != null) ? writeTo : new PlainText();
+
+        text.sourceLocation = location;
+
+        try {
+            of(Minecraft.getInstance().getResourceManager().open(location), location.toString(), text);
+        } catch (Exception ex) {
+            text.loadingFailed = true;
+            LOGGER.error("[KONKRETE] Failed to read text content from Identifier: " + location, ex);
+        }
+
+        return text;
+
+    }
+
+    /** Creates the local text resource variant. */
+    @NotNull
+    public static PlainText local(@NotNull File textFile) {
+        return local(textFile, null);
+    }
+
+    /** Creates the local text resource variant. */
+    @NotNull
+    public static PlainText local(@NotNull File textFile, @Nullable PlainText writeTo) {
+
+        Objects.requireNonNull(textFile);
+        PlainText text = (writeTo != null) ? writeTo : new PlainText();
+
+        text.sourceFile = textFile;
+
+        if (!textFile.isFile()) {
+            text.loadingFailed = true;
+            LOGGER.error("[KONKRETE] Failed to read text content from file! File not found: " + textFile.getPath());
+            return text;
+        }
+
+        try {
+            of(new FileInputStream(textFile), textFile.getPath(), text);
+        } catch (Exception ex) {
+            text.loadingFailed = true;
+            LOGGER.error("[KONKRETE] Failed to read text content from file: " + textFile.getPath(), ex);
+        }
+
+        return text;
+
+    }
+
+    /** Creates the web text resource variant. */
+    @NotNull
+    public static PlainText web(@NotNull String textFileUrl) {
+        return web(textFileUrl, null);
+    }
+
+    /** Creates the web text resource variant. */
+    @NotNull
+    public static PlainText web(@NotNull String textFileUrl, @Nullable PlainText writeTo) {
+
+        Objects.requireNonNull(textFileUrl);
+        PlainText text = (writeTo != null) ? writeTo : new PlainText();
+
+        text.sourceURL = textFileUrl;
+
+        if (!TextValidators.BASIC_URL_TEXT_VALIDATOR.get(textFileUrl)) {
+            text.loadingFailed = true;
+            LOGGER.error("[KONKRETE] Failed to read text content from URL! Invalid URL: " + textFileUrl);
+            return text;
+        }
+
+        //Get raw GitHub file
+        if (textFileUrl.toLowerCase().contains("/blob/") && (textFileUrl.toLowerCase().startsWith("http://github.com/")
+                || textFileUrl.toLowerCase().startsWith("https://github.com/")|| textFileUrl.toLowerCase().startsWith("http://www.github.com/")
+                || textFileUrl.toLowerCase().startsWith("https://www.github.com/"))) {
+            String path = textFileUrl.replace("//", "").split("/", 2)[1].replace("/blob/", "/");
+            textFileUrl = "https://raw.githubusercontent.com/" + path;
+        }
+        //Get raw Pastebin file
+        if (!textFileUrl.toLowerCase().contains("/raw/") && (textFileUrl.toLowerCase().startsWith("http://pastebin.com/")
+                || textFileUrl.toLowerCase().startsWith("https://pastebin.com/")|| textFileUrl.toLowerCase().startsWith("http://www.pastebin.com/")
+                || textFileUrl.toLowerCase().startsWith("https://www.pastebin.com/"))) {
+            String path = textFileUrl.replace("//", "").split("/", 2)[1];
+            textFileUrl = "https://pastebin.com/raw/" + path;
+        }
+
+        String url = textFileUrl;
+        KonkreteThreads.startDaemonThread(() -> {
+            try {
+                InputStream in = WebUtils.openResourceStream(url, WebUtils.WebResourceType.TEXT);
+                if (in != null) {
+                    of(in, url, text);
+                } else {
+                    text.loadingFailed = true;
+                    LOGGER.error("[KONKRETE] Failed to read text content from URL! InputStream was NULL: " + url);
+                }
+            } catch (Exception ex) {
+                text.loadingFailed = true;
+                LOGGER.error("[KONKRETE] Failed to read text content from URL: " + url, ex);
+            }
+        }, "PlainText-WebLoader");
+
+        return text;
+
+    }
+
+    /**
+     * Closes the passed {@link InputStream}!
+     */
+    @NotNull
+    public static PlainText of(@NotNull InputStream in) {
+        return of(in, null, null);
+    }
+
+    /**
+     * Closes the passed {@link InputStream}!
+     */
+    @NotNull
+    public static PlainText of(@NotNull InputStream in, @Nullable String textSourceName, @Nullable PlainText writeTo) {
+
+        Objects.requireNonNull(in);
+        PlainText text = (writeTo != null) ? writeTo : new PlainText();
+
+        if (textSourceName == null) textSourceName = "[Generic InputStream source]";
+
+        String name = textSourceName;
+        KonkreteThreads.startDaemonThread(() -> {
+            try (in) {
+                text.lines = FileUtils.readTextLinesFrom(in);
+                text.decoded = true;
+                text.loadingCompleted = true;
+                if (text.closed) MainThreadTaskExecutor.executeInMainThread(text::close, MainThreadTaskExecutor.ExecuteTiming.PRE_CLIENT_TICK);
+            } catch (Exception ex) {
+                text.loadingFailed = true;
+                LOGGER.error("[KONKRETE] Failed to read text context via InputStream: " + name, ex);
+            }
+        }, "PlainText-Decoder");
+
+        return text;
+
+    }
+
+    /** Initializes a new {@code PlainText} for text resource use. */
+    protected PlainText() {
+    }
+
+    /** Returns the text lines, or {@code null} when it is not available. */
+    @Override
+    public @Nullable List<String> getTextLines() {
+        return this.lines;
+    }
+
+    /** Opens the resource for the text resource. */
+    @Override
+    public @Nullable InputStream open() throws IOException {
+        if (this.sourceURL != null) return WebUtils.openResourceStream(this.sourceURL, WebUtils.WebResourceType.TEXT);
+        if (this.sourceFile != null) return new FileInputStream(this.sourceFile);
+        if (this.sourceLocation != null) return Minecraft.getInstance().getResourceManager().open(this.sourceLocation);
+        return null;
+    }
+
+    /** Returns whether ready. */
+    @Override
+    public boolean isReady() {
+        return this.decoded;
+    }
+
+    /** Returns whether loading completed. */
+    @Override
+    public boolean isLoadingCompleted() {
+        return !this.closed && !this.loadingFailed && this.loadingCompleted;
+    }
+
+    /** Returns whether loading failed. */
+    @Override
+    public boolean isLoadingFailed() {
+        return this.loadingFailed;
+    }
+
+    /** Returns whether closed. */
+    @Override
+    public boolean isClosed() {
+        return this.closed;
+    }
+
+    /** Marks this resource closed and discards its decoded text; repeated calls are harmless. */
+    @Override
+    public void close() {
+        this.closed = true;
+        this.decoded = false;
+        this.lines = null;
+    }
+
+}
