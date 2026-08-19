@@ -1,9 +1,4 @@
 
-plugins {
-    // Required for NeoGradle
-    id "org.jetbrains.gradle.plugin.idea-ext" version "1.1.7"
-}
-
 subprojects {
 
     apply plugin: 'java'
@@ -82,9 +77,7 @@ subprojects {
                 "fabric_short_version": fabric_short_version,
                 "fabric_loader_version": fabric_loader_version,
                 "forge_version": forge_version,
-                "forge_loader_version": forge_loader_version,
-                "neoforge_version": neoforge_version,
-                "neoforge_loader_version": neoforge_loader_version
+                "forge_loader_version": forge_loader_version
         ]
         filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', '*.mixins.json']) {
             expand expandProps
