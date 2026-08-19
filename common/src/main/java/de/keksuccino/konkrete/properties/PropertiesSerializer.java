@@ -5,11 +5,12 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import de.keksuccino.konkrete.file.FileUtils;
+import de.keksuccino.konkrete.util.file.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
+/** Reads and writes Konkrete's section-based properties format. */
 @SuppressWarnings("all")
 public class PropertiesSerializer {
 
@@ -72,6 +73,10 @@ public class PropertiesSerializer {
 		return null;
 	}
 	
+	/**
+	 * Replaces a file with the serialized properties set.
+	 * Invalid paths and write failures are reported through logging and are not propagated to the caller.
+	 */
 	public static void writeProperties(@NotNull PropertiesSet propertiesSet, @NotNull String filePath) {
 		try {
 			List<PropertiesSection> l = propertiesSet.getProperties();
@@ -97,7 +102,7 @@ public class PropertiesSerializer {
 				LOGGER.error("[KONKRETE] Failed to write properties! Given path is not a file: " + filePath, new FileNotFoundException());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("[KONKRETE] Failed to write properties file: " + filePath, e);
 		}
 	}
 

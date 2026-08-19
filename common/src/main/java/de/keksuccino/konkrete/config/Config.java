@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import de.keksuccino.konkrete.config.ConfigEntry.EntryType;
 import de.keksuccino.konkrete.config.exceptions.InvalidValueException;
-import de.keksuccino.konkrete.math.MathUtils;
+import de.keksuccino.konkrete.util.MathUtils;
 
 /**
  * Simple config system to store values.<br>
@@ -36,6 +36,7 @@ public class Config {
 	private String name = null;
 	private List<String> categorys = new ArrayList<>();
 	
+	/** Opens the UTF-8 configuration at {@code path} and loads every valid stored entry. */
 	public Config(@NotNull String path) {
 		this.path = Objects.requireNonNull(path);
 		this.config = new File(path);
@@ -148,6 +149,7 @@ public class Config {
 		return this.getCategories();
 	}
 
+	/** Returns the optional header name written by {@link #syncConfig()}. */
 	@Nullable
 	public String getConfigName() {
 		return this.name;
@@ -274,6 +276,7 @@ public class Config {
 		return null;
 	}
 
+	/** Returns a mutable snapshot of entries assigned to the non-null category. */
 	@NotNull
 	public List<ConfigEntry> getEntriesForCategory(@NotNull String category) {
 		List<ConfigEntry> l = new ArrayList<>();
@@ -471,6 +474,7 @@ public class Config {
         return new ArrayList<>(values.values());
 	}
 
+	/** Sets and immediately persists a string entry; missing names are ignored and wrong types are rejected. */
 	public void setValue(@NotNull String name, @NotNull String value) throws InvalidValueException {
 		if (!this.valueExists(name)) {
 			return;
@@ -501,6 +505,7 @@ public class Config {
 		}
 	}
 
+	/** Sets and immediately persists an integer entry; missing names are ignored and wrong types are rejected. */
 	public void setValue(@NotNull String name, int value) throws InvalidValueException {
 		if (!this.valueExists(name)) {
 			return;
@@ -531,6 +536,7 @@ public class Config {
 		}
 	}
 
+	/** Sets and immediately persists a boolean entry; missing names are ignored and wrong types are rejected. */
 	public void setValue(@NotNull String name, boolean value) throws InvalidValueException {
 		if (!this.valueExists(name)) {
 			return;
@@ -561,6 +567,7 @@ public class Config {
 		}
 	}
 
+	/** Sets and immediately persists a float entry; missing names are ignored and wrong types are rejected. */
 	public void setValue(@NotNull String name, float value) throws InvalidValueException {
 		if (!this.valueExists(name)) {
 			return;
@@ -591,6 +598,7 @@ public class Config {
 		}
 	}
 
+	/** Sets and immediately persists a double entry; missing names are ignored and wrong types are rejected. */
 	public void setValue(@NotNull String name, double value) throws InvalidValueException {
 		if (!this.valueExists(name)) {
 			return;
@@ -621,6 +629,7 @@ public class Config {
 		}
 	}
 
+	/** Sets and immediately persists a long entry; missing names are ignored and wrong types are rejected. */
 	public void setValue(@NotNull String name, long value) throws InvalidValueException {
 		if (!this.valueExists(name)) {
 			return;
@@ -644,6 +653,7 @@ public class Config {
 		}
 	}
 
+	/** Returns a boolean entry, rejecting missing, malformed, or differently typed values. */
 	@NotNull
 	public Boolean getBoolean(@NotNull String name) throws InvalidValueException {
 		if (!this.valueExists(name)) {
@@ -663,6 +673,7 @@ public class Config {
 		}
 	}
 
+	/** Returns a string entry, rejecting missing or differently typed values. */
 	@NotNull
 	public String getString(@NotNull String name) throws InvalidValueException {
 		if (!this.valueExists(name)) {
@@ -676,6 +687,7 @@ public class Config {
 		}
 	}
 
+	/** Returns an integer entry, rejecting missing, malformed, or differently typed values. */
 	@NotNull
 	public Integer getInteger(@NotNull String name) throws InvalidValueException {
 		if (!this.valueExists(name)) {
@@ -693,6 +705,7 @@ public class Config {
 		}
 	}
 
+	/** Returns a double entry, rejecting missing, malformed, or differently typed values. */
 	@NotNull
 	public Double getDouble(@NotNull String name) throws InvalidValueException {
 		if (!this.valueExists(name)) {
@@ -710,6 +723,7 @@ public class Config {
 		}
 	}
 
+	/** Returns a long entry, rejecting missing, malformed, or differently typed values. */
 	@NotNull
 	public Long getLong(@NotNull String name) throws InvalidValueException {
 		if (!this.valueExists(name)) {
@@ -727,6 +741,7 @@ public class Config {
 		}
 	}
 
+	/** Returns a float entry, rejecting missing, malformed, or differently typed values. */
 	@NotNull
 	public Float getFloat(@NotNull String name) throws InvalidValueException {
 		if (!this.valueExists(name)) {
@@ -744,6 +759,7 @@ public class Config {
 		}
 	}
 	
+	/** Moves an existing entry to a non-null category and immediately persists the config. */
 	public void setCategory(@NotNull String valueName, @NotNull String category) throws InvalidValueException {
 		if (this.valueExists(valueName)) {
 			ConfigEntry e = this.getAsEntry(valueName);
@@ -757,6 +773,7 @@ public class Config {
 		}
 	}
 	
+	/** Sets or clears an existing entry's description and immediately persists the config. */
 	public void setDescription(@NotNull String valueName, @Nullable String description) throws InvalidValueException {
 		if (this.valueExists(valueName)) {
 			ConfigEntry e = this.getAsEntry(valueName);
@@ -767,6 +784,7 @@ public class Config {
 		}
 	}
 	
+	/** Returns whether an entry with the non-null name is currently loaded. */
 	public boolean valueExists(@NotNull String name) {
 		return this.values.containsKey(Objects.requireNonNull(name));
 	}
@@ -789,6 +807,9 @@ public class Config {
 		this.syncConfig();
 	}
 	
+	/**
+	 * Reads an entry using the runtime type of {@code defaultValue}; missing, invalid, and unsupported values return the default.
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> T getOrDefault(String valueName, T defaultValue) {
 		try {

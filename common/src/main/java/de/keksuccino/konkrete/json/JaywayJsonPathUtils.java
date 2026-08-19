@@ -2,15 +2,20 @@ package de.keksuccino.konkrete.json;
 
 import com.google.gson.JsonArray;
 import com.jayway.jsonpath.JsonPath;
-import de.keksuccino.konkrete.file.FileUtils;
-import de.keksuccino.konkrete.web.WebUtils;
+import de.keksuccino.konkrete.util.WebUtils;
+import de.keksuccino.konkrete.util.file.FileUtils;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Evaluates Jayway JSONPath expressions and flattens results to strings. */
 public class JaywayJsonPathUtils {
 
+    /**
+     * Evaluates {@code jsonParsingPath} against JSON text and returns scalar/array values in encounter order.
+     * Parse, path, and conversion failures are printed and produce an empty or partially collected mutable list.
+     */
     public static List<String> getJsonValueByPath(String jsonString, String jsonParsingPath) {
         List<String> l = new ArrayList<>();
         try {
@@ -38,6 +43,7 @@ public class JaywayJsonPathUtils {
         return l;
     }
 
+    /** Reads an existing JSON file as UTF-8 lines and delegates evaluation; invalid files produce an empty list. */
     public static List<String> getJsonValueByPath(File jsonFile, String jsonParsingPath) {
         if ((jsonFile != null) && jsonFile.isFile()) {
             List<String> lines = FileUtils.getFileLines(jsonFile);
@@ -50,6 +56,7 @@ public class JaywayJsonPathUtils {
         return new ArrayList<>();
     }
 
+    /** Fetches a valid web URL and delegates evaluation; invalid URLs and fetch failures produce an empty list. */
     public static List<String> getJsonValueByPath(URL jsonWebURL, String jsonParsingPath) {
         if (jsonWebURL != null) {
             try {
