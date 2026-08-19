@@ -1,0 +1,21 @@
+{
+  "config_version": 1,
+  "projects": {
+    "konkrete": {
+      "changelog_url": "https://github.com/Keksuccino/Konkrete/blob/main/changelog.txt",
+      "curseforge_project_id": "410295",
+      "dependencies": {
+        "fabric": [
+          "fabric-api"
+        ],
+        "neoforge": []
+      },
+      "mandatory_environments": [],
+      "modrinth_project_id": "J81TRJWm",
+      "supported_environments": [
+        "client",
+        "server"
+      ]
+    }
+  }
+}
