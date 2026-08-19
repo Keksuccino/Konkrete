@@ -14,7 +14,7 @@ public class Konkrete {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public static final String MOD_ID = "konkrete";
-	public static final String VERSION = "1.9.2";
+	public static final String VERSION = "1.9.3";
 	public static final String MOD_LOADER = Services.PLATFORM.getPlatformName();
 
 	@Deprecated(forRemoval = true)
@@ -51,12 +51,12 @@ public class Konkrete {
 				isOptifineLoaded = true;
 			}
 			catch (ClassNotFoundException ignore) {}
-		
+
 		}
 
 		//Nothing server-side needs to get initialized here
 		LOGGER.info("[KONKRETE] Server-side modules initialized and ready to use!");
-    	
+
     }
 
 	public static void onGameInitCompleted() {

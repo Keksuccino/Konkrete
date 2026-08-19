@@ -159,7 +159,7 @@ public class ConfigScreen extends Screen {
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics guiGraphics, int i, int j, float f) {
+	public void renderBackground(GuiGraphics guiGraphics) {
 	}
 
 	public void setValueDescription(String valueName, String desc) {
