@@ -7,6 +7,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.util.Objects;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -16,16 +19,16 @@ final class InternetAvailabilityMonitor {
 
     private final Object lifecycleLock = new Object();
     private final InternetAvailabilityProbe probe;
-    private final Supplier<? extends FixedDelayScheduler> schedulerFactory;
+    private final Supplier<? extends ScheduledExecutorService> schedulerFactory;
     private final Duration refreshDelay;
     private final Consumer<Boolean> availabilityPublisher;
 
     private Lifecycle lifecycle = Lifecycle.NEW;
     private long generation;
-    private @Nullable FixedDelayScheduler scheduler;
-    private @Nullable FixedDelayScheduler.ScheduledTask scheduledTask;
+    private @Nullable ScheduledExecutorService scheduler;
+    private @Nullable ScheduledFuture<?> scheduledTask;
 
-    InternetAvailabilityMonitor(@NotNull InternetAvailabilityProbe probe, @NotNull Supplier<? extends FixedDelayScheduler> schedulerFactory, @NotNull Duration refreshDelay, @NotNull Consumer<Boolean> availabilityPublisher) {
+    InternetAvailabilityMonitor(@NotNull InternetAvailabilityProbe probe, @NotNull Supplier<? extends ScheduledExecutorService> schedulerFactory, @NotNull Duration refreshDelay, @NotNull Consumer<Boolean> availabilityPublisher) {
         this.probe = Objects.requireNonNull(probe, "probe");
         this.schedulerFactory = Objects.requireNonNull(schedulerFactory, "schedulerFactory");
         this.refreshDelay = requirePositive(refreshDelay);
@@ -40,13 +43,13 @@ final class InternetAvailabilityMonitor {
             scheduledGeneration = ++this.generation;
         }
 
-        @Nullable FixedDelayScheduler createdScheduler = null;
-        @Nullable FixedDelayScheduler.ScheduledTask createdTask = null;
+        @Nullable ScheduledExecutorService createdScheduler = null;
+        @Nullable ScheduledFuture<?> createdTask = null;
         @Nullable RuntimeException initializationFailure = null;
         boolean closeProbeAfterFailure = false;
         try {
             createdScheduler = Objects.requireNonNull(this.schedulerFactory.get(), "schedulerFactory result");
-            if (this.isActive(scheduledGeneration)) createdTask = Objects.requireNonNull(createdScheduler.scheduleWithFixedDelay(() -> this.refresh(scheduledGeneration), Duration.ZERO, this.refreshDelay), "scheduled task");
+            if (this.isActive(scheduledGeneration)) createdTask = Objects.requireNonNull(createdScheduler.scheduleWithFixedDelay(() -> this.refresh(scheduledGeneration), 0L, this.refreshDelay.toNanos(), TimeUnit.NANOSECONDS), "scheduled task");
         } catch (RuntimeException ex) {
             initializationFailure = ex;
         }
@@ -76,8 +79,8 @@ final class InternetAvailabilityMonitor {
     }
 
     void shutdown() {
-        @Nullable FixedDelayScheduler schedulerToShutdown;
-        @Nullable FixedDelayScheduler.ScheduledTask taskToCancel;
+        @Nullable ScheduledExecutorService schedulerToShutdown;
+        @Nullable ScheduledFuture<?> taskToCancel;
         synchronized (this.lifecycleLock) {
             if (this.lifecycle == Lifecycle.STOPPED) return;
             this.lifecycle = Lifecycle.STOPPED;
@@ -131,7 +134,7 @@ final class InternetAvailabilityMonitor {
         }
     }
 
-    private static void cancelTask(@NotNull FixedDelayScheduler.ScheduledTask task) {
+    private static void cancelTask(@NotNull ScheduledFuture<?> task) {
         try {
             task.cancel(true);
         } catch (Exception ex) {
@@ -139,7 +142,7 @@ final class InternetAvailabilityMonitor {
         }
     }
 
-    private static void shutdownScheduler(@Nullable FixedDelayScheduler scheduler) {
+    private static void shutdownScheduler(@Nullable ScheduledExecutorService scheduler) {
         if (scheduler == null) return;
         try {
             scheduler.shutdownNow();

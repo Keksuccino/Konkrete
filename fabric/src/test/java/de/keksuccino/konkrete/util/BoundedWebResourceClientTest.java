@@ -21,11 +21,15 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -484,13 +488,13 @@ class BoundedWebResourceClientTest {
         }
     }
 
-    private static BoundedWebResourceClient client(BoundedWebResourceClient.ConnectionFactory connectionFactory, DeadlineScheduler scheduler, LongSupplier nanoTimeSource) {
-        return new BoundedWebResourceClient(connectionFactory, scheduler, nanoTimeSource);
+    private static BoundedWebResourceClient client(BoundedWebResourceClient.ConnectionFactory connectionFactory, ScheduledExecutorService deadlineExecutor, LongSupplier nanoTimeSource) {
+        return new BoundedWebResourceClient(connectionFactory, deadlineExecutor, nanoTimeSource);
     }
 
-    private static BoundedWebResourceClient queuedClient(DeadlineScheduler scheduler, FakeHttpURLConnection... connections) {
+    private static BoundedWebResourceClient queuedClient(ScheduledExecutorService deadlineExecutor, FakeHttpURLConnection... connections) {
         Deque<FakeHttpURLConnection> queuedConnections = new ArrayDeque<>(List.of(connections));
-        return client(uri -> queuedConnections.removeFirst(), scheduler, System::nanoTime);
+        return client(uri -> queuedConnections.removeFirst(), deadlineExecutor, System::nanoTime);
     }
 
     private static BoundedWebResourceClient.RequestLimits limits(long maximumBytes) {
@@ -501,7 +505,7 @@ class BoundedWebResourceClientTest {
         return new BoundedWebResourceClient.RequestLimits(Duration.ofSeconds(1L), Duration.ofSeconds(1L), Duration.ofSeconds(3L), 1L);
     }
 
-    private static final class ManualDeadlineScheduler implements DeadlineScheduler {
+    private static final class ManualDeadlineScheduler extends ScheduledThreadPoolExecutor {
 
         private final List<ManualScheduledTask> tasks = new ArrayList<>();
         private final AtomicInteger shutdownCalls = new AtomicInteger();
@@ -511,10 +515,14 @@ class BoundedWebResourceClientTest {
         private Runnable onShutdown = () -> {};
         private boolean blockSchedule;
 
+        private ManualDeadlineScheduler() {
+            super(1);
+        }
+
         @Override
-        public ScheduledTask schedule(Runnable task, Duration delay) {
+        public ScheduledFuture<?> schedule(Runnable task, long delay, TimeUnit unit) {
             if (this.scheduleFailure != null) throw this.scheduleFailure;
-            if (delay.isNegative() || delay.isZero()) throw new IllegalArgumentException("delay must be positive");
+            if (delay <= 0L) throw new IllegalArgumentException("delay must be positive");
             if (this.blockSchedule) {
                 this.scheduleStarted.countDown();
                 await(this.releaseSchedule);
@@ -525,9 +533,11 @@ class BoundedWebResourceClientTest {
         }
 
         @Override
-        public void shutdownNow() {
+        public List<Runnable> shutdownNow() {
             this.shutdownCalls.incrementAndGet();
             this.onShutdown.run();
+            super.shutdownNow();
+            return List.of();
         }
 
         private void runTask(int index) {
@@ -535,7 +545,7 @@ class BoundedWebResourceClientTest {
         }
     }
 
-    private static final class ManualScheduledTask implements DeadlineScheduler.ScheduledTask {
+    private static final class ManualScheduledTask implements ScheduledFuture<Object> {
 
         private final Runnable command;
         private final AtomicInteger cancelCalls = new AtomicInteger();
@@ -546,9 +556,40 @@ class BoundedWebResourceClientTest {
         }
 
         @Override
-        public void cancel(boolean mayInterruptIfRunning) {
+        public long getDelay(TimeUnit unit) {
+            return 0L;
+        }
+
+        @Override
+        public int compareTo(Delayed other) {
+            return 0;
+        }
+
+        @Override
+        public boolean cancel(boolean mayInterruptIfRunning) {
             this.cancelCalls.incrementAndGet();
             this.cancelled.set(true);
+            return true;
+        }
+
+        @Override
+        public boolean isCancelled() {
+            return this.cancelled.get();
+        }
+
+        @Override
+        public boolean isDone() {
+            return this.cancelled.get();
+        }
+
+        @Override
+        public Object get() {
+            return null;
+        }
+
+        @Override
+        public Object get(long timeout, TimeUnit unit) {
+            return null;
         }
 
         private void run() {

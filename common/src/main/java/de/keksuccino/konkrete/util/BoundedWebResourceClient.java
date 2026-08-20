@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -31,13 +33,13 @@ final class BoundedWebResourceClient {
     private final Object lifecycleLock = new Object();
     private final Set<ActiveRequest> activeRequests = new HashSet<>();
     private final ConnectionFactory connectionFactory;
-    private final DeadlineScheduler deadlineScheduler;
+    private final ScheduledExecutorService deadlineExecutor;
     private final LongSupplier nanoTimeSource;
     private boolean closed;
 
-    BoundedWebResourceClient(@NotNull ConnectionFactory connectionFactory, @NotNull DeadlineScheduler deadlineScheduler, @NotNull LongSupplier nanoTimeSource) {
+    BoundedWebResourceClient(@NotNull ConnectionFactory connectionFactory, @NotNull ScheduledExecutorService deadlineExecutor, @NotNull LongSupplier nanoTimeSource) {
         this.connectionFactory = Objects.requireNonNull(connectionFactory, "connectionFactory");
-        this.deadlineScheduler = Objects.requireNonNull(deadlineScheduler, "deadlineScheduler");
+        this.deadlineExecutor = Objects.requireNonNull(deadlineExecutor, "deadlineExecutor");
         this.nanoTimeSource = Objects.requireNonNull(nanoTimeSource, "nanoTimeSource");
     }
 
@@ -101,7 +103,7 @@ final class BoundedWebResourceClient {
         // Active connections must be closed before the watchdog stops; otherwise cancelling its queued tasks could
         // remove the only remaining release path for a response body abandoned by its original loader.
         for (ActiveRequest request : requestsToClose) request.terminate(Termination.CLIENT_SHUTDOWN);
-        this.deadlineScheduler.shutdownNow();
+        this.deadlineExecutor.shutdownNow();
     }
 
     int activeRequestCount() {
@@ -167,7 +169,8 @@ final class BoundedWebResourceClient {
             connection.setInstanceFollowRedirects(true);
             connection.setRequestProperty("User-Agent", USER_AGENT);
             connection.setRequestMethod(method);
-            request.setDeadlineTask(this.deadlineScheduler.schedule(() -> request.terminate(Termination.DEADLINE_EXCEEDED), deadline.remainingDuration()));
+            Runnable deadlineTask = () -> request.terminate(Termination.DEADLINE_EXCEEDED);
+            request.setDeadlineTask(this.deadlineExecutor.schedule(deadlineTask, deadline.remainingDuration().toNanos(), TimeUnit.NANOSECONDS));
             request.ensureOpen();
             return request;
         } catch (IOException exception) {
@@ -258,7 +261,7 @@ final class BoundedWebResourceClient {
         private final HttpURLConnection connection;
         private final AtomicReference<Termination> termination = new AtomicReference<>(Termination.OPEN);
         private final AtomicReference<InputStream> responseStream = new AtomicReference<>();
-        private final AtomicReference<DeadlineScheduler.ScheduledTask> deadlineTask = new AtomicReference<>();
+        private final AtomicReference<ScheduledFuture<?>> deadlineTask = new AtomicReference<>();
         private final AtomicBoolean responseStreamClosed = new AtomicBoolean();
         private final AtomicBoolean disconnected = new AtomicBoolean();
 
@@ -270,8 +273,8 @@ final class BoundedWebResourceClient {
             return this.connection;
         }
 
-        private void setDeadlineTask(@NotNull DeadlineScheduler.ScheduledTask task) {
-            DeadlineScheduler.ScheduledTask checkedTask = Objects.requireNonNull(task, "task");
+        private void setDeadlineTask(@NotNull ScheduledFuture<?> task) {
+            ScheduledFuture<?> checkedTask = Objects.requireNonNull(task, "task");
             if (!this.deadlineTask.compareAndSet(null, checkedTask)) throw new IllegalStateException("A deadline task is already registered");
             if (this.termination.get() != Termination.OPEN) this.cancelDeadlineTask();
         }
@@ -328,7 +331,7 @@ final class BoundedWebResourceClient {
         }
 
         private void cancelDeadlineTask() {
-            DeadlineScheduler.ScheduledTask task = this.deadlineTask.getAndSet(null);
+            ScheduledFuture<?> task = this.deadlineTask.getAndSet(null);
             if (task == null) return;
             try {
                 task.cancel(false);

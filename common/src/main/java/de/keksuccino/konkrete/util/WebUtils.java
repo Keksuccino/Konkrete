@@ -31,8 +31,8 @@ public class WebUtils {
     private static final Duration METADATA_READ_TIMEOUT = Duration.ofSeconds(5L);
     private static final Duration METADATA_OVERALL_TIMEOUT = Duration.ofSeconds(10L);
     private static final BoundedWebResourceClient.RequestLimits METADATA_LIMITS = new BoundedWebResourceClient.RequestLimits(METADATA_CONNECT_TIMEOUT, METADATA_READ_TIMEOUT, METADATA_OVERALL_TIMEOUT, Long.MAX_VALUE);
-    private static final InternetAvailabilityMonitor INTERNET_AVAILABILITY_MONITOR = new InternetAvailabilityMonitor(new HttpInternetAvailabilityProbe(INTERNET_AVAILABILITY_ENDPOINT, INTERNET_AVAILABILITY_TIMEOUT_MILLIS, INTERNET_AVAILABILITY_TIMEOUT_MILLIS, endpoint -> (HttpURLConnection) endpoint.toURL().openConnection()), () -> new ExecutorFixedDelayScheduler(KonkreteExecutors.newSingleThreadScheduledExecutor("Konkrete-WebUtils-ConnectivityCheck")), INTERNET_AVAILABILITY_REFRESH_DELAY, available -> isConnectionAvailable = available);
-    private static final BoundedWebResourceClient RESOURCE_CLIENT = new BoundedWebResourceClient(resourceUri -> (HttpURLConnection) resourceUri.toURL().openConnection(), new ExecutorDeadlineScheduler(KonkreteExecutors.newSingleThreadScheduledExecutor("Konkrete-WebUtils-ResourceDeadline")), System::nanoTime);
+    private static final InternetAvailabilityMonitor INTERNET_AVAILABILITY_MONITOR = new InternetAvailabilityMonitor(new HttpInternetAvailabilityProbe(INTERNET_AVAILABILITY_ENDPOINT, INTERNET_AVAILABILITY_TIMEOUT_MILLIS, INTERNET_AVAILABILITY_TIMEOUT_MILLIS, endpoint -> (HttpURLConnection) endpoint.toURL().openConnection()), () -> KonkreteExecutors.newSingleThreadScheduledExecutor("Konkrete-WebUtils-ConnectivityCheck"), INTERNET_AVAILABILITY_REFRESH_DELAY, available -> isConnectionAvailable = available);
+    private static final BoundedWebResourceClient RESOURCE_CLIENT = new BoundedWebResourceClient(resourceUri -> (HttpURLConnection) resourceUri.toURL().openConnection(), KonkreteExecutors.newSingleThreadScheduledExecutor("Konkrete-WebUtils-ResourceDeadline"), System::nanoTime);
 
     private static volatile boolean isConnectionAvailable;
 

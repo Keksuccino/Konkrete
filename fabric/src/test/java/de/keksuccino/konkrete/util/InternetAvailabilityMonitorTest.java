@@ -5,11 +5,16 @@ import org.junit.jupiter.api.Test;
 import java.time.Duration;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -66,7 +71,7 @@ class InternetAvailabilityMonitorTest {
         RecordingProbe probe = new RecordingProbe(true);
         ManualFixedDelayScheduler scheduler = new ManualFixedDelayScheduler();
         AtomicInteger schedulerCreations = new AtomicInteger();
-        Supplier<FixedDelayScheduler> schedulerFactory = () -> {
+        Supplier<ScheduledExecutorService> schedulerFactory = () -> {
             schedulerCreations.incrementAndGet();
             return scheduler;
         };
@@ -90,7 +95,7 @@ class InternetAvailabilityMonitorTest {
     void shutdownBeforeInitIsTerminalAndDoesNotCreateAScheduler() {
         RecordingProbe probe = new RecordingProbe(true);
         AtomicInteger schedulerCreations = new AtomicInteger();
-        Supplier<FixedDelayScheduler> schedulerFactory = () -> {
+        Supplier<ScheduledExecutorService> schedulerFactory = () -> {
             schedulerCreations.incrementAndGet();
             return new ManualFixedDelayScheduler();
         };
@@ -111,7 +116,7 @@ class InternetAvailabilityMonitorTest {
         ManualFixedDelayScheduler scheduler = new ManualFixedDelayScheduler();
         scheduler.scheduleFailure = new RejectedExecutionException("stopped");
         AtomicInteger schedulerCreations = new AtomicInteger();
-        Supplier<FixedDelayScheduler> schedulerFactory = () -> {
+        Supplier<ScheduledExecutorService> schedulerFactory = () -> {
             schedulerCreations.incrementAndGet();
             return scheduler;
         };
@@ -133,7 +138,7 @@ class InternetAvailabilityMonitorTest {
         RecordingProbe probe = new RecordingProbe(true);
         ManualFixedDelayScheduler scheduler = new ManualFixedDelayScheduler();
         AtomicReference<InternetAvailabilityMonitor> monitorReference = new AtomicReference<>();
-        Supplier<FixedDelayScheduler> schedulerFactory = () -> {
+        Supplier<ScheduledExecutorService> schedulerFactory = () -> {
             monitorReference.get().shutdown();
             return scheduler;
         };
@@ -250,7 +255,7 @@ class InternetAvailabilityMonitorTest {
         }
     }
 
-    private static final class ManualFixedDelayScheduler implements FixedDelayScheduler {
+    private static final class ManualFixedDelayScheduler extends ScheduledThreadPoolExecutor {
 
         private final ManualScheduledTask task = new ManualScheduledTask();
         private int scheduleCalls;
@@ -262,21 +267,27 @@ class InternetAvailabilityMonitorTest {
         private Runnable onSchedule = () -> {};
         private boolean runImmediately;
 
+        private ManualFixedDelayScheduler() {
+            super(1);
+        }
+
         @Override
-        public ScheduledTask scheduleWithFixedDelay(Runnable task, Duration initialDelay, Duration delay) {
+        public ScheduledFuture<?> scheduleWithFixedDelay(Runnable task, long initialDelay, long delay, TimeUnit unit) {
             this.scheduleCalls++;
             if (this.scheduleFailure != null) throw this.scheduleFailure;
             this.command = task;
-            this.initialDelay = initialDelay;
-            this.delay = delay;
+            this.initialDelay = Duration.ofNanos(unit.toNanos(initialDelay));
+            this.delay = Duration.ofNanos(unit.toNanos(delay));
             if (this.runImmediately) task.run();
             this.onSchedule.run();
             return this.task;
         }
 
         @Override
-        public void shutdownNow() {
+        public List<Runnable> shutdownNow() {
             this.shutdownCalls++;
+            super.shutdownNow();
+            return List.of();
         }
 
         private void runNext() {
@@ -286,17 +297,48 @@ class InternetAvailabilityMonitorTest {
         }
     }
 
-    private static final class ManualScheduledTask implements FixedDelayScheduler.ScheduledTask {
+    private static final class ManualScheduledTask implements ScheduledFuture<Object> {
 
         private int cancelCalls;
         private boolean cancelled;
         private boolean mayInterruptIfRunning;
 
         @Override
-        public void cancel(boolean mayInterruptIfRunning) {
+        public long getDelay(TimeUnit unit) {
+            return 0L;
+        }
+
+        @Override
+        public int compareTo(Delayed other) {
+            return 0;
+        }
+
+        @Override
+        public boolean cancel(boolean mayInterruptIfRunning) {
             this.cancelCalls++;
             this.cancelled = true;
             this.mayInterruptIfRunning = mayInterruptIfRunning;
+            return true;
+        }
+
+        @Override
+        public boolean isCancelled() {
+            return this.cancelled;
+        }
+
+        @Override
+        public boolean isDone() {
+            return this.cancelled;
+        }
+
+        @Override
+        public Object get() {
+            return null;
+        }
+
+        @Override
+        public Object get(long timeout, TimeUnit unit) {
+            return null;
         }
     }
 }
