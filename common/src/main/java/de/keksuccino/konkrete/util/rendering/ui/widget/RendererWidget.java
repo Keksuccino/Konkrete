@@ -1,6 +1,5 @@
 package de.keksuccino.konkrete.util.rendering.ui.widget;
 
-import de.keksuccino.konkrete.util.rendering.ui.widget.slider.UIWidget;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;

@@ -3,7 +3,7 @@ package de.keksuccino.konkrete.util.rendering.ui.screen;
 import de.keksuccino.konkrete.util.ConsumingSupplier;
 import de.keksuccino.konkrete.util.rendering.ui.UIBase;
 import de.keksuccino.konkrete.util.rendering.ui.pipwindow.PiPWindowBody;
-import de.keksuccino.konkrete.util.rendering.ui.widget.slider.v2.RangeSlider;
+import de.keksuccino.konkrete.util.rendering.ui.widget.slider.RangeSlider;
 import de.keksuccino.konkrete.util.rendering.ui.widget.button.ExtendedButton;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;

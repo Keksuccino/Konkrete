@@ -23,7 +23,7 @@ import de.keksuccino.konkrete.util.rendering.ui.widget.button.ExtendedButton;
 import de.keksuccino.konkrete.util.rendering.ui.widget.button.UIIconButton;
 import de.keksuccino.konkrete.util.rendering.ui.widget.component.ComponentWidget;
 import de.keksuccino.konkrete.util.rendering.ui.widget.editbox.ExtendedEditBox;
-import de.keksuccino.konkrete.util.rendering.ui.widget.slider.v2.RangeSlider;
+import de.keksuccino.konkrete.util.rendering.ui.widget.slider.RangeSlider;
 import de.keksuccino.konkrete.util.resource.ResourceSupplier;
 import de.keksuccino.konkrete.util.resource.resources.audio.IAudio;
 import de.keksuccino.konkrete.util.resource.resources.text.IText;

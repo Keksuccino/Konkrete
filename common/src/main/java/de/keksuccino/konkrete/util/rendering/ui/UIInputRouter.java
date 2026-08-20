@@ -1,6 +1,6 @@
 package de.keksuccino.konkrete.util.rendering.ui;
 
-import de.keksuccino.konkrete.util.rendering.ui.widget.slider.UIWidget;
+import de.keksuccino.konkrete.util.rendering.ui.widget.UIWidget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.input.MouseButtonEvent;
 import org.jetbrains.annotations.NotNull;

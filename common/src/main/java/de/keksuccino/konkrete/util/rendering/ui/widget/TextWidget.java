@@ -3,7 +3,6 @@ package de.keksuccino.konkrete.util.rendering.ui.widget;
 import de.keksuccino.konkrete.util.rendering.DrawableColor;
 import de.keksuccino.konkrete.util.rendering.RenderingUtils;
 import de.keksuccino.konkrete.util.rendering.ui.UIBase;
-import de.keksuccino.konkrete.util.rendering.ui.widget.slider.UIWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

@@ -1,6 +1,5 @@
 package de.keksuccino.konkrete.util.rendering.ui.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import de.keksuccino.konkrete.util.input.CharacterFilter;
 import de.keksuccino.konkrete.util.input.InputConstants;
 import de.keksuccino.konkrete.util.rendering.ui.UIBase;
@@ -9,7 +8,7 @@ import de.keksuccino.konkrete.util.rendering.ui.pipwindow.PiPWindowBody;
 import de.keksuccino.konkrete.util.rendering.ui.widget.button.UIIconButton;
 import de.keksuccino.konkrete.util.rendering.ui.widget.button.ExtendedButton;
 import de.keksuccino.konkrete.util.rendering.ui.widget.editbox.ExtendedEditBox;
-import de.keksuccino.konkrete.util.rendering.ui.widget.slider.v2.RangeSlider;
+import de.keksuccino.konkrete.util.rendering.ui.widget.slider.RangeSlider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;

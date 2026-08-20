@@ -16,7 +16,7 @@ import de.keksuccino.konkrete.util.rendering.ui.theme.UITheme;
 import de.keksuccino.konkrete.util.rendering.ui.widget.button.ExtendedButton;
 import de.keksuccino.konkrete.util.rendering.ui.widget.editbox.EditBoxSuggestions;
 import de.keksuccino.konkrete.util.rendering.ui.widget.editbox.ExtendedEditBox;
-import de.keksuccino.konkrete.util.rendering.ui.widget.slider.v2.AbstractExtendedSlider;
+import de.keksuccino.konkrete.util.rendering.ui.widget.slider.AbstractExtendedSlider;
 import de.keksuccino.konkrete.util.window.WindowHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

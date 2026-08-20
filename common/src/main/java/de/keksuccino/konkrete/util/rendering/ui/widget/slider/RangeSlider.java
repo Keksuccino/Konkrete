@@ -1,4 +1,4 @@
-package de.keksuccino.konkrete.util.rendering.ui.widget.slider.v2;
+package de.keksuccino.konkrete.util.rendering.ui.widget.slider;
 
 import de.keksuccino.konkrete.util.MathUtils;
 import net.minecraft.network.chat.Component;

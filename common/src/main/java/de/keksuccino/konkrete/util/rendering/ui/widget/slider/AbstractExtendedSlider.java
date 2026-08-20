@@ -1,6 +1,5 @@
-package de.keksuccino.konkrete.util.rendering.ui.widget.slider.v2;
+package de.keksuccino.konkrete.util.rendering.ui.widget.slider;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import de.keksuccino.konkrete.mixin.mixins.common.client.AccessorMixinAbstractSliderButton;
 import de.keksuccino.konkrete.util.ConsumingSupplier;
 import de.keksuccino.konkrete.util.VanillaEvents;
@@ -12,7 +11,7 @@ import de.keksuccino.konkrete.util.rendering.ui.widget.CustomizableSlider;
 import de.keksuccino.konkrete.util.rendering.ui.widget.CustomizableWidget;
 import de.keksuccino.konkrete.util.rendering.ui.widget.IExtendedWidget;
 import de.keksuccino.konkrete.util.rendering.ui.widget.NavigatableWidget;
-import de.keksuccino.konkrete.util.rendering.ui.widget.slider.UIWidget;
+import de.keksuccino.konkrete.util.rendering.ui.widget.UIWidget;
 import de.keksuccino.konkrete.util.resource.RenderableResource;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

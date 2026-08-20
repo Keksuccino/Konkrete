@@ -1,12 +1,11 @@
 package de.keksuccino.konkrete.util.rendering.ui.widget.component;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import de.keksuccino.konkrete.placeholder.PlaceholderParser;
 import de.keksuccino.konkrete.util.ConsumingSupplier;
 import de.keksuccino.konkrete.util.rendering.DrawableColor;
 import de.keksuccino.konkrete.util.rendering.ui.UIBase;
 import de.keksuccino.konkrete.util.rendering.ui.widget.NavigatableWidget;
-import de.keksuccino.konkrete.util.rendering.ui.widget.slider.UIWidget;
+import de.keksuccino.konkrete.util.rendering.ui.widget.UIWidget;
 import de.keksuccino.konkrete.util.rendering.text.smooth.TextDimensions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
