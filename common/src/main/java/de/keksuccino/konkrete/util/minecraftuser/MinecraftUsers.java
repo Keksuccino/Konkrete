@@ -1,4 +1,4 @@
-package de.keksuccino.konkrete.util.minecraftuser.v2;
+package de.keksuccino.konkrete.util.minecraftuser;
 
 import com.google.gson.Gson;
 import com.mojang.authlib.GameProfile;

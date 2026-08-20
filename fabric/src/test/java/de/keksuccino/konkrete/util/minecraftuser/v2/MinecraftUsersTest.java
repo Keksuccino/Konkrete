@@ -3,6 +3,7 @@ package de.keksuccino.konkrete.util.minecraftuser.v2;
 import com.mojang.authlib.SignatureState;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.minecraft.MinecraftProfileTextures;
+import de.keksuccino.konkrete.util.minecraftuser.MinecraftUsers;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;

@@ -1,4 +1,4 @@
-package de.keksuccino.konkrete.util.minecraftuser.v2;
+package de.keksuccino.konkrete.util.minecraftuser;
 
 import org.jetbrains.annotations.Nullable;
 import java.util.UUID;

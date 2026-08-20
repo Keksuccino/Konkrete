@@ -1,4 +1,4 @@
-package de.keksuccino.konkrete.rendering;
+package de.keksuccino.konkrete.util.rendering;
 
 import de.keksuccino.konkrete.mixin.mixins.common.client.AccessorMixinGui;
 import net.minecraft.client.Minecraft;
