@@ -1,6 +1,6 @@
 package de.keksuccino.konkrete.mixin.mixins.common.client;
 
-import de.keksuccino.konkrete.input.MouseInput;
+import de.keksuccino.konkrete.util.input.MouseInput;
 import de.keksuccino.konkrete.util.window.InitialLoadingOverlayIconRefreshController;
 import de.keksuccino.konkrete.util.window.WindowHandler;
 import net.minecraft.client.gui.Gui;

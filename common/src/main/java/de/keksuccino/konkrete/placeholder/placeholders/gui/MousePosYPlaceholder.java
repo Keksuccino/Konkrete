@@ -2,10 +2,9 @@ package de.keksuccino.konkrete.placeholder.placeholders.gui;
 
 import de.keksuccino.konkrete.placeholder.DeserializedPlaceholderString;
 import de.keksuccino.konkrete.placeholder.Placeholder;
-import de.keksuccino.konkrete.input.MouseInput;
+import de.keksuccino.konkrete.util.input.MouseInput;
 import de.keksuccino.konkrete.util.LocalizationUtils;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;

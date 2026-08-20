@@ -21,7 +21,7 @@ import de.keksuccino.konkrete.util.rendering.ui.widget.editbox.ExtendedEditBox;
 import de.keksuccino.konkrete.util.rendering.ui.widget.button.CycleButton;
 import de.keksuccino.konkrete.util.rendering.ui.widget.button.ExtendedButton;
 import de.keksuccino.konkrete.util.window.WindowHandler;
-import de.keksuccino.konkrete.input.MouseInput;
+import de.keksuccino.konkrete.util.input.MouseInput;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;

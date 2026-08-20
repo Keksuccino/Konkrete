@@ -2,8 +2,6 @@ package de.keksuccino.konkrete.util.rendering.ui.contextmenu.v2;
 
 import de.keksuccino.konkrete.util.ScreenUtils;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.math.Axis;
 import de.keksuccino.konkrete.util.cycle.ILocalizedValueCycle;
 import de.keksuccino.konkrete.util.input.InputConstants;
 import de.keksuccino.konkrete.util.input.InputUtils;
@@ -25,7 +23,7 @@ import de.keksuccino.konkrete.util.rendering.ui.tooltip.TooltipHandler;
 import de.keksuccino.konkrete.util.rendering.ui.widget.NavigatableWidget;
 import de.keksuccino.konkrete.util.rendering.ui.widget.editbox.ExtendedEditBox;
 import de.keksuccino.konkrete.util.window.WindowHandler;
-import de.keksuccino.konkrete.input.MouseInput;
+import de.keksuccino.konkrete.util.input.MouseInput;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

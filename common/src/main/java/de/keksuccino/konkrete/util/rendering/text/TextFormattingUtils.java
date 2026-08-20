@@ -10,8 +10,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSequence;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +18,6 @@ import java.util.Optional;
 
 /** Contains stateless helpers for text formatting. */
 public class TextFormattingUtils {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     private static final String FORMATTING_CODE_BLACK = "0";
     private static final String FORMATTING_CODE_DARK_BLUE = "1";

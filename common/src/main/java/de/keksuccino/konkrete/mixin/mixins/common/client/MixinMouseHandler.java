@@ -2,7 +2,7 @@ package de.keksuccino.konkrete.mixin.mixins.common.client;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import de.keksuccino.konkrete.input.MouseInput;
+import de.keksuccino.konkrete.util.input.MouseInput;
 import de.keksuccino.konkrete.util.MouseUtil;
 import de.keksuccino.konkrete.util.VanillaEvents;
 import de.keksuccino.konkrete.util.input.ClicksPerSecondTracker;

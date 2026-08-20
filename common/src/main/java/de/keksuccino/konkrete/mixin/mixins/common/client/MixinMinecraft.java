@@ -1,7 +1,7 @@
 package de.keksuccino.konkrete.mixin.mixins.common.client;
 
 import de.keksuccino.konkrete.Konkrete;
-import de.keksuccino.konkrete.input.MouseInput;
+import de.keksuccino.konkrete.util.input.MouseInput;
 import de.keksuccino.konkrete.util.MouseUtil;
 import de.keksuccino.konkrete.util.lifecycle.ClientShutdownHandler;
 import de.keksuccino.konkrete.util.player.CameraRotationObserver;
