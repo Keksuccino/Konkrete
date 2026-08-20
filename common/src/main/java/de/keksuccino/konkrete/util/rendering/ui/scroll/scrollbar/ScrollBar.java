@@ -1,6 +1,5 @@
-package de.keksuccino.konkrete.util.rendering.ui.scroll.v2.scrollbar;
+package de.keksuccino.konkrete.util.rendering.ui.scroll.scrollbar;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import de.keksuccino.konkrete.util.rendering.DrawableColor;
 import de.keksuccino.konkrete.util.rendering.ui.UIBase;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

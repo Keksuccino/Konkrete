@@ -1,4 +1,4 @@
-package de.keksuccino.konkrete.util.rendering.ui.contextmenu.v2;
+package de.keksuccino.konkrete.util.rendering.ui.contextmenu;
 
 import de.keksuccino.konkrete.util.rendering.ui.Tickable;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

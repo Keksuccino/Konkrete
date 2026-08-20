@@ -1,6 +1,5 @@
 package de.keksuccino.konkrete.util.rendering.ui.screen.filebrowser;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import de.keksuccino.konkrete.util.VanillaEvents;
 import de.keksuccino.konkrete.util.WebUtils;
 import de.keksuccino.konkrete.util.input.InputConstants;
@@ -15,9 +14,9 @@ import de.keksuccino.konkrete.util.rendering.ui.screen.InitialWidgetFocusScreen;
 import de.keksuccino.konkrete.util.rendering.ui.pipwindow.PiPWindow;
 import de.keksuccino.konkrete.util.rendering.ui.pipwindow.PiPWindowBody;
 import de.keksuccino.konkrete.util.rendering.ui.pipwindow.PiPWindowHandler;
-import de.keksuccino.konkrete.util.rendering.ui.scroll.v2.scrollarea.ScrollArea;
-import de.keksuccino.konkrete.util.rendering.ui.scroll.v2.scrollarea.entry.ScrollAreaEntry;
-import de.keksuccino.konkrete.util.rendering.ui.scroll.v2.scrollarea.entry.TextScrollAreaEntry;
+import de.keksuccino.konkrete.util.rendering.ui.scroll.scrollarea.ScrollArea;
+import de.keksuccino.konkrete.util.rendering.ui.scroll.scrollarea.entry.ScrollAreaEntry;
+import de.keksuccino.konkrete.util.rendering.ui.scroll.scrollarea.entry.TextScrollAreaEntry;
 import de.keksuccino.konkrete.util.rendering.ui.tooltip.TooltipHandler;
 import de.keksuccino.konkrete.util.rendering.ui.tooltip.UITooltip;
 import de.keksuccino.konkrete.util.rendering.ui.widget.button.ExtendedButton;

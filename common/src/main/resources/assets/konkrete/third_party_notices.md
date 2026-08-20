@@ -14,10 +14,6 @@ These six font files are licensed under the [SIL Open Font License 1.1](https://
 
 The bundled Material Icons font is Copyright Google LLC and is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
-## Context-menu icons
-
-Credit for the reusable context-menu icon artwork goes to **xllifi**, who created the original icon set from which these assets were derived.
-
 ## APNG decoder
 
 Japng is Copyright A. Ellerton and is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).

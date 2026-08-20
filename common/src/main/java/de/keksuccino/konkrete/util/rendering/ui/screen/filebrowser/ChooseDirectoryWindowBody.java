@@ -1,7 +1,7 @@
 package de.keksuccino.konkrete.util.rendering.ui.screen.filebrowser;
 
-import de.keksuccino.konkrete.util.rendering.ui.scroll.v2.scrollarea.ScrollArea;
-import de.keksuccino.konkrete.util.rendering.ui.scroll.v2.scrollarea.entry.ScrollAreaEntry;
+import de.keksuccino.konkrete.util.rendering.ui.scroll.scrollarea.ScrollArea;
+import de.keksuccino.konkrete.util.rendering.ui.scroll.scrollarea.entry.ScrollAreaEntry;
 import de.keksuccino.konkrete.util.rendering.ui.widget.button.ExtendedButton;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;

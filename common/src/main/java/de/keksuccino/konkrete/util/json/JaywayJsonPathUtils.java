@@ -1,4 +1,4 @@
-package de.keksuccino.konkrete.json;
+package de.keksuccino.konkrete.util.json;
 
 import com.google.gson.JsonArray;
 import com.jayway.jsonpath.JsonPath;

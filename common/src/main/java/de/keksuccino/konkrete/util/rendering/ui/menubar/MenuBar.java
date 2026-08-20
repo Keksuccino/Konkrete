@@ -1,6 +1,5 @@
-package de.keksuccino.konkrete.util.rendering.ui.menubar.v2;
+package de.keksuccino.konkrete.util.rendering.ui.menubar;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import de.keksuccino.konkrete.util.ConsumingSupplier;
 import de.keksuccino.konkrete.util.rendering.DrawableColor;
 import de.keksuccino.konkrete.util.rendering.GuiBlurRenderer;
@@ -8,10 +7,10 @@ import de.keksuccino.konkrete.util.rendering.RenderingUtils;
 import de.keksuccino.konkrete.util.rendering.ui.PressState;
 import de.keksuccino.konkrete.util.rendering.ui.UIBase;
 import de.keksuccino.konkrete.util.rendering.ui.UIConfiguration;
-import de.keksuccino.konkrete.util.rendering.ui.contextmenu.v2.ContextMenuHandler;
+import de.keksuccino.konkrete.util.rendering.ui.contextmenu.ContextMenuHandler;
 import de.keksuccino.konkrete.util.rendering.ui.icon.MaterialIconTexture;
 import de.keksuccino.konkrete.util.rendering.ui.icon.MaterialIcons;
-import de.keksuccino.konkrete.util.rendering.ui.contextmenu.v2.ContextMenu;
+import de.keksuccino.konkrete.util.rendering.ui.contextmenu.ContextMenu;
 import de.keksuccino.konkrete.util.rendering.ui.tooltip.UITooltip;
 import de.keksuccino.konkrete.util.rendering.ui.tooltip.TooltipHandler;
 import de.keksuccino.konkrete.util.rendering.ui.widget.NavigatableWidget;

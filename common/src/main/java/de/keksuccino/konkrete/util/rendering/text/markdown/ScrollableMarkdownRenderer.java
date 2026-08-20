@@ -2,8 +2,8 @@ package de.keksuccino.konkrete.util.rendering.text.markdown;
 
 import de.keksuccino.konkrete.util.rendering.DrawableColor;
 import de.keksuccino.konkrete.util.rendering.RenderingUtils;
-import de.keksuccino.konkrete.util.rendering.ui.scroll.v2.scrollarea.ScrollArea;
-import de.keksuccino.konkrete.util.rendering.ui.scroll.v2.scrollarea.entry.ScrollAreaEntry;
+import de.keksuccino.konkrete.util.rendering.ui.scroll.scrollarea.ScrollArea;
+import de.keksuccino.konkrete.util.rendering.ui.scroll.scrollarea.entry.ScrollAreaEntry;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.ContainerEventHandler;

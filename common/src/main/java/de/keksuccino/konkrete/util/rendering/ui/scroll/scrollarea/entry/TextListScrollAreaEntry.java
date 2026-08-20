@@ -1,8 +1,8 @@
-package de.keksuccino.konkrete.util.rendering.ui.scroll.v2.scrollarea.entry;
+package de.keksuccino.konkrete.util.rendering.ui.scroll.scrollarea.entry;
 
 import de.keksuccino.konkrete.util.rendering.DrawableColor;
 import de.keksuccino.konkrete.util.rendering.ui.UIBase;
-import de.keksuccino.konkrete.util.rendering.ui.scroll.v2.scrollarea.ScrollArea;
+import de.keksuccino.konkrete.util.rendering.ui.scroll.scrollarea.ScrollArea;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;

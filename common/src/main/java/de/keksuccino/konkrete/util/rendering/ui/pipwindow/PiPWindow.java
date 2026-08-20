@@ -2,7 +2,6 @@ package de.keksuccino.konkrete.util.rendering.ui.pipwindow;
 
 import de.keksuccino.konkrete.util.ScreenUtils;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import de.keksuccino.konkrete.util.rendering.GuiBlurRenderer;
 import de.keksuccino.konkrete.util.rendering.RenderingUtils;
 import de.keksuccino.konkrete.util.rendering.SmoothLineRenderer;
@@ -12,7 +11,7 @@ import de.keksuccino.konkrete.util.rendering.ui.icon.MaterialIcons;
 import de.keksuccino.konkrete.util.rendering.ui.UIBase;
 import de.keksuccino.konkrete.util.rendering.ui.UIConfiguration;
 import de.keksuccino.konkrete.util.rendering.ui.cursor.CursorHandler;
-import de.keksuccino.konkrete.util.rendering.ui.menubar.v2.MenuBar;
+import de.keksuccino.konkrete.util.rendering.ui.menubar.MenuBar;
 import de.keksuccino.konkrete.util.rendering.ui.theme.UITheme;
 import de.keksuccino.konkrete.util.window.WindowHandler;
 import net.minecraft.client.Minecraft;

@@ -3,7 +3,7 @@ package de.keksuccino.konkrete.placeholder.placeholders.other;
 import de.keksuccino.konkrete.placeholder.DeserializedPlaceholderString;
 import de.keksuccino.konkrete.placeholder.Placeholder;
 import de.keksuccino.konkrete.util.LocalizationUtils;
-import de.keksuccino.konkrete.input.StringUtils;
+import de.keksuccino.konkrete.util.StringUtils;
 import net.minecraft.client.resources.language.I18n;
 import de.keksuccino.konkrete.util.WebUtils;
 import org.apache.logging.log4j.LogManager;
