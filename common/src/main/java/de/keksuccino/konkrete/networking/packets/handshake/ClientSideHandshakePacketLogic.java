@@ -13,4 +13,5 @@ final class ClientSideHandshakePacketLogic {
         HandshakePacket.NegotiatedCapabilities capabilities = packet.negotiatedCapabilities();
         return capabilities != null && PacketHandler.acceptServerHandshake(connection, capabilities.bridgeProtocolVersion(), capabilities.packetIdentifiers());
     }
+
 }

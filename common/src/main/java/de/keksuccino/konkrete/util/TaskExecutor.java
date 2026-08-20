@@ -94,8 +94,10 @@ public class TaskExecutor {
     /** Runs one scheduled unit of work. */
     @FunctionalInterface
     public interface Task {
+
         /** Runs the task with its scheduling future. */
         void run(@NotNull ScheduledFuture<?> future);
+
     }
 
     /** Controls the lifecycle of one delayed task, including after client-thread handoff. */
@@ -106,6 +108,7 @@ public class TaskExecutor {
 
         /** Returns whether this task has been cancelled. */
         boolean isCancelled();
+
     }
 
     static final class CancellableOneShotTask implements CancellableTask {
@@ -155,6 +158,7 @@ public class TaskExecutor {
         public boolean isCancelled() {
             return this.cancelled.get();
         }
+
     }
 
 }

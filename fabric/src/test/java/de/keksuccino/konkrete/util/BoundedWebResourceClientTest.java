@@ -543,6 +543,7 @@ class BoundedWebResourceClientTest {
         private void runTask(int index) {
             this.tasks.get(index).run();
         }
+
     }
 
     private static final class ManualScheduledTask implements ScheduledFuture<Object> {
@@ -596,6 +597,7 @@ class BoundedWebResourceClientTest {
             if (this.cancelled.get()) throw new IllegalStateException("Scheduled task is cancelled");
             this.command.run();
         }
+
     }
 
     private static class FakeHttpURLConnection extends HttpURLConnection {
@@ -674,6 +676,7 @@ class BoundedWebResourceClientTest {
                 throw new AssertionError(exception);
             }
         }
+
     }
 
     private static class TrackingInputStream extends ByteArrayInputStream {
@@ -696,6 +699,7 @@ class BoundedWebResourceClientTest {
             this.onClose.run();
             super.close();
         }
+
     }
 
     private static final class AdvancingInputStream extends TrackingInputStream {
@@ -714,6 +718,7 @@ class BoundedWebResourceClientTest {
             this.nanoTime.addAndGet(this.advanceNanos);
             return super.read();
         }
+
     }
 
     private static final class FailingInputStream extends InputStream {
@@ -729,6 +734,7 @@ class BoundedWebResourceClientTest {
         public void close() {
             this.closeCalls.incrementAndGet();
         }
+
     }
 
     private static final class BlockingInputStream extends InputStream {
@@ -778,6 +784,7 @@ class BoundedWebResourceClientTest {
         private void release() {
             this.release.countDown();
         }
+
     }
 
     private static void await(CountDownLatch latch) {
@@ -788,4 +795,5 @@ class BoundedWebResourceClientTest {
             throw new AssertionError("Interrupted while waiting for test coordination", exception);
         }
     }
+
 }

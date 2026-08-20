@@ -208,6 +208,7 @@ public final class GlslRuntimeEventTracker {
         public InputSnapshot(double mouseX, double mouseY, double mouseDeltaX, double mouseDeltaY, double mouseScrollTotalX, double mouseScrollTotalY, @NotNull boolean[] mouseButtonStates, @NotNull int[] mouseClickCounts, @NotNull int[] mouseReleaseCounts, @NotNull double[] lastMouseClickX, @NotNull double[] lastMouseClickY, @NotNull long[] lastMouseClickNanos, int keyEventCounter, int lastKeyCode, int lastScanCode, int lastKeyModifiers, int lastKeyAction, int charEventCounter, int lastCharCodePoint, int lastCharModifiers) {
             this(mouseX, mouseY, mouseDeltaX, mouseDeltaY, mouseScrollTotalX, mouseScrollTotalY, mouseButtonStates, mouseClickCounts, mouseReleaseCounts, lastMouseClickX, lastMouseClickY, lastMouseClickNanos, 0, keyEventCounter, lastKeyCode, lastScanCode, lastKeyModifiers, lastKeyAction, charEventCounter, lastCharCodePoint, lastCharModifiers);
         }
+
     }
 
 }

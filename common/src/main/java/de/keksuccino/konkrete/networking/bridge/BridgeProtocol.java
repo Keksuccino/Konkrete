@@ -126,6 +126,7 @@ public final class BridgeProtocol {
         private EncodedLengthExceededException(int maximum) {
             super("Encoded UTF-8 data exceeds " + maximum + " bytes");
         }
+
     }
 
     static final class MalformedTextException extends IllegalArgumentException {
@@ -133,5 +134,7 @@ public final class BridgeProtocol {
         private MalformedTextException() {
             super("Text contains an unpaired UTF-16 surrogate");
         }
+
     }
+
 }

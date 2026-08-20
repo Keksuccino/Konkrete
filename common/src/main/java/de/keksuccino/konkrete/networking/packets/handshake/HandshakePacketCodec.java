@@ -14,4 +14,5 @@ public final class HandshakePacketCodec extends PacketCodec<HandshakePacket> {
     public HandshakePacketCodec() {
         super(Identifier.fromNamespaceAndPath("konkrete", "handshake"), HandshakePacket.class);
     }
+
 }

@@ -55,6 +55,7 @@ public final class WatermediaMrlResolver {
 
     /** Terminal outcomes reported by a resolution handle. */
     public enum State {
+
         /** Watermedia reported a loaded source. */
         LOADED,
         /** Watermedia reported a terminal source failure. */
@@ -63,10 +64,12 @@ public final class WatermediaMrlResolver {
         TIMED_OUT,
         /** The owning resolution handle was closed. */
         CANCELLED
+
     }
 
     /** Thread-safe ownership handle for one scheduled resolution; closing it is terminal and idempotent. */
     public static final class Resolution implements AutoCloseable {
+
         private final CompletableFuture<State> future = new CompletableFuture<>();
         private final AtomicReference<ScheduledFuture<?>> task = new AtomicReference<>();
 
@@ -94,5 +97,7 @@ public final class WatermediaMrlResolver {
         public void close() {
             this.complete(State.CANCELLED);
         }
+
     }
+
 }

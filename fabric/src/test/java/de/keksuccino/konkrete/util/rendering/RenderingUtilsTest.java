@@ -25,4 +25,5 @@ class RenderingUtilsTest {
         assertNull(RenderingUtils.getColorFromHexString("12345"));
         assertNull(RenderingUtils.getColorFromHexString("123456789"));
     }
+
 }

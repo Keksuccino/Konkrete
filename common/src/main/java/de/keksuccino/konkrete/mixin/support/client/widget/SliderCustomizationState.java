@@ -82,4 +82,5 @@ public final class SliderCustomizationState {
     public void setHandleBorderBottom(int border) { this.handleBorderBottom = border; }
     public int getHandleBorderLeft() { return this.handleBorderLeft; }
     public void setHandleBorderLeft(int border) { this.handleBorderLeft = border; }
+
 }

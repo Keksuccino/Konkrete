@@ -1,7 +1,7 @@
 package de.keksuccino.konkrete.input;
 
 public class KeyboardData {
-	
+
 	public final int keycode;
 	public final int scancode;
 	public final int modfiers;

@@ -94,10 +94,12 @@ public final class RenderRotationUtil {
         public static Rotation2D identity() {
             return new Rotation2D(1.0F, 0.0F, 0.0F, 1.0F);
         }
+
     }
 
     /** Captures the immutable state needed for rotation. */
     public static final class RotationState {
+
         /** Horizontal component of the current transform. */
         public float x = 0.0F;
         /** Vertical component of the current transform. */
@@ -158,5 +160,7 @@ public final class RenderRotationUtil {
                 this.w *= invLen;
             }
         }
+
     }
+
 }

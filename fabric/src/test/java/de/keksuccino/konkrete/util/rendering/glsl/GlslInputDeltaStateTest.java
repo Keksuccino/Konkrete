@@ -65,4 +65,5 @@ class GlslInputDeltaStateTest {
     private static void assertZero(GlslInputDeltaState.Delta delta) {
         assertAll(() -> assertEquals(0.0D, delta.scrollX()), () -> assertEquals(0.0D, delta.scrollY()), () -> assertEquals(0.0D, delta.mouseX()), () -> assertEquals(0.0D, delta.mouseY()));
     }
+
 }

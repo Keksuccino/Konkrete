@@ -47,4 +47,5 @@ public final class PacketsFabricClient {
         exactConnection.send(ClientPlayNetworking.createServerboundPacket(payload));
         return true;
     }
+
 }

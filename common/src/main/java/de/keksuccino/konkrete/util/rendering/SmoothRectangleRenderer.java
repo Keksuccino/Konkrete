@@ -432,9 +432,11 @@ public final class SmoothRectangleRenderer {
     }
 
     private record RectArea(float x, float y, float width, float height, float borderThickness, CornerRadii cornerRadii, int color) {
+
     }
 
     private record QuadBounds(float minX, float minY, float maxX, float maxY) {
+
     }
 
     private record SmoothRectRenderState(
@@ -604,6 +606,7 @@ public final class SmoothRectangleRenderer {
             }
             return value > max ? max : value;
         }
+
     }
 
 }

@@ -235,7 +235,9 @@ class ServerHandshakeNegotiationTrackerTest {
 
     @FunctionalInterface
     private interface ThrowingRunnable {
+
         void run() throws Exception;
+
     }
 
     private static final class MutableClock implements java.util.function.LongSupplier {
@@ -254,6 +256,7 @@ class ServerHandshakeNegotiationTrackerTest {
         private void advance(long delta) {
             this.now.addAndGet(delta);
         }
+
     }
 
     private static final class EqualConnection {
@@ -267,5 +270,7 @@ class ServerHandshakeNegotiationTrackerTest {
         public int hashCode() {
             return 1;
         }
+
     }
+
 }

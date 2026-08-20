@@ -469,4 +469,5 @@ public abstract class MixinAbstractWidget implements CustomizableWidget, UniqueW
     @Unique
     @Override
     public @Nullable String getWidgetIdentifierKonkrete() { return this.customizationState_Konkrete.getWidgetIdentifier(); }
+
 }

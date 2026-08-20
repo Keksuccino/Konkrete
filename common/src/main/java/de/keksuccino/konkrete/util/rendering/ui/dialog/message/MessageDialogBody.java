@@ -331,6 +331,7 @@ public class MessageDialogBody extends PiPWindowBody {
     }
 
     private static final class IconRenderData {
+
         private final Identifier texture;
         private final int width;
         private final int height;
@@ -340,6 +341,7 @@ public class MessageDialogBody extends PiPWindowBody {
             this.width = width;
             this.height = height;
         }
+
     }
 
 }

@@ -45,4 +45,5 @@ public final class NativeVideoReferenceTracker {
             return (count != null) && (count > 0);
         }
     }
+
 }

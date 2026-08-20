@@ -154,15 +154,19 @@ public final class ClientShutdownHandler {
 
     }
 
-    private record CleanupEntry(String name, Runnable cleanup) {}
+    private record CleanupEntry(String name, Runnable cleanup) {
+
+    }
 
     private record CleanupKey(int order, long id) implements Comparable<CleanupKey> {
+
         /** {@inheritDoc} */
         @Override
         public int compareTo(@NotNull CleanupKey other) {
             int orderComparison = Integer.compare(this.order, other.order);
             return orderComparison != 0 ? orderComparison : Long.compare(this.id, other.id);
         }
+
     }
 
 }

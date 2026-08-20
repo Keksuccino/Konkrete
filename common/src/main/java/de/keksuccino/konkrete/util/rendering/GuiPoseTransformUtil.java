@@ -79,8 +79,11 @@ final class GuiPoseTransformUtil {
         private float transformPositionY(float x, float y) {
             return (x * this.m01) + (y * this.m11) + this.translationY;
         }
+
     }
 
     record TransformedArea(float x, float y, float width, float height) {
+
     }
+
 }

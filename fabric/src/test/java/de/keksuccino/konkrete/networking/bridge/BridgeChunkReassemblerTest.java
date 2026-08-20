@@ -334,5 +334,7 @@ class BridgeChunkReassemblerTest {
         public int hashCode() {
             return 1;
         }
+
     }
+
 }

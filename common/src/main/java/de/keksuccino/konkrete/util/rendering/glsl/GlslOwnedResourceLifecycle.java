@@ -27,4 +27,5 @@ public final class GlslOwnedResourceLifecycle {
     public void markResourcesReleased() {
         this.resourcesMayBeOwned = false;
     }
+
 }

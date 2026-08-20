@@ -63,4 +63,5 @@ class AsyncRefreshingValueCacheTest {
         tasks.runNext();
         assertEquals("v2", cache.getCached("key"));
     }
+
 }

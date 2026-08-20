@@ -235,18 +235,22 @@ final class BoundedWebResourceClient {
             if (checked.isNegative() || checked.isZero()) throw new IllegalArgumentException(name + " must be positive");
             return checked;
         }
+
     }
 
     @FunctionalInterface
     interface ConnectionFactory {
 
         @NotNull HttpURLConnection open(@NotNull URI resourceUri) throws IOException;
+
     }
 
     private record ResponseMetadata(int responseCode, @Nullable String mimeType) {
+
     }
 
     private enum Termination {
+
         OPEN,
         COMPLETED,
         USER_CLOSED,
@@ -254,6 +258,7 @@ final class BoundedWebResourceClient {
         SIZE_LIMIT_EXCEEDED,
         DEADLINE_EXCEEDED,
         CLIENT_SHUTDOWN
+
     }
 
     private final class ActiveRequest {
@@ -360,6 +365,7 @@ final class BoundedWebResourceClient {
                 return new IOException("Failed to disconnect HTTP response", exception);
             }
         }
+
     }
 
     private static final class RequestDeadline {
@@ -399,6 +405,7 @@ final class BoundedWebResourceClient {
         private long remainingNanos() {
             return this.deadlineNanos - this.nanoTimeSource.getAsLong();
         }
+
     }
 
     private static final class BoundedResponseInputStream extends InputStream {
@@ -529,6 +536,7 @@ final class BoundedWebResourceClient {
         private @NotNull ResourceSizeLimitException sizeLimitExceeded(long observedBytes) {
             return new ResourceSizeLimitException(this.limits.maximumBytes(), observedBytes);
         }
+
     }
 
     private static final class ResourceSizeLimitException extends IOException {
@@ -536,5 +544,7 @@ final class BoundedWebResourceClient {
         private ResourceSizeLimitException(long maximumBytes, long observedBytes) {
             super("Web resource exceeds the " + maximumBytes + " byte limit (observed at least " + observedBytes + " bytes)");
         }
+
     }
+
 }

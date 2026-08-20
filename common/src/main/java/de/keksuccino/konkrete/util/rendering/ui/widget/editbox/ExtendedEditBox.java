@@ -936,8 +936,10 @@ public class ExtendedEditBox extends EditBox implements UniqueWidget, Navigatabl
     /** Rewrites the component used to draw one visible character. */
     @FunctionalInterface
     public interface CharacterRenderFormatter {
+
         /** Applies per-character formatting using both visible and complete line context. */
         @NotNull MutableComponent formatComponent(@NotNull ExtendedEditBox editBox, @NotNull MutableComponent component, int characterIndex, char character, @NotNull String visiblePartOfLine, @NotNull String fullLine);
+
     }
 
 }

@@ -78,4 +78,5 @@ class GlslPassFrameStateTest {
         }
         return state;
     }
+
 }

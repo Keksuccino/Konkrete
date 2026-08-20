@@ -48,4 +48,5 @@ public final class LastDeathMessageTracker {
         if (minecraft.getConnection() != null) return ComponentParser.toJson(component, minecraft.getConnection().registryAccess());
         return ComponentParser.toJson(component);
     }
+
 }

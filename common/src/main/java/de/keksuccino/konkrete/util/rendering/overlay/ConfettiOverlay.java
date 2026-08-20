@@ -702,6 +702,7 @@ public class ConfettiOverlay extends AbstractWidget implements NavigatableWidget
     }
 
     private enum ConfettiSide {
+
         /** Positions the element at left. */
         LEFT,
         /** Positions the element at right. */
@@ -719,9 +720,11 @@ public class ConfettiOverlay extends AbstractWidget implements NavigatableWidget
                 default -> BOTTOM;
             };
         }
+
     }
 
     private static final class LandingArea {
+
         private int x;
         private int y;
         private int width;
@@ -740,9 +743,11 @@ public class ConfettiOverlay extends AbstractWidget implements NavigatableWidget
             this.width = width;
             this.height = height;
         }
+
     }
 
     private static final class ConfettiPiece {
+
         private float x;
         private float y;
         private float vx;
@@ -751,6 +756,7 @@ public class ConfettiOverlay extends AbstractWidget implements NavigatableWidget
         private int height;
         private int color;
         private boolean permanent;
+
     }
 
 }

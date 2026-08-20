@@ -42,4 +42,5 @@ public final class ClientPacketUtils {
         Connection connection = listener.getConnection();
         return connection.getRemoteAddress() == null ? null : connection.getRemoteAddress().toString();
     }
+
 }

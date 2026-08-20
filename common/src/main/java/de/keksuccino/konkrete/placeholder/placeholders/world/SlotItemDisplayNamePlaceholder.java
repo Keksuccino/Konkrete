@@ -61,4 +61,5 @@ public class SlotItemDisplayNamePlaceholder extends AbstractWorldPlaceholder {
         values.put("ignore_spectator", "false");
         return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
     }
+
 }

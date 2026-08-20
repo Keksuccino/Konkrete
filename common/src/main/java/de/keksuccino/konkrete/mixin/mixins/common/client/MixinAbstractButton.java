@@ -25,4 +25,5 @@ public class MixinAbstractButton {
             RenderingUtils.setShaderColor(graphics, previousColor);
         }
     }
+
 }

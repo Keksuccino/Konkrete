@@ -6,6 +6,7 @@ import java.util.Objects;
 
 /** Immutable server-list status consumed by the built-in server placeholders. */
 public record ServerStatus(boolean online, long pingMillis, @NotNull String motd, @NotNull String playerCount, @NotNull String version) {
+
     /** Rejects null display fields while preserving provider-defined ping and online values verbatim. */
     public ServerStatus {
         Objects.requireNonNull(motd, "motd");
@@ -18,4 +19,5 @@ public record ServerStatus(boolean online, long pingMillis, @NotNull String motd
     public static ServerStatus offline() {
         return new ServerStatus(false, -1L, "", "0/0", "");
     }
+
 }

@@ -151,6 +151,7 @@ public class WebUtils {
 
     /** Defines bounded download policies for common resource consumption models. */
     public enum WebResourceType {
+
         /** Small textual resources. */
         TEXT(8L * 1024L * 1024L, Duration.ofMinutes(1L)),
         /** Static images. */
@@ -175,5 +176,7 @@ public class WebUtils {
         private BoundedWebResourceClient.RequestLimits limits() {
             return this.limits;
         }
+
     }
+
 }

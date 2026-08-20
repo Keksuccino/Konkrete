@@ -14,4 +14,5 @@ class ServerGameruleValueRequestValidationTest {
         assertNull(ServerSideServerGameruleValueRequestPacketLogic.normalizeGameruleName("   "));
         assertNull(ServerSideServerGameruleValueRequestPacketLogic.normalizeGameruleName("x".repeat(129)));
     }
+
 }

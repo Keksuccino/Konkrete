@@ -391,10 +391,12 @@ public class ScrollBar extends UIBase implements GuiEventListener, Renderable, N
 
     /** Identifies one supported scroll bar option. */
     public enum ScrollBarDirection {
+
         /** Positions the element at horizontal. */
         HORIZONTAL,
         /** Positions the element at vertical. */
         VERTICAL
+
     }
 
 }

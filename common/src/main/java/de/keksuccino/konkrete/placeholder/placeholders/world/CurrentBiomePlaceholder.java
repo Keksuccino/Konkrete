@@ -70,4 +70,5 @@ public class CurrentBiomePlaceholder extends AbstractWorldPlaceholder {
         values.put("as_key", "true");
         return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
     }
+
 }

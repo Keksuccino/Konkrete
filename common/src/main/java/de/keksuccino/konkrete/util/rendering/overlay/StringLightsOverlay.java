@@ -406,6 +406,7 @@ public class StringLightsOverlay extends AbstractWidget implements NavigatableWi
 
     /** Stores the position and dimensions of string lights. */
     public enum StringLightsPosition {
+
         /** Positions the element at left center to top center. */
         LEFT_CENTER_TO_TOP_CENTER(0.0F, 0.5F, 0.5F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.22F, 1.0F, 1.0F, 1.0F),
         /** Positions the element at right center to top center. */
@@ -462,9 +463,11 @@ public class StringLightsOverlay extends AbstractWidget implements NavigatableWi
             this.sizeMultiplier = sizeMultiplier;
             this.windMultiplier = windMultiplier;
         }
+
     }
 
     private static final class StringLight {
+
         private final StringLightsPosition position;
         private final List<LightBulb> bulbs = new ArrayList<>();
         private float startX;
@@ -482,9 +485,11 @@ public class StringLightsOverlay extends AbstractWidget implements NavigatableWi
         private StringLight(StringLightsPosition position) {
             this.position = position;
         }
+
     }
 
     private static final class LightBulb {
+
         private float t;
         private float size;
         private float baseBrightness;
@@ -492,10 +497,14 @@ public class StringLightsOverlay extends AbstractWidget implements NavigatableWi
         private float flickerPhase;
         private float flickerTime;
         private int christmasRgb;
+
     }
 
     private static final class ColorSettings {
+
         private int color;
         private float alphaScale;
+
     }
+
 }

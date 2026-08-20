@@ -2031,6 +2031,7 @@ public abstract class AbstractBrowserWindowBody extends PiPWindowBody implements
         }
 
         private static final class IconRenderData {
+
             private final Identifier texture;
             private final int width;
             private final int height;
@@ -2040,6 +2041,7 @@ public abstract class AbstractBrowserWindowBody extends PiPWindowBody implements
                 this.width = width;
                 this.height = height;
             }
+
         }
 
     }

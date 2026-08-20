@@ -46,4 +46,5 @@ public class CurrentBossHealthPlaceholder extends AbstractWorldPlaceholder {
         values.put("boss_index", "0");
         return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
     }
+
 }

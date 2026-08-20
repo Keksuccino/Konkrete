@@ -26,4 +26,5 @@ public class PlayerPositionDeltaXPlaceholder extends AbstractWorldPlaceholder {
     public @NotNull DeserializedPlaceholderString getDefaultPlaceholderString() {
         return new DeserializedPlaceholderString(this.getIdentifier(), null, "");
     }
+
 }

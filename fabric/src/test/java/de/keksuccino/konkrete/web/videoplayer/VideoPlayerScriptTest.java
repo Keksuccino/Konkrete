@@ -78,4 +78,5 @@ class VideoPlayerScriptTest {
         }
         return fail("Could not locate the project root containing " + HARNESS_RELATIVE_PATH + " from " + Path.of("").toAbsolutePath());
     }
+
 }

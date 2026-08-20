@@ -314,18 +314,21 @@ public final class BridgeChunkReassembler {
         private static @NotNull Result rejected() {
             return new Result(Status.REJECTED, null);
         }
+
     }
 
     /**
      * Reassembly outcome.
      */
     public enum Status {
+
         /** More unique chunks are required. */
         INCOMPLETE,
         /** The complete strict UTF-8 message is available. */
         COMPLETE,
         /** The chunk or transfer was rejected and cannot resume. */
         REJECTED
+
     }
 
     private static final class SessionState {
@@ -333,6 +336,7 @@ public final class BridgeChunkReassembler {
         private final Map<UUID, TransferState> transfers = new HashMap<>();
         private final LinkedHashMap<UUID, Long> terminatedTransfers = new LinkedHashMap<>();
         private long reservedBytes;
+
     }
 
     private static final class TransferState {
@@ -350,5 +354,7 @@ public final class BridgeChunkReassembler {
             this.chunks = new byte[chunkCount][];
             this.lastActivityNanos = now;
         }
+
     }
+
 }

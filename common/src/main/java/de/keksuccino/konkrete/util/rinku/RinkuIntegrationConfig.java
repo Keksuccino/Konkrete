@@ -119,27 +119,36 @@ public final class RinkuIntegrationConfig {
     /** Receives a changed Minecraft sound-category volume. */
     @FunctionalInterface
     public interface VolumeListener {
+
         /** Receives one category-volume update. */
         void onVolumeChanged(@NotNull SoundSource source, float volume);
+
     }
 
     /** Registers a volume callback and returns its unregister handle. */
     @FunctionalInterface
     public interface VolumeListenerRegistrar {
+
         /** Registers one callback. */
         @NotNull VolumeListenerRegistration register(@NotNull VolumeListener listener) throws Exception;
+
     }
 
     /** Handle that unregisters a previously installed volume callback. */
     @FunctionalInterface
     public interface VolumeListenerRegistration extends AutoCloseable {
+
         /** Unregisters the callback. */
         @Override void close() throws Exception;
+
     }
 
     /** Dispatches browser calls without self-queueing when the caller already owns the target thread. */
     public interface BrowserTaskDispatcher extends Executor {
+
         /** Returns whether the caller already runs on this dispatcher's target thread. */
         boolean isCurrentThread();
+
     }
+
 }

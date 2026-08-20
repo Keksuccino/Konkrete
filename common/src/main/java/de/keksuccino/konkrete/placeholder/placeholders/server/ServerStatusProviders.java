@@ -37,8 +37,10 @@ public final class ServerStatusProviders {
     }
 
     interface OwnedProvider extends ServerStatusProvider, AutoCloseable {
+
         @Override
         void close();
+
     }
 
     static final class ProviderLifecycle {
@@ -99,5 +101,7 @@ public final class ServerStatusProviders {
             this.ownedProvider = null;
             if (closing != null) closing.close();
         }
+
     }
+
 }

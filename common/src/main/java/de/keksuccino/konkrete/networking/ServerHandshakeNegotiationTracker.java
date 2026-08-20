@@ -94,6 +94,7 @@ final class ServerHandshakeNegotiationTracker {
     }
 
     enum Decision {
+
         ALLOW(true, false),
         REJECT(false, false),
         REJECT_AND_WARN(false, true);
@@ -113,6 +114,7 @@ final class ServerHandshakeNegotiationTracker {
         boolean isWarningRequired() {
             return this.warningRequired;
         }
+
     }
 
     private static final class ConnectionState {
@@ -126,5 +128,7 @@ final class ServerHandshakeNegotiationTracker {
         private ConnectionState(long now) {
             this.attemptWindowStartedAt = now;
         }
+
     }
+
 }

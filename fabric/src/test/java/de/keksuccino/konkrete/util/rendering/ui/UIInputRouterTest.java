@@ -120,6 +120,7 @@ class UIInputRouterTest {
         public boolean isFocused() {
             return this.focused;
         }
+
     }
 
     private static final class CaptureAwareComponent extends TestComponent implements MouseButtonCaptureOwner {
@@ -142,6 +143,7 @@ class UIInputRouterTest {
             if (event.button() == this.capturedButton) this.capturedButton = -1;
             return true;
         }
+
     }
 
     private static final class TestVanillaComponent implements GuiEventListener {
@@ -168,6 +170,7 @@ class UIInputRouterTest {
         public boolean isFocused() {
             return this.focused;
         }
+
     }
 
 }

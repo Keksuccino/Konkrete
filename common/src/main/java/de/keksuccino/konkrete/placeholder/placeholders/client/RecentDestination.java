@@ -16,7 +16,10 @@ public record RecentDestination(@NotNull Type type, @NotNull String identifier, 
 
     /** Distinguishes local save histories from multiplayer server histories. */
     public enum Type {
+
         WORLD,
         SERVER
+
     }
+
 }

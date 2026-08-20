@@ -77,4 +77,5 @@ public record UIConfiguration(@NotNull UIScale uiScale, boolean useMinecraftFont
     public static UIConfiguration defaults() {
         return new UIConfiguration(UIScale.AUTO, false, false, 3.0F, true, true, 1, true, false, false, "dark", Path.of("config", "konkrete"));
     }
+
 }

@@ -199,8 +199,11 @@ public final class PacketRequestCache<S, K, V> {
     }
 
     private record CacheEntry<V>(@NotNull V value, long updatedAtNanos) {
+
     }
 
     private record PendingRequest(long requestId, long startedAtNanos) {
+
     }
+
 }

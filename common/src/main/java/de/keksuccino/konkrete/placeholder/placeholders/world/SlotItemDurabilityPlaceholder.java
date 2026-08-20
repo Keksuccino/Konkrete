@@ -104,4 +104,5 @@ public class SlotItemDurabilityPlaceholder extends Placeholder {
         values.put("format", "current");
         return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
     }
+
 }

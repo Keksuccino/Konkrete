@@ -129,6 +129,7 @@ public final class BridgePacketPayload implements CustomPacketPayload {
     }
 
     private record Lengths(int directionBytes, int messageBytes) {
+
     }
 
 }

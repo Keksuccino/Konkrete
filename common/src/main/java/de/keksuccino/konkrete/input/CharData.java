@@ -1,7 +1,7 @@
 package de.keksuccino.konkrete.input;
 
 public class CharData {
-	
+
 	public final char typedChar;
 	public final int modfiers;
 	

@@ -221,9 +221,11 @@ public final class SmoothImageCircleRenderer {
     }
 
     private record CircleArea(float x, float y, float width, float height, float roundness, TextureRegion textureRegion, Identifier texture, int color) {
+
     }
 
     private record QuadBounds(float minX, float minY, float maxX, float maxY) {
+
     }
 
     private record SmoothImageCircleRenderState(
@@ -344,5 +346,7 @@ public final class SmoothImageCircleRenderer {
             float maxV = (vOffset + vHeight) / safeTexHeight;
             return new TextureRegion(minU, minV, maxU, maxV);
         }
+
     }
+
 }

@@ -41,4 +41,5 @@ final class NetworkEventsNeoForge {
     public void onServerStopped(ServerStoppedEvent event) {
         PacketHandler.onServerStopped(event.getServer());
     }
+
 }

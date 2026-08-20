@@ -13,6 +13,7 @@ import java.util.Map;
 
 /** Provider-backed named Minecraft option placeholder. */
 public final class MinecraftOptionValuePlaceholder extends Placeholder {
+
     /** Creates the provider-backed {@code minecraft_option_value} placeholder. */
     public MinecraftOptionValuePlaceholder() {
         super("minecraft_option_value");
@@ -55,4 +56,5 @@ public final class MinecraftOptionValuePlaceholder extends Placeholder {
     @Override @NotNull public DeserializedPlaceholderString getDefaultPlaceholderString() {
         return DeserializedPlaceholderString.build(this.getIdentifier(), Map.of("name", "option_name"));
     }
+
 }

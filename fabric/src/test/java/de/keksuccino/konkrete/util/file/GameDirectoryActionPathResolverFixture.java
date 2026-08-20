@@ -11,4 +11,5 @@ public final class GameDirectoryActionPathResolverFixture {
     public static GameDirectoryActionPathResolver create(Path gameDirectoryRoot, Path minecraftDirectoryRoot) throws IOException {
         return GameDirectoryActionPathResolver.create(gameDirectoryRoot, minecraftDirectoryRoot);
     }
+
 }

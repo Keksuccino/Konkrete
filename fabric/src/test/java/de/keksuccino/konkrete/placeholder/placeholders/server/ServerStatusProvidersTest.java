@@ -138,6 +138,7 @@ class ServerStatusProvidersTest {
         public void close() {
             this.closeCalls.incrementAndGet();
         }
+
     }
 
     private static final class CallerOwnedProvider implements ServerStatusProvider, AutoCloseable {
@@ -153,5 +154,7 @@ class ServerStatusProvidersTest {
         public void close() {
             this.closeCalls.incrementAndGet();
         }
+
     }
+
 }

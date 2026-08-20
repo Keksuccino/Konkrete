@@ -25,4 +25,5 @@ public final class WidgetLabelRenderer implements IExtendedWidget {
         if (scale == 1.0F) this.renderScrollingLabelInternal(graphics, font, component, xMin, yMin, xMax, yMax, shadow, color);
         else this.renderScrollingLabelInternalScaled(graphics, font, component, xMin, yMin, xMax, yMax, shadow, color, scale);
     }
+
 }

@@ -429,12 +429,14 @@ public class EditBoxSuggestions extends CommandSuggestions {
 
     /** Stores the position and dimensions of suggestions render. */
     public enum SuggestionsRenderPosition {
+
         /** Positions the element at vanilla. */
         VANILLA,
         /** Positions the element at above edit box. */
         ABOVE_EDIT_BOX,
         /** Positions the element at below edit box. */
         BELOW_EDIT_BOX
+
     }
 
     /** Extends Minecraft's suggestion popup with explicit bounds and event forwarding. */

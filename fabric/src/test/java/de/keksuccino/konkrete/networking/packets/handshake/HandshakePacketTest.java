@@ -74,5 +74,7 @@ class HandshakePacketTest {
     }
 
     private static final class LegacyHandshakeShape {
+
     }
+
 }

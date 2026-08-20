@@ -125,6 +125,7 @@ final class AnimatedTextureFrameStore<F extends AutoCloseable> implements AutoCl
     }
 
     record Snapshot<F>(@NotNull List<F> frames, @Nullable F current, long generation, boolean complete) {
+
     }
 
 }

@@ -37,5 +37,7 @@ final class GlslInputDeltaState {
     record Delta(double scrollX, double scrollY, double mouseX, double mouseY) {
 
         private static final Delta ZERO = new Delta(0.0D, 0.0D, 0.0D, 0.0D);
+
     }
+
 }

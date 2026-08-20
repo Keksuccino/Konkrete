@@ -12,6 +12,7 @@ import java.util.List;
 
 /** Shared provider access and metadata for server-status placeholders. */
 public abstract class AbstractServerStatusPlaceholder extends Placeholder {
+
     private final String localizationName;
 
     /** Creates a provider-backed server placeholder with an identifier and localization-key suffix. */
@@ -63,4 +64,5 @@ public abstract class AbstractServerStatusPlaceholder extends Placeholder {
         value.values.put("ip", "example.com:25565");
         return value;
     }
+
 }

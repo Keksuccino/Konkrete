@@ -125,10 +125,12 @@ public final class GameDirectoryActionPathResolver {
 
     /** Identifies a permitted path root. */
     public enum AllowedRoot {
+
         /** The active game instance directory. */
         GAME_DIRECTORY,
         /** The user's default Minecraft directory. */
         DEFAULT_MINECRAFT_DIRECTORY
+
     }
 
     /** A validated path paired with its permitted root. */
@@ -200,6 +202,7 @@ public final class GameDirectoryActionPathResolver {
         public Path revalidate() throws IOException {
             return this.confinedPath.revalidate();
         }
+
     }
 
     private record RootBoundary(AllowedRoot allowedRoot, ConfinedPathResolver resolver) {
@@ -207,5 +210,7 @@ public final class GameDirectoryActionPathResolver {
         private static RootBoundary capture(AllowedRoot allowedRoot, Path path) throws IOException {
             return new RootBoundary(allowedRoot, ConfinedPathResolver.create(path));
         }
+
     }
+
 }

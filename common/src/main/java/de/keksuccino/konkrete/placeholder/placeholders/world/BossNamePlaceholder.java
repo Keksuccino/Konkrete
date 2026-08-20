@@ -51,4 +51,5 @@ public class BossNamePlaceholder extends AbstractWorldPlaceholder {
         values.put("as_json", "false");
         return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
     }
+
 }

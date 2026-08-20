@@ -288,6 +288,7 @@ public class MouseUtil {
 
     /** Maps supported mouse buttons to GLFW codes. */
     public enum MouseButton {
+
         /** The primary left mouse button. */
         LEFT(GLFW.GLFW_MOUSE_BUTTON_LEFT),
         /** The secondary right mouse button. */
@@ -317,27 +318,34 @@ public class MouseUtil {
                 default -> OTHER;
             };
         }
+
     }
 
     /** Receives mouse button listener callbacks. */
     @FunctionalInterface
     public interface MouseButtonListener {
+
         /** Handles a mouse-button transition at the supplied coordinates. */
         void onMouseButton(@NotNull MouseButton button, double mouseX, double mouseY);
+
     }
 
     /** Receives mouse move listener callbacks. */
     @FunctionalInterface
     public interface MouseMoveListener {
+
         /** Handles mouse movement and its coordinate deltas. */
         void onMouseMoved(double mouseX, double mouseY, double deltaX, double deltaY);
+
     }
 
     /** Receives mouse drag listener callbacks. */
     @FunctionalInterface
     public interface MouseDragListener {
+
         /** Handles a mouse drag for the supplied button and coordinate deltas. */
         void onMouseDragged(int button, double mouseX, double mouseY, double deltaX, double deltaY);
+
     }
 
 }

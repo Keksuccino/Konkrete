@@ -31,4 +31,5 @@ final class BridgeChunkEncoder {
         }
         return List.copyOf(chunks);
     }
+
 }

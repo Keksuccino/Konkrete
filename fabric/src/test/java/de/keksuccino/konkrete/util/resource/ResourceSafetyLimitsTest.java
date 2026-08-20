@@ -34,4 +34,5 @@ class ResourceSafetyLimitsTest {
         assertThrows(IOException.class, () -> ResourceInputLimits.bounded(new ByteArrayInputStream(new byte[5]), 4L, "test").readAllBytes());
         assertThrows(IllegalArgumentException.class, () -> ResourceInputLimits.bounded(new ByteArrayInputStream(boundary), -1L, "test"));
     }
+
 }

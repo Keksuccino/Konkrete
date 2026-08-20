@@ -438,6 +438,7 @@ public final class SmoothFont implements AutoCloseable {
     }
 
     private static class FontSource implements AutoCloseable {
+
         final SmoothFont parent;
         final Font rawFont;
         final String debugName;
@@ -498,9 +499,11 @@ public final class SmoothFont implements AutoCloseable {
             String sizeLabel = generationSize + "px";
             return new SizeLevel(parent, rawFont, generationSize, sdfRange, padding, initialAtlasSize, debugName, sizeLabel, sourceLabel, sourceIndex);
         }
+
     }
 
     private static class SizeLevel implements AutoCloseable {
+
         final int generationSize;
         private final SmoothFont parent;
         private final Font rawFont;
@@ -596,5 +599,7 @@ public final class SmoothFont implements AutoCloseable {
                 boldItalicAtlas.close();
             }
         }
+
     }
+
 }

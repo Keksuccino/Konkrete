@@ -86,11 +86,14 @@ public final class WatermediaUtil {
 
     /** Capability level detected for the optional Watermedia installation. */
     public enum Availability {
+
         /** The API is absent, disabled, or terminally failed. */
         UNAVAILABLE,
         /** The API can decode images but native video binaries are unavailable. */
         RENDERING_ONLY,
         /** The API and native video binaries are available. */
         VIDEO_PLAYBACK
+
     }
+
 }

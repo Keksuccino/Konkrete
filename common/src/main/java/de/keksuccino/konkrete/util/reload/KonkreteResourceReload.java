@@ -134,8 +134,10 @@ public final class KonkreteResourceReload {
 
     /** Supported owners of the shared client listener. */
     public enum ClientLoader {
+
         FABRIC,
         NEOFORGE
+
     }
 
     /** Closeable listener registration. */
@@ -164,12 +166,14 @@ public final class KonkreteResourceReload {
     }
 
     private record ListenerKey(int order, long id) implements Comparable<ListenerKey> {
+
         /** {@inheritDoc} */
         @Override
         public int compareTo(@NotNull ListenerKey other) {
             int orderComparison = Integer.compare(this.order, other.order);
             return orderComparison != 0 ? orderComparison : Long.compare(this.id, other.id);
         }
+
     }
 
 }

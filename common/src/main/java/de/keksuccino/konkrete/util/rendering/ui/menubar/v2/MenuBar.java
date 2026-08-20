@@ -671,8 +671,10 @@ public class MenuBar implements Renderable, GuiEventListener, NarratableEntry, N
     /** Receives menu bar click lifecycle notifications. */
     @FunctionalInterface
     public interface MenuBarClickListener {
+
         /** Receives the pressed button and resulting press state. */
         void onClick(int button, @NotNull PressState state);
+
     }
 
     /** Returns base scale. */
@@ -866,15 +868,19 @@ public class MenuBar implements Renderable, GuiEventListener, NarratableEntry, N
         /** Supplies menu bar entry boolean values on demand. */
         @FunctionalInterface
         public interface MenuBarEntryBooleanSupplier {
+
             /** Supplies a boolean using the current bar and entry state. */
             boolean get(MenuBar bar, MenuBarEntry entry);
+
         }
 
         /** Supplies menu bar entry values on demand. */
         @FunctionalInterface
         public interface MenuBarEntrySupplier<T> {
+
             /** Supplies a value using the current bar and entry state. */
             T get(MenuBar bar, MenuBarEntry entry);
+
         }
 
     }
@@ -1145,8 +1151,10 @@ public class MenuBar implements Renderable, GuiEventListener, NarratableEntry, N
         /** Handles activation of a clickable menu-bar entry. */
         @FunctionalInterface
         public interface ClickAction {
+
             /** Handles activation of this menu-bar entry. */
             void onClick(MenuBar bar, MenuBarEntry entry);
+
         }
 
     }
@@ -1429,10 +1437,12 @@ public class MenuBar implements Renderable, GuiEventListener, NarratableEntry, N
 
     /** Identifies one supported side option. */
     public enum Side {
+
         /** Positions the element at left. */
         LEFT,
         /** Positions the element at right. */
         RIGHT
+
     }
 
     /** Stores a context-menu request until current input dispatch completes. */
@@ -1446,6 +1456,7 @@ public class MenuBar implements Renderable, GuiEventListener, NarratableEntry, N
             this.entry = entry;
             this.entryPath = entryPath;
         }
+
     }
 
 }

@@ -4,6 +4,7 @@ package de.keksuccino.konkrete.networking;
  * Outcome of one optional logical packet send.
  */
 public enum PacketSendResult {
+
     /** The complete packet was submitted to the connection. */
     SENT,
     /** No current client connection exists. */
@@ -28,4 +29,5 @@ public enum PacketSendResult {
     MALFORMED_TEXT,
     /** Loader-specific transport initialization has not completed. */
     TRANSPORT_NOT_INITIALIZED
+
 }

@@ -7,4 +7,5 @@ import org.jetbrains.annotations.NotNull;
 interface BridgeSendLogic<E> {
 
     @NotNull BridgeMessageSender.SendResult send(@NotNull E endpoint, @NotNull String message, boolean bridgeProtocolV1Advertised);
+
 }

@@ -24,4 +24,5 @@ final class OptionalPayloadSender {
         sender.accept(endpoint, payload);
         return true;
     }
+
 }

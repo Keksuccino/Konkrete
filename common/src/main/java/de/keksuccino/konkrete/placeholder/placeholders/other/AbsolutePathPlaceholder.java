@@ -57,4 +57,5 @@ public class AbsolutePathPlaceholder extends Placeholder {
         values.put("short_path", "config/example.txt");
         return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
     }
+
 }

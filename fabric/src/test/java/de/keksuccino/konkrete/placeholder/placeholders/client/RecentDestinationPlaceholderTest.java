@@ -46,4 +46,5 @@ class RecentDestinationPlaceholderTest {
     private String resolve(String type, boolean fullWorldPath) {
         return this.placeholder.getReplacementFor(new DeserializedPlaceholderString(this.placeholder.getIdentifier(), Map.of("type", type, "full_world_path", Boolean.toString(fullWorldPath)), ""));
     }
+
 }

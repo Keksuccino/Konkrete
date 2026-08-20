@@ -862,6 +862,7 @@ public class MarkdownTextFragment implements Renderable, GuiEventListener {
 
     /** Maps Markdown headline levels to renderer scale and underline presets. */
     public enum HeadlineType {
+
         /** Represents ordinary non-headline text. */
         NONE,
         /** Represents a level-three headline. */
@@ -870,10 +871,12 @@ public class MarkdownTextFragment implements Renderable, GuiEventListener {
         BIGGER, // ##
         /** Represents a level-one headline. */
         BIGGEST // #
+
     }
 
     /** Stores the rows and calculated layout of one table. */
     public static class TableContext {
+
         /** Parsed rows in source order. */
         public final List<TableRow> rows = new ArrayList<>();
         /** Measured maximum width of each column, including cell padding. */
@@ -941,10 +944,12 @@ public class MarkdownTextFragment implements Renderable, GuiEventListener {
             }
             return maxHeight + (row.parent.tableCellPadding * 2);
         }
+
     }
 
     /** Stores the cells and metadata of one table row. */
     public static class TableRow {
+
         /** Cells in source-column order. */
         public final List<TableCell> cells = new ArrayList<>();
         /** Whether this row receives header styling when headers are visible. */
@@ -956,10 +961,12 @@ public class MarkdownTextFragment implements Renderable, GuiEventListener {
         public TableRow(MarkdownRenderer parent) {
             this.parent = parent;
         }
+
     }
 
     /** Stores the fragments and alignment of one table cell. */
     public static class TableCell {
+
         /** Parsed inline fragments contained in this cell. */
         public final List<MarkdownTextFragment> fragments = new ArrayList<>();
         /** Horizontal placement of cell content within its measured column. */
@@ -971,13 +978,16 @@ public class MarkdownTextFragment implements Renderable, GuiEventListener {
 
         /** Controls text placement inside a computed table column. */
         public enum TableCellAlignment {
+
             /** Aligns cell content to the left. */
             LEFT,
             /** Centers cell content. */
             CENTER,
             /** Aligns cell content to the right. */
             RIGHT
+
         }
+
     }
 
 }

@@ -73,13 +73,16 @@ public final class IconAnimation {
     /** Supplies offset values on demand. */
     @FunctionalInterface
     public interface OffsetProvider {
+
         /** Returns offset for this widget. */
         @NotNull
         Offset getOffset(float t);
+
     }
 
     /** Tracks playback state for one use of an icon animation. */
     public static final class Instance {
+
         @NotNull
         private final IconAnimation animation;
         private long startMs = -1L;
@@ -211,10 +214,12 @@ public final class IconAnimation {
             float cycleDuration = this.animation.durationMs + this.loopDelayMs;
             return ((this.loopCount - 1) * cycleDuration) + this.animation.durationMs;
         }
+
     }
 
     /** Stores an icon animation's translation, rotation, and size offsets. */
     public static final class Offset {
+
         /** Zero-transform offset shared by all icon animations. */
         public static final Offset ZERO = new Offset(0.0F, 0.0F);
 
@@ -267,5 +272,7 @@ public final class IconAnimation {
         public float heightOffset() {
             return this.heightOffset;
         }
+
     }
+
 }

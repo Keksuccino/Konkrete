@@ -1239,18 +1239,22 @@ public final class GlslShaderSourceTransformer {
 
     /** Describes how backend coordinates map between graphics backends. */
     public enum BackendCoordinates {
+
         /** Selects the opengl option. */
         OPENGL,
         /** Selects the vulkan option. */
         VULKAN
+
     }
 
     /** Identifies one supported pass option. */
     public enum PassKind {
+
         /** Selects buffer behavior. */
         BUFFER,
         /** Selects image behavior. */
         IMAGE
+
     }
 
     /** Describes how coordinate convention coordinates map between graphics backends. */
@@ -1262,10 +1266,12 @@ public final class GlslShaderSourceTransformer {
             boolean bottomOrigin = backend == BackendCoordinates.OPENGL || passKind == PassKind.IMAGE;
             return new CoordinateConvention(backend, passKind, bottomOrigin, true, passKind == PassKind.IMAGE);
         }
+
     }
 
     /** Bundles transformed shader sources with their uniforms, samplers, identity, and coordinate convention. */
     public record FragmentVariant(@NotNull String label, @NotNull String source, @NotNull String vertexSource, @NotNull GlslStd140Layout uniformLayout, @NotNull List<String> activeSamplerNames, @NotNull String identity, @NotNull CoordinateConvention coordinateConvention) {
+
     }
 
     /** Signals a failure while processing shader transform. */
@@ -1283,24 +1289,31 @@ public final class GlslShaderSourceTransformer {
         public List<String> diagnostics() {
             return this.diagnostics;
         }
+
     }
 
     private record SamplerDeclaration(@NotNull String type, @NotNull String name) {
+
     }
 
     private record UniformTransformation(@NotNull String source, @NotNull String blockDeclaration, @NotNull String samplerDeclarations, @NotNull GlslStd140Layout layout, @NotNull List<String> activeSamplerNames) {
+
     }
 
     private record VariantSource(@NotNull String label, @NotNull String source) {
+
     }
 
     private record ParsedUniformDeclaration(@NotNull String type, @NotNull List<ParsedDeclarator> declarators, boolean sampler, boolean uniformBlock, @NotNull SourceRange range) {
+
     }
 
     private record ParsedDeclarator(@NotNull String name, int arrayLength) {
+
     }
 
     private record PreprocessorDirective(@NotNull String name, int start, int end, @NotNull String body) {
+
     }
 
     private record MacroDefinition(@NotNull String name, @NotNull Set<String> parameters, @NotNull Set<String> replacementIdentifiers) {
@@ -1313,11 +1326,15 @@ public final class GlslShaderSourceTransformer {
             }
             return false;
         }
+
     }
 
     private record SourceRange(int start, int end) {
+
     }
 
     private record Token(@NotNull String text, int start, int end, boolean identifier, boolean number) {
+
     }
+
 }

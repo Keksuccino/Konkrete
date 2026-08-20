@@ -7,6 +7,7 @@ import java.util.List;
 
 /** Exposes one of the first two lines of a server provider's MOTD. */
 public final class ServerMotdPlaceholder extends AbstractServerStatusPlaceholder {
+
     /** Creates the serialized {@code servermotd} placeholder. */
     public ServerMotdPlaceholder() {
         super("servermotd", "servermotd");
@@ -36,4 +37,5 @@ public final class ServerMotdPlaceholder extends AbstractServerStatusPlaceholder
         value.values.put("line", "1");
         return value;
     }
+
 }

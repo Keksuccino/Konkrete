@@ -305,12 +305,14 @@ public class TextWidget extends AbstractWidget implements UniqueWidget, Navigata
 
     /** Identifies one supported text option. */
     public enum TextAlignment {
+
         /** Positions the element at left. */
         LEFT,
         /** Positions the element at right. */
         RIGHT,
         /** Positions the element at center. */
         CENTER
+
     }
 
 }

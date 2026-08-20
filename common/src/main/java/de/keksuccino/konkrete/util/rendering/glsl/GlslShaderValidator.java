@@ -86,5 +86,7 @@ final class GlslShaderValidator {
         boolean valid() {
             return this.diagnostics.isEmpty();
         }
+
     }
+
 }

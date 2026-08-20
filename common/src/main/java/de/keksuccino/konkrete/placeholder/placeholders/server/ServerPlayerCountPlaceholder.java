@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 /** Exposes a server provider's formatted online and maximum player counts. */
 public final class ServerPlayerCountPlaceholder extends AbstractServerStatusPlaceholder {
+
     /** Creates the serialized {@code serverplayercount} placeholder. */
     public ServerPlayerCountPlaceholder() {
         super("serverplayercount", "serverplayercount");
@@ -14,4 +15,5 @@ public final class ServerPlayerCountPlaceholder extends AbstractServerStatusPlac
     @Override protected String getReplacement(@NotNull ServerStatus status, @NotNull DeserializedPlaceholderString placeholder) {
         return status.playerCount();
     }
+
 }

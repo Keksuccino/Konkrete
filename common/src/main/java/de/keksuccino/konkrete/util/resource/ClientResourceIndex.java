@@ -99,6 +99,8 @@ public final class ClientResourceIndex {
 
     }
 
-    private record CacheEntry(@Nullable ResourceManager resourceManager, Set<Identifier> locations, boolean authoritative) {}
+    private record CacheEntry(@Nullable ResourceManager resourceManager, Set<Identifier> locations, boolean authoritative) {
+
+    }
 
 }

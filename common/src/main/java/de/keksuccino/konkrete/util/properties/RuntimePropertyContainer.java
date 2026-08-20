@@ -140,6 +140,8 @@ public class RuntimePropertyContainer {
      * @param value wrapped value
      * @param <T> value type
      */
-    public record RuntimeProperty<T>(@Nullable T value) {}
+    public record RuntimeProperty<T>(@Nullable T value) {
+
+    }
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 public class CharacterFilter {
-	
+
 	private List<Character> allowed = new ArrayList<Character>();
 	private List<Character> forbidden = new ArrayList<Character>();
 	

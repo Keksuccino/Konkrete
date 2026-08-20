@@ -28,4 +28,5 @@ class GuiTextureCoverRendererTest {
         assertNull(GuiTextureCoverRenderer.calculateBounds(0, 0, 0, 694, 2560, 1440));
         assertNull(GuiTextureCoverRenderer.calculateBounds(0, 0, 1277, 694, 0, 1440));
     }
+
 }

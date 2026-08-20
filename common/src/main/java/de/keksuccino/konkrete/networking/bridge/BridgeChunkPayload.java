@@ -172,4 +172,5 @@ public final class BridgeChunkPayload implements CustomPacketPayload {
     public @NotNull Type<BridgeChunkPayload> type() {
         return TYPE;
     }
+
 }

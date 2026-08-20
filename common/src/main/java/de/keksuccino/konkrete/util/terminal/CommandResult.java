@@ -7,4 +7,5 @@ package de.keksuccino.konkrete.util.terminal;
  * @param output captured standard output
  */
 public record CommandResult(int exitCode, String output) {
+
 }

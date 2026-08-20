@@ -63,4 +63,5 @@ public final class ServerNbtDataRequestPacket extends Packet {
     public boolean processPacket(@Nullable ServerPlayer sender) {
         return sender != null && ServerSideServerNbtDataRequestPacketLogic.handle(sender, this);
     }
+
 }

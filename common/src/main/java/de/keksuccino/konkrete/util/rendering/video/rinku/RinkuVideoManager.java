@@ -248,6 +248,7 @@ public final class RinkuVideoManager {
     }
 
     private static final class BrowserRequestKey {
+
         private final CefBrowser browser;
         private final String requestId;
 
@@ -267,5 +268,7 @@ public final class RinkuVideoManager {
         public int hashCode() {
             return 31 * System.identityHashCode(this.browser) + this.requestId.hashCode();
         }
+
     }
+
 }

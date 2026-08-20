@@ -241,6 +241,7 @@ class ActionBridgeTest {
     }
 
     private static final class RecordingCallback implements CefQueryCallback {
+
         private final AtomicReference<String> success = new AtomicReference<>();
         private int failureCode;
         private String failureMessage = "";
@@ -255,6 +256,7 @@ class ActionBridgeTest {
             this.failureCode = errorCode;
             this.failureMessage = errorMessage;
         }
+
     }
 
     private static final class TestPlaceholder extends Placeholder {
@@ -298,5 +300,7 @@ class ActionBridgeTest {
         public DeserializedPlaceholderString getDefaultPlaceholderString() {
             return DeserializedPlaceholderString.build(this.getIdentifier(), Map.of("text", "value"));
         }
+
     }
+
 }

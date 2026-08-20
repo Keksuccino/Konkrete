@@ -193,4 +193,5 @@ class BridgePacketPayloadTest {
         byteBuf.getBytes(byteBuf.readerIndex(), bytes);
         return bytes;
     }
+
 }

@@ -140,19 +140,24 @@ public abstract class Placeholder {
     /** Decides whether a placeholder can run in the current execution context. */
     @FunctionalInterface
     public interface ExecutionPolicy {
+
         /** Returns a non-null allow or deny decision; thrown exceptions abort the current parse. */
         @NotNull ExecutionDecision evaluate(@NotNull Placeholder placeholder);
+
     }
 
     /** Receives policy denials without imposing a UI implementation. */
     @FunctionalInterface
     public interface ExecutionFailureListener {
+
         /** Called once per placeholder until its notification guard is reset; thrown exceptions abort the current parse. */
         void onDenied(@NotNull Placeholder placeholder, @NotNull String reason);
+
     }
 
     /** Immutable execution-policy result. */
     public record ExecutionDecision(boolean allowed, @NotNull String reason) {
+
         /** Creates an allowed decision with an empty diagnostic reason. */
         @NotNull public static ExecutionDecision allow() {
             return new ExecutionDecision(true, "");
@@ -162,6 +167,7 @@ public abstract class Placeholder {
         @NotNull public static ExecutionDecision deny(@NotNull String reason) {
             return new ExecutionDecision(false, Objects.requireNonNull(reason, "reason"));
         }
+
     }
 
 }

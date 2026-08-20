@@ -28,4 +28,5 @@ public final class ScreenIdentifierProviders {
     public static void reset() {
         provider = CLASS_NAME_PROVIDER;
     }
+
 }

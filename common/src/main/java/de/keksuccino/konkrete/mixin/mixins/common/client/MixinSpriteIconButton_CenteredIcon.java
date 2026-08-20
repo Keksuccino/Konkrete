@@ -42,4 +42,5 @@ public abstract class MixinSpriteIconButton_CenteredIcon extends Button {
         if (hoverLabel != null && this.isHoveredOrFocused() && this.visible && this.active) return hoverLabel;
         return widget.getCustomLabelKonkrete();
     }
+
 }

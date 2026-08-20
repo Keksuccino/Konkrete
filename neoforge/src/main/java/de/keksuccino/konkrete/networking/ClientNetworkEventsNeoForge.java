@@ -20,4 +20,5 @@ final class ClientNetworkEventsNeoForge {
     public void onClientLoggedOut(ClientPlayerNetworkEvent.LoggingOut event) {
         PacketHandler.onClientDisconnected(event.getConnection());
     }
+
 }

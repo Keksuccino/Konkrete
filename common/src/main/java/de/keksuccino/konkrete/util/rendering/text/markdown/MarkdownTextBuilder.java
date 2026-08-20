@@ -128,12 +128,14 @@ public class MarkdownTextBuilder {
 
     /** Controls colon placement in generated table separator cells. */
     public enum TableCellAlignment {
+
         /** Aligns cell content to the left. */
         LEFT,
         /** Centers cell content. */
         CENTER,
         /** Aligns cell content to the right. */
         RIGHT
+
     }
 
 }

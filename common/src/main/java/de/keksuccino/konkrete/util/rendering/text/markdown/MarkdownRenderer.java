@@ -1058,14 +1058,17 @@ public class MarkdownRenderer implements Renderable, FocuslessContainerEventHand
 
     /** Receives Markdown-specific click and hover events. */
     public interface TextEventHandler {
+
         /** Handles a click on fragments carrying the supplied event identifier. */
         void onTextClickEvent(@NotNull String eventId);
         /** Handles the initial hover of fragments carrying the supplied event identifier. */
         void onTextHoverEvent(@NotNull String eventId);
+
     }
 
     /** Measures and draws text for a Markdown renderer. */
     public interface TextRenderer {
+
         /** Returns the rendered width of a component. */
         float getWidth(@NotNull Component text);
         /** Returns the rendered width of a string. */
@@ -1074,6 +1077,7 @@ public class MarkdownRenderer implements Renderable, FocuslessContainerEventHand
         float getHeight();
         /** Draws a component with the requested visual options. */
         void render(@NotNull GuiGraphicsExtractor graphics, @NotNull Component text, float x, float y, int color, boolean shadow);
+
     }
 
     /** Renders Markdown text with Minecraft's vanilla font renderer. */
@@ -1115,22 +1119,26 @@ public class MarkdownRenderer implements Renderable, FocuslessContainerEventHand
 
     /** Controls case conversion applied to visible text before component creation. */
     public enum TextCase {
+
         /** Leaves source casing unchanged. */
         NORMAL,
         /** Converts visible text to lower case. */
         ALL_LOWER,
         /** Converts visible text to upper case. */
         ALL_UPPER
+
     }
 
     /** Controls horizontal placement of eligible render lines. */
     public enum MarkdownLineAlignment {
+
         /** Aligns content to the left edge. */
         LEFT,
         /** Centers content in the available width. */
         CENTERED,
         /** Aligns content to the right edge. */
         RIGHT
+
     }
 
 }

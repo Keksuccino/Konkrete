@@ -158,8 +158,11 @@ final class InternetAvailabilityMonitor {
     }
 
     private enum Lifecycle {
+
         NEW,
         RUNNING,
         STOPPED
+
     }
+
 }

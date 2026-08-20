@@ -46,5 +46,7 @@ final class PacketEnvelope {
     }
 
     record Parsed(@NotNull Identifier identifier, @NotNull String body) {
+
     }
+
 }

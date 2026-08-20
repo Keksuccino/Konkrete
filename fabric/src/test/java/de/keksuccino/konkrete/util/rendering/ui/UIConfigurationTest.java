@@ -69,4 +69,5 @@ class UIConfigurationTest {
     private static UIConfiguration configuration(Path dataDirectory) {
         return new UIConfiguration(UIScale.SMALL, true, true, 2.0F, true, false, 3, true, false, true, "dark", dataDirectory);
     }
+
 }

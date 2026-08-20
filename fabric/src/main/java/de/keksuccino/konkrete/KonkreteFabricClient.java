@@ -13,4 +13,5 @@ public final class KonkreteFabricClient implements ClientModInitializer {
         PacketsFabricClient.init();
         KonkreteFabricClientEvents.registerAll();
     }
+
 }

@@ -50,10 +50,12 @@ public class MainThreadTaskExecutor {
 
     /** Selects whether a handler runs before or after its target call. */
     public enum ExecuteTiming {
+
         /** Runs before the client tick. */
         PRE_CLIENT_TICK,
         /** Runs after the client tick. */
         POST_CLIENT_TICK
+
     }
 
 }

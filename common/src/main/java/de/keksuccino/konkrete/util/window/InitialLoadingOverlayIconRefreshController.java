@@ -30,9 +30,11 @@ public final class InitialLoadingOverlayIconRefreshController {
     }
 
     private enum Phase {
+
         WAITING_FOR_INITIAL_LOADING_OVERLAY,
         INITIAL_LOADING_OVERLAY_ACTIVE,
         COMPLETE
+
     }
 
 }

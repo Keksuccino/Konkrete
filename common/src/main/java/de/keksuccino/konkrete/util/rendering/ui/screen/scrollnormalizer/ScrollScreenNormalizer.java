@@ -164,8 +164,10 @@ public class ScrollScreenNormalizer {
     /** Excludes screens whose native scroll behavior must remain untouched. */
     @FunctionalInterface
     public interface ScrollableScreenBlacklistRule {
+
         /** Returns whether normalization must be skipped for the supplied screen. */
         boolean isBlacklisted(@NotNull Screen screen);
+
     }
 
 }

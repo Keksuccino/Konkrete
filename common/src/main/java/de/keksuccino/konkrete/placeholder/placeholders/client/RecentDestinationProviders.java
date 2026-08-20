@@ -33,4 +33,5 @@ public final class RecentDestinationProviders {
     public static void reset() {
         provider = UNAVAILABLE;
     }
+
 }

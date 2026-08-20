@@ -23,4 +23,5 @@ class WebUtilsTest {
 
         assertEquals(URI.create("https://google.com"), endpointField.get(null));
     }
+
 }

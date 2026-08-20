@@ -22,4 +22,5 @@ class KonkreteThreadsTest {
         thread.join(5000L);
         assertFalse(thread.isAlive());
     }
+
 }

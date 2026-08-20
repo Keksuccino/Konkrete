@@ -213,6 +213,7 @@ public final class ResourceRuntime {
         /** Removes the callback; repeated calls are harmless. */
         @Override
         void close();
+
     }
 
     /** Receives animated-texture playback lifecycle changes. */
@@ -221,6 +222,7 @@ public final class ResourceRuntime {
 
         /** Handles one animated-texture playback lifecycle change. */
         void onPlaybackStatusChanged(@NotNull String source, @NotNull ResourceSourceType sourceType, boolean willRestart, @NotNull AnimatedTextureStatus status);
+
     }
 
     /** Receives video playback lifecycle changes. */
@@ -229,18 +231,22 @@ public final class ResourceRuntime {
 
         /** Handles one video playback lifecycle change. */
         void onPlaybackStatusChanged(@NotNull String source, @NotNull ResourceSourceType sourceType, boolean looping, @NotNull VideoPlaybackStatus status);
+
     }
 
     /** Animated-texture playback lifecycle states. */
     public enum AnimatedTextureStatus {
+
         /** Indicates that playback has started. */
         STARTED,
         /** Indicates that playback reached its terminal frame. */
         FINISHED
+
     }
 
     /** Video playback lifecycle states. */
     public enum VideoPlaybackStatus {
+
         /** Indicates that playback is actively advancing. */
         PLAYING,
         /** Indicates that playback has stopped and reset. */
@@ -249,5 +255,7 @@ public final class ResourceRuntime {
         PAUSED,
         /** Indicates that playback reached its terminal frame. */
         FINISHED
+
     }
+
 }

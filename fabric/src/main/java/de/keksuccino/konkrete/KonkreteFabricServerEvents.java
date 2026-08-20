@@ -19,4 +19,5 @@ final class KonkreteFabricServerEvents {
         });
         registered = true;
     }
+
 }

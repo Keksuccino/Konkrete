@@ -42,6 +42,7 @@ class WatermediaMrlResolverTest {
     }
 
     public static final class FakeMrl {
+
         private final String status;
 
         FakeMrl(String status) {
@@ -51,5 +52,7 @@ class WatermediaMrlResolverTest {
         public String status() {
             return this.status;
         }
+
     }
+
 }

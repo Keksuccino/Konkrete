@@ -2711,12 +2711,14 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
         /** Receives entry lifecycle callbacks during ticking and input handling. */
         @FunctionalInterface
         public interface EntryTask {
+
             /**
              * @param menu The {@link ContextMenu} this {@link EntryTask}'s {@link ContextMenuEntry} is part of.
              * @param entry The {@link ContextMenuEntry} this {@link EntryTask} is part of.
              * @param isPost Only used for the {@link ContextMenuEntry#tickAction}.
              */
             void run(ContextMenu menu, ContextMenuEntry<?> entry, boolean isPost);
+
         }
 
     }
@@ -3131,14 +3133,17 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
         /** Handles activation of a clickable context-menu entry. */
         @FunctionalInterface
         public interface ClickAction {
+
             /** Handles activation of this context-menu entry. */
             void onClick(ContextMenu menu, ClickableContextMenuEntry<?> entry);
+
         }
 
     }
 
     /** Stores a resolved icon texture and its intrinsic dimensions. */
     protected static final class IconRenderData {
+
         final Identifier texture;
         final int width;
         final int height;
@@ -3148,6 +3153,7 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
             this.width = width;
             this.height = height;
         }
+
     }
 
     @Nullable
@@ -3975,17 +3981,21 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
 
     /** Identifies one supported sub menu opening option. */
     public enum SubMenuOpeningSide {
+
         /** Positions the element at left. */
         LEFT,
         /** Positions the element at right. */
         RIGHT
+
     }
 
     /** Supplies supplier values on demand. */
     @FunctionalInterface
     public interface Supplier<T> {
+
         /** Supplies a value using the active menu and entry state. */
         T get(ContextMenu menu, ContextMenuEntry<?> entry);
+
     }
 
     /**
@@ -4004,8 +4014,10 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
      */
     @FunctionalInterface
     public interface StackApplier {
+
         /** Applies a value to one entry in the current stacked selection. */
         void apply(ContextMenuEntry<?> entry, @Nullable Object value);
+
     }
 
     /**
@@ -4018,14 +4030,17 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
      */
     @FunctionalInterface
     public interface StackValueSupplier {
+
         /** Returns the value represented by one stacked entry. */
         @Nullable
         Object get(ContextMenuEntry<?> entry);
+
     }
 
     /** Supplies boolean values on demand. */
     @FunctionalInterface
     public interface BooleanSupplier extends Supplier<Boolean> {
+
         /** Returns boolean for this widget. */
         default boolean getBoolean(ContextMenu menu, ContextMenuEntry<?> entry) {
             Boolean b = this.get(menu, entry);
@@ -4034,15 +4049,18 @@ public class ContextMenu implements Renderable, GuiEventListener, NarratableEntr
             }
             return false;
         }
+
     }
 
     /** Resolves names from Konkrete's bundled white context-menu icon set. */
     public static class IconFactory {
+
         /** Builds the texture identifier for a bundled icon name without its {@code .png} suffix. */
         @NotNull
         public static Identifier getIcon(@NotNull String iconName) {
             return Identifier.fromNamespaceAndPath("konkrete", "textures/contextmenu/icons/" + iconName + ".png");
         }
+
     }
 
 }

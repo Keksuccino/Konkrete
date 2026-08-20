@@ -113,5 +113,7 @@ public final class BoundedConcurrentCache<K, V> {
     }
 
     private record WeightedValue<V>(@NotNull V value, long weight) {
+
     }
+
 }

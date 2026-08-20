@@ -35,4 +35,5 @@ public record ResourceSafetyLimits(int maxImageWidth, int maxImageHeight, long m
     public void validateFrameCount(long frameCount, String description) {
         if (frameCount < 0L || frameCount > this.maxFrameCount) throw new IllegalArgumentException(description + " frame count exceeds resource safety limits: " + frameCount);
     }
+
 }

@@ -115,10 +115,14 @@ public final class KonkreteClient {
         }
 
         private enum State {
+
             NEW,
             RUNNING,
             COMPLETE,
             FAILED
+
         }
+
     }
+
 }

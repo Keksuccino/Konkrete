@@ -219,6 +219,7 @@ public final class SmoothFontManager {
 
     /** Builds configured resource font instances. */
     public static final class ResourceFontBuilder {
+
         private final ResourceSourceType sourceType;
         private final float baseSize;
         @Nullable
@@ -389,10 +390,12 @@ public final class SmoothFontManager {
                 case PREFIX -> buildFromResourcePrefix(folder, filenamePrefix, baseSize, languageOverrides, lineHeightOverride, lineHeightOffset, yOffset);
             };
         }
+
     }
 
     /** Builds configured path font instances. */
     public static final class PathFontBuilder {
+
         private final PathSourceType sourceType;
         private final float baseSize;
         @Nullable
@@ -558,22 +561,27 @@ public final class SmoothFontManager {
                 case FOLDER -> buildFromPathFolder(folder, baseSize, languageOverrides, lineHeightOverride, lineHeightOffset, yOffset);
             };
         }
+
     }
 
     private enum ResourceSourceType {
+
         /** Selects list behavior. */
         LIST,
         /** Selects folder behavior. */
         FOLDER,
         /** Resolves every font resource below a resource-path prefix. */
         PREFIX
+
     }
 
     private enum PathSourceType {
+
         /** Selects list behavior. */
         LIST,
         /** Loads every supported font found in a filesystem directory. */
         FOLDER
+
     }
 
     @Nullable
@@ -943,4 +951,5 @@ public final class SmoothFontManager {
         }
         return result;
     }
+
 }

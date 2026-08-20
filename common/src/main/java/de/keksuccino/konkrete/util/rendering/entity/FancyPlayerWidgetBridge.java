@@ -114,12 +114,15 @@ final class FancyPlayerWidgetBridge {
     }
 
     private record Api(Constructor<?> constructor, Constructor<?> rotationConstructor, Map<PlayerRenderMode, Object> renderModes, Map<Operation, Method> methods) {
+
     }
 
     private record Resolution(Api api, Throwable failure) {
+
     }
 
     enum Operation {
+
         EXTRACT_RENDER_STATE("extractRenderState", "net.minecraft.client.gui.GuiGraphicsExtractor", "int", "int", "float"),
         UPDATE_NARRATION("updateNarration", "net.minecraft.client.gui.narration.NarrationElementOutput"),
         SET_X("setX", "int"),
@@ -197,6 +200,7 @@ final class FancyPlayerWidgetBridge {
             this.methodName = methodName;
             this.parameterTypeNames = parameterTypeNames;
         }
+
     }
 
 }

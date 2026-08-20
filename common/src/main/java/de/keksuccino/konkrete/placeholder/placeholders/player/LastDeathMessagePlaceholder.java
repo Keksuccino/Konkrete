@@ -53,4 +53,5 @@ public class LastDeathMessagePlaceholder extends Placeholder {
         values.put("as_json_component", "false");
         return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
     }
+
 }

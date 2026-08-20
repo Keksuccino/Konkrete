@@ -233,6 +233,7 @@ class InternetAvailabilityMonitorTest {
         public void close() {
             this.closeCalls.incrementAndGet();
         }
+
     }
 
     private static final class BlockingProbe implements InternetAvailabilityProbe {
@@ -253,6 +254,7 @@ class InternetAvailabilityMonitorTest {
             this.closeCalls.incrementAndGet();
             this.release.countDown();
         }
+
     }
 
     private static final class ManualFixedDelayScheduler extends ScheduledThreadPoolExecutor {
@@ -295,6 +297,7 @@ class InternetAvailabilityMonitorTest {
             if (this.task.cancelled) throw new IllegalStateException("The task was cancelled");
             this.command.run();
         }
+
     }
 
     private static final class ManualScheduledTask implements ScheduledFuture<Object> {
@@ -340,5 +343,7 @@ class InternetAvailabilityMonitorTest {
         public Object get(long timeout, TimeUnit unit) {
             return null;
         }
+
     }
+
 }

@@ -156,6 +156,7 @@ public final class ResourcePreLoader {
 
         /** Starts loading the source and optionally waits up to the supplied timeout. */
         void preLoad(@NotNull S source, long waitForCompletedMillis) throws Exception;
+
     }
 
     private static final class SourceTypeRegistration<S extends ResourceSource> {
@@ -175,5 +176,7 @@ public final class ResourcePreLoader {
         private void preLoadUnchecked(ResourceSource source, long waitForCompletedMillis) throws Exception {
             this.preLoadHandler.preLoad(this.sourceClass.cast(source), waitForCompletedMillis);
         }
+
     }
+
 }

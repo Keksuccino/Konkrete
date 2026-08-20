@@ -95,9 +95,11 @@ final class MinecraftFormattingState {
     }
 
     private enum ColorSource {
+
         NONE,
         VANILLA,
         CUSTOM
+
     }
 
 }

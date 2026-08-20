@@ -16,4 +16,5 @@ public final class WatermediaShutdownIntegration {
         if (!WatermediaUtil.isWatermediaLoaded() || !REGISTERED.compareAndSet(false, true)) return;
         ClientShutdownHandler.registerCleanup("deferred Watermedia players", ClientShutdownHandler.ORDER_MEDIA, WatermediaDeferredPlayerReleaseTracker::shutdown);
     }
+
 }

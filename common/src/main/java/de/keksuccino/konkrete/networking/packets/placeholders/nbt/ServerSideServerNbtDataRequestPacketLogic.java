@@ -140,5 +140,7 @@ final class ServerSideServerNbtDataRequestPacketLogic {
     }
 
     private record CommandContextData(@Nullable Tag baseTag, @NotNull CommandSourceStack source) {
+
     }
+
 }

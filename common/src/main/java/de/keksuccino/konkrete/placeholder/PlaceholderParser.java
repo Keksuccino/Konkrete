@@ -347,6 +347,7 @@ public final class PlaceholderParser {
 
     /** Parsed location and lazily decoded data for one placeholder occurrence. */
     public static class ParsedPlaceholder {
+
         /** Exact serialized substring. */
         public final String placeholderString;
         /** Inclusive source start index. */
@@ -520,18 +521,22 @@ public final class PlaceholderParser {
         public int hashCode() {
             return Objects.hash(this.placeholderString, this.startIndex, this.endIndex);
         }
+
     }
 
     /** Parsing processor phase. */
     public enum ParsingProcessorTiming {
+
         /** Runs before placeholder discovery. */
         BEFORE_REPLACING_PLACEHOLDERS,
         /** Runs after successful placeholder discovery and replacement. */
         AFTER_REPLACING_PLACEHOLDERS
+
     }
 
     /** Public policy controlling whether and how long parser results are cached. */
     public record PlaceholderCachingController(@NotNull BooleanSupplier shouldCachePlaceholders, @NotNull LongSupplier cachingDurationMillis) {
+
         /** Rejects null suppliers; their values are sampled once at the start of each parse. */
         public PlaceholderCachingController {
             Objects.requireNonNull(shouldCachePlaceholders, "shouldCachePlaceholders");
@@ -548,46 +553,59 @@ public final class PlaceholderParser {
         @NotNull public static PlaceholderCachingController disabled() {
             return new PlaceholderCachingController(() -> false, () -> 0L);
         }
+
     }
 
     /** Configurable parser resource limits. */
     public record ParserLimits(int maximumTextLength, int maximumReplacementPasses) {
+
         /** Rejects an unusable text ceiling or non-positive replacement-pass budget. */
         public ParserLimits {
             if (maximumTextLength <= PLACEHOLDER_PREFIX.length()) throw new IllegalArgumentException("maximumTextLength is too small");
             if (maximumReplacementPasses <= 0) throw new IllegalArgumentException("maximumReplacementPasses must be positive");
         }
+
     }
 
     /** Receives throttled parser errors without imposing a dialog or logging implementation. */
     @FunctionalInterface
     public interface ParserErrorListener {
+
         /** Called when a parser error acquires its log cooldown. */
         void onError(@NotNull String message, @Nullable Exception exception);
+
     }
 
     private record RegisteredProcessor(long id, @NotNull UnaryOperator<String> processor) {
+
     }
 
     private record ProcessorSnapshot(long revision, @NotNull List<RegisteredProcessor> beforeReplacement, @NotNull List<RegisteredProcessor> afterReplacement) {
+
         private ProcessorSnapshot {
             beforeReplacement = List.copyOf(beforeReplacement);
             afterReplacement = List.copyOf(afterReplacement);
         }
+
     }
 
     private record CachingSnapshot(long revision, @NotNull PlaceholderCachingController controller) {
+
     }
 
     private record ParsingContext(@NotNull ProcessorSnapshot processors, long cachingRevision, boolean cachePlaceholders, long cachingDurationMillis, boolean preserveFormattingCodes, @NotNull ParserLimits limits) {
+
     }
 
     private record CachedPlaceholder(@NotNull String replacement, long cachedAtMillis, long processorRevision, long cachingRevision, @NotNull ParserLimits limits) {
+
         private boolean isUsableFor(@NotNull ParsingContext context, long nowMillis) {
             if (this.processorRevision != context.processors().revision() || this.cachingRevision != context.cachingRevision() || !this.limits.equals(context.limits())) return false;
             if (nowMillis < this.cachedAtMillis) return false;
             long elapsed = nowMillis - this.cachedAtMillis;
             return elapsed >= 0L && elapsed < context.cachingDurationMillis();
         }
+
     }
+
 }

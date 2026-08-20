@@ -705,6 +705,7 @@ public class RenderingUtils {
 
     /** Enumerates source blend factors accepted by the GUI pipeline. */
     public enum SourceFactor {
+
         /** Uses constant alpha as the blend factor. */
         CONSTANT_ALPHA(32771),
         /** Uses constant color as the blend factor. */
@@ -748,10 +749,12 @@ public class RenderingUtils {
         public BlendFactor toBlendFactor() {
             return BlendFactor.valueOf(this.name());
         }
+
     }
 
     /** Enumerates destination blend factors accepted by the GUI pipeline. */
     public enum DestFactor {
+
         /** Uses constant alpha as the blend factor. */
         CONSTANT_ALPHA(32771),
         /** Uses constant color as the blend factor. */
@@ -793,18 +796,22 @@ public class RenderingUtils {
         public BlendFactor toBlendFactor() {
             return BlendFactor.valueOf(this.name());
         }
+
     }
 
     /** Draws custom screen content through the deferred GUI extractor. */
     @FunctionalInterface
     public interface RenderingTask {
+
         /** Queues the task's draw state for the current frame. */
         void render(@NotNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partial);
+
     }
 
     /** Marks a rendering task whose execution is deferred until screen extraction completes. */
     @FunctionalInterface
     public interface DeferredScreenRenderingTask extends RenderingTask {
+
     }
 
 }

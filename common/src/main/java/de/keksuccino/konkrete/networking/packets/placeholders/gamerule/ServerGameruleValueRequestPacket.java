@@ -50,4 +50,5 @@ public final class ServerGameruleValueRequestPacket extends Packet {
     public boolean processPacket(@Nullable ServerPlayer sender) {
         return sender != null && ServerSideServerGameruleValueRequestPacketLogic.handle(sender, this);
     }
+
 }

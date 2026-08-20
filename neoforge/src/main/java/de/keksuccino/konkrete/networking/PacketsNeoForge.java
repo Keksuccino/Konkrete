@@ -78,4 +78,5 @@ public final class PacketsNeoForge {
             LOGGER.error("[KONKRETE] Failed to handle NeoForge bridge chunk.", ex);
         }
     }
+
 }

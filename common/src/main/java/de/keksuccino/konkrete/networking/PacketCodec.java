@@ -97,4 +97,5 @@ public class PacketCodec<T extends Packet> {
     public @NotNull Class<T> getType() {
         return this.type;
     }
+
 }

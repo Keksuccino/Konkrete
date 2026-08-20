@@ -126,9 +126,11 @@ final class JsonPlaceholderWebCache {
     }
 
     enum Status {
+
         LOADING,
         INVALID,
         LOADED
+
     }
 
     record Lookup(@NotNull Status status, @NotNull List<String> values) {

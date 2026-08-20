@@ -185,8 +185,10 @@ class OptionalPayloadSenderTest {
     }
 
     private enum Direction {
+
         CLIENTBOUND,
         SERVERBOUND
+
     }
 
     private static final class Endpoint {
@@ -206,5 +208,7 @@ class OptionalPayloadSenderTest {
         public int hashCode() {
             return this.direction.hashCode();
         }
+
     }
+
 }

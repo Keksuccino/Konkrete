@@ -10,4 +10,5 @@ public final class ServerNbtDataRequestPacketCodec extends PacketCodec<ServerNbt
     public ServerNbtDataRequestPacketCodec() {
         super(Identifier.fromNamespaceAndPath("konkrete", "nbt_placeholder_request"), ServerNbtDataRequestPacket.class);
     }
+
 }

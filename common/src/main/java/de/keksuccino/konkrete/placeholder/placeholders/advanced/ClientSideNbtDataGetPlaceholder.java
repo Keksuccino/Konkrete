@@ -634,12 +634,15 @@ public class ClientSideNbtDataGetPlaceholder extends Placeholder {
     }
 
     private record OptionValue(String key, String value) {
+
     }
 
     private record Filter<T>(T value, boolean inverted) {
+
     }
 
     private enum SortOrder {
+
         NEAREST("nearest"),
         FURTHEST("furthest"),
         RANDOM("random"),
@@ -660,9 +663,11 @@ public class ClientSideNbtDataGetPlaceholder extends Placeholder {
             }
             return null;
         }
+
     }
 
     private enum SelectorTarget {
+
         SELF("@s", 1, SortOrder.ARBITRARY, true, true),
         NEAREST_PLAYER("@p", 1, SortOrder.NEAREST, true, false),
         ALL_PLAYERS("@a", Integer.MAX_VALUE, SortOrder.ARBITRARY, true, false),
@@ -691,6 +696,7 @@ public class ClientSideNbtDataGetPlaceholder extends Placeholder {
             }
             return null;
         }
+
     }
 
 }

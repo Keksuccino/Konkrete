@@ -91,5 +91,7 @@ class RinkuVideoPlayerDispatchTest {
         private void executeFromSubclass(String code) {
             this.executeJavaScript(code);
         }
+
     }
+
 }

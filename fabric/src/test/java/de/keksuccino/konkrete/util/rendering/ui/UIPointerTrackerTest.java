@@ -141,6 +141,7 @@ class UIPointerTrackerTest {
         public boolean isFocused() {
             return this.focused;
         }
+
     }
 
     private static final class TestKonkreteComponent extends TestListener implements RoutableUIComponent {
@@ -152,6 +153,7 @@ class UIPointerTrackerTest {
         private TestKonkreteComponent(boolean consumeClick, boolean hovered, int acceptedButton) {
             super(consumeClick, hovered, acceptedButton);
         }
+
     }
 
     private static final class TestUIWidget extends TestListener implements UIWidget {
@@ -159,6 +161,7 @@ class UIPointerTrackerTest {
         private TestUIWidget(boolean consumeClick, boolean hovered) {
             super(consumeClick, hovered);
         }
+
     }
 
     private static final class TestCaptureOwner extends TestListener implements MouseButtonCaptureOwner {
@@ -171,6 +174,7 @@ class UIPointerTrackerTest {
         public boolean hasMouseButtonCapture(int button) {
             return true;
         }
+
     }
 
 }

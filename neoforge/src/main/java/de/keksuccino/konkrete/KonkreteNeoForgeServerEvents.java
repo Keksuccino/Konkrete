@@ -24,4 +24,5 @@ final class KonkreteNeoForgeServerEvents {
     public void onServerStopping(ServerStoppingEvent event) {
         if (!Services.PLATFORM.isOnClient()) WebUtils.shutdown();
     }
+
 }

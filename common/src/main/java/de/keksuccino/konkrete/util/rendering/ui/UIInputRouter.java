@@ -11,10 +11,12 @@ public final class UIInputRouter {
 
     /** Selects whether mouse releases target only the capture owner or all UI components. */
     public enum MouseReleaseRouting {
+
         /** Routes mouse releases with broadcast UI components behavior. */
         BROADCAST_UI_COMPONENTS,
         /** Routes mouse releases with captured components only behavior. */
         CAPTURED_COMPONENTS_ONLY
+
     }
 
     private UIInputRouter() {

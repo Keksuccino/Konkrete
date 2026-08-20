@@ -32,4 +32,5 @@ class ResourceFileConfigurationTest {
     void nullAssetDirectoryIsRejected() {
         assertThrows(NullPointerException.class, () -> ResourceFile.setAssetsDirectory(null));
     }
+
 }

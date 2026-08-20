@@ -33,4 +33,5 @@ class ServerNbtDataRequestValidationTest {
         assertFalse(ServerSideServerNbtDataRequestPacketLogic.isBounded(new ServerNbtQuery("entity", "@s", null, null, null, null, Double.NaN)));
         assertFalse(ServerSideServerNbtDataRequestPacketLogic.isBounded(new ServerNbtQuery("entity", "@s", null, null, null, null, Double.POSITIVE_INFINITY)));
     }
+
 }

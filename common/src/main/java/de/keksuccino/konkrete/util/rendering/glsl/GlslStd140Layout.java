@@ -193,6 +193,7 @@ public final class GlslStd140Layout {
 
     /** Identifies one supported scalar option. */
     public enum ScalarKind {
+
         /** Uses float as the std140 scalar type. */
         FLOAT,
         /** Uses signed int as the std140 scalar type. */
@@ -201,6 +202,7 @@ public final class GlslStd140Layout {
         UNSIGNED_INT,
         /** Uses boolean as the std140 scalar type. */
         BOOLEAN
+
     }
 
     /** Stores one declaration declaration and its layout metadata. */
@@ -224,6 +226,7 @@ public final class GlslStd140Layout {
         public String toShaderDeclaration() {
             return this.type + " " + this.name + (this.arrayLength > 0 ? "[" + this.arrayLength + "]" : "") + ";";
         }
+
     }
 
     /** Stores one member member and its packed layout. */
@@ -233,6 +236,7 @@ public final class GlslStd140Layout {
         public int elementCount() {
             return this.arrayLength > 0 ? this.arrayLength : 1;
         }
+
     }
 
     private record TypeInfo(@NotNull ScalarKind scalarKind, int columns, int rows, int alignment, int size) {
@@ -277,5 +281,7 @@ public final class GlslStd140Layout {
 
             throw new IllegalArgumentException("Unsupported std140 uniform type '" + type + "'. Supported types are float/int/uint/bool, their 2-4 component vectors, and float matrices.");
         }
+
     }
+
 }

@@ -144,4 +144,5 @@ public final class IconAnimations {
     private static float lerp(float start, float end, float t) {
         return start + (end - start) * t;
     }
+
 }

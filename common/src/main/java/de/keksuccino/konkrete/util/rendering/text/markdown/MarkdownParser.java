@@ -1053,6 +1053,7 @@ public class MarkdownParser {
     }
 
     private record LeadingFormattingTokens(@NotNull String tokens, @NotNull String content) {
+
     }
 
     /** Parses complete pipe-table blocks and replaces each with an indexed synthetic placeholder line. */

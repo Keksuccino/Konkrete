@@ -450,9 +450,12 @@ public final class PacketHandler {
      * Authenticated logical direction supplied by loader callback registration.
      */
     public enum PacketDirection {
+
         /** Client-to-server traffic. */
         TO_SERVER,
         /** Server-to-client traffic. */
         TO_CLIENT
+
     }
+
 }

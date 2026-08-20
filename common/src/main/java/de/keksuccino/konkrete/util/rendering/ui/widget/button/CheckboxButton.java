@@ -172,8 +172,10 @@ public class CheckboxButton extends ExtendedButton {
     /** Receives checkbox state changes initiated through this button. */
     @FunctionalInterface
     public interface StateChangedAction {
+
         /** Handles the checkbox's new selected state. */
         void onStateChanged(@NotNull CheckboxButton checkbox, boolean state);
+
     }
 
 }

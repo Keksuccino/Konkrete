@@ -310,7 +310,6 @@ class PlaceholderParserConcurrencyTest {
             return new DeserializedPlaceholderString(this.getIdentifier(), new HashMap<>(), NestedValueParsedPlaceholder.SERIALIZED);
         }
 
-
     }
 
 }

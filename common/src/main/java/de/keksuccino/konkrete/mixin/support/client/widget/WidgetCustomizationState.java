@@ -259,4 +259,5 @@ public final class WidgetCustomizationState {
     public void setLastFocusState(boolean state) { this.lastFocusState = state; }
     public boolean getLastHoverOrFocusState() { return this.lastHoverOrFocusState; }
     public void setLastHoverOrFocusState(boolean state) { this.lastHoverOrFocusState = state; }
+
 }

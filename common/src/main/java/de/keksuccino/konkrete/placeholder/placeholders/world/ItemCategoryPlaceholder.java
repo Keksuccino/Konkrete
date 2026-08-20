@@ -117,4 +117,5 @@ public class ItemCategoryPlaceholder extends AbstractWorldPlaceholder {
         values.put("as_key", "false");
         return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
     }
+
 }

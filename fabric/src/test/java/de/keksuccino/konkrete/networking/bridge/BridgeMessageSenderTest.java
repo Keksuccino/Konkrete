@@ -187,4 +187,5 @@ class BridgeMessageSenderTest {
     private static String chunkedMessage() {
         return "x".repeat(BridgeProtocol.MAX_LEGACY_MESSAGE_BYTES + 1);
     }
+
 }

@@ -126,8 +126,10 @@ public interface ContextMenuBuilder<O> {
      */
     @FunctionalInterface
     interface ContextMenuScreenOpenProcessor {
+
         /** Prepares a screen immediately before Minecraft opens it. */
         void beforeOpen(@NotNull Screen screen);
+
     }
 
     /**
@@ -1433,8 +1435,10 @@ public interface ContextMenuBuilder<O> {
      */
     @FunctionalInterface
     interface CycleContextMenuEntryLabelSupplier<V> {
+
         /** Builds a label from the active menu entry and cycle value. */
         Component get(ContextMenu menu, ContextMenu.ClickableContextMenuEntry<?> entry, V switcherValue);
+
     }
 
 }

@@ -63,6 +63,7 @@ class ResourceHandlerOwnershipTest {
         public @Nullable FileType<TestResource> getFallbackFileType() {
             return null;
         }
+
     }
 
     private static final class TestResource implements Resource {
@@ -98,5 +99,7 @@ class ResourceHandlerOwnershipTest {
         public void close() {
             this.closed = true;
         }
+
     }
+
 }

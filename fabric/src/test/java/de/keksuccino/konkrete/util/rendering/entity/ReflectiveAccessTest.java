@@ -101,6 +101,7 @@ class ReflectiveAccessTest {
         public void failChecked() throws IOException {
             throw new IOException("checked failure");
         }
+
     }
 
     public static final class FailingConstructor {
@@ -108,6 +109,7 @@ class ReflectiveAccessTest {
         public FailingConstructor(IllegalStateException failure) {
             throw failure;
         }
+
     }
 
 }

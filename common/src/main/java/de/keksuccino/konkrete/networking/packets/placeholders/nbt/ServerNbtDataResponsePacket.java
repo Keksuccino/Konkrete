@@ -58,4 +58,5 @@ public final class ServerNbtDataResponsePacket extends Packet {
     public boolean processPacket(@Nullable ServerPlayer sender) {
         return false;
     }
+
 }

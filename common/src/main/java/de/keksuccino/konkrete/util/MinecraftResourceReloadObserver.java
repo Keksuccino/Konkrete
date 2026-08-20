@@ -36,10 +36,12 @@ public class MinecraftResourceReloadObserver {
 
     /** Receives a callback after Minecraft completes a resource reload. */
     public enum ReloadAction {
+
         /** A resource reload is starting. */
         STARTING,
         /** A resource reload completed successfully. */
         FINISHED
+
     }
 
 }

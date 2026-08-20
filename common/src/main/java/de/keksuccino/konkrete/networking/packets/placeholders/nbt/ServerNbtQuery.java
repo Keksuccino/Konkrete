@@ -36,4 +36,5 @@ public record ServerNbtQuery(@Nullable String sourceType, @Nullable String entit
         String trimmed = value.trim();
         return trimmed.isEmpty() ? null : trimmed;
     }
+
 }

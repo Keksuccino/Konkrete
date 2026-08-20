@@ -39,4 +39,5 @@ final class GlslPassFrameState {
             this.committedFrameCount++;
         }
     }
+
 }

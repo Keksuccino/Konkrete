@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 /** Exposes a server provider's advertised version string. */
 public final class ServerVersionPlaceholder extends AbstractServerStatusPlaceholder {
+
     /** Creates the serialized {@code serverversion} placeholder. */
     public ServerVersionPlaceholder() {
         super("serverversion", "serverversion");
@@ -14,4 +15,5 @@ public final class ServerVersionPlaceholder extends AbstractServerStatusPlacehol
     @Override protected String getReplacement(@NotNull ServerStatus status, @NotNull DeserializedPlaceholderString placeholder) {
         return status.version();
     }
+
 }

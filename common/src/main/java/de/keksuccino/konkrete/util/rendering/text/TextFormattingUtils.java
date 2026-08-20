@@ -311,6 +311,7 @@ public class TextFormattingUtils {
     }
 
     private static final class StyledCodepoint {
+
         private final int codepoint;
         private final Style style;
 
@@ -318,6 +319,7 @@ public class TextFormattingUtils {
             this.codepoint = codepoint;
             this.style = style;
         }
+
     }
 
 }

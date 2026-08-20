@@ -471,6 +471,7 @@ public final class WatermediaReflectionBridge {
     }
 
     private static final class ManagedModernPlayer {
+
         // WaterMedia 3.0.0.22 players own and release both supplied engines. Retaining either engine here would make every successful player release it twice.
         private final Object player;
         private final GraphicsBackend graphicsBackend;
@@ -509,9 +510,11 @@ public final class WatermediaReflectionBridge {
                 MANAGED_PLAYERS.remove(this);
             }
         }
+
     }
 
     private record MethodKey(@NotNull Class<?> owner, @NotNull String name, int parameterCount, @Nullable List<Class<?>> parameterTypes) {
+
         private MethodKey(Class<?> owner, String name, int parameterCount) {
             this(owner, name, parameterCount, null);
         }
@@ -519,11 +522,14 @@ public final class WatermediaReflectionBridge {
         private MethodKey(Class<?> owner, String name, List<Class<?>> parameterTypes) {
             this(owner, name, parameterTypes.size(), parameterTypes);
         }
+
     }
 
     enum GraphicsBackend {
+
         OPENGL,
         VULKAN
+
     }
 
 }

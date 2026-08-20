@@ -2,6 +2,7 @@ package de.keksuccino.konkrete.util.rendering.ui.pipwindow;
 
 /** Identifies a resize edge or corner for a PiP window. */
 public enum PiPWindowResizeHandle {
+
     /** Resizes the PiP window from its none. */
     NONE,
     /** Resizes the PiP window from its left. */
@@ -40,4 +41,5 @@ public enum PiPWindowResizeHandle {
     public boolean hasBottomEdge() {
         return this == BOTTOM || this == BOTTOM_LEFT || this == BOTTOM_RIGHT;
     }
+
 }

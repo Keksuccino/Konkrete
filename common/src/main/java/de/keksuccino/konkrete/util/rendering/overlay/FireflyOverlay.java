@@ -731,6 +731,7 @@ public class FireflyOverlay extends AbstractWidget implements NavigatableWidget 
     }
 
     private enum FireflyState {
+
         /** Selects flying behavior. */
         FLYING,
         /** Selects landing behavior. */
@@ -739,9 +740,11 @@ public class FireflyOverlay extends AbstractWidget implements NavigatableWidget 
         LANDED,
         /** Animates a landed firefly back into free flight. */
         TAKEOFF
+
     }
 
     private static final class LandingArea {
+
         private int x;
         private int y;
         private int width;
@@ -764,9 +767,11 @@ public class FireflyOverlay extends AbstractWidget implements NavigatableWidget 
         private boolean isValid() {
             return this.width > 0;
         }
+
     }
 
     private static final class FireflyGroup {
+
         private float x;
         private float y;
         private float vx;
@@ -779,9 +784,11 @@ public class FireflyOverlay extends AbstractWidget implements NavigatableWidget 
         private float followCharge;
         private boolean following;
         private final List<Firefly> fireflies = new ArrayList<>();
+
     }
 
     private static final class Firefly {
+
         private float offsetX;
         private float offsetY;
         private float vx;
@@ -804,6 +811,7 @@ public class FireflyOverlay extends AbstractWidget implements NavigatableWidget 
         private float takeoffOffsetX;
         private float takeoffOffsetY;
         private LandingArea landingArea;
+
     }
 
 }

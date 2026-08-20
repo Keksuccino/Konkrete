@@ -887,6 +887,7 @@ public class ApngTexture implements ITexture, PlayableResource {
 
     /** Carries {@code DecodedApngImage} data between validated stages of the texture resource. */
     public record DecodedApngImage(@NotNull Argb8888BitmapSequence sequence, int imageWidth, int imageHeight, int numPlays) {
+
     }
 
 }

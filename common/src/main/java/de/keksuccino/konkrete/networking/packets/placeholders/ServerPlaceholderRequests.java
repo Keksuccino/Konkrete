@@ -98,4 +98,5 @@ public final class ServerPlaceholderRequests {
     public static boolean handleNbtResponse(@NotNull Connection connection, long requestId, @Nullable String value) {
         return NBT.complete(connection, requestId, value == null ? "" : value);
     }
+
 }

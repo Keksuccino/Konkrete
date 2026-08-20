@@ -56,4 +56,5 @@ class GlslOwnedResourceLifecycleTest {
 
         assertFalse(lifecycle.completeExtractionCycle(false, true));
     }
+
 }

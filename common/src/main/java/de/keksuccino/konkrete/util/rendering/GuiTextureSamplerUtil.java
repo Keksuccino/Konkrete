@@ -26,4 +26,5 @@ final class GuiTextureSamplerUtil {
         boolean useMipmaps = source.getMaxLod().isEmpty();
         return RenderSystem.getSamplerCache().getSampler(AddressMode.CLAMP_TO_EDGE, AddressMode.CLAMP_TO_EDGE, source.getMinFilter(), source.getMagFilter(), useMipmaps);
     }
+
 }

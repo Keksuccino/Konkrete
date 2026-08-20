@@ -390,12 +390,14 @@ public class UITooltip implements Renderable {
 
     /** Identifies one supported tooltip text option. */
     public enum TooltipTextAlignment {
+
         /** Positions the element at left. */
         LEFT,
         /** Positions the element at right. */
         RIGHT,
         /** Positions the element at centered. */
         CENTERED
+
     }
 
 }

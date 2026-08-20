@@ -182,5 +182,7 @@ public class MathUtils {
             if (consume('^')) value = Math.pow(value, parseFactor());
             return value;
         }
+
     }
+
 }

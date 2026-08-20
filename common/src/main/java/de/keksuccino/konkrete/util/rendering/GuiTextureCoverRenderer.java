@@ -86,5 +86,7 @@ public final class GuiTextureCoverRenderer {
         int bottom() {
             return this.y + this.height;
         }
+
     }
+
 }

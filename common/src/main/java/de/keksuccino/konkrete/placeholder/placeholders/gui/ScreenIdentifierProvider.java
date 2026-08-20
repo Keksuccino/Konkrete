@@ -9,4 +9,5 @@ public interface ScreenIdentifierProvider {
 
     /** Returns the identifier exposed by {@code screenid}; the result must not be {@code null}. */
     @NotNull String identify(@NotNull Screen screen);
+
 }

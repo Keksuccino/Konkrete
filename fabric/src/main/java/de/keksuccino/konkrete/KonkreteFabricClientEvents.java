@@ -25,4 +25,5 @@ final class KonkreteFabricClientEvents {
         ClientLifecycleEvents.CLIENT_STOPPING.register(client -> KonkreteClient.shutdown());
         registered = true;
     }
+
 }

@@ -195,6 +195,7 @@ public final class PlaceholderRegistry {
 
     /** Immutable ownership, aliases, and placeholder instance captured for one successful or pending registration. */
     public record Registration(@NotNull String namespace, @NotNull String localIdentifier, @NotNull String qualifiedIdentifier, @NotNull Placeholder placeholder, @NotNull List<String> aliases) {
+
         /** Rejects null metadata and defensively copies aliases so later placeholder mutations cannot change registry lookups. */
         public Registration {
             Objects.requireNonNull(namespace, "namespace");
@@ -203,9 +204,11 @@ public final class PlaceholderRegistry {
             Objects.requireNonNull(placeholder, "placeholder");
             aliases = List.copyOf(Objects.requireNonNull(aliases, "aliases"));
         }
+
     }
 
     private record RegistrySnapshot(@NotNull Map<String, Registration> byQualifiedIdentifier, @NotNull Map<String, Registration> byLookupIdentifier, @NotNull List<Placeholder> placeholders) {
+
         @NotNull private static RegistrySnapshot empty() {
             return new RegistrySnapshot(Map.of(), Map.of(), List.of());
         }
@@ -238,5 +241,7 @@ public final class PlaceholderRegistry {
             Registration existing = lookups.putIfAbsent(identifier, registration);
             if (existing != null && existing != registration) throw new IllegalStateException("[KONKRETE] Placeholder alias already registered: " + identifier);
         }
+
     }
+
 }

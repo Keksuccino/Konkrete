@@ -77,5 +77,7 @@ class ResourceWaitTest {
 
         @Override
         public void close() {}
+
     }
+
 }

@@ -24,4 +24,5 @@ public final class PacketsNeoForgeClient {
         NeoForge.EVENT_BUS.register(new ClientNetworkEventsNeoForge());
         initialized = true;
     }
+
 }

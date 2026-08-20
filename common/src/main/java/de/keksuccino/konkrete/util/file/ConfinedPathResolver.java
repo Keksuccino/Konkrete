@@ -208,5 +208,7 @@ public final class ConfinedPathResolver {
             }
             return this.path;
         }
+
     }
+
 }

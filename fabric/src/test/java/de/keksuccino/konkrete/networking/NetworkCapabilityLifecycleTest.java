@@ -415,7 +415,9 @@ class NetworkCapabilityLifecycleTest {
 
     @FunctionalInterface
     private interface ThrowingRunnable {
+
         void run() throws Exception;
+
     }
 
     private static final class EqualIdentity {
@@ -429,5 +431,7 @@ class NetworkCapabilityLifecycleTest {
         public int hashCode() {
             return 1;
         }
+
     }
+
 }

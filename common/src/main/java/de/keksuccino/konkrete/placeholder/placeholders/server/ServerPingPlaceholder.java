@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 /** Exposes a server provider's last measured latency in milliseconds. */
 public final class ServerPingPlaceholder extends AbstractServerStatusPlaceholder {
+
     /** Creates the serialized {@code serverping} placeholder. */
     public ServerPingPlaceholder() {
         super("serverping", "serverping");
@@ -14,4 +15,5 @@ public final class ServerPingPlaceholder extends AbstractServerStatusPlaceholder
     @Override protected String getReplacement(@NotNull ServerStatus status, @NotNull DeserializedPlaceholderString placeholder) {
         return Long.toString(status.pingMillis());
     }
+
 }

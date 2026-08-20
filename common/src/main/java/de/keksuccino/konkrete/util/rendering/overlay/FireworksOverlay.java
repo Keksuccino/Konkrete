@@ -855,6 +855,7 @@ public class FireworksOverlay extends AbstractWidget implements NavigatableWidge
     }
 
     private enum ExplosionShape {
+
         /** Selects the ball option. */
         BALL,
         /** Selects the ring option. */
@@ -909,6 +910,7 @@ public class FireworksOverlay extends AbstractWidget implements NavigatableWidge
         ORB,
         /** Expands a spherical burst with a glittering trail. */
         GLITTER_BALL
+
     }
 
     private static final ExplosionShape[] SHAPE_POOL = new ExplosionShape[] {
@@ -958,6 +960,7 @@ public class FireworksOverlay extends AbstractWidget implements NavigatableWidge
     };
 
     private static final class Rocket {
+
         private float startX;
         private float startY;
         private float targetX;
@@ -972,18 +975,22 @@ public class FireworksOverlay extends AbstractWidget implements NavigatableWidge
         private float swaySpeed;
         private float swayPhase;
         private int trailRgb;
+
     }
 
     private static final class Explosion {
+
         private float x;
         private float y;
         private float time;
         private float duration;
         private float gravityScale;
         private final List<Particle> particles = new ArrayList<>();
+
     }
 
     private static final class Particle {
+
         private float x;
         private float y;
         private float vx;
@@ -997,6 +1004,7 @@ public class FireworksOverlay extends AbstractWidget implements NavigatableWidge
         private boolean sparkle;
         private float flickerSpeed;
         private float flickerPhase;
+
     }
 
 }

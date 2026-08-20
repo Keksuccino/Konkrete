@@ -471,6 +471,7 @@ public final class SmoothTextRenderer {
     }
 
     private static final class StyleState {
+
         private final int baseColor;
         private int color;
         private boolean bold;
@@ -534,9 +535,11 @@ public final class SmoothTextRenderer {
             this.strikethrough = false;
             this.obfuscated = false;
         }
+
     }
 
     private static final class ComponentRenderState implements FormattedCharSink {
+
         private final GuiGraphicsExtractor graphics;
         private final SmoothFont font;
         private final int baseColor;
@@ -663,6 +666,7 @@ public final class SmoothTextRenderer {
     }
 
     private static final class FormattedMeasureState implements FormattedCharSink {
+
         private final SmoothFont font;
         private final int generationSize;
         private final float scale;
@@ -712,9 +716,11 @@ public final class SmoothTextRenderer {
             float width = Math.max(maxWidth, lineWidth);
             return new TextDimensions(width, lineHeight * lines);
         }
+
     }
 
     private static final class FormattedWidthState implements FormattedCharSink {
+
         private final SmoothFont font;
         private final int generationSize;
         private final float scale;
@@ -759,9 +765,11 @@ public final class SmoothTextRenderer {
             }
             return Math.max(maxWidth, lineWidth);
         }
+
     }
 
     private static final class FormattedLineCountState implements FormattedCharSink {
+
         private final boolean allowMultiline;
         private int lines = 1;
         private boolean sawAny;
@@ -786,9 +794,11 @@ public final class SmoothTextRenderer {
             }
             return lineHeight * lines;
         }
+
     }
 
     private static final class MeasureCache<K> extends LinkedHashMap<K, TextDimensions> {
+
         private final int limit;
 
         private MeasureCache(int limit) {
@@ -801,9 +811,11 @@ public final class SmoothTextRenderer {
         protected boolean removeEldestEntry(Map.Entry<K, TextDimensions> eldest) {
             return size() > limit;
         }
+
     }
 
     private static final class LegacyMeasureKey {
+
         private final SmoothFont font;
         private final String text;
         private final int sizeBits;
@@ -844,9 +856,11 @@ public final class SmoothTextRenderer {
             result = 31 * result + (allowMultiline ? 1 : 0);
             return result;
         }
+
     }
 
     private static final class FormattedMeasureKey {
+
         private final SmoothFont font;
         private final FormattedCharSequence text;
         private final int sizeBits;
@@ -887,6 +901,7 @@ public final class SmoothTextRenderer {
             result = 31 * result + (allowMultiline ? 1 : 0);
             return result;
         }
+
     }
 
 }

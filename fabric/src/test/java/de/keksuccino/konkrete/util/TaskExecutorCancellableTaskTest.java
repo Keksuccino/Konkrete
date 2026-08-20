@@ -38,4 +38,5 @@ class TaskExecutorCancellableTaskTest {
         assertTrue(task.isCancelled());
         assertEquals(0, executions.get());
     }
+
 }

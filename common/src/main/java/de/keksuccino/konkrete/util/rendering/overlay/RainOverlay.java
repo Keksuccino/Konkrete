@@ -808,15 +808,18 @@ public class RainOverlay extends AbstractWidget implements NavigatableWidget {
     }
 
     private static final class Raindrop {
+
         private float x;
         private float y;
         private float fallSpeed;
         private float driftSpeed;
         private float length;
         private int alpha;
+
     }
 
     private static final class PuddleLine {
+
         private float x;
         private float y;
         private float radius;
@@ -826,9 +829,11 @@ public class RainOverlay extends AbstractWidget implements NavigatableWidget {
         private float lifeTime;
         private int baseAlpha;
         private SurfaceArea area;
+
     }
 
     private static final class Drip {
+
         private float x;
         private float y;
         private float length;
@@ -837,9 +842,11 @@ public class RainOverlay extends AbstractWidget implements NavigatableWidget {
         private float lifeTime;
         private int alpha;
         private SurfaceArea area;
+
     }
 
     private static final class SurfaceArea {
+
         private int x;
         private int y;
         private int width;
@@ -862,6 +869,7 @@ public class RainOverlay extends AbstractWidget implements NavigatableWidget {
         private boolean isValid() {
             return this.width > 0;
         }
+
     }
 
 }

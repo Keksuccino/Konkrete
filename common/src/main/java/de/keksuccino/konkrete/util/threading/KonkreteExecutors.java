@@ -86,4 +86,5 @@ public final class KonkreteExecutors {
             LOGGER.error("[KONKRETE] Failed to shut down managed executor.", ex);
         }
     }
+
 }

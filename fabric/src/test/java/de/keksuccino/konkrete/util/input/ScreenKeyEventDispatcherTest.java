@@ -113,8 +113,11 @@ class ScreenKeyEventDispatcherTest {
         private TestScreen() {
             super(null, null, Component.empty());
         }
+
     }
 
     private static final class TestScreenException extends RuntimeException {
+
     }
+
 }

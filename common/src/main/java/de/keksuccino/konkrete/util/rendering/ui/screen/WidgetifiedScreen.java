@@ -10,4 +10,5 @@ import  net.minecraft.client.gui.screens.Screen;
  */
 @Retention(RetentionPolicy.SOURCE)
 public @interface WidgetifiedScreen {
+
 }

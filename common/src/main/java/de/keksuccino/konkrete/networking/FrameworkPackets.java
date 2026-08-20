@@ -27,4 +27,5 @@ final class FrameworkPackets {
         PacketRegistry.registerFramework(NBT_RESPONSE);
         registered = true;
     }
+
 }

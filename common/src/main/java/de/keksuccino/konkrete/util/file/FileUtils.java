@@ -283,5 +283,7 @@ public class FileUtils {
     interface OwnedInputStreamOpener {
 
         InputStream open(File file) throws IOException;
+
     }
+
 }

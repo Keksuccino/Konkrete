@@ -42,4 +42,5 @@ final class ServerSideServerGameruleValueRequestPacketLogic {
         String trimmed = name.trim();
         return trimmed.isEmpty() || trimmed.length() > MAX_GAMERULE_NAME_LENGTH ? null : trimmed;
     }
+
 }

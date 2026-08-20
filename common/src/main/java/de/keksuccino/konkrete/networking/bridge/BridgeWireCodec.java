@@ -32,4 +32,5 @@ final class BridgeWireCodec {
         int written = ByteBufUtil.writeUtf8(byteBuf, value);
         if (written != encodedLength) throw new IllegalStateException("UTF-8 encoder disagreed with the validated byte length");
     }
+
 }

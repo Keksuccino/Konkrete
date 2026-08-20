@@ -569,6 +569,7 @@ public final class GuiBlurRenderer {
     }
 
     private record BlurArea(float x, float y, float width, float height, float blurRadius, CornerRadii cornerRadii, float shapeType, float roundness, DrawableColor tint) {
+
     }
 
     /** Stores one blur request until its ordered GUI render phase executes. */
@@ -640,6 +641,7 @@ public final class GuiBlurRenderer {
             }
             return value > max ? max : value;
         }
+
     }
 
     private static float clampRoundness(float roundness) {
@@ -731,6 +733,7 @@ public final class GuiBlurRenderer {
     }
 
     private record ScissorBounds(float minX, float minY, float maxX, float maxY) {
+
     }
 
 }

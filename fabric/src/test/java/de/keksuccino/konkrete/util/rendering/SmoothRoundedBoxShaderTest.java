@@ -139,4 +139,5 @@ class SmoothRoundedBoxShaderTest {
             return new String(stream.readAllBytes(), StandardCharsets.UTF_8);
         }
     }
+
 }

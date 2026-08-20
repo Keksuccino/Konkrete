@@ -50,4 +50,5 @@ class UIColorThemeRegistryTest {
         UIColorThemeRegistry.setActiveTheme("test");
         assertEquals(List.of(theme), notifications);
     }
+
 }

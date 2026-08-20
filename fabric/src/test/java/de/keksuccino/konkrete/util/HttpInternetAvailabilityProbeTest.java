@@ -197,5 +197,7 @@ class HttpInternetAvailabilityProbeTest {
                 throw new AssertionError(ex);
             }
         }
+
     }
+
 }

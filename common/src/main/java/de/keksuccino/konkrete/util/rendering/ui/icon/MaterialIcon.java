@@ -252,6 +252,7 @@ public final class MaterialIcon {
     }
 
     static final class SizeCache {
+
         final int sizePx;
         volatile int width;
         volatile int height;
@@ -270,6 +271,7 @@ public final class MaterialIcon {
             this.loaded = false;
             this.failed = false;
         }
+
     }
 
 }

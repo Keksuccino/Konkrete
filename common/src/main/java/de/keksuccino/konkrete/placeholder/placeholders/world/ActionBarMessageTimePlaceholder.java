@@ -27,4 +27,5 @@ public class ActionBarMessageTimePlaceholder extends AbstractWorldPlaceholder {
     public @NotNull DeserializedPlaceholderString getDefaultPlaceholderString() {
         return new DeserializedPlaceholderString(this.getIdentifier(), null, "");
     }
+
 }

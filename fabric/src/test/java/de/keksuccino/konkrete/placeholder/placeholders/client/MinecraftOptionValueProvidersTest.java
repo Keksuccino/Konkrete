@@ -27,4 +27,5 @@ class MinecraftOptionValueProvidersTest {
         assertSame(vanilla, MinecraftOptionValueProviders.get());
         assertNotSame(override, MinecraftOptionValueProviders.get());
     }
+
 }

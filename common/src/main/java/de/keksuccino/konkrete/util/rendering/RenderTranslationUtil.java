@@ -135,12 +135,14 @@ public final class RenderTranslationUtil {
     /** Captures the immutable state needed for translation. */
     @ApiStatus.Internal
     public static final class TranslationState {
+
         /** Horizontal component of the current transform. */
         public float x = DEFAULT_TRANSLATION_KONKRETE;
         /** Vertical component of the current transform. */
         public float y = DEFAULT_TRANSLATION_KONKRETE;
         /** Depth component of the current transform. */
         public float z = DEFAULT_TRANSLATION_KONKRETE;
+
     }
 
 }

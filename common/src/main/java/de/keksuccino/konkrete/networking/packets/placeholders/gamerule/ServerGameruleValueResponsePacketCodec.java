@@ -10,4 +10,5 @@ public final class ServerGameruleValueResponsePacketCodec extends PacketCodec<Se
     public ServerGameruleValueResponsePacketCodec() {
         super(Identifier.fromNamespaceAndPath("konkrete", "gamerule_placeholder_response"), ServerGameruleValueResponsePacket.class);
     }
+
 }

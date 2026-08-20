@@ -367,21 +367,27 @@ public class ScreenOverlayHandler {
     /** Determines whether an overlay participates on the current screen. */
     @FunctionalInterface
     public interface OverlayVisibilityController {
+
         /** Reports whether this element participates in rendering and input. */
         boolean isVisible(@NotNull Screen screen);
+
     }
 
     /** Determines whether an overlay may consume input on the current screen. */
     @FunctionalInterface
     public interface OverlayInputConsumptionController {
+
         /** Returns whether the overlay may consume input from this screen. */
         boolean canConsumeInput(@NotNull Screen screen);
+
     }
 
     @FunctionalInterface
     private interface OverlayEvent {
+
         /** Routes one input event to the supplied overlay listener. */
         boolean handle(@NotNull GuiEventListener listener);
+
     }
 
 }

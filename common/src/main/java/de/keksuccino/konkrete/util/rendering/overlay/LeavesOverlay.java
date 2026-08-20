@@ -717,6 +717,7 @@ public class LeavesOverlay extends AbstractWidget implements NavigatableWidget {
     }
 
     private static final class LandingArea {
+
         private int x;
         private int y;
         private int width;
@@ -739,9 +740,11 @@ public class LeavesOverlay extends AbstractWidget implements NavigatableWidget {
         private boolean isValid() {
             return this.width > 0;
         }
+
     }
 
     private static final class Leaf {
+
         private float x;
         private float y;
         private float fallSpeed;
@@ -767,9 +770,11 @@ public class LeavesOverlay extends AbstractWidget implements NavigatableWidget {
         private LandingArea landedArea;
         private LeafShape shape;
         private int lastGustId;
+
     }
 
     private static final class WindGust {
+
         private final int id;
         private final int direction;
         private final float strength;
@@ -808,9 +813,11 @@ public class LeavesOverlay extends AbstractWidget implements NavigatableWidget {
         private float getBandWidth(float scale) {
             return this.bandWidth * scale;
         }
+
     }
 
     private static final class WindStreak {
+
         private final float y;
         private final float length;
         private final float wobble;
@@ -824,9 +831,11 @@ public class LeavesOverlay extends AbstractWidget implements NavigatableWidget {
             this.phase = phase;
             this.offset = offset;
         }
+
     }
 
     private static final class LeafShape {
+
         private final int width;
         private final int height;
         private final int[][] rects;
@@ -836,6 +845,7 @@ public class LeavesOverlay extends AbstractWidget implements NavigatableWidget {
             this.height = height;
             this.rects = rects;
         }
+
     }
 
 }

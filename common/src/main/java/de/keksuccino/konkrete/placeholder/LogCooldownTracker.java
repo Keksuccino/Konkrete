@@ -40,5 +40,7 @@ public final class LogCooldownTracker {
     }
 
     private record CooldownEntry(long claimedAtMillis) {
+
     }
+
 }

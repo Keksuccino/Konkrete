@@ -64,4 +64,5 @@ public final class PacketHandlerNeoForge {
     public static boolean sendToServer(@NotNull CustomPacketPayload packet, @NotNull Connection connection) {
         return OptionalPayloadSender.sendIfSupported(Objects.requireNonNull(connection), Objects.requireNonNull(packet), (exactConnection, payload) -> NetworkRegistry.hasChannel(exactConnection, ConnectionProtocol.PLAY, payload.type().id()), (exactConnection, payload) -> exactConnection.send(new ServerboundCustomPayloadPacket(payload)));
     }
+
 }

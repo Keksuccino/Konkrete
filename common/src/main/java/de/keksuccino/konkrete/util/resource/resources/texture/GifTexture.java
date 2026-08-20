@@ -878,6 +878,7 @@ public class GifTexture implements ITexture, PlayableResource {
 
     /** Carries {@code DecodedGifImage} data between validated stages of the texture resource. */
     public record DecodedGifImage(@NotNull GifDecoder decoder, int imageWidth, int imageHeight, int numPlays) {
+
     }
 
 }

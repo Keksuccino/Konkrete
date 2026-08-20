@@ -140,11 +140,15 @@ final class GlslGpuPipelineCache {
             String message = exception.getMessage();
             return message == null || message.isBlank() ? exception.getClass().getSimpleName() : message;
         }
+
     }
 
     record CompilationResult(boolean valid, @NotNull List<String> diagnostics) {
+
     }
 
     private record PipelineKey(@NotNull String shaderIdentity, @NotNull GpuFormat targetFormat, boolean blend) {
+
     }
+
 }

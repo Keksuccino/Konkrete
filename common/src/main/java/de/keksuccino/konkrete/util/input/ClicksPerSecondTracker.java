@@ -53,4 +53,5 @@ public final class ClicksPerSecondTracker {
             clicks.removeFirst();
         }
     }
+
 }

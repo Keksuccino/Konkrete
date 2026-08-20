@@ -233,8 +233,10 @@ public class RandomTextPlaceholder extends Placeholder {
     }
 
     private static final class RandomTextPackage {
+
         private String currentText;
         private long lastChange;
+
     }
 
 }

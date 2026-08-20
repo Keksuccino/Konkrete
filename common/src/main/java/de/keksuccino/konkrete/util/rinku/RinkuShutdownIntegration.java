@@ -20,4 +20,5 @@ public final class RinkuShutdownIntegration {
         ClientShutdownHandler.registerCleanup("Rinku browsers", ClientShutdownHandler.ORDER_MEDIA + 20, BrowserHandler::closeAll);
         ClientShutdownHandler.registerCleanup("Rinku JavaScript bridge", ClientShutdownHandler.ORDER_FINAL + 10, ActionBridge::dispose);
     }
+
 }

@@ -8,4 +8,5 @@ public interface RecentDestinationProvider {
 
     /** Returns the most recent destination snapshot, or {@code null} when no history is available. */
     @Nullable RecentDestination getRecentDestination();
+
 }

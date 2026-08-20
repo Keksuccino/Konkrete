@@ -296,14 +296,18 @@ public class HighlightPlaceholdersFormattingRule extends TextEditorFormattingRul
     // Functional interface versions for nested placeholders
     @FunctionalInterface
     private interface PosToLineMapper {
+
         /** Maps an absolute character offset to its editor line. */
         TextEditorLine apply(int pos);
+
     }
 
     @FunctionalInterface
     private interface LineToStartPosMapper {
+
         /** Returns the absolute character offset at which a line begins. */
         int apply(TextEditorLine line);
+
     }
 
 }

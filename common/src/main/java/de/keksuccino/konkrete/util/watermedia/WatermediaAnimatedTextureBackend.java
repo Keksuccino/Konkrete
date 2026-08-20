@@ -551,6 +551,7 @@ public class WatermediaAnimatedTextureBackend implements AutoCloseable {
 
     /** Snapshot states for the one-shot backend lifecycle. */
     public enum State {
+
         /** No initialization attempt has started. */
         NEW,
         /** Watermedia is resolving the source. */
@@ -565,6 +566,7 @@ public class WatermediaAnimatedTextureBackend implements AutoCloseable {
         FAILED,
         /** All owned resources were released terminally. */
         CLOSED
+
     }
 
 }

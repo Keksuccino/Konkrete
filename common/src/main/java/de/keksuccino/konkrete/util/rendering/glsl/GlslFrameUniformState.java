@@ -308,9 +308,11 @@ final class GlslFrameUniformState {
     }
 
     record PassContext(int areaXPx, int areaYPxTop, int areaYPxBottom, int renderAreaX, int renderAreaYBottom, int renderAreaWidth, int renderAreaHeight, int renderTargetWidth, int renderTargetHeight, int frame) {
+
     }
 
     record ChannelResolution(float width, float height) {
+
     }
 
     record FrameSnapshot(float time, float timeDelta, float frameRate, @NotNull float[] iMouse, @NotNull float[] date, float guiScale, @NotNull float[] mouse, @NotNull float[] mouseDelta, @NotNull int[] mouseButtons, @NotNull int[] mouseClickCount, @NotNull int[] mouseReleaseCount, @NotNull float[] mouseScroll, @NotNull float[] mouseScrollTotal, @NotNull int[] keyEvent, int keyEventCount, @NotNull int[] charEvent, int charEventCount, @NotNull int[] dateParts, @NotNull int[] timeParts, int dayOfYear, int weekOfYear, int unixTimeSeconds, int unixTimeMilliseconds, float partialTick, float gameDeltaTicks, float realtimeDeltaTicks, int inWorld, int paused, float opacity, int screenWidth, int screenHeight, int areaWidth, int areaHeight, @NotNull Map<String, VariableValue> variables, int originalVariableCount) {
@@ -398,11 +400,15 @@ final class GlslFrameUniformState {
                 layout.writeInts(buffer, name, value);
             }
         }
+
     }
 
     record VariableValue(float floatValue, int intValue, int boolValue, @NotNull float[] vector) {
+
     }
 
     private record VariableSnapshot(@NotNull Map<String, VariableValue> values, int originalCount) {
+
     }
+
 }

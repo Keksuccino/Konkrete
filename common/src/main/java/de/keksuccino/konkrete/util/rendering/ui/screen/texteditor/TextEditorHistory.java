@@ -99,6 +99,7 @@ public class TextEditorHistory {
 
     /** Captures snapshot at one point in its lifecycle. */
     public record Snapshot(@NotNull String text, int focusedLineIndex, int cursorPos, float verticalScroll, float horizontalScroll) {
+
     }
 
 }

@@ -465,9 +465,11 @@ public class Property<T> implements Cloneable {
 
         /** Available editing modes. */
         public enum Mode {
+
             FREE_INPUT,
             RANGE_INPUT,
             CYCLE_INPUT
+
         }
 
         private final Mode mode;
@@ -796,7 +798,9 @@ public class Property<T> implements Cloneable {
         }
 
         /** Immutable raw/typed manual-input snapshot. */
-        public record ManualInputSnapshot<T>(@Nullable String manualInput, @Nullable T currentValue) {}
+        public record ManualInputSnapshot<T>(@Nullable String manualInput, @Nullable T currentValue) {
+
+        }
 
     }
 

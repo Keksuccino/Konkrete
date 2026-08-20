@@ -165,4 +165,5 @@ public abstract class MixinAbstractSliderButton implements CustomizableSlider {
     @Unique
     @Override
     public @Nullable RenderableResource getCustomSliderBackgroundHighlightedKonkrete() { return this.sliderCustomizationState_Konkrete.getBackgroundHighlighted(); }
+
 }

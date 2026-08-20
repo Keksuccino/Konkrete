@@ -144,12 +144,14 @@ public class MarkdownTextLine implements Renderable {
 
     /** Identifies the visible portion of an inline code block on a line. */
     public static class SingleLineCodeBlockPart {
+
         MarkdownTextFragment start;
         MarkdownTextFragment end;
 
         /** Creates an empty inline-code range. */
         public SingleLineCodeBlockPart() {
         }
+
     }
 
 }

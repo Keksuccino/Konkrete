@@ -21,4 +21,5 @@ public class CurrentPlayerHungerSaturationPlaceholder extends AbstractWorldFloat
     protected @NotNull String getLocalizationBase() {
         return "konkrete.placeholders.world.current_player_hunger_saturation";
     }
+
 }

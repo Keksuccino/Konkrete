@@ -51,4 +51,5 @@ public abstract class MixinImageButton extends Button {
         Component renderedLabel = button.active ? button.getMessage() : AbstractWidget.WithInactiveMessage.defaultInactiveMessage(label);
         this.extractScrollingStringOverContents(graphics.textRendererForWidget(button, GuiGraphicsExtractor.HoveredTextEffects.NONE), renderedLabel, 2);
     }
+
 }

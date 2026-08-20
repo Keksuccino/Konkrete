@@ -40,4 +40,5 @@ class FabricDedicatedServerNetworkingLinkageTest {
             return new String(input.readAllBytes(), StandardCharsets.ISO_8859_1);
         }
     }
+
 }

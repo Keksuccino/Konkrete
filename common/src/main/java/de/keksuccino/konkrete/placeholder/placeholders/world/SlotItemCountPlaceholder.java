@@ -79,4 +79,5 @@ public class SlotItemCountPlaceholder extends Placeholder {
         values.put("slot", "0");
         return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
     }
+
 }

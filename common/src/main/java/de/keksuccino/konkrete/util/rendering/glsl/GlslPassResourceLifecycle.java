@@ -21,4 +21,5 @@ final class GlslPassResourceLifecycle {
             }
         }
     }
+
 }

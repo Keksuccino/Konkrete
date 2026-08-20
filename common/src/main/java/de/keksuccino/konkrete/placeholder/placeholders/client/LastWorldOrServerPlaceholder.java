@@ -64,4 +64,5 @@ public class LastWorldOrServerPlaceholder extends Placeholder {
         values.put("full_world_path", "true");
         return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
     }
+
 }

@@ -369,50 +369,64 @@ public final class ActionBridge {
     }
 
     /** Parsed browser action passed to the caller adapter. */
-    public record BrowserAction(@NotNull String type, @Nullable String value) {}
+    public record BrowserAction(@NotNull String type, @Nullable String value) {
+
+    }
 
     /** Result returned by a browser action adapter. */
     public record ActionResult(boolean success, @NotNull String message) {
+
         /** Creates a successful result. */
         public static ActionResult success(@NotNull String message) { return new ActionResult(true, message); }
         /** Creates a failed result. */
         public static ActionResult failure(@NotNull String message) { return new ActionResult(false, message); }
+
     }
 
     /** Result returned by a placeholder adapter. */
     public record PlaceholderResult(boolean success, int statusCode, @NotNull String errorCode, @NotNull String value) {
+
         /** Creates a successful result. */
         public static PlaceholderResult success(@Nullable String value) { return new PlaceholderResult(true, 200, "", value == null ? "" : value); }
         /** Creates a failed result. */
         public static PlaceholderResult failure(int statusCode, @NotNull String errorCode, @NotNull String message) { return new PlaceholderResult(false, statusCode, errorCode, message); }
+
     }
 
     /** Handles one parsed browser action. */
     @FunctionalInterface
     public interface ActionHandler {
+
         /** Executes an action and returns its browser-facing result. */
         @NotNull ActionResult execute(@NotNull BrowserAction action) throws Exception;
+
     }
 
     /** Resolves one placeholder request using immutable variables. */
     @FunctionalInterface
     public interface PlaceholderResolver {
+
         /** Resolves a placeholder and returns its browser-facing result. */
         @NotNull PlaceholderResult resolve(@NotNull String identifier, @NotNull Map<String, String> variables) throws Exception;
+
     }
 
     /** Decides which non-bundled main-frame origins may invoke a recognized request before caller code runs. */
     @FunctionalInterface
     public interface BrowserRequestPolicy {
+
         /** Returns whether this main-frame request's URL/origin is explicitly trusted. */
         boolean allow(@NotNull CefBrowser browser, @NotNull CefFrame frame, @NotNull String requestType);
+
     }
 
     /** Handles a caller-defined bridge request type. */
     @FunctionalInterface
     public interface BrowserRequestHandler {
+
         /** Handles a recognized payload and returns whether CEF should consider it consumed. */
         boolean handle(@NotNull CefBrowser browser, @NotNull CefFrame frame, @NotNull JsonObject payload, @NotNull CefQueryCallback callback);
+
     }
 
     private static final String JAVASCRIPT_API_TEMPLATE = """
@@ -447,4 +461,5 @@ public final class ActionBridge {
                     window.dispatchEvent(new Event('%namespace%-ready'));
             })();
             """;
+
 }

@@ -99,4 +99,5 @@ public class InventoryItemCountPlaceholder extends Placeholder {
         values.put("item", "minecraft:stone");
         return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
     }
+
 }

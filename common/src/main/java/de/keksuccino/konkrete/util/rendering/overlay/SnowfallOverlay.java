@@ -464,6 +464,7 @@ public class SnowfallOverlay extends AbstractWidget implements NavigatableWidget
     }
 
     private static final class AccumulationArea {
+
         private int x;
         private int y;
         private int width;
@@ -579,9 +580,11 @@ public class SnowfallOverlay extends AbstractWidget implements NavigatableWidget
             }
             return count >= minLength;
         }
+
     }
 
     private static final class Snowflake {
+
         private float x;
         private float y;
         private float fallSpeed;
@@ -591,6 +594,7 @@ public class SnowfallOverlay extends AbstractWidget implements NavigatableWidget
         private float swayTime;
         private int size;
         private int color;
+
     }
 
 }

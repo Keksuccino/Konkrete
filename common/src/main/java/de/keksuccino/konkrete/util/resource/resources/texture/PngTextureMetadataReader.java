@@ -38,6 +38,7 @@ final class PngTextureMetadataReader {
     }
 
     record Dimensions(int width, int height) {
+
     }
 
 }

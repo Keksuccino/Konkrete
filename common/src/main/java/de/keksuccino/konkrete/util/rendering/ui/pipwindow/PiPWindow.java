@@ -781,6 +781,7 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
     }
 
     private static final class IconRenderData {
+
         private final Identifier texture;
         private final int width;
         private final int height;
@@ -790,6 +791,7 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
             this.width = width;
             this.height = height;
         }
+
     }
 
     private int getBorderColor(UITheme theme) {
@@ -1224,18 +1226,23 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
 
     /** Receives an asynchronous accept-or-veto decision for a close request. */
     public interface CloseWindowDecision extends Supplier<Boolean> {
+
         /** Completes the close request with the supplied decision. */
         void supply(boolean shouldClose);
+
     }
 
     /** Evaluates whether a PiP window may close. */
     @FunctionalInterface
     public interface CloseWindowCheck {
+
         /** Starts a close check and reports its result through the decision callback. */
         void check(@NotNull PiPWindow window, @NotNull CloseWindowDecision decision);
+
     }
 
     private final class CloseWindowDecisionImpl implements CloseWindowDecision {
+
         @Nullable
         private Boolean result;
         private boolean supplied = false;
@@ -1261,6 +1268,7 @@ public class PiPWindow extends AbstractContainerEventHandler implements Renderab
         public Boolean get() {
             return this.result;
         }
+
     }
 
     /**

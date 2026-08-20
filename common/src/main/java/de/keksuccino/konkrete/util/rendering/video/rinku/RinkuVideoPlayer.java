@@ -884,6 +884,7 @@ public class RinkuVideoPlayer {
 
     /** Browser-independent playback transitions exposed to caller listeners. */
     public enum PlaybackStatus {
+
         /** A playback cycle started or resumed. */
         PLAYING,
         /** The active playback cycle paused. */
@@ -892,16 +893,21 @@ public class RinkuVideoPlayer {
         STOPPED,
         /** The active playback cycle reached its end. */
         FINISHED
+
     }
 
     /** Immutable event delivered to instance-scoped playback listeners. */
-    public record PlaybackEvent(@NotNull String source, @NotNull String sourceType, boolean looping, @NotNull PlaybackStatus status) {}
+    public record PlaybackEvent(@NotNull String source, @NotNull String sourceType, boolean looping, @NotNull PlaybackStatus status) {
+
+    }
 
     /** Receives state changes from one Rinku video player. */
     @FunctionalInterface
     public interface PlaybackListener {
+
         /** Receives one playback transition. */
         void onPlaybackChanged(@NotNull PlaybackEvent event);
+
     }
 
 }

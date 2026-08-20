@@ -25,4 +25,5 @@ class ScreenIdentifierProvidersTest {
         assertSame(defaultProvider, ScreenIdentifierProviders.get());
         assertNotSame(override, ScreenIdentifierProviders.get());
     }
+
 }

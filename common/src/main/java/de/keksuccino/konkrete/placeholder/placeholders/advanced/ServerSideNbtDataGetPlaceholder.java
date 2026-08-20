@@ -15,6 +15,7 @@ import java.util.List;
 
 /** Packet-backed server NBT query placeholder. */
 public final class ServerSideNbtDataGetPlaceholder extends Placeholder {
+
     /** Creates the packet-backed {@code nbt_data_get_server} placeholder. */
     public ServerSideNbtDataGetPlaceholder() {
         super("nbt_data_get_server");
@@ -62,4 +63,5 @@ public final class ServerSideNbtDataGetPlaceholder extends Placeholder {
         values.put("return_type", "value");
         return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
     }
+
 }

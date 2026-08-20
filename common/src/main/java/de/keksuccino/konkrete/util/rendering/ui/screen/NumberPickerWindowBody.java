@@ -36,16 +36,19 @@ public class NumberPickerWindowBody<N extends Number> extends PiPWindowBody impl
 
     /** Identifies one supported input option. */
     public enum InputMode {
+
         /** Selects free input behavior. */
         FREE_INPUT,
         /** Selects range input behavior. */
         RANGE_INPUT,
         /** Selects cycle input behavior. */
         CYCLE_INPUT
+
     }
 
     /** Converts a numeric value between text, slider, and display forms. */
     public interface ValueAdapter<N extends Number> {
+
         /** Parses user-entered text, returning {@code null} when it is invalid. */
         @Nullable
         N parseInput(@NotNull String text);
@@ -66,6 +69,7 @@ public class NumberPickerWindowBody<N extends Number> extends PiPWindowBody impl
 
         /** Returns rounding decimal places for this widget. */
         int getRoundingDecimalPlaces();
+
     }
 
     @NotNull

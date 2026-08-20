@@ -68,4 +68,5 @@ public final class WatermediaIntegrationConfig {
         BooleanSupplier override = binariesAvailabilityOverride;
         return override == null || override.getAsBoolean();
     }
+
 }

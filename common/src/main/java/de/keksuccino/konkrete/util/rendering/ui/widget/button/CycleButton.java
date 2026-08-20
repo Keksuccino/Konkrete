@@ -58,8 +58,10 @@ public class CycleButton<T> extends ExtendedButton {
     /** Receives the value selected by a cycle button click. */
     @FunctionalInterface
     public interface CycleButtonClickFeedback<T> {
+
         /** Handles the selected value and originating button. */
         void onClick(T value, CycleButton<T> button);
+
     }
 
 }

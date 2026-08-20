@@ -117,4 +117,5 @@ class LocalSourcePathResolverTest {
             assumeTrue(false, "Symbolic links are unavailable in this test environment: " + ex.getMessage());
         }
     }
+
 }

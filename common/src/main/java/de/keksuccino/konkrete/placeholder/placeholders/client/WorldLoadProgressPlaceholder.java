@@ -60,4 +60,5 @@ public class WorldLoadProgressPlaceholder extends Placeholder {
     public @NotNull DeserializedPlaceholderString getDefaultPlaceholderString() {
         return new DeserializedPlaceholderString(this.getIdentifier(), null, "");
     }
+
 }

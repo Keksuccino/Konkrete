@@ -107,4 +107,5 @@ public final class PacketRegistry {
     public static synchronized <T extends Packet> @Nullable PacketCodec<T> getCodecFor(@NotNull T packet) {
         return (PacketCodec<T>) CODECS_BY_TYPE.get(Objects.requireNonNull(packet).getClass());
     }
+
 }

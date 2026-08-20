@@ -28,4 +28,5 @@ class ResourceRuntimeTest {
 
         assertFalse(ResourceRuntime.hasAnimatedTextureListeners());
     }
+
 }

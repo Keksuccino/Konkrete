@@ -298,6 +298,7 @@ public class DrawableColor {
 
     /** Stores float color channels and conversion helpers. */
     public static record FloatColor(float red, float green, float blue, float alpha) {
+
     }
 
 }

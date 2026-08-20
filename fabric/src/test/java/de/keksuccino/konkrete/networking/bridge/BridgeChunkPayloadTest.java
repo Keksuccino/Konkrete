@@ -135,4 +135,5 @@ class BridgeChunkPayloadTest {
             byteBuf.release();
         }
     }
+
 }

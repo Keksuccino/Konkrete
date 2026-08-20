@@ -94,8 +94,10 @@ public class RendererWidget extends AbstractWidget implements UniqueWidget, Navi
     /** Supplies the custom draw state hosted by a renderer widget. */
     @FunctionalInterface
     public interface RendererWidgetBody {
+
         /** Queues the body's draw state inside the widget's current bounds. */
         void extractRenderState(@NotNull GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partial, int x, int y, int width, int height, @NotNull RendererWidget renderer);
+
     }
 
 }

@@ -208,6 +208,7 @@ class PlaceholderRegistryTest {
         protected void onUnregistered(PlaceholderRegistry.Registration registration) {
             this.unregistered.incrementAndGet();
         }
+
     }
 
     private static final class LifecyclePlaceholder extends Placeholder {
@@ -260,5 +261,7 @@ class PlaceholderRegistryTest {
         protected void onUnregistered(PlaceholderRegistry.Registration registration) {
             this.unregisteringHook.run();
         }
+
     }
+
 }

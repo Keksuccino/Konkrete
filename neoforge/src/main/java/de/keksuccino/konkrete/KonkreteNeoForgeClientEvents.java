@@ -46,4 +46,5 @@ final class KonkreteNeoForgeClientEvents {
     public void onClientStopping(ClientStoppingEvent event) {
         KonkreteClient.shutdown();
     }
+
 }

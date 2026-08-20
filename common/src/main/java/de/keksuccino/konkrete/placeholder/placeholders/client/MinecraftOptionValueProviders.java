@@ -8,6 +8,7 @@ import java.util.Objects;
 
 /** Configures named Minecraft option access without a hardcoded option catalog. */
 public final class MinecraftOptionValueProviders {
+
     private static final MinecraftOptionValueProvider VANILLA_PROVIDER = MinecraftOptionValueProviders::getVanillaOptionValue;
     private static volatile MinecraftOptionValueProvider provider = VANILLA_PROVIDER;
 
@@ -34,4 +35,5 @@ public final class MinecraftOptionValueProviders {
         MinecraftOption option = MinecraftOptions.getOption(optionName);
         return option != null ? option.get() : null;
     }
+
 }

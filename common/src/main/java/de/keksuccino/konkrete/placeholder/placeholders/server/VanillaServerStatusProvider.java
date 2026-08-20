@@ -132,6 +132,7 @@ public final class VanillaServerStatusProvider implements ServerStatusProviders.
     }
 
     private static final class Entry {
+
         private boolean loading;
         private long attempt;
         private volatile ServerStatus status;
@@ -158,5 +159,7 @@ public final class VanillaServerStatusProvider implements ServerStatusProviders.
             this.loadedAt = now;
             this.loading = false;
         }
+
     }
+
 }

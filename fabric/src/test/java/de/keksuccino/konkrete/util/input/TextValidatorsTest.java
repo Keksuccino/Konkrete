@@ -22,4 +22,5 @@ class TextValidatorsTest {
         assertFalse(TextValidators.HEX_COLOR_TEXT_VALIDATOR.get("#12345g"));
         assertFalse(TextValidators.HEX_COLOR_TEXT_VALIDATOR.get("#123456789"));
     }
+
 }

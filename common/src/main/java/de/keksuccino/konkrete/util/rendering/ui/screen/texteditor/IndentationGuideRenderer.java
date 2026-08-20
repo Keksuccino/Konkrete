@@ -308,15 +308,18 @@ public class IndentationGuideRenderer {
 
     // Type of guide to render
     private enum GuideType {
+
         /** Selects start behavior. */
         START,   // Guide starts here (render from middle of line to bottom)
         /** Selects middle behavior. */
         MIDDLE,  // Guide passes through here (render full line)
         END      // Guide ends here (render from top to middle of line)
+
     }
 
     // Helper class for representing an indentation block
     private static class IndentBlock {
+
         final int level;
         final int startLine;
 
@@ -324,10 +327,12 @@ public class IndentationGuideRenderer {
             this.level = level;
             this.startLine = startLine;
         }
+
     }
 
     // Helper class for representing a guide to render
     private static class IndentGuide {
+
         final int indentPosition;
         GuideType type;
 
@@ -335,5 +340,7 @@ public class IndentationGuideRenderer {
             this.indentPosition = indentPosition;
             this.type = type;
         }
+
     }
+
 }

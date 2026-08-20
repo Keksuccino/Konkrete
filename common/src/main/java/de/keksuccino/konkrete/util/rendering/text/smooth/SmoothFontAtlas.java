@@ -344,6 +344,7 @@ final class SmoothFontAtlas implements AutoCloseable {
     }
 
     private record Rect(int x, int y) {
+
     }
 
     /** Closes this instance and releases its native or GPU resources. */
@@ -376,4 +377,5 @@ final class SmoothFontAtlas implements AutoCloseable {
             LOGGER.info("[KONKRETE] Smooth font atlas initialized: file='{}', source={}, size={}, style={}, sizePx={}x{}.", sourceLabel, sourceIndex, sizeLabel, styleLabel, logicalWidth, logicalHeight);
         }
     }
+
 }

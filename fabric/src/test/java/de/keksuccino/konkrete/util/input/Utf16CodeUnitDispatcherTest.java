@@ -96,6 +96,7 @@ class Utf16CodeUnitDispatcherTest {
     }
 
     private record ForwardedEvent(CharacterEvent event, int modifiers) {
+
     }
 
 }

@@ -697,8 +697,10 @@ public abstract class AbstractExtendedSlider extends AbstractSliderButton implem
     /** Receives slider value update lifecycle notifications. */
     @FunctionalInterface
     public interface SliderValueUpdateListener {
+
         /** Receives the slider's display text and numeric value after an update. */
         void update(@NotNull AbstractExtendedSlider slider, @NotNull String valueDisplayText, double value);
+
     }
 
 }

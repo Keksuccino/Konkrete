@@ -53,5 +53,7 @@ public interface WindowConfiguration {
 }
 
 enum DisabledWindowConfiguration implements WindowConfiguration {
+
     INSTANCE
+
 }

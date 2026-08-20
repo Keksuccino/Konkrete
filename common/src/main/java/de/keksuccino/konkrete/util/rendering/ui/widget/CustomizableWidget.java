@@ -389,6 +389,7 @@ public interface CustomizableWidget {
 
     /** Defines when a customized widget background resets its playback state. */
     enum CustomBackgroundResetBehavior {
+
         /** Resets customized background playback on reset never. */
         RESET_NEVER,
         /** Resets customized background playback on reset on hover. */
@@ -397,6 +398,7 @@ public interface CustomizableWidget {
         RESET_ON_UNHOVER,
         /** Resets customized background playback on reset on hover and unhover. */
         RESET_ON_HOVER_AND_UNHOVER
+
     }
 
 }

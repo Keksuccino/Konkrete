@@ -347,12 +347,15 @@ public final class SmoothCircleRenderer {
     }
 
     private record CircleArea(float x, float y, float width, float height, float borderThickness, float roundness, int color) {
+
     }
 
     private record ArcArea(float x, float y, float width, float height, float borderThickness, float roundness, float startAngleRadians, float endAngleRadians, int color) {
+
     }
 
     private record QuadBounds(float minX, float minY, float maxX, float maxY) {
+
     }
 
     private record SmoothCircleRenderState(
@@ -461,6 +464,7 @@ public final class SmoothCircleRenderer {
             ScreenRectangle rectangle = new ScreenRectangle(x, y, width, height).transformMaxBounds(transform);
             return scissorArea != null ? scissorArea.intersection(rectangle) : rectangle;
         }
+
     }
 
 }

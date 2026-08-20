@@ -357,4 +357,5 @@ class BuiltinPlaceholderLocalizationTest {
             assertTrue(missing.isEmpty(), () -> locale + " is missing retained placeholder metadata keys: " + missing);
         }
     }
+
 }

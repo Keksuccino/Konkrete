@@ -248,9 +248,11 @@ public final class SmoothImageRectangleRenderer {
     }
 
     private record RectArea(float x, float y, float width, float height, CornerRadii cornerRadii, TextureRegion textureRegion, Identifier texture, int color) {
+
     }
 
     private record QuadBounds(float minX, float minY, float maxX, float maxY) {
+
     }
 
     private record SmoothImageRectRenderState(
@@ -394,6 +396,7 @@ public final class SmoothImageRectangleRenderer {
             }
             return value > max ? max : value;
         }
+
     }
 
     private record TextureRegion(float minU, float minV, float maxU, float maxV) {
@@ -411,5 +414,7 @@ public final class SmoothImageRectangleRenderer {
             float maxV = (vOffset + vHeight) / safeTexHeight;
             return new TextureRegion(minU, minV, maxU, maxV);
         }
+
     }
+
 }

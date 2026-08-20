@@ -43,4 +43,5 @@ class LocalizationUtilsTest {
 
         assertEquals(List.of(), LocalizationUtils.getLocalizationKeys());
     }
+
 }

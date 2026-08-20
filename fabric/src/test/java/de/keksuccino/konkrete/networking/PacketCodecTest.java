@@ -91,6 +91,7 @@ class PacketCodecTest {
         public boolean processPacket(ServerPlayer sender) {
             return true;
         }
+
     }
 
     private static final class RegisteredPacket extends Packet {
@@ -99,6 +100,7 @@ class PacketCodecTest {
         public boolean processPacket(ServerPlayer sender) {
             return true;
         }
+
     }
 
     private static final class OtherPacket extends Packet {
@@ -107,5 +109,7 @@ class PacketCodecTest {
         public boolean processPacket(ServerPlayer sender) {
             return true;
         }
+
     }
+
 }

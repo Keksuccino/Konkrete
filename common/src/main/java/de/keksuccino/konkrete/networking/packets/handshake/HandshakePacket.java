@@ -114,5 +114,7 @@ public final class HandshakePacket extends Packet {
     }
 
     record NegotiatedCapabilities(int bridgeProtocolVersion, @NotNull Set<Identifier> packetIdentifiers) {
+
     }
+
 }

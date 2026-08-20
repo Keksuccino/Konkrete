@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class StringUtils {
-	
+
 	/**
 	 * Returns the given {@link String} with converted format codes.
 	 */

@@ -37,4 +37,5 @@ class LocalizedEnumStylesTest {
         assertEquals(0xFF5555, LocalizedEnumStyles.error().getColor().getValue());
         assertThrows(NullPointerException.class, () -> LocalizedEnumStyles.configure(null, () -> Style.EMPTY, () -> Style.EMPTY));
     }
+
 }

@@ -107,9 +107,11 @@ public class JsonPlaceholder extends Placeholder {
     }
 
     enum LocalJsonStatus {
+
         FOUND,
         MISSING,
         REJECTED
+
     }
 
     record LocalJsonLookup(@NotNull LocalJsonStatus status, @Nullable List<String> json) {
@@ -125,6 +127,7 @@ public class JsonPlaceholder extends Placeholder {
         private static LocalJsonLookup rejected() {
             return new LocalJsonLookup(LocalJsonStatus.REJECTED, null);
         }
+
     }
 
     /**

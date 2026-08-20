@@ -74,4 +74,5 @@ public final class ResourceInputLimits {
     private static void validateByteLimit(long maxBytes) {
         if (maxBytes < 0L) throw new IllegalArgumentException("Byte limit must not be negative");
     }
+
 }

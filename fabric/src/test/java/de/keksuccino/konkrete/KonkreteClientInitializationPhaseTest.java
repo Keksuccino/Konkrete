@@ -50,4 +50,5 @@ class KonkreteClientInitializationPhaseTest {
         assertEquals(failure, repeatedFailure.getCause());
         assertEquals(1, executions.get());
     }
+
 }

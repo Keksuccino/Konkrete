@@ -37,4 +37,5 @@ final class KonkreteRinkuPlaceholderAdapter {
         String replacement = placeholder.getReplacementFor(deserialized);
         return ActionBridge.PlaceholderResult.success(replacement);
     }
+
 }

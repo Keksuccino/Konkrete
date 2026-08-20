@@ -341,6 +341,7 @@ public class JpegTexture implements ITexture {
 
     /** Carries {@code SizedNativeImage} data between validated stages of the texture resource. */
     protected record SizedNativeImage(@NotNull NativeImage image, int width, int height) {
+
     }
 
 }

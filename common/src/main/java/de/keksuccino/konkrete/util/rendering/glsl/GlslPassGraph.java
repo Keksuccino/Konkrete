@@ -22,12 +22,14 @@ public final class GlslPassGraph {
 
     /** Identifies one version of buffer data. */
     public enum BufferVersion {
+
         /** Reads the previous frame feedback-buffer version. */
         PREVIOUS_FRAME,
         /** Reads the current frame feedback-buffer version. */
         CURRENT_FRAME,
         /** Reads the fallback feedback-buffer version. */
         FALLBACK
+
     }
 
 }

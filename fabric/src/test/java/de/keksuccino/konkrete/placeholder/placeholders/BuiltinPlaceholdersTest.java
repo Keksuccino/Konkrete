@@ -153,5 +153,7 @@ class BuiltinPlaceholdersTest {
         public DeserializedPlaceholderString getDefaultPlaceholderString() {
             return DeserializedPlaceholderString.build(this.getIdentifier(), null);
         }
+
     }
+
 }

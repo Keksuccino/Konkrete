@@ -6,4 +6,5 @@ interface InternetAvailabilityProbe extends AutoCloseable {
 
     @Override
     void close();
+
 }

@@ -80,16 +80,19 @@ public class GlslShaderRuntime {
 
     /** Identifies one supported compile option. */
     public enum CompileMode {
+
         /** Uses auto shader-source compilation. */
         AUTO,
         /** Uses direct shader-source compilation. */
         DIRECT,
         /** Uses shadertoy shader-source compilation. */
         SHADERTOY
+
     }
 
     /** Identifies a texture resource or feedback buffer routed into a shader channel. */
     public enum ChannelInput {
+
         /** Routes this channel from none. */
         NONE("none", -1),
         /** Routes this channel from resource0. */
@@ -142,6 +145,7 @@ public class GlslShaderRuntime {
             }
             return fallback;
         }
+
     }
 
     /** Maps the four shader channels to resource or feedback-buffer inputs. */
@@ -170,6 +174,7 @@ public class GlslShaderRuntime {
         public static ChannelRouting defaultNone() {
             return new ChannelRouting(ChannelInput.NONE, ChannelInput.NONE, ChannelInput.NONE, ChannelInput.NONE);
         }
+
     }
 
     /** Configures compilation, timing, blending, input, textures, feedback sources, and pass routing. */
@@ -211,6 +216,7 @@ public class GlslShaderRuntime {
                 default -> ChannelRouting.defaultNone();
             };
         }
+
     }
 
     /** Queues this GLSL runtime's configured passes in the active GUI extraction cycle. */
@@ -705,6 +711,7 @@ public class GlslShaderRuntime {
     }
 
     private static final class ProgramState {
+
         @Nullable
         private GlslGpuPipelineCache.PipelineBundle pipeline;
         @Nullable
@@ -719,6 +726,7 @@ public class GlslShaderRuntime {
         private String lastCompileError;
         private long cacheGeneration = -1L;
         private final GlslPassFrameState passFrames = new GlslPassFrameState();
+
     }
 
     private record ChannelTextureState(@NotNull GpuTextureView view, @NotNull GpuSampler sampler, float resolutionX, float resolutionY) {
@@ -727,9 +735,11 @@ public class GlslShaderRuntime {
         private ChannelTextureState withResolution(float width, float height) {
             return new ChannelTextureState(this.view, this.sampler, width, height);
         }
+
     }
 
     private record PreparedPass(int passIndex, @NotNull ProgramState program, @NotNull GpuTextureView outputView, @NotNull ChannelTextureState[] channels) {
+
     }
 
     private record GlslRenderState(@NotNull GlslShaderRuntime runtime, int areaX, int areaY, int areaWidth, int areaHeight, float partialTick, @Nullable String fragmentSource, @NotNull RenderSettings settings, @NotNull ScreenRectangle bounds) implements GuiRenderPhaseAction {
@@ -739,6 +749,7 @@ public class GlslShaderRuntime {
         public void executeRender_Konkrete() {
             this.runtime.renderNow(this.areaX, this.areaY, this.areaWidth, this.areaHeight, this.partialTick, this.fragmentSource, this.settings);
         }
+
     }
 
     private record GlslResourceReleaseRenderState(@NotNull GlslShaderRuntime runtime, @NotNull ScreenRectangle bounds) implements GuiRenderPhaseAction {
@@ -748,5 +759,7 @@ public class GlslShaderRuntime {
         public void executeRender_Konkrete() {
             this.runtime.close();
         }
+
     }
+
 }

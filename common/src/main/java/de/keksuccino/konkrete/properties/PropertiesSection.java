@@ -5,7 +5,7 @@ import java.util.Map;
 
 @SuppressWarnings("all")
 public class PropertiesSection {
-	
+
 	private String sectionType;
 	private Map<String, String> entries = new LinkedHashMap<>();
 	

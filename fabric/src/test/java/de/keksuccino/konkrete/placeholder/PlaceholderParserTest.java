@@ -168,5 +168,7 @@ class PlaceholderParserTest {
         public DeserializedPlaceholderString getDefaultPlaceholderString() {
             return DeserializedPlaceholderString.build(this.getIdentifier(), Map.of("text", "example"));
         }
+
     }
+
 }

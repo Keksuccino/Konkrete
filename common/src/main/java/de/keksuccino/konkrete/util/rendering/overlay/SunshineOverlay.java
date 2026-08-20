@@ -314,6 +314,7 @@ public class SunshineOverlay extends AbstractWidget implements NavigatableWidget
 
     /** Identifies one supported sunshine option. */
     public enum SunshineSide {
+
         /** Positions the element at top. */
         TOP,
         /** Positions the element at right. */
@@ -322,9 +323,11 @@ public class SunshineOverlay extends AbstractWidget implements NavigatableWidget
         BOTTOM,
         /** Positions the sunshine origin along the left screen edge. */
         LEFT
+
     }
 
     private static final class SunRay {
+
         private float angleOffset;
         private float length;
         private float width;
@@ -332,14 +335,17 @@ public class SunshineOverlay extends AbstractWidget implements NavigatableWidget
         private float pulseSpeed;
         private float pulsePhase;
         private float time;
+
     }
 
     private static final class SunBasis {
+
         private float originX;
         private float originY;
         private float dirX;
         private float dirY;
         private float maxDim;
+
     }
 
 }

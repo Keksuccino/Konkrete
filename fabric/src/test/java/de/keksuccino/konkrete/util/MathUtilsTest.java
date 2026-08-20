@@ -50,4 +50,5 @@ class MathUtilsTest {
             assertTrue(value >= -2 && value <= 2);
         }
     }
+
 }

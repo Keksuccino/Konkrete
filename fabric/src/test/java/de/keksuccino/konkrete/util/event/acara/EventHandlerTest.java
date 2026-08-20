@@ -86,6 +86,7 @@ class EventHandlerTest {
         public boolean isCancelable() {
             return true;
         }
+
     }
 
     public static final class AnnotatedListeners {
@@ -96,6 +97,7 @@ class EventHandlerTest {
         public void onEvent(TestEvent event) {
             this.validCalls++;
         }
+
     }
 
     public static final class InvalidAnnotatedListener {
@@ -103,5 +105,7 @@ class EventHandlerTest {
         @EventListener
         public void onEvent(TestEvent event, String invalidExtraParameter) {
         }
+
     }
+
 }

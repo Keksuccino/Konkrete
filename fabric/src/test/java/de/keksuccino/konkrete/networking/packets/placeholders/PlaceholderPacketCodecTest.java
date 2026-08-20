@@ -54,4 +54,5 @@ class PlaceholderPacketCodecTest {
         if (separator < 0) throw new AssertionError("Serialized packet envelope had no separator");
         return codec.deserialize(envelope.substring(separator + 1));
     }
+
 }

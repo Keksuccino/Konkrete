@@ -29,4 +29,5 @@ public class CameraRotationYPlaceholder extends AbstractWorldPlaceholder {
     public @NotNull DeserializedPlaceholderString getDefaultPlaceholderString() {
         return new DeserializedPlaceholderString(this.getIdentifier(), null, "");
     }
+
 }

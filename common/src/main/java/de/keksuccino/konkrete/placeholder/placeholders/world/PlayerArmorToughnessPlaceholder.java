@@ -22,4 +22,5 @@ public class PlayerArmorToughnessPlaceholder extends AbstractWorldFloatPlacehold
     protected @NotNull String getLocalizationBase() {
         return "konkrete.placeholders.world.player_armor_toughness";
     }
+
 }

@@ -180,6 +180,7 @@ final class NetworkCapabilityLifecycle {
     }
 
     private record ClientSession(Object connection, @Nullable PeerCapabilities capabilities) {
+
     }
 
     private record PeerCapabilities(int bridgeProtocolVersion, Set<Identifier> packetIdentifiers) {
@@ -188,6 +189,7 @@ final class NetworkCapabilityLifecycle {
             this.bridgeProtocolVersion = Math.max(bridgeProtocolVersion, 0);
             this.packetIdentifiers = Set.copyOf(Objects.requireNonNull(packetIdentifiers));
         }
+
     }
 
     /**
@@ -252,6 +254,7 @@ final class NetworkCapabilityLifecycle {
         private synchronized int capableConnectionCount() {
             return this.capableConnections.size();
         }
+
     }
 
     private static final class IdentityKey {
@@ -273,5 +276,7 @@ final class NetworkCapabilityLifecycle {
         public int hashCode() {
             return this.hashCode;
         }
+
     }
+
 }

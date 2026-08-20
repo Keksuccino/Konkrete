@@ -71,10 +71,12 @@ public final class ScreenKeyEventDispatcher {
 
         /** Receives one immutable press, repeat, or release notification after screen handling. */
         void onScreenKey(@NotNull ScreenKeyInput input);
+
     }
 
     /** Identifies the GLFW key action that produced a screen-key notification. */
     public enum KeyAction {
+
         /** A key was initially pressed. */
         PRESS,
         /** A held key generated a repeat. */
@@ -90,6 +92,7 @@ public final class ScreenKeyEventDispatcher {
                 default -> null;
             };
         }
+
     }
 
     /**
@@ -107,6 +110,7 @@ public final class ScreenKeyEventDispatcher {
             Objects.requireNonNull(event, "event");
             Objects.requireNonNull(action, "action");
         }
+
     }
 
     /** Idempotent handle that unregisters one listener without affecting duplicate registrations. */
@@ -129,8 +133,11 @@ public final class ScreenKeyEventDispatcher {
         public void close() {
             if (this.registered.compareAndSet(true, false)) LISTENERS.remove(this.entry);
         }
+
     }
 
     private record ListenerEntry(ScreenKeyListener listener) {
+
     }
+
 }

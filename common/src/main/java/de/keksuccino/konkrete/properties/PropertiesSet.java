@@ -5,7 +5,7 @@ import java.util.List;
 
 @SuppressWarnings("all")
 public class PropertiesSet {
-	
+
 	private String propertiesType;
 	private List<PropertiesSection> properties = new ArrayList<PropertiesSection>();
 	

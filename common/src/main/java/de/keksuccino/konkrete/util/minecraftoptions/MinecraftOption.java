@@ -158,9 +158,11 @@ public final class MinecraftOption {
 
     /** Supported vanilla option representations. */
     public enum Kind {
+
         OPTION_INSTANCE,
         KEY_MAPPING,
         MODEL_PART
+
     }
 
 }

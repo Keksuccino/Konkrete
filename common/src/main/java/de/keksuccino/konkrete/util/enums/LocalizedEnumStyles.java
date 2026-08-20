@@ -48,5 +48,7 @@ public final class LocalizedEnumStyles {
     }
 
     private record SemanticStyleSuppliers(Supplier<Style> success, Supplier<Style> warning, Supplier<Style> error) {
+
     }
+
 }

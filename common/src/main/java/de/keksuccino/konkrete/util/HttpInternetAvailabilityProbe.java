@@ -78,6 +78,7 @@ final class HttpInternetAvailabilityProbe implements InternetAvailabilityProbe {
     interface ConnectionFactory {
 
         @NotNull HttpURLConnection open(@NotNull URI endpoint) throws IOException;
+
     }
 
     private static final class ActiveAttempt {
@@ -96,5 +97,7 @@ final class HttpInternetAvailabilityProbe implements InternetAvailabilityProbe {
         private void disconnect() {
             if (this.disconnected.compareAndSet(false, true)) this.connection.disconnect();
         }
+
     }
+
 }

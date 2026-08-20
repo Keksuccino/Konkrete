@@ -69,6 +69,7 @@ public final class BridgeMessageSender {
      * Transport-level bridge outcome.
      */
     public enum SendResult {
+
         /** Every required payload was submitted. */
         SENT,
         /** The exact peer lacks the compatibility channel. */
@@ -83,5 +84,7 @@ public final class BridgeMessageSender {
         MALFORMED_TEXT,
         /** The compatibility direction marker exceeds its limit. */
         INVALID_DIRECTION
+
     }
+
 }

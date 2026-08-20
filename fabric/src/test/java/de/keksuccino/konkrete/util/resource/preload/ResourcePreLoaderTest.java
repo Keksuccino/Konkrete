@@ -55,5 +55,7 @@ class ResourcePreLoaderTest {
         public @NotNull String getSerializationSource() {
             return "[group]" + this.resourceSourceWithoutPrefix;
         }
+
     }
+
 }

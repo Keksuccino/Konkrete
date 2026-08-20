@@ -166,10 +166,12 @@ public final class LocalSourcePathResolver {
 
     /** Identifies a permitted path root. */
     public enum AllowedRoot {
+
         /** The active game instance directory. */
         GAME_DIRECTORY,
         /** The user's default Minecraft directory. */
         DEFAULT_MINECRAFT_DIRECTORY
+
     }
 
     /** A validated path paired with its permitted root. */
@@ -211,6 +213,7 @@ public final class LocalSourcePathResolver {
         public Path revalidate() throws IOException {
             return this.confinedPath.revalidate();
         }
+
     }
 
     private record RootBoundary(AllowedRoot allowedRoot, ConfinedPathResolver resolver) {
@@ -218,6 +221,7 @@ public final class LocalSourcePathResolver {
         private static RootBoundary capture(AllowedRoot allowedRoot, Path path) throws IOException {
             return new RootBoundary(allowedRoot, ConfinedPathResolver.create(path));
         }
+
     }
 
     private record CachedResolver(Path gameDirectoryRoot, Path minecraftDirectoryRoot, LocalSourcePathResolver resolver) {
@@ -225,5 +229,7 @@ public final class LocalSourcePathResolver {
         private boolean matches(Path gameDirectoryRoot, Path minecraftDirectoryRoot) {
             return this.gameDirectoryRoot.equals(gameDirectoryRoot) && Objects.equals(this.minecraftDirectoryRoot, minecraftDirectoryRoot);
         }
+
     }
+
 }

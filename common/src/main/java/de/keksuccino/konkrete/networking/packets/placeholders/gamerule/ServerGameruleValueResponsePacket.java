@@ -58,4 +58,5 @@ public final class ServerGameruleValueResponsePacket extends Packet {
     public boolean processPacket(@Nullable ServerPlayer sender) {
         return false;
     }
+
 }

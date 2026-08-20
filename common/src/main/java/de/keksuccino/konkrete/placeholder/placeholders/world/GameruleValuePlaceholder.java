@@ -15,6 +15,7 @@ import java.util.List;
 
 /** Integrated-server or packet-backed gamerule placeholder. */
 public final class GameruleValuePlaceholder extends AbstractWorldPlaceholder {
+
     /** Creates the local-or-packet-backed {@code gamerule_value} placeholder. */
     public GameruleValuePlaceholder() {
         super("gamerule_value");
@@ -63,4 +64,5 @@ public final class GameruleValuePlaceholder extends AbstractWorldPlaceholder {
         if (name == null || name.isBlank()) return null;
         return name.trim();
     }
+
 }

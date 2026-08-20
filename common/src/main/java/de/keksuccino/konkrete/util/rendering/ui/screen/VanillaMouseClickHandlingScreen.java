@@ -8,4 +8,5 @@ import net.minecraft.client.gui.screens.Screen;
  * instead of the toolkit's broadcast routing rules.
  */
 public interface VanillaMouseClickHandlingScreen {
+
 }

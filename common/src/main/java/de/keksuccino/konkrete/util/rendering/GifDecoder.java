@@ -388,9 +388,11 @@ public class GifDecoder {
             this.numBits = numBits;
             bitMask = (1 << numBits) - 1;
         }
+
     }
 
     static class CodeTable {
+
         private final int[][] tbl; // Maps codes to lists of colors
         private int initTableSize; // Number of colors +2 for CLEAR + EOI
         private int initCodeSize; // Initial code size
@@ -439,9 +441,11 @@ public class GifDecoder {
                 tbl[fr.transpColIndex][0] = 0;
             }
         }
+
     }
 
     static final class GifFrame {
+
         // Graphic control extension (optional)
         // Disposal: 0=NO_ACTION, 1=NO_DISPOSAL, 2=RESTORE_BG, 3=RESTORE_PREV
         private int disposalMethod; // 0-3 as above, 4-7 undefined
@@ -466,9 +470,11 @@ public class GifDecoder {
         private int endOfInfoCode;
         private byte[] data; // Holds LZW encoded data
         private BufferedImage img; // Full drawn image, not just the frame area
+
     }
 
     public static class GifImage {
+
         public String header; // Bytes 0-5, GIF87a or GIF89a
         private int w; // Unsigned 16 Bit, least significant byte first
         private int h; // Unsigned 16 Bit, least significant byte first
@@ -688,6 +694,7 @@ public class GifDecoder {
         public int getWidth() {
             return w;
         }
+
     }
 
 }

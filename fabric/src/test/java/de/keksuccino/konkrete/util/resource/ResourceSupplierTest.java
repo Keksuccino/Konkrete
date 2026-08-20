@@ -132,6 +132,7 @@ class ResourceSupplierTest {
             this.handlerSelections++;
             return this.handler;
         }
+
     }
 
     private static final class RecordingResourceHandler extends ResourceHandler<TestResource, FileType<TestResource>> {
@@ -156,6 +157,7 @@ class ResourceSupplierTest {
         public @Nullable FileType<TestResource> getFallbackFileType() {
             return null;
         }
+
     }
 
     private static final class TestResource implements Resource {
@@ -200,5 +202,7 @@ class ResourceSupplierTest {
         public void close() {
             this.closed = true;
         }
+
     }
+
 }

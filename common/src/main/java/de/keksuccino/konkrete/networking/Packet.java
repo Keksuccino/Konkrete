@@ -51,4 +51,5 @@ public abstract class Packet {
             LOGGER.error("[KONKRETE] Failed to send packet chat feedback.", ex);
         }
     }
+
 }

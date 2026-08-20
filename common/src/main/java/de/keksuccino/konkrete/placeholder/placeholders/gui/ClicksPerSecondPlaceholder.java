@@ -52,4 +52,5 @@ public class ClicksPerSecondPlaceholder extends Placeholder {
         values.put("mouse_button", "left");
         return new DeserializedPlaceholderString(this.getIdentifier(), values, "");
     }
+
 }
