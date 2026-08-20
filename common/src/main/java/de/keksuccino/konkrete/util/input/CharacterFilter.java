@@ -2,7 +2,6 @@ package de.keksuccino.konkrete.util.input;
 
 import java.util.ArrayList;
 import java.util.List;
-import de.keksuccino.konkrete.util.Legacy;
 import org.jetbrains.annotations.NotNull;
 
 /** Builds predicates for accepted input characters. */
@@ -136,49 +135,6 @@ public class CharacterFilter {
                 this.forbidden.add(s.charAt(0));
             }
         }
-    }
-
-    /** Returns a live adapter that delegates legacy filter calls to this instance. */
-    @Legacy("Converts the new CharacterFilter to the old one from Konkrete. Remove this in the future.")
-    @NotNull
-    public de.keksuccino.konkrete.input.CharacterFilter convertToLegacyFilter() {
-        return new de.keksuccino.konkrete.input.CharacterFilter() {
-            /** {@inheritDoc} */
-            @Override
-            public boolean isAllowed(char c) {
-                return CharacterFilter.this.isAllowedChar(c);
-            }
-            /** {@inheritDoc} */
-            @Override
-            public boolean isAllowed(@NotNull String charString) {
-                return CharacterFilter.this.isAllowedChar(charString);
-            }
-            /** {@inheritDoc} */
-            @Override
-            public void addAllowedCharacters(char... chars) {
-                CharacterFilter.this.addAllowedCharacters(chars);
-            }
-            /** {@inheritDoc} */
-            @Override
-            public void addAllowedCharacters(@NotNull String... chars) {
-                CharacterFilter.this.addAllowedCharacters(chars);
-            }
-            /** {@inheritDoc} */
-            @Override
-            public void addForbiddenCharacters(char... chars) {
-                CharacterFilter.this.addForbiddenCharacters(chars);
-            }
-            /** {@inheritDoc} */
-            @Override
-            public void addForbiddenCharacters(@NotNull String... chars) {
-                CharacterFilter.this.addForbiddenCharacters(chars);
-            }
-            /** {@inheritDoc} */
-            @Override
-            public String filterForAllowedChars(@NotNull String text) {
-                return CharacterFilter.this.filterForAllowedChars(text);
-            }
-        };
     }
 
 }
