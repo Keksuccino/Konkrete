@@ -5,6 +5,7 @@ import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.BlendFactor;
 import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.systems.GpuDevice;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.GpuSampler;
 import com.mojang.blaze3d.textures.GpuTextureView;
@@ -34,6 +35,7 @@ import java.util.Objects;
 public class RenderingUtils {
 
     private static final Logger LOGGER = LogManager.getLogger();
+    private static final String VULKAN_BACKEND_NAME = "Vulkan";
 
     /** Magenta half of the missing-texture checkerboard. */
     public static final DrawableColor MISSING_TEXTURE_COLOR_MAGENTA = DrawableColor.of(Color.MAGENTA);
@@ -53,9 +55,50 @@ public class RenderingUtils {
     private static int overrideBackgroundBlurRadius = -1000;
     private static int shaderColor = -1;
 
-    /** Detects whether the active Konkrete render backend is Vulkan. */
+    /**
+     * Returns whether Minecraft's initialized render device uses Vulkan.
+     *
+     * @throws IllegalStateException if called before Minecraft initializes its render device
+     */
     public static boolean isVulkanActive() {
-        return RenderUtils.isVulkanActive();
+        GpuDevice device = RenderSystem.getDevice();
+        return VULKAN_BACKEND_NAME.equals(device.getDeviceInfo().backendName());
+    }
+
+    /**
+     * Parses a six-digit RGB or eight-digit RGBA hexadecimal color.
+     *
+     * @param hex color with an optional leading {@code #}
+     * @return the parsed color, or {@code null} if the value is malformed
+     */
+    @Nullable
+    public static Color getColorFromHexString(@NotNull String hex) {
+        try {
+            hex = hex.replace("#", "");
+            if (hex.length() == 6) {
+                return new Color(Integer.valueOf(hex.substring(0, 2), 16), Integer.valueOf(hex.substring(2, 4), 16), Integer.valueOf(hex.substring(4, 6), 16));
+            }
+            if (hex.length() == 8) {
+                return new Color(Integer.valueOf(hex.substring(0, 2), 16), Integer.valueOf(hex.substring(2, 4), 16), Integer.valueOf(hex.substring(4, 6), 16), Integer.valueOf(hex.substring(6, 8), 16));
+            }
+        } catch (Exception ex) {
+            LOGGER.error("Failed to build Color object from HEX color string!", ex);
+        }
+        return null;
+    }
+
+    /**
+     * Registers a texture under an explicit identifier or a path in the {@code konkrete} namespace.
+     *
+     * @return the identifier registered with Minecraft's texture manager
+     */
+    @NotNull
+    public static Identifier register(@NotNull String location, @NotNull AbstractTexture texture) {
+        Objects.requireNonNull(location);
+        Objects.requireNonNull(texture);
+        Identifier identifier = location.contains(":") ? Identifier.parse(location) : Identifier.fromNamespaceAndPath("konkrete", location);
+        Minecraft.getInstance().getTextureManager().register(identifier, texture);
+        return identifier;
     }
 
     /** Restores color masks, depth writes, and face culling after direct OpenGL work. */
