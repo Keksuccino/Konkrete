@@ -107,7 +107,6 @@ subprojects {
                         'net.neoforged',
                         'org.spongepowered',
                         'com.cinemamod',
-                        'de.keksuccino',
                         'org.parchmentmc',
                         'org.parchmentmc.data'
                 ]
@@ -140,15 +139,6 @@ subprojects {
                 "mod_description": mod_description,
                 "mod_license": mod_license,
                 "mod_authors": mod_authors,
-                "japng_version": japng_version,
-                "animated_gif_lib_version": animated_gif_lib_version,
-                "melody_version": melody_version,
-                "melody_artifact_version": melody_artifact_version,
-                "rinku_version": rinku_version,
-                "rinku_artifact_version": rinku_artifact_version,
-                "fer_version": fer_version,
-                "watermedia_version": watermedia_version,
-                "watermedia_binaries_version": watermedia_binaries_version,
                 "minecraft_version": minecraft_version,
                 "java_version": java_version,
                 "fabric_version": fabric_version,

@@ -17,64 +17,12 @@ config = "${mod_id}.mixins.json"
 [[mixins]]
 config = "${mod_id}.neoforge.mixins.json"
 
-[[accessTransformers]]
-file = "META-INF/accesstransformer.cfg"
-
 [[dependencies.${mod_id}]] #optional
 modId = "neoforge" #mandatory
 type="required" #mandatory (Can be one of "required", "optional", "incompatible" or "discouraged")
 versionRange = "[${neoforge_version},)" #mandatory
 ordering = "NONE" # The order that this dependency should load in relation to your mod, required to be either 'BEFORE' or 'AFTER' if the dependency is not mandatory
 side = "BOTH" # Side this dependency is applied on - 'BOTH', 'CLIENT' or 'SERVER'
-
-[[dependencies.${mod_id}]]
-modId = "melody"
-type="required"
-versionRange = "[${melody_version},)"
-ordering = "NONE"
-side = "CLIENT"
-
-[[dependencies.${mod_id}]]
-modId = "rinku"
-type="optional"
-versionRange = "[${rinku_version},)"
-ordering = "AFTER"
-side = "CLIENT"
-
-[[dependencies.${mod_id}]]
-modId = "fancy_entity_renderer"
-type="optional"
-versionRange = "[${fer_version},)"
-ordering = "NONE"
-side = "CLIENT"
-
-[[dependencies.${mod_id}]]
-modId = "watermedia"
-type="optional"
-versionRange = "[${watermedia_version},)"
-ordering = "NONE"
-side = "CLIENT"
-
-[[dependencies.${mod_id}]]
-modId = "watermedia_binaries"
-type="optional"
-versionRange = "[${watermedia_binaries_version},)"
-ordering = "NONE"
-side = "CLIENT"
-
-[[dependencies.${mod_id}]]
-modId = "drippyloadingscreen"
-type="incompatible"
-versionRange = "[0,3.0.1)"
-ordering = "NONE"
-side = "BOTH"
-
-[[dependencies.${mod_id}]]
-modId = "fancymenu"
-type="incompatible"
-versionRange = "[0,3.1.0)"
-ordering = "NONE"
-side = "BOTH"
 
 [[dependencies.${mod_id}]]
 modId = "minecraft"

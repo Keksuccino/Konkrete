@@ -15,14 +15,14 @@ Json-smart is licensed under Apache-2.0.
 Exp4j Copyright © Frank Asseg.
 Exp4j is licensed under Apache-2.0. https://github.com/fasseg/exp4j
 
-*/
+ */
 
 package de.keksuccino.konkrete;
 
 import de.keksuccino.konkrete.platform.Services;
-import de.keksuccino.konkrete.util.WebUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 public class Konkrete {
 
@@ -32,23 +32,46 @@ public class Konkrete {
 	public static final String VERSION = "1.11.1";
 	public static final String MOD_LOADER = Services.PLATFORM.getPlatformName();
 
+	@Deprecated
+    public static boolean isOptifineLoaded = false;
+
 	public static void init() {
 
-		WebUtils.init();
-
 		if (Services.PLATFORM.isOnClient()) {
-			LOGGER.info("[KONKRETE] Loading v" + VERSION + " in client-side mode on " + MOD_LOADER.toUpperCase() + "..");
+
+			LOGGER.info("[KONKRETE] Loading v" + VERSION + " in client-side mode on " + MOD_LOADER.toUpperCase() + "!");
+
 		} else {
-			LOGGER.info("[KONKRETE] Loading v" + VERSION + " in server-side mode on " + MOD_LOADER.toUpperCase() + "..");
+			LOGGER.info("[KONKRETE] Loading v" + VERSION + " in server-side mode on " + MOD_LOADER.toUpperCase() + "!");
 		}
+
+    	if (Services.PLATFORM.isOnClient()) {
+
+			try {
+				Class.forName("optifine.Installer");
+				isOptifineLoaded = true;
+			}
+			catch (ClassNotFoundException ignore) {}
+		
+		}
+
+		//Nothing server-side needs to get initialized here
+		LOGGER.info("[KONKRETE] Server-side modules initialized and ready to use!");
+    	
+    }
+
+	public static void onGameInitCompleted() {
+
+		PostClientInitTaskExecutor.executeAll();
 
 	}
 
-	/** Runs client completion hooks when applicable. */
-	public static void onGameInitCompleted() {
-
-		if (Services.PLATFORM.isOnClient()) KonkreteClient.onGameInitCompleted();
-
+	/**
+	 * ONLY WORKS CLIENT-SIDE! DOES NOTHING ON A SERVER!
+	 */
+    @Deprecated
+	public static void addPostClientInitTask(@NotNull String modId, @NotNull Runnable task) {
+		PostClientInitTaskExecutor.addTask(modId, task);
 	}
 
 }

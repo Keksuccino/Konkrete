@@ -63,14 +63,12 @@ public class ConfigEntry {
 	}
 	
 	public enum EntryType {
-
 		INTEGER,
 		STRING,
 		DOUBLE,
 		LONG,
 		FLOAT,
 		BOOLEAN;
-
 	}
-
+	
 }

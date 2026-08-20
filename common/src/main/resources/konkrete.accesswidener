@@ -1,7 +1,0 @@
-accessWidener v2 official
-
-mutable field net/minecraft/client/gui/screens/Screen title Lnet/minecraft/network/chat/Component;
-accessible field net/minecraft/client/gui/screens/Screen title Lnet/minecraft/network/chat/Component;
-accessible method net/minecraft/client/gui/components/CommandSuggestions$SuggestionsList <init> (Lnet/minecraft/client/gui/components/CommandSuggestions;IIILjava/util/List;Z)V
-extendable method net/minecraft/client/gui/components/EditBox deleteText (IZ)V
-accessible class net/minecraft/client/gui/GuiGraphicsExtractor$ScissorStack

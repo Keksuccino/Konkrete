@@ -2,9 +2,11 @@
   "required": true,
   "minVersion": "0.8",
   "package": "de.keksuccino.konkrete.mixin.mixins.fabric",
-  "compatibilityLevel": "JAVA_25",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [],
-  "client": [],
+  "client": [
+  ],
+  "server": [],
   "injectors": {
     "defaultRequire": 1
   },

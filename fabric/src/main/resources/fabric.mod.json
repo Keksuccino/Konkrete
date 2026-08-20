@@ -17,34 +17,22 @@
     "main": [
       "de.keksuccino.konkrete.KonkreteFabric"
     ],
-    "client": [
-      "de.keksuccino.konkrete.KonkreteFabricClient"
-    ],
+    "client": [],
     "server": []
   },
   "mixins": [
     "${mod_id}.mixins.json",
     "${mod_id}.fabric.mixins.json"
   ],
-  "accessWidener": "${mod_id}.accesswidener",
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
     "fabric-api": ">=${fabric_short_version}",
-    "melody": ">=${melody_version}",
     "minecraft": ">=${minecraft_version}",
     "java": ">=${java_version}"
   },
-  "suggests": {
-    "fancy_entity_renderer": ">=${fer_version}",
-    "rinku": ">=${rinku_version}",
-    "watermedia": ">=${watermedia_version}",
-    "watermedia_binaries": ">=${watermedia_binaries_version}"
-  },
   "breaks": {
     "drippyloadingscreen": "<3.0.1",
-    "fancymenu": "<3.1.0",
-    "watermedia": "<${watermedia_version}",
-    "watermedia_binaries": "<${watermedia_binaries_version}"
+    "fancymenu": "<3.1.0"
   },
   "custom": {
     "modmenu": {

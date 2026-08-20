@@ -8,7 +8,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(Gui.class)
 public interface AccessorMixinGui {
 
-    /** Sets the screen field without running the normal {@link Gui#setScreen(Screen)} transition logic. */
+    /**
+     * @reason Set the screen instance directly without the need to go through the normal {@link Gui#setScreen(Screen)}.
+     */
     @Accessor("screen") void set_screen_Konkrete(Screen screen);
 
 }

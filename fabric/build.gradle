@@ -32,16 +32,7 @@ dependencies {
     shadow("net.minidev:json-smart:2.6.0") {
         exclude group: "org.ow2.asm", module: "asm"
     }
-    include(implementation("com.github.Keksuccino:japng:${japng_version}"))
-    include(implementation("com.github.rtyley:animated-gif-lib-for-java:animated-gif-lib-${animated_gif_lib_version}"))
-    implementation "maven.modrinth:melody:${melody_artifact_version}-fabric"
-    implementation "de.keksuccino:rinku-fabric:${rinku_artifact_version}"
-    runtimeOnly "maven.modrinth:watermedia:${watermedia_version}"
-    runtimeOnly "maven.modrinth:watermedia-binaries:${watermedia_binaries_version}"
     implementation "maven.modrinth:modmenu:20.0.0-beta.4"
-
-    testImplementation "org.junit.jupiter:junit-jupiter:5.10.2"
-    testRuntimeOnly "org.junit.platform:junit-platform-launcher:1.10.2"
 
 }
 
@@ -99,13 +90,8 @@ tasks.named("assemble") {
     dependsOn tasks.shadowJar
 }
 
-tasks.named("compileJava", JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     source(project(":common").sourceSets.main.allSource)
-}
-tasks.named("compileTestJava", JavaCompile) {
-    enabled = true
-    source(sourceSets.test.java)
-    classpath = sourceSets.test.compileClasspath
 }
 tasks.withType(Javadoc).configureEach {
     source(project(":common").sourceSets.main.allJava)
@@ -113,16 +99,6 @@ tasks.withType(Javadoc).configureEach {
 tasks.withType(Test).configureEach {
     // Allow builds when there are test sources but no matching tests.
     failOnNoDiscoveredTests = false
-}
-tasks.named("test", Test) {
-    enabled = true
-    testClassesDirs = sourceSets.test.output.classesDirs
-    classpath = sourceSets.test.runtimeClasspath
-    workingDir(layout.buildDirectory.dir("test-working-directory"))
-    doFirst {
-        workingDir.mkdirs()
-    }
-    useJUnitPlatform()
 }
 tasks.named("sourcesJar", Jar) {
     from(project(":common").sourceSets.main.allSource)
