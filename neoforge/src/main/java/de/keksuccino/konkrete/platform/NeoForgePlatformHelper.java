@@ -9,7 +9,10 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.client.settings.KeyModifier;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import net.neoforged.neoforgespi.language.IModInfo;
+import net.minecraft.server.MinecraftServer;
+import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -67,6 +70,12 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public boolean isOnClient() {
         return FMLEnvironment.getDist() == Dist.CLIENT;
+    }
+
+    @Nullable
+    @Override
+    public MinecraftServer getServer() {
+        return ServerLifecycleHooks.getCurrentServer();
     }
 
     @Override

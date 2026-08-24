@@ -5,6 +5,7 @@ import de.keksuccino.konkrete.networking.bridge.BridgeChunkReassembler;
 import de.keksuccino.konkrete.networking.bridge.BridgeMessageSender;
 import de.keksuccino.konkrete.networking.bridge.BridgeProtocol;
 import de.keksuccino.konkrete.networking.packets.handshake.HandshakePacket;
+import de.keksuccino.konkrete.threading.ClientThreadTaskExecutor;
 import net.minecraft.network.Connection;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -192,14 +193,14 @@ public class PacketHandler {
                     LOGGER.error("[FANCYMENU] Failed to process handshake packet on client!", ex);
                 }
             } else if (packet != null) {
-                MainThreadTaskExecutor.executeInMainThread(() -> {
+                ClientThreadTaskExecutor.execute(() -> {
                     if (!NETWORK_CAPABILITIES.isClientSessionActive(clientConnection)) return;
                     try {
                         packet.processClientPacket(clientConnection);
                     } catch (Exception ex) {
                         LOGGER.error("[FANCYMENU] Failed to process packet on client!", ex);
                     }
-                }, MainThreadTaskExecutor.ExecuteTiming.POST_CLIENT_TICK);
+                }, ClientThreadTaskExecutor.ExecuteTiming.POST_CLIENT_TICK);
             }
         } else if (direction == PacketDirection.TO_SERVER) {
             if (sender != null) {

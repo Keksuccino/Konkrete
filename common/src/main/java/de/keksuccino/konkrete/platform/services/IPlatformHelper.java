@@ -2,6 +2,8 @@ package de.keksuccino.konkrete.platform.services;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.server.MinecraftServer;
+import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public interface IPlatformHelper {
@@ -40,6 +42,10 @@ public interface IPlatformHelper {
 
     /** If the mod is loaded client-side. **/
     boolean isOnClient();
+
+    /** Get the active dedicated or integrated server, if one is running. **/
+    @Nullable
+    MinecraftServer getServer();
 
     /** Get the key of a {@link KeyMapping}. **/
     InputConstants.Key getKeyMappingKey(KeyMapping keyMapping);
