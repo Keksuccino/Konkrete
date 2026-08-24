@@ -14,7 +14,8 @@ public class ClientThreadTaskExecutor {
     private static final List<Runnable> QUEUED_TASKS_POST_CLIENT_TICK = Collections.synchronizedList(new ArrayList<>());
     private static volatile boolean shuttingDown;
 
-    static {
+    @ApiStatus.Internal
+    public static void init() {
         ShutdownHelper.registerShutdownTask(ClientThreadTaskExecutor::shutdown);
     }
 
