@@ -3,6 +3,7 @@ package de.keksuccino.konkrete.config;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Deprecated
 public class ConfigEntry {
 
 	private String name;
@@ -14,6 +15,7 @@ public class ConfigEntry {
 	/**
 	 * All changes to a {@link ConfigEntry} must be manually synchronized with the config file by calling {@link Config#syncConfig()}!
 	 */
+	@Deprecated
 	public ConfigEntry(@NotNull String name, @NotNull String value, @NotNull EntryType type, @NotNull String category, @Nullable String description) {
 		this.name = name;
 		this.value = value;

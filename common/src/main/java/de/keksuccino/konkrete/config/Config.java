@@ -23,6 +23,7 @@ import de.keksuccino.konkrete.math.MathUtils;
  * Simple config system to store values.<br>
  * Can store Strings, Booleans and all common types of numbers.
  */
+@Deprecated
 @SuppressWarnings("all")
 public class Config {
 
@@ -35,7 +36,8 @@ public class Config {
 	@Nullable
 	private String name = null;
 	private List<String> categorys = new ArrayList<>();
-	
+
+	@Deprecated
 	public Config(@NotNull String path) {
 		this.path = Objects.requireNonNull(path);
 		this.config = new File(path);

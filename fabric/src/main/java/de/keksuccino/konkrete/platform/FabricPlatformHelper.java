@@ -71,4 +71,9 @@ public class FabricPlatformHelper implements IPlatformHelper {
         return ((AccessorMixinKeyMapping) keyMapping).get_key_Konkrete();
     }
 
+    @Override
+    public void setKeyMappingKey(KeyMapping keyMapping, InputConstants.Key key) {
+        keyMapping.setKey(key);
+    }
+
 }

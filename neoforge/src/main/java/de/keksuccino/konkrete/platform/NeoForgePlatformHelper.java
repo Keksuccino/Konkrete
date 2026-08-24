@@ -8,6 +8,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.client.settings.KeyModifier;
 import net.neoforged.neoforgespi.language.IModInfo;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,11 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public InputConstants.Key getKeyMappingKey(KeyMapping keyMapping) {
         return keyMapping.getKey();
+    }
+
+    @Override
+    public void setKeyMappingKey(KeyMapping keyMapping, InputConstants.Key key) {
+        keyMapping.setKeyModifierAndCode(KeyModifier.NONE, key);
     }
 
 }

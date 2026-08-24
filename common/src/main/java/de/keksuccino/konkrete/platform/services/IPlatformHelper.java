@@ -44,6 +44,9 @@ public interface IPlatformHelper {
     /** Get the key of a {@link KeyMapping}. **/
     InputConstants.Key getKeyMappingKey(KeyMapping keyMapping);
 
+    /** Set the key of a {@link KeyMapping}, clearing platform-specific modifier state. **/
+    void setKeyMappingKey(KeyMapping keyMapping, InputConstants.Key key);
+
     /**
      * Gets the name of the environment type as a string.
      *
