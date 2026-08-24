@@ -1,11 +1,9 @@
 package de.keksuccino.konkrete.mixin.mixins.common.client;
 
-import de.keksuccino.konkrete.Konkrete;
 import de.keksuccino.konkrete.ShutdownHelper;
 import de.keksuccino.konkrete.input.MouseInput;
 import de.keksuccino.konkrete.threading.ClientThreadTaskExecutor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.main.GameConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,11 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinMinecraft {
 
     @Unique private static final Logger LOGGER_KONKRETE = LogManager.getLogger();
-
-    @Inject(method = "<init>", at = @At("RETURN"))
-    private void return_construct_Konkrete(GameConfig gameConfig, CallbackInfo info) {
-        Konkrete.onGameInitCompleted();
-    }
 
     @Inject(method = "resizeGui", at = @At("HEAD"))
     private void head_resizeDisplay_Konkrete(CallbackInfo info) {
@@ -54,9 +47,7 @@ public class MixinMinecraft {
 
     @Inject(method = "close", at = @At("HEAD"))
     private void head_close_Konkrete(CallbackInfo info) {
-        LOGGER_KONKRETE.info("[KONKRETE] Running shutdown tasks..");
-        ShutdownHelper.getShutdownTasks().forEach(Runnable::run);
-        LOGGER_KONKRETE.info("[KONKRETE] Finished running shutdown tasks.");
+        ShutdownHelper.runAll();
     }
 
 }

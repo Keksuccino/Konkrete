@@ -193,7 +193,7 @@ public class PacketHandler {
                     LOGGER.error("[FANCYMENU] Failed to process handshake packet on client!", ex);
                 }
             } else if (packet != null) {
-                ClientThreadTaskExecutor.execute(() -> {
+                ClientThreadTaskExecutor.queueForExecution(() -> {
                     if (!NETWORK_CAPABILITIES.isClientSessionActive(clientConnection)) return;
                     try {
                         packet.processClientPacket(clientConnection);

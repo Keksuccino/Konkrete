@@ -16,4 +16,8 @@ public class ServerUtils {
         return Services.PLATFORM.getServer();
     }
 
+    public static void assertIsOnServer() {
+        if (Services.PLATFORM.isOnClient()) throw new RuntimeException("Wrong side! Should be server-side, but was client instead!");
+    }
+
 }

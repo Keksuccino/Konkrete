@@ -1,7 +1,5 @@
 package de.keksuccino.konkrete.file;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,15 +8,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
+import java.util.*;
+
+import net.minecraft.util.Util;
 import org.apache.commons.io.IOUtils;
 import com.google.common.io.Files;
 import org.apache.logging.log4j.LogManager;
@@ -61,7 +56,7 @@ public class FileUtils {
 				line = in.readLine();
 			}
 		} catch (Exception ex) {
-			LOGGER.error("[KONKRETE] Failed to read text lines of file: " + file.getAbsolutePath(), ex);
+			LOGGER.error("Failed to read text lines of file: " + file.getAbsolutePath(), ex);
 		}
 		IOUtils.closeQuietly(in);
 		IOUtils.closeQuietly(fileIn);
@@ -83,7 +78,7 @@ public class FileUtils {
 		return list;
 	}
 	
-	public static List<String> getFilenames(@NotNull String path, boolean includeExtension) {
+	public static List<String> getFileNames(@NotNull String path, boolean includeExtension) {
 		List<String> list = new ArrayList<>();
 		File f = new File(path);
 		if (f.exists()) {
@@ -100,175 +95,106 @@ public class FileUtils {
 		}
 		return list;
 	}
-	
-	public static String generateAvailableFilename(@NotNull String dir, @NotNull String baseName, @NotNull String extension) {
-		File f = new File(dir);
-		if (!f.exists() && f.isDirectory()) {
-			f.mkdirs();
+
+	@NotNull
+	public static File generateUniqueFileName(@NotNull File fileOrFolder, boolean isDirectory) {
+		if (isDirectory && !fileOrFolder.isDirectory()) return fileOrFolder;
+		if (!isDirectory && !fileOrFolder.isFile()) return fileOrFolder;
+		File f = new File(fileOrFolder.getPath());
+		int count = 1;
+		while ((isDirectory && f.isDirectory()) || (!isDirectory && f.isFile())) {
+			f = new File(fileOrFolder.getPath() + "_" + count);
+			count++;
 		}
-		File f2 = new File(f.getPath() + "/" + baseName + "." + extension.replace(".", ""));
-		int i = 1;
-		while (f2.exists()) {
-			f2 = new File(f.getPath() + "/" + baseName + "_" + i + "." + extension.replace(".", ""));
-			i++;
-		}
-		return f2.getName();
+		return f;
 	}
 
 	/**
-	 * @deprecated Use {@link Files#copy(File, File)} instead.
+	 * Reads every UTF-8 text line from the given stream. The caller retains ownership of the stream and must close it.
+	 *
+	 * @throws IOException if the complete stream cannot be read; partially read lines are never returned
 	 */
-	@Deprecated
-	public static boolean copyFile(@NotNull File from, @NotNull File to) {
-		if (!from.getAbsolutePath().replace("\\", "/").equals(to.getAbsolutePath().replace("\\", "/"))) {
-			if (from.exists() && from.isFile()) {
-				File toParent = to.getParentFile();
-				if ((toParent != null) && !toParent.exists()) {
-					toParent.mkdirs();
-				}
-				InputStream in = null;
-				OutputStream out = null;
-				try {
-					in = new BufferedInputStream(new FileInputStream(from));
-					out = new BufferedOutputStream(new FileOutputStream(to));
-					byte[] buffer = new byte[1024];
-			        int lengthRead;
-			        while ((lengthRead = in.read(buffer)) > 0) {
-			            out.write(buffer, 0, lengthRead);
-			            out.flush();
-			        }
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				IOUtils.closeQuietly(in);
-		        IOUtils.closeQuietly(out);
-		        //Should never be triggered
-		        try {
-		        	int i = 0;
-					while (!to.exists() && (i < 10*20)) {
-						Thread.sleep(50);
-						i++;
-					}
-		        } catch (Exception e) {
-		        	e.printStackTrace();
-		        }
-		        return to.exists();
-			}
+	@NotNull
+	public static List<String> readTextLinesFrom(@NotNull InputStream in) throws IOException {
+		Objects.requireNonNull(in);
+		List<String> lines = new ArrayList<>();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+		for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+			lines.add(line);
 		}
-		return false;
+		return lines;
 	}
 
 	/**
-	 * @deprecated Use {@link Files#move(File, File)} instead.
+	 * Opens the given file, reads every UTF-8 text line and closes the internally owned stream.
+	 *
+	 * @throws IOException if the file cannot be opened, completely read or closed; partially read lines are never returned
 	 */
-	@Deprecated
-	public static boolean moveFile(@NotNull File from, @NotNull File to) throws InterruptedException {
-		if (!from.getAbsolutePath().replace("\\", "/").equals(to.getAbsolutePath().replace("\\", "/"))) {
-			if (from.exists() && from.isFile()) {
-				if (from.renameTo(to)) {
-					int i = 0;
-					//Should never be triggered
-					while (!to.exists() && (i < 10*20)) {
-						Thread.sleep(50);
-						i++;
-					}
-					return true;
-				} else if (copyFile(from, to)) {
-					if (from.delete()) {
-						return true;
-					} else {
-						if (from.exists() && to.exists()) {
-							to.delete();
-							return false;
-						}
-					}
-				}
-			}
-		}
-		return false;
+	@NotNull
+	public static List<String> readTextLinesFrom(@NotNull File file) throws IOException {
+		return readTextLinesFrom(file, source -> java.nio.file.Files.newInputStream(source.toPath()));
 	}
-	
-	public static void compressToZip(@NotNull String pathToCompare, @NotNull String zipFile) {
-        byte[] buffer = new byte[1024];
-        String source = new File(pathToCompare).getName();
-		FileOutputStream fos = null;
-        ZipOutputStream zos = null;
-        try {
-            fos = new FileOutputStream(zipFile);
-            zos = new ZipOutputStream(fos);
-            for (String file: getFiles(pathToCompare)) {
-                ZipEntry ze = new ZipEntry(source + File.separator + file);
-                zos.putNextEntry(ze);
-				FileInputStream in = null;
-                try {
-                	in = new FileInputStream(file);
-                    int len;
-                    while ((len = in.read(buffer)) > 0) {
-                        zos.write(buffer, 0, len);
-                    }
-                } catch (Exception ex) {
-					LOGGER.error("[KONKRETE] Error while trying to compress ZIP: " + zipFile, ex);
-                }
-				IOUtils.closeQuietly(in);
-            }
-            try {
-				zos.closeEntry();
-			} catch (Exception ignore) {}
-        } catch (Exception ex) {
-			LOGGER.error("[KONKRETE] Error while trying to compress ZIP: " + zipFile, ex);
-        }
-		IOUtils.closeQuietly(fos);
-		IOUtils.closeQuietly(zos);
-    }
-	
-	public static void compressToZip(@NotNull List<String> filePathsToCompare, @NotNull String zipFile) {
-        byte[] buffer = new byte[1024];
-        FileOutputStream fos = null;
-        ZipOutputStream zos = null;
-        try {
-            fos = new FileOutputStream(zipFile);
-            zos = new ZipOutputStream(fos);
-            for (String file: filePathsToCompare) {
-                ZipEntry ze = new ZipEntry(Files.getNameWithoutExtension(zipFile) + "/" + file);
-                zos.putNextEntry(ze);
-				FileInputStream in = null;
-                try {
-                	in = new FileInputStream(file);
-                    int len;
-                    while ((len = in.read(buffer)) > 0) {
-                        zos.write(buffer, 0, len);
-                    }
-                } catch (Exception ex) {
-					LOGGER.error("[KONKRETE] Error while trying to compress ZIP: " + zipFile, ex);
-                }
-				IOUtils.closeQuietly(in);
-            }
-            try {
-				zos.closeEntry();
-			} catch (Exception ignore) {}
-        } catch (IOException ex) {
-            LOGGER.error("[KONKRETE] Error while trying to compress ZIP: " + zipFile, ex);
-        }
-		IOUtils.closeQuietly(fos);
-		IOUtils.closeQuietly(zos);
-    }
 
-	public static void unpackZip(@NotNull String zipPath, @NotNull String outputDir) throws IOException {
-		ZipFile zipFile = new ZipFile(zipPath);
-		Enumeration<? extends ZipEntry> entries = zipFile.entries();
-		while (entries.hasMoreElements()) {
-			ZipEntry entry = entries.nextElement();
-			File entryDestination = new File(outputDir,  entry.getName());
-			if (entry.isDirectory()) {
-				entryDestination.mkdirs();
+	/**
+	 * Keeps the complete owned-stream lifecycle deterministic and testable without depending on platform file-lock behavior.
+	 */
+	@NotNull
+	static List<String> readTextLinesFrom(@NotNull File file, @NotNull OwnedInputStreamOpener inputStreamOpener) throws IOException {
+		Objects.requireNonNull(file);
+		Objects.requireNonNull(inputStreamOpener);
+		try (InputStream in = inputStreamOpener.open(file)) {
+			return readTextLinesFrom(in);
+		}
+	}
+
+	/**
+	 * Creates the given directory and returns it.
+	 */
+	@NotNull
+	public static File createDirectory(@NotNull File directory) {
+		try {
+			if (!directory.isDirectory()) {
+				directory.mkdirs();
+			}
+		} catch (Exception ex) {
+			LOGGER.error("[FANCYMENU] Failed to create directory: " + directory.getAbsolutePath(), ex);
+		}
+		if (directory.getName().startsWith(".")) {
+			try {
+				java.nio.file.Files.setAttribute(directory.toPath(), "dos:hidden", true);
+			} catch (Exception ignore) {}
+		}
+		return directory;
+	}
+
+	public static void openFile(@NotNull File file) {
+		try {
+			String url = file.toURI().toURL().toString();
+			String s = System.getProperty("os.name").toLowerCase(Locale.ROOT);
+			URL u = new URL(url);
+			if (Util.getPlatform() != Util.OS.OSX) {
+				if (s.contains("win")) {
+					Runtime.getRuntime().exec(new String[]{"rundll32", "url.dll,FileProtocolHandler", url});
+				} else {
+					if (u.getProtocol().equals("file")) {
+						url = url.replace("file:", "file://");
+					}
+					Runtime.getRuntime().exec(new String[]{"xdg-open", url});
+				}
 			} else {
-				entryDestination.getParentFile().mkdirs();
-				InputStream in = zipFile.getInputStream(entry);
-				OutputStream out = new FileOutputStream(entryDestination);
-				IOUtils.copy(in, out);
+				Runtime.getRuntime().exec(new String[]{"open", url});
 			}
+		} catch (Exception e) {
+			LOGGER.error("[FANCYMENU] Failed to open file: " + file.getAbsolutePath(), e);
 		}
-		IOUtils.closeQuietly(zipFile);
+	}
+
+	@FunctionalInterface
+	interface OwnedInputStreamOpener {
+
+		@NotNull
+		InputStream open(@NotNull File file) throws IOException;
+
 	}
 	
 }

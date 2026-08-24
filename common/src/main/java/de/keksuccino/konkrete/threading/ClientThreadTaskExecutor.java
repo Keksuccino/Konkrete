@@ -1,6 +1,7 @@
 package de.keksuccino.konkrete.threading;
 
 import de.keksuccino.konkrete.ShutdownHelper;
+import de.keksuccino.konkrete.side.ClientUtils;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,10 +17,11 @@ public class ClientThreadTaskExecutor {
 
     @ApiStatus.Internal
     public static void init() {
-        ShutdownHelper.registerShutdownTask(ClientThreadTaskExecutor::shutdown);
+        ShutdownHelper.registerShutdownTask("Konkrete client thread task cleanup", ClientThreadTaskExecutor::shutdown);
     }
 
-    public static void execute(@NotNull Runnable task, @NotNull ExecuteTiming timing) {
+    public static void queueForExecution(@NotNull Runnable task, @NotNull ExecuteTiming timing) {
+        ClientUtils.assertIsOnClient();
         List<Runnable> queue = timing == ExecuteTiming.PRE_CLIENT_TICK ? QUEUED_TASKS_PRE_CLIENT_TICK : QUEUED_TASKS_POST_CLIENT_TICK;
         synchronized (queue) {
             if (!shuttingDown) queue.add(task);

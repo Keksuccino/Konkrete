@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screens.Screen;
 import javax.annotation.Nullable;
 
 @SuppressWarnings("unused")
-public class GuiUtils {
+public class ScreenUtils {
 
     /**
      * This method makes it possible to set the active {@link Screen} directly without the need to go through {@link Gui#setScreen(Screen)}.<br>
