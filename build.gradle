@@ -1,8 +1,8 @@
 
 plugins {
     // Required for NeoGradle
-    id "org.jetbrains.gradle.plugin.idea-ext" version "1.3"
-    id "com.gradleup.shadow" version "8.3.9" apply false
+    id "org.jetbrains.gradle.plugin.idea-ext" version "1.4.1"
+    id "com.gradleup.shadow" version "9.6.1" apply false
 }
 
 tasks.named("updateDaemonJvm") {
@@ -17,6 +17,15 @@ subprojects {
     java.toolchain.languageVersion = JavaLanguageVersion.of(java_version.toInteger())
     java.withSourcesJar()
 //    java.withJavadocJar()
+
+    plugins.withId('com.gradleup.shadow') {
+        tasks.named('shadowJar') {
+            // Service descriptors must reach mergeServiceFiles before duplicate filtering.
+            filesMatching('META-INF/services/**') {
+                duplicatesStrategy = DuplicatesStrategy.INCLUDE
+            }
+        }
+    }
 
     jar {
         from(rootProject.file("LICENSE")) {
@@ -53,31 +62,24 @@ subprojects {
             }
         }
         maven {
-            url "https://cursemaven.com"
+            url = "https://cursemaven.com"
             content {
                 includeGroup "curse.maven"
             }
         }
         maven {
-            url "https://api.modrinth.com/maven"
+            url = "https://api.modrinth.com/maven"
             content {
                 includeGroup "maven.modrinth"
             }
         }
         maven {
-            url 'https://jitpack.io'
+            url = 'https://jitpack.io'
             content {
                 includeGroupByRegex 'com\\.github\\..*'
             }
         }
         maven { url = "https://keksuccino.github.io/maven/" }
-        maven {
-            name = 'ParchmentMC Maven'
-            url = 'https://maven.parchmentmc.org'
-            content {
-                includeGroupByRegex 'org\\.parchmentmc(\\..*)?'
-            }
-        }
         // Crystal Nest repository where Fancy Entity Renderer is hosted.
         exclusiveContent {
             forRepository {
@@ -106,9 +108,7 @@ subprojects {
                         'net.minecraftforge',
                         'net.neoforged',
                         'org.spongepowered',
-                        'com.cinemamod',
-                        'org.parchmentmc',
-                        'org.parchmentmc.data'
+                        'com.cinemamod'
                 ]
                 if (id.group in stableGroups) {
                     component.changing = false
@@ -140,16 +140,18 @@ subprojects {
                 "mod_license": mod_license,
                 "mod_authors": mod_authors,
                 "minecraft_version": minecraft_version,
+                "minecraft_version_upper_bound": minecraft_version_upper_bound,
                 "java_version": java_version,
                 "fabric_version": fabric_version,
                 "fabric_short_version": fabric_short_version,
                 "fabric_loader_version": fabric_loader_version,
                 "neoforge_version": neoforge_version,
                 "neoforge_loader_version": neoforge_loader_version,
-                "parchment_version": parchment_version,
-                "parchment_mc_version": parchment_mc_version,
+                "asm_version": asm_version,
+                "mixin_version": mixin_version,
                 "mixin_extras_version": mixin_extras_version,
                 "fabric_loom_version": fabric_loom_version,
+                "modmenu_version": modmenu_version,
                 "neogradle_version": neogradle_version
         ]
         filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
