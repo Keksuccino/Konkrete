@@ -13,8 +13,7 @@ public class MixinGui {
 
     @Inject(method = "setScreen", at = @At("HEAD"))
     private void headSetScreen_Konkrete(Screen screen, CallbackInfo info) {
-        MouseInput.mouseHandler_screenLeftMouseDown = false;
-        MouseInput.mouseHandler_screenRightMouseDown = false;
+        MouseInput.resetScreenMouseButtons();
     }
 
 }

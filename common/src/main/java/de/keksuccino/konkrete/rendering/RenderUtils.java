@@ -1,7 +1,7 @@
 package de.keksuccino.konkrete.rendering;
 
-import com.mojang.blaze3d.systems.GpuDevice;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.renderpearl.api.device.GpuDevice;
 import java.awt.Color;
 import java.util.Objects;
 import net.minecraft.client.Minecraft;
