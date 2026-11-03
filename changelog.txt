@@ -1,93 +1,482 @@
-
 CHANGELOG | KONKRETE v1.11.1
 
-**Added**
+- Added support for MC 26.3
 - Added `RenderUtils.isVulkanActive()` to detect whether Minecraft is currently running on the Vulkan render backend.
-
-**Changed**
-- Replaced broad `@SuppressWarnings("all")` in `RenderUtils` with narrower unused-warning suppression
-- Added unused-warning suppression to `GuiUtils`
-
-**Improved**
 - `RenderUtils.getColorFromHexString(...)` now explicitly marks its nullable return with `@Nullable`
 - Hex color parsing failures now log through Log4j instead of printing stack traces directly
+- Replaced broad `@SuppressWarnings("all")` in `RenderUtils` with narrower unused-warning suppression
+- Added unused-warning suppression to `GuiUtils`
+- Fixed `MouseInput.isRightMouseDown()` also returning true for middle and extra mouse buttons in screens (only fixed in the MC 26.3 build)
 
+%changelog:metadata:start%
+"version":"1.11.1";
+"update_title":"";
+"update_release_date_timestamp":"1782446634";
+"update_release_date_string_ddmmyyyy":"26-06-2026";
+"update_supported_mod_loaders":"fabric,neoforge";
+"update_supported_minecraft_versions":"26.2,26.3";
+%changelog:metadata:end%
 %changelog:end%
-
 
 
 
 
 CHANGELOG | KONKRETE v1.11.0
- 
-- Ported to Minecraft 26.2.0
 
+- Ported to Minecraft 26.2.0
+- Added `GuiUtils.setScreenDirect(Screen)` to set the active screen directly, without going through `Gui#setScreen(Screen)`
+- Removed the command line debug system
+- Removed `ReflectionHelper`
+
+%changelog:metadata:start%
+"version":"1.11.0";
+"update_title":"";
+"update_release_date_timestamp":"1782358797";
+"update_release_date_string_ddmmyyyy":"25-06-2026";
+"update_supported_mod_loaders":"fabric,neoforge";
+"update_supported_minecraft_versions":"26.2";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.10.2
+
+- This update is only for Fabric
+
+- Fixed crash when using JSON-related features on Fabric 26.1.X
+
+%changelog:metadata:start%
+"version":"1.10.2";
+"update_title":"";
+"update_release_date_timestamp":"1778787859";
+"update_release_date_string_ddmmyyyy":"14-05-2026";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"26.1.1,26.1.2";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.10.1
+
+- Added `size`, `mousemove`, `mousedelta`, `pause`, `leaveworld` and `quit` commands to the command line debug system
+
+%changelog:metadata:start%
+"version":"1.10.1";
+"update_title":"";
+"update_release_date_timestamp":"1775592258";
+"update_release_date_string_ddmmyyyy":"07-04-2026";
+"update_supported_mod_loaders":"fabric,neoforge";
+"update_supported_minecraft_versions":"26.1.1,26.1.2";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.10.0
+
+- Added a command line debug system for development environments (send `konkretedebug help` to the game's console input to list all commands)
+  - Lets you inspect the current screen and its widgets, simulate clicks, key presses and scrolling, load a debug world, take screenshots, toggle fullscreen, and send chat messages or commands
+- The game no longer pauses when its window loses focus while in a world in development environments
+
+%changelog:metadata:start%
+"version":"1.10.0";
+"update_title":"";
+"update_release_date_timestamp":"1775511841";
+"update_release_date_string_ddmmyyyy":"06-04-2026";
+"update_supported_mod_loaders":"fabric,neoforge";
+"update_supported_minecraft_versions":"26.1.1";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.9.19
+
+- Ported to MC 26.1.1
+
+%changelog:metadata:start%
+"version":"1.9.19";
+"update_title":"";
+"update_release_date_timestamp":"1775327702";
+"update_release_date_string_ddmmyyyy":"04-04-2026";
+"update_supported_mod_loaders":"fabric,neoforge";
+"update_supported_minecraft_versions":"26.1.1";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.9.18
+
+- Fixed crash when using JsonPath features in MC 1.21.11
+  - The bundled JSON libraries no longer ship their own copies of SLF4J and ASM
+
+%changelog:metadata:start%
+"version":"1.9.18";
+"update_title":"";
+"update_release_date_timestamp":"1769958098";
+"update_release_date_string_ddmmyyyy":"01-02-2026";
+"update_supported_mod_loaders":"fabric,neoforge";
+"update_supported_minecraft_versions":"1.21.11";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.9.17
+
+- Konkrete now ships JsonPath, Json-smart and Exp4j inside its JAR again (relocated to `de.keksuccino.com.jayway.jsonpath`, `de.keksuccino.net.minidev` and `de.keksuccino.net.objecthunter.exp4j`)
+- Removed the library checks added in v1.9.15 and v1.9.16 (`Konkrete.JSON_PATH_LIBRARY_LOADED`, `Konkrete.JSON_SMART_LIBRARY_LOADED`, `Konkrete.EXP4J_LIBRARY_LOADED` and their `is...LibraryLoaded()` methods)
+
+%changelog:metadata:start%
+"version":"1.9.17";
+"update_title":"";
+"update_release_date_timestamp":"1769957112";
+"update_release_date_string_ddmmyyyy":"01-02-2026";
+"update_supported_mod_loaders":"fabric,neoforge";
+"update_supported_minecraft_versions":"1.21.11";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.9.16
+
+- Added `Konkrete.JSON_SMART_LIBRARY_LOADED`, `Konkrete.EXP4J_LIBRARY_LOADED`, `Konkrete.isJsonSmartLibraryLoaded()` and `Konkrete.isExp4JLibraryLoaded()`
+- Konkrete now also logs on game start if the Json-smart and Exp4j libraries were found
+
+%changelog:metadata:start%
+"version":"1.9.16";
+"update_title":"";
+"update_release_date_timestamp":"1769954097";
+"update_release_date_string_ddmmyyyy":"01-02-2026";
+"update_supported_mod_loaders":"fabric,neoforge";
+"update_supported_minecraft_versions":"1.21.11";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.9.15
+
+- Added `JaywayJsonPathUtils`, which now handles the JsonPath logic of `JsonUtils`
+- Added `Konkrete.JSON_PATH_LIBRARY_LOADED` and `Konkrete.isJsonPathLibraryLoaded()`
+- `JsonUtils` now returns an empty result instead of crashing when the JsonPath library is missing
+- Konkrete now logs on game start if the JsonPath library was found
+
+%changelog:metadata:start%
+"version":"1.9.15";
+"update_title":"";
+"update_release_date_timestamp":"1769952688";
+"update_release_date_string_ddmmyyyy":"01-02-2026";
+"update_supported_mod_loaders":"fabric,neoforge";
+"update_supported_minecraft_versions":"1.21.11";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.9.14
+
+- Ported to MC 1.21.11
+- Removed Konkrete's bundled copies of the JsonPath, Json-smart and Exp4j libraries (`de.keksuccino.konkrete.json.jsonpath`, `de.keksuccino.konkrete.json.minidev` and `de.keksuccino.konkrete.objecthunter.exp4j`)
+- Removed unused accessor mixins (`IMixinScreen`, `IMixinEditBox`, `IMixinLocalPlayer`, `IMixinClientPacketListener`, `IMixinDynamicTexture` and `IMixinClientLanguage`)
+
+%changelog:metadata:start%
+"version":"1.9.14";
+"update_title":"";
+"update_release_date_timestamp":"1766478259";
+"update_release_date_string_ddmmyyyy":"23-12-2025";
+"update_supported_mod_loaders":"fabric,neoforge";
+"update_supported_minecraft_versions":"1.21.11";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.9.13
+
+- Dropped support for (Lex)Forge for MC 1.21.10+ (NeoForge is still supported)
+- Ported to MC 1.21.10
+- Deprecated `WidgetUtils.setHeight(...)` (use `AbstractWidget#setHeight(...)` instead)
+- Konkrete no longer prints the list of its bundled libraries to the log on game start
+
+%changelog:metadata:start%
+"version":"1.9.13";
+"update_title":"";
+"update_release_date_timestamp":"1760523826";
+"update_release_date_string_ddmmyyyy":"15-10-2025";
+"update_supported_mod_loaders":"fabric,neoforge";
+"update_supported_minecraft_versions":"1.21.10";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.9.12
+
+- Ported to MC 1.21.6
+- Removed `RenderUtils.getGuiGraphicsBufferSource(GuiGraphics)`
+
+%changelog:metadata:start%
+"version":"1.9.12";
+"update_title":"";
+"update_release_date_timestamp":"1750288520";
+"update_release_date_string_ddmmyyyy":"18-06-2025";
+"update_supported_mod_loaders":"forge,fabric,neoforge";
+"update_supported_minecraft_versions":"1.21.6,1.21.7,1.21.8";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.9.11
+
+- Ported to MC 1.21.5
+- Removed lots of deprecated legacy classes
+  - GUI: `AdvancedButton`, `AdvancedImageButton`, `AdvancedTextField`, `ExtendedEditBox`, `ContextMenu`, `DropdownMenu`, `HorizontalSwitcher`, `ScrollArea`, `ConfigScreen` and all popups
+  - Input and commands: `KeyboardHandler`, `ClientExecutor` and `CommandUtils`
+  - Localization: `Locals`, `LocaleUtils` and `LocalizationPackage`
+  - Rendering and resources: all animation renderers, `TextureHandler`, `WebTextureResourceLocation`, `ExternalTextureResourceLocation` and `SelfcleaningDynamicTexture`
+  - Audio: `SoundHandler`
+- Removed deprecated methods from `RenderUtils`
+
+%changelog:metadata:start%
+"version":"1.9.11";
+"update_title":"";
+"update_release_date_timestamp":"1745613349";
+"update_release_date_string_ddmmyyyy":"25-04-2025";
+"update_supported_mod_loaders":"forge,fabric,neoforge";
+"update_supported_minecraft_versions":"1.21.5";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.9.10
+
+- Ported to Forge 1.21.4
+- Added `RenderUtils.register(String, AbstractTexture)` to register textures in Minecraft's texture manager
+
+%changelog:metadata:start%
+"version":"1.9.10";
+"update_title":"";
+"update_release_date_timestamp":"1734287928";
+"update_release_date_string_ddmmyyyy":"15-12-2024";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.21.4";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.9.9
+
+- Ported to MC 1.21 and 1.21.1
+- Ported to MC 1.21.4 (Fabric and NeoForge)
+
+%changelog:metadata:start%
+"version":"1.9.9";
+"update_title":"";
+"update_release_date_timestamp":"1718438926";
+"update_release_date_string_ddmmyyyy":"15-06-2024";
+"update_supported_mod_loaders":"forge,fabric,neoforge";
+"update_supported_minecraft_versions":"1.21,1.21.1,1.21.4";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
 
 CHANGELOG | KONKRETE v1.9.8
- 
+
 - Ported to Forge 1.20.6
 
+%changelog:metadata:start%
+"version":"1.9.8";
+"update_title":"";
+"update_release_date_timestamp":"1715828715";
+"update_release_date_string_ddmmyyyy":"16-05-2024";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.20.6";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.9.7
+
+- Fixed the Forge 1.20.6 build (Konkrete now uses Forge's Jar-in-Jar system and is no longer reobfuscated)
+
+%changelog:metadata:start%
+"version":"1.9.7";
+"update_title":"";
+"update_release_date_timestamp":"1715747912";
+"update_release_date_string_ddmmyyyy":"15-05-2024";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.20.6";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.9.6
+
+- Ported to Forge 1.20.6
+
+%changelog:metadata:start%
+"version":"1.9.6";
+"update_title":"";
+"update_release_date_timestamp":"1715662865";
+"update_release_date_string_ddmmyyyy":"14-05-2024";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.20.6";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.9.5
- 
-- Fixed crash on Forge 1.20.4
 
+- Fixed crash on Forge 1.20.4
+  - Removed the `addWidget` and `addRenderableWidget` invokers from `IMixinScreen`, which caused the crash
+
+%changelog:metadata:start%
+"version":"1.9.5";
+"update_title":"";
+"update_release_date_timestamp":"1714564539";
+"update_release_date_string_ddmmyyyy":"01-05-2024";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.20.4";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.9.4
- 
+
 - Ported to MC 1.20.5
 
+%changelog:metadata:start%
+"version":"1.9.4";
+"update_title":"";
+"update_release_date_timestamp":"1714191511";
+"update_release_date_string_ddmmyyyy":"27-04-2024";
+"update_supported_mod_loaders":"fabric,neoforge";
+"update_supported_minecraft_versions":"1.20.5,1.20.6";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.9.3
+
+- Ported Konkrete v1.9 to MC 1.20.2
+- Removed the `addWidget` and `addRenderableWidget` invokers from `IMixinScreen`
+
+%changelog:metadata:start%
+"version":"1.9.3";
+"update_title":"";
+"update_release_date_timestamp":"1712722478";
+"update_release_date_string_ddmmyyyy":"10-04-2024";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.20.2";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.9.2
- 
-- Fixed crash in Forge and Fabric due to missing methods in Config class
 
+- Fixed crash in Forge and Fabric due to missing methods in Config class
+  - Re-added the old `Config.setValue(...)` methods for boxed `Integer`, `Boolean`, `Float` and `Double` values (deprecated)
+
+%changelog:metadata:start%
+"version":"1.9.2";
+"update_title":"";
+"update_release_date_timestamp":"1709350088";
+"update_release_date_string_ddmmyyyy":"02-03-2024";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.20.4";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.9.1
- 
+
+- `MouseInput.isLeftMouseDown()` and `MouseInput.isRightMouseDown()` are not deprecated anymore
 - Fixed MouseInput#leftMouseDown() and MouseInput#rightMouseDown() not working
 
+%changelog:metadata:start%
+"version":"1.9.1";
+"update_title":"";
+"update_release_date_timestamp":"1709282430";
+"update_release_date_string_ddmmyyyy":"01-03-2024";
+"update_supported_mod_loaders":"forge,fabric,neoforge";
+"update_supported_minecraft_versions":"1.20.4";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.9.0
- 
+
 - Added support for NeoForge 1.20.4+
 - Deprecated LOTS of stuff that will get removed in the future to make the library more light-wight
+- Added `Konkrete.addPostClientInitTask(String, Runnable)` to run tasks after the client finished initializing (replaces the now deprecated `Konkrete.addPostLoadingEvent(...)`)
 - Modernized some stuff, but due to how I extend some of Konkrete's classes in other mods, I can't really modernize it as much as I would like to
+- Removed Konkrete's own event system (`EventHandler`, `SubscribeEvent` and all event classes like `GuiScreenEvent`, `ScreenKeyPressedEvent` and `AfterRenderScreenEvent`)
 
+%changelog:metadata:start%
+"version":"1.9.0";
+"update_title":"";
+"update_release_date_timestamp":"1709196146";
+"update_release_date_string_ddmmyyyy":"29-02-2024";
+"update_supported_mod_loaders":"neoforge";
+"update_supported_minecraft_versions":"1.20.4";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.8.1
- 
+
 - Lowered required Fabric API version for Fabric 1.20.1 to FAPI v0.88.1
 
+%changelog:metadata:start%
+"version":"1.8.1";
+"update_title":"";
+"update_release_date_timestamp":"1709103425";
+"update_release_date_string_ddmmyyyy":"28-02-2024";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.20.1";
+%changelog:metadata:end%
 %changelog:end%
 
 
@@ -99,474 +488,1126 @@ CHANGELOG | KONKRETE v1.8.0
 - Tried to fix the Fabric issue with mixins in GameRenderer conflicting with the Fabric API mixins
 - Changed Konkrete's license to Apache-2.0
 
+%changelog:metadata:start%
+"version":"1.8.0";
+"update_title":"";
+"update_release_date_timestamp":"1705116298";
+"update_release_date_string_ddmmyyyy":"13-01-2024";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.18,1.18.1,1.18.2,1.19,1.19.1,1.19.2,1.20,1.20.1,1.20.4";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
-CHANGELOG | KONKRETE
+CHANGELOG | KONKRETE v1.7.1
 
 - Ported to MC 1.20.4
+- Added `ExternalTextureResourceLocation(InputStream, boolean isJpeg)` constructor
+- `ExternalTextureResourceLocation` and `WebTextureResourceLocation` now convert JPEG images to PNG when loading them, because Minecraft doesn't support JPEGs natively anymore
 
+%changelog:metadata:start%
+"version":"1.7.1";
+"update_title":"";
+"update_release_date_timestamp":"1704445361";
+"update_release_date_string_ddmmyyyy":"05-01-2024";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.20.4";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
-CHANGELOG | KONKRETE
+CHANGELOG | KONKRETE v1.7.0-2
+
+- This update is only for MC 1.20.2 (the Forge build of this update is called v1.6.1-3)
 
 - Added more detailed error output when Exp4J fails to parse an expression
 
+%changelog:metadata:start%
+"version":"1.7.0-2";
+"update_title":"";
+"update_release_date_timestamp":"1698030451";
+"update_release_date_string_ddmmyyyy":"23-10-2023";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.20.2";
+%changelog:metadata:end%
 %changelog:end%
 
+
+
+
+CHANGELOG | KONKRETE v1.7.0-1
+
+- This update is only for Fabric
+
+- Deprecated lots of legacy classes, like `AdvancedButton`, `ContextMenu`, `DropdownMenu`, `ScrollArea`, `ConfigScreen`, all popups, `Locals`, `TextureHandler`, `WebTextureResourceLocation` and `ExternalTextureResourceLocation`
+  - `SelfcleaningDynamicTexture` is now deprecated for removal
+
+%changelog:metadata:start%
+"version":"1.7.0-1";
+"update_title":"";
+"update_release_date_timestamp":"1697688010";
+"update_release_date_string_ddmmyyyy":"19-10-2023";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.20.1,1.20.2";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.7.0
- 
+
 - IMPORTANT: This update contains breaking changes that could make mods crash that were made with older versions of Konkrete!
- 
+
 - LICENSE CHANGED: Konkrete is now licensed under Apache-2.0
 
+- Added `AfterRenderScreenEvent`
+- Removed `GuiInitCompletedEvent` and `CurrentScreenHandler`
+
+%changelog:metadata:start%
+"version":"1.7.0";
+"update_title":"";
+"update_release_date_timestamp":"1697608083";
+"update_release_date_string_ddmmyyyy":"18-10-2023";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.20.1,1.20.2";
+%changelog:metadata:end%
 %changelog:end%
-
-
-
-
-
-- Added support for MC 1.20.2
-
-%changelog:end%
-
-
-
-
-- Ported some stuff of the Fabric build to the Forge build
-
-%changelog:end%
-
-
-
-
-- Fixed crash on 1.20
-
-%changelog:end%
-
-
-
-
-CHANGELOG | KONKRETE v1.6.1 for MC 1.20
- 
-- Added support for MC 1.20
-
-%changelog:end%
-
 
 
 
 
 CHANGELOG | KONKRETE v1.6.1
- 
-- Fixed: Forge 1.18+: Method name mismatches between Forge and Fabric in ContextMenu and ScrollAreaEntry
 
+- Added support for MC 1.20.2
+
+%changelog:metadata:start%
+"version":"1.6.1";
+"update_title":"";
+"update_release_date_timestamp":"1695449407";
+"update_release_date_string_ddmmyyyy":"23-09-2023";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.20.2";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.6.1-2
 
-CHANGELOG | KONKRETE v1.6.0-2 for Fabric 1.19.4
- 
+- This update is only for Forge 1.20
+
+- Ported some stuff of the Fabric build to the Forge build
+
+%changelog:metadata:start%
+"version":"1.6.1-2";
+"update_title":"";
+"update_release_date_timestamp":"1686613754";
+"update_release_date_string_ddmmyyyy":"12-06-2023";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.20,1.20.1";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.6.1-1
+
+- This update is only for Forge 1.20
+
+- Fixed crash on 1.20
+
+%changelog:metadata:start%
+"version":"1.6.1-1";
+"update_title":"";
+"update_release_date_timestamp":"";
+"update_release_date_string_ddmmyyyy":"";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.6.1
+
+- Added support for MC 1.20
+
+%changelog:metadata:start%
+"version":"1.6.1";
+"update_title":"";
+"update_release_date_timestamp":"1686560107";
+"update_release_date_string_ddmmyyyy":"12-06-2023";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.20,1.20.1";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.6.1
+
+- Fixed method name mismatches between Forge and Fabric in ContextMenu and ScrollAreaEntry on Forge 1.18+
+
+%changelog:metadata:start%
+"version":"1.6.1";
+"update_title":"";
+"update_release_date_timestamp":"1682910430";
+"update_release_date_string_ddmmyyyy":"01-05-2023";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.16.2,1.16.3,1.16.4,1.16.5,1.18,1.18.1,1.18.2,1.19,1.19.1,1.19.2,1.19.3,1.19.4";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.6.0-2
+
+- This update is only for Fabric 1.19.4
+
 - Fixed broken DrawScreenEvent causing issues like invisible player models, etc.
 
+%changelog:metadata:start%
+"version":"1.6.0-2";
+"update_title":"";
+"update_release_date_timestamp":"1679264181";
+"update_release_date_string_ddmmyyyy":"19-03-2023";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.19.4";
+%changelog:metadata:end%
 %changelog:end%
-
-
-
-
-
-CHANGELOG | KONKRETE for MC 1.19.4
- 
-- Added support for MC 1.19.4
-
-%changelog:end%
-
-
-
-
-
-CHANGELOG | KONKRETE v1.6.0-1 for Fabric 1.19.3
- 
-- Fixed: Access wideners
-
-%changelog:end%
-
 
 
 
 
 CHANGELOG | KONKRETE v1.6.0
- 
-- Added: Exp4j library
 
+- Added support for MC 1.19.4
+
+%changelog:metadata:start%
+"version":"1.6.0";
+"update_title":"";
+"update_release_date_timestamp":"1679029012";
+"update_release_date_string_ddmmyyyy":"17-03-2023";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.19.4";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
-- Initial Modrinth release
+CHANGELOG | KONKRETE v1.6.0-1
 
+- This update is only for Fabric 1.19.3
+
+- Fixed broken access wideners
+
+%changelog:metadata:start%
+"version":"1.6.0-1";
+"update_title":"";
+"update_release_date_timestamp":"1671575053";
+"update_release_date_string_ddmmyyyy":"20-12-2022";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.19.3";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.6.0
 
-CHANGELOG | KONKRETE v1.5.3-1 for Forge 1.16.X
- 
-- Fixed: ClassNotFoundException that broke the JSON parser
+- Added the Exp4j library
 
+%changelog:metadata:start%
+"version":"1.6.0";
+"update_title":"";
+"update_release_date_timestamp":"1670280878";
+"update_release_date_string_ddmmyyyy":"05-12-2022";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.16.2,1.16.3,1.16.4,1.16.5,1.18,1.18.1,1.18.2,1.19,1.19.1,1.19.2,1.19.3";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.5.3-1
+
+- This update is only for Forge 1.16.X
+
+- Fixed ClassNotFoundException that broke the JSON parser
+
+%changelog:metadata:start%
+"version":"1.5.3-1";
+"update_title":"";
+"update_release_date_timestamp":"1669074049";
+"update_release_date_string_ddmmyyyy":"21-11-2022";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.16.2,1.16.3,1.16.4,1.16.5";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.5.3
- 
-- BREAKING CHANGE: Fabric 1.19.X: Removed handler and event classes related to client commands
---> This will break old mods using these handlers and events! If your game crashes, try to load it with Konkrete v1.5.2!
---> Fabric API is now used to register client commands
- 
-- Fixed: Potentially fixed a bug related to text input fields that caused them to not react to key-hold actions anymore
---> (like holding the arrow keys to quickly move the cursor in a text field)
 
+- BREAKING CHANGE: Removed handler and event classes related to client commands on Fabric 1.19.X
+  - This will break old mods using these handlers and events! If your game crashes, try to load it with Konkrete v1.5.2!
+  - Fabric API is now used to register client commands
+
+- Added `ScreenCharTypedEvent`, `ScreenKeyPressedEvent`, `ScreenKeyReleasedEvent`, `ScreenMouseClickedEvent` and `ScreenTickEvent`
+- Added `AdvancedWidgetsHandler` and `IAdvancedWidgetBase` to handle the input of Konkrete's widgets
+- Potentially fixed a bug related to text input fields that caused them to not react to key-hold actions anymore
+  - (like holding the arrow keys to quickly move the cursor in a text field)
+
+%changelog:metadata:start%
+"version":"1.5.3";
+"update_title":"";
+"update_release_date_timestamp":"1665979416";
+"update_release_date_string_ddmmyyyy":"17-10-2022";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.16.2,1.16.3,1.16.4,1.16.5,1.18,1.18.1,1.18.2,1.19,1.19.1,1.19.2";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.5.2
- 
-- Improved: Error handling of legacy sound engine
- 
-- Fixed: Memory leak caused by the legacy sound engine
 
+- Improved error handling of the legacy sound engine
+
+- Fixed memory leak caused by the legacy sound engine
+
+%changelog:metadata:start%
+"version":"1.5.2";
+"update_title":"";
+"update_release_date_timestamp":"1665535714";
+"update_release_date_string_ddmmyyyy":"12-10-2022";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.16.2,1.16.3,1.16.4,1.16.5,1.18,1.18.1,1.18.2,1.19,1.19.1,1.19.2";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
-CHANGELOG | KONKRETE v1.5.1 for Forge 1.18.X
- 
+CHANGELOG | KONKRETE v1.5.1
+
+- This update is only for Forge 1.18.X
+
 - Added custom client-only command handling, because Forge handling in 1.18.X was..special..
 
+%changelog:metadata:start%
+"version":"1.5.1";
+"update_title":"";
+"update_release_date_timestamp":"1659903574";
+"update_release_date_string_ddmmyyyy":"07-08-2022";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.18,1.18.1,1.18.2";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.5.0
- 
-- Several improvements made to ScrollArea
-- New bundled library JsonPath
-- New bundled library Json-smart
-- New class JsonUtils
 
+- Added JsonPath as bundled library
+- Added Json-smart as bundled library
+- Added `JsonUtils` class to get values from JSONs via JsonPath
+- Several improvements made to ScrollArea
+
+%changelog:metadata:start%
+"version":"1.5.0";
+"update_title":"";
+"update_release_date_timestamp":"1659401420";
+"update_release_date_string_ddmmyyyy":"02-08-2022";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.16.2,1.16.3,1.16.4,1.16.5,1.18,1.18.1,1.18.2,1.19,1.19.1,1.19.2";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
-CHANGELOG | KONKRETE v1.4.0-1 for Fabric 1.18
- 
-- Fixed: Removed test command accidentally left in the code
+CHANGELOG | KONKRETE v1.4.0-1
 
+- This update is only for Fabric 1.18
+
+- Removed test command accidentally left in the code
+
+%changelog:metadata:start%
+"version":"1.4.0-1";
+"update_title":"";
+"update_release_date_timestamp":"1658449042";
+"update_release_date_string_ddmmyyyy":"22-07-2022";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.18.2";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.4.0
- 
-- Added: [1.16+] Support for client-only commands
 
+- Added support for client-only commands (MC 1.16+)
+  - Added `ClientCommandHandler`, `ClientCommandRegistrationEvent`, `ClientExecutor` and `CommandUtils`
+
+%changelog:metadata:start%
+"version":"1.4.0";
+"update_title":"";
+"update_release_date_timestamp":"1658362237";
+"update_release_date_string_ddmmyyyy":"21-07-2022";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.16.2,1.16.3,1.16.4,1.16.5,1.18,1.18.1,1.18.2,1.19";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.3.3-1
 
-CHANGELOG | KONKRETE v1.3.3-4 for Fabric 1.18.X
- 
-- Fixed: Crash related to invalid Mixin target method
+- This update is only for Forge 1.19
 
+- Added support for the latest Forge 1.19 build (this will break the mod on older builds, so please use the latest Forge build)
+
+%changelog:metadata:start%
+"version":"1.3.3-1";
+"update_title":"";
+"update_release_date_timestamp":"1657400209";
+"update_release_date_string_ddmmyyyy":"09-07-2022";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.19";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.3.3-4
 
-CHANGELOG | KONKRETE v1.3.3-1 for Forge 1.16.X
+- This update is only for Fabric 1.18.X
 
-- Fixed: Missing DisplayTest extension point (This thing was removed just one version later, because even Forge realized it's frickin random and over-complicated)
+- Fixed crash related to invalid Mixin target method
 
+%changelog:metadata:start%
+"version":"1.3.3-4";
+"update_title":"";
+"update_release_date_timestamp":"1656089839";
+"update_release_date_string_ddmmyyyy":"24-06-2022";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.18,1.18.1,1.18.2";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.3.3-1
 
-CHANGELOG | KONKRETE v1.3.3-3 for Fabric
- 
-- Fixed: Possible Nullpointer when getting the screen from the DrawScreenEvent
+- This update is only for Forge 1.16.X
 
+- Fixed missing DisplayTest extension point (This thing was removed just one version later, because even Forge realized it's frickin random and over-complicated)
+
+%changelog:metadata:start%
+"version":"1.3.3-1";
+"update_title":"";
+"update_release_date_timestamp":"1656012816";
+"update_release_date_string_ddmmyyyy":"23-06-2022";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.16.2,1.16.3,1.16.4,1.16.5";
+%changelog:metadata:end%
 %changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.3.3-3
 
-CHANGELOG | KONKRETE v1.3.3-1 for Fabric 1.18.X
- 
-- Improved: DrawScreenEvent mixins for better compatibility with other mods
+- This update is only for Fabric
 
+- Fixed possible Nullpointer when getting the screen from the DrawScreenEvent
+
+%changelog:metadata:start%
+"version":"1.3.3-3";
+"update_title":"";
+"update_release_date_timestamp":"1656010928";
+"update_release_date_string_ddmmyyyy":"23-06-2022";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.18,1.18.1,1.18.2,1.19";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.3.3-1
+
+- This update is only for Fabric 1.18.X
+
+- Improved DrawScreenEvent mixins for better compatibility with other mods
+
+%changelog:metadata:start%
+"version":"1.3.3-1";
+"update_title":"";
+"update_release_date_timestamp":"1648946401";
+"update_release_date_string_ddmmyyyy":"03-04-2022";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.18,1.18.1,1.18.2";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.3.3
- 
-- Added: getWebResource() method in TextureHandler that allows for getting the texture without loading it
+
+- Added getWebResource() method in TextureHandler that allows for getting the texture without loading it
+
+%changelog:metadata:start%
+"version":"1.3.3";
+"update_title":"";
+"update_release_date_timestamp":"1641265107";
+"update_release_date_string_ddmmyyyy":"04-01-2022";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.16.2,1.16.3,1.16.4,1.16.5,1.18,1.18.1,1.18.2,1.19";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.3.2-1
 
+- This update is only for Forge 1.12
 
-CHANGELOG | KONKRETE v1.3.2-1 for Forge 1.12
- 
-- Fixed: Broken reflections
+- Fixed broken reflections
 
-
+%changelog:metadata:start%
+"version":"1.3.2-1";
+"update_title":"";
+"update_release_date_timestamp":"1639240393";
+"update_release_date_string_ddmmyyyy":"11-12-2021";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.3.2
- 
-- Fixed: Compatibility issues with Optifine
 
+- Fixed compatibility issues with Optifine
 
-
+%changelog:metadata:start%
+"version":"1.3.2";
+"update_title":"";
+"update_release_date_timestamp":"1639017254";
+"update_release_date_string_ddmmyyyy":"09-12-2021";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.16.2,1.16.3,1.16.4,1.16.5,1.18,1.18.1";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.3.1
- 
-- Added: Server-side support (lib can now be loaded and used on servers)
- 
-- Fixed: Fabric 1.18: Crash with FancyMenu when using the 'joinserver' button action
-- Fixed: Max text length of text input fields in ConfigScreen too short
+
+- Added server-side support (lib can now be loaded and used on servers)
+
+- Fixed crash with FancyMenu when using the 'joinserver' button action on Fabric 1.18
+- Fixed max text length of text input fields in ConfigScreen being too short
+
+%changelog:metadata:start%
+"version":"1.3.1";
+"update_title":"";
+"update_release_date_timestamp":"1638933791";
+"update_release_date_string_ddmmyyyy":"08-12-2021";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.16.2,1.16.3,1.16.4,1.16.5,1.18";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.3.0-1
 
+- This update is only for Fabric 1.18
 
+- Improved the hook for GuiInitCompletedEvent
 
-CHANGELOG | KONKRETE v1.3.0-1 for Fabric 1.18
- 
-- Improved: Hook for GuiInitCompletedEvent
-
-
-
-
+%changelog:metadata:start%
+"version":"1.3.0-1";
+"update_title":"";
+"update_release_date_timestamp":"1638389052";
+"update_release_date_string_ddmmyyyy":"01-12-2021";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.18";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.3.0
- 
+
 - Skipping v1.2.X for Forge to unify version number with Fabric build
- 
-- Added: Animation support for AdvancedButton
-- Added: 'renderLabel' to AdvancedButton to set if the button should render its label
+
+- Added animation support for AdvancedButton
+- Added 'renderLabel' to AdvancedButton to set if the button should render its label
+- Added `getOpacity()` to `ExternalTextureAnimationRenderer` on Fabric
+- The fields of AdvancedButton are now protected instead of private, so classes extending it can access them
+
+%changelog:metadata:start%
+"version":"1.3.0";
+"update_title":"";
+"update_release_date_timestamp":"1632253906";
+"update_release_date_string_ddmmyyyy":"21-09-2021";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.16.2,1.16.3,1.16.4,1.16.5,1.17,1.17.1,1.18";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.1.7
 
+- This update is only for Forge 1.12
 
-
-
-CHANGELOG | KONKRETE [FORGE] v1.1.7 FOR MC 1.12
- 
 - Konkrete for MC 1.12 now depends on MixinBootstrap
- 
+
 - Improved Mixin loading behaviour
 
+%changelog:metadata:start%
+"version":"1.1.7";
+"update_title":"";
+"update_release_date_timestamp":"1629579235";
+"update_release_date_string_ddmmyyyy":"21-08-2021";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.2.3
+
+- This update is only for Fabric
+
+- Fixed sounds loaded too early into the SoundHandler playing at max volume instead of the current Minecraft volume
+
+%changelog:metadata:start%
+"version":"1.2.3";
+"update_title":"";
+"update_release_date_timestamp":"1627582371";
+"update_release_date_string_ddmmyyyy":"29-07-2021";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.17,1.17.1";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
-CHANGELOG | KONKRETE [FABRIC] v1.2.3
- 
-- Fixed: Sounds loaded too early into the SoundHandler will play at max volume instead of the current Minecraft volume
 
+CHANGELOG | KONKRETE v1.2.2
 
+- This update is only for Fabric
 
-
-
-
-
-
-CHANGELOG | KONKRETE [FABRIC] v1.2.2
- 
 - Official support for MC 1.17.1
- 
-- Added: Support for Optifine (OptiFabric)
+
+- Added support for Optifine (OptiFabric)
+
+%changelog:metadata:start%
+"version":"1.2.2";
+"update_title":"";
+"update_release_date_timestamp":"1626451832";
+"update_release_date_string_ddmmyyyy":"16-07-2021";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.17,1.17.1";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.2.1
+
+- This update is only for Fabric
+
+- Fixed setHeight method of WidgetUtils not working
+
+%changelog:metadata:start%
+"version":"1.2.1";
+"update_title":"";
+"update_release_date_timestamp":"1624829408";
+"update_release_date_string_ddmmyyyy":"27-06-2021";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.17";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
-CHANGELOG | KONKRETE [FABRIC] v1.2.0
- 
+CHANGELOG | KONKRETE v1.2.0
+
+- This update is only for Fabric
+
 - Added support for MC 1.17
 - Dropped support for MC 1.16
 
+%changelog:metadata:start%
+"version":"1.2.0";
+"update_title":"";
+"update_release_date_timestamp":"1623885692";
+"update_release_date_string_ddmmyyyy":"16-06-2021";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.17";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.1.7
 
+- This update is only for Fabric
 
-CHANGELOG | KONKRETE [FABRIC] v1.1.7
- 
-- Fixed: IndexOutOfBounds when loading highly compressed or corrupted GIF images into animation renderers
+- Fixed IndexOutOfBounds when loading highly compressed or corrupted GIF images into animation renderers
 
-
-
-
-
-
-
-
-CHANGELOG | KONKRETE [FORGE] v1.1.7
- 
-- Fixed: IndexOutOfBounds when loading highly compressed or corrupted GIF images into animation renderers
-
-
+%changelog:metadata:start%
+"version":"1.1.7";
+"update_title":"";
+"update_release_date_timestamp":"1618596314";
+"update_release_date_string_ddmmyyyy":"16-04-2021";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.16.3,1.16.4,1.16.5";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.1.6
+
+- This update is only for Forge
+
+- Fixed IndexOutOfBounds when loading highly compressed or corrupted GIF images into animation renderers
+
+%changelog:metadata:start%
+"version":"1.1.6";
+"update_title":"";
+"update_release_date_timestamp":"1618595078";
+"update_release_date_string_ddmmyyyy":"16-04-2021";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.15,1.15.1,1.15.2,1.16.2,1.16.3,1.16.4,1.16.5";
+%changelog:metadata:end%
+%changelog:end%
 
 
-CHANGELOG | KONKRETE [FABRIC] v1.1.6
- 
-- Added: GuiInitCompletedEvent
- 
-- Fixed: Rare error spam when trying to get localization key for string
 
 
+CHANGELOG | KONKRETE v1.1.6
 
+- This update is only for Fabric
 
+- Added GuiInitCompletedEvent
+
+- Fixed rare error spam when trying to get the localization key for a string
+
+%changelog:metadata:start%
+"version":"1.1.6";
+"update_title":"";
+"update_release_date_timestamp":"1616980891";
+"update_release_date_string_ddmmyyyy":"29-03-2021";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.16.3,1.16.4,1.16.5";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.1.5
- 
-- Fixed: ContextMenu bug with older versions of FancyMenu
 
+- Fixed ContextMenu bug with older versions of FancyMenu
 
-
+%changelog:metadata:start%
+"version":"1.1.5";
+"update_title":"";
+"update_release_date_timestamp":"1615751691";
+"update_release_date_string_ddmmyyyy":"14-03-2021";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.15,1.15.1,1.15.2,1.16.2,1.16.3,1.16.4,1.16.5";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.1.4
 
-- Added: setButtonHeight() to ContextMenu
-- Added: fill() to RenderUtils
-- Added: 'scale' to AdvancedButton
-- Added: setRenderScale() to MouseInput
-- Added: resetRenderScale() to MouseInput
-- Added: ConfigScreen class to edit a selected config ingame
+- Added setButtonHeight() to ContextMenu
+- Added fill() to RenderUtils
+- Added 'scale' to AdvancedButton
+- Added setRenderScale() to MouseInput
+- Added resetRenderScale() to MouseInput
+- Added ConfigScreen class to edit a selected config ingame
 
-- Changed: Improved sub-child behaviour of ContextMenus
-- Changed: It's not needed anymore to name animation frames of AnimationRenderer and ExternalTextureAnimationRenderer by numbers, their names can contain letters now
-- Changed: The border width of AdvancedButtons now supports decimal values
+- Improved sub-child behaviour of ContextMenus
+- It's not needed anymore to name animation frames of AnimationRenderer and ExternalTextureAnimationRenderer by numbers, their names can contain letters now
+- The border width of AdvancedButtons now supports decimal values
 
-
-
+%changelog:metadata:start%
+"version":"1.1.4";
+"update_title":"";
+"update_release_date_timestamp":"1615502358";
+"update_release_date_string_ddmmyyyy":"11-03-2021";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.15,1.15.1,1.15.2,1.16.2,1.16.3,1.16.4,1.16.5";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.1.3
- 
-- Added: setZLevelPre() to RenderUtils
-- Added: setZLevelPost() to RenderUtils
-- Added: setAlwaysOnTop() to ContextMenu
- 
-- Changed: Renamed PopupMenu to ContextMenu (PopupMenu is deprecated now)
-- Changed: Improved clientside-only behaviour of the mod in MC 1.15+
- 
-- Removed: Unused third-party audio libs
- 
-- Fixed: NullPointerException in AdvancedButtonHandler when rendering button descriptions
 
+- Added setZLevelPre() to RenderUtils
+- Added setZLevelPost() to RenderUtils
+- Added setAlwaysOnTop() to ContextMenu
 
+- Renamed PopupMenu to ContextMenu (PopupMenu is deprecated now)
+- Improved clientside-only behaviour of the mod in MC 1.15+
 
+- Removed unused third-party audio libs
 
+- Fixed NullPointerException in AdvancedButtonHandler when rendering button descriptions
+
+%changelog:metadata:start%
+"version":"1.1.3";
+"update_title":"";
+"update_release_date_timestamp":"1612313546";
+"update_release_date_string_ddmmyyyy":"03-02-2021";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.8.9,1.12,1.12.1,1.12.2,1.15,1.15.1,1.15.2,1.16.2,1.16.3,1.16.4,1.16.5";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.1.2
- 
-- Added: Support for MC 1.16.5
- 
-- Added: 'ignoreLeftMouseDownClickBlock' to AdvancedButton to set if the button should still be clickable when another button is already getting clicked
-- Added: 'enableRightclick' to AdvancedButton to enable rightlicking as alternative click action
-- Added: 'labelScale' to AdvancedButton to set the text scale of the button label
-- Added: setParentButton() to PopupMenu to set the parent button that was used to open the menu
-- Added: 'menuScale' to PopupMenu to set the scale of the menu
-- Added: closeChilds() to PopupMenu to close all child menus
-- Added: setAutoAlignment() to PopupMenu to enable/disable auto-alignment
- 
-- Other: Improved autoclosing of PopupMenu
-- Other: Bug fixes and improvements
+
+- Added support for MC 1.16.5
+
+- Added 'ignoreLeftMouseDownClickBlock' to AdvancedButton to set if the button should still be clickable when another button is already getting clicked
+- Added 'enableRightclick' to AdvancedButton to enable right-clicking as alternative click action
+- Added 'labelScale' to AdvancedButton to set the text scale of the button label
+- Added setParentButton() to PopupMenu to set the parent button that was used to open the menu
+- Added 'menuScale' to PopupMenu to set the scale of the menu
+- Added closeChilds() to PopupMenu to close all child menus
+- Added setAutoAlignment() to PopupMenu to enable/disable auto-alignment
+
+- Improved autoclosing of PopupMenu
+- Bug fixes and improvements
+
+%changelog:metadata:start%
+"version":"1.1.2";
+"update_title":"";
+"update_release_date_timestamp":"1611085498";
+"update_release_date_string_ddmmyyyy":"19-01-2021";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.8.9,1.12,1.12.1,1.12.2,1.15,1.15.1,1.15.2,1.16.2,1.16.3,1.16.4,1.16.5";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.1.1-2
+
+- This update is only for Forge 1.16
+
+- Fixed crashes related to NullPointerExceptions caused by the TextureHandler
+
+%changelog:metadata:start%
+"version":"1.1.1-2";
+"update_title":"";
+"update_release_date_timestamp":"1609426781";
+"update_release_date_string_ddmmyyyy":"31-12-2020";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.16.2,1.16.3,1.16.4";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.1.1
+
+- Removed JavaScript as engine for calculations of math expression strings
+
+%changelog:metadata:start%
+"version":"1.1.1";
+"update_title":"";
+"update_release_date_timestamp":"1609357325";
+"update_release_date_string_ddmmyyyy":"30-12-2020";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.8.9,1.12,1.12.1,1.12.2,1.15,1.15.1,1.15.2,1.16.3,1.16.4";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.1.0.1
+
+- This update is only for Fabric
+
+- Improved mixins for the DrawScreenEvent in MixinGameRenderer
+  - This will improve the compatibility with the Slight Gui Modifications mod and maybe some other mods that alter menu screens
+
+%changelog:metadata:start%
+"version":"1.1.0.1";
+"update_title":"";
+"update_release_date_timestamp":"1609109314";
+"update_release_date_string_ddmmyyyy":"27-12-2020";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.16.3,1.16.4";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.1.0.1
+
+- This update is only for Forge 1.8.9 and 1.12
+
+- Added support for MC 1.8.9
+
+- Fixed crash when trying to load the mod on a server in MC 1.12 (weird bug, worked for months)
+
+%changelog:metadata:start%
+"version":"1.1.0.1";
+"update_title":"";
+"update_release_date_timestamp":"1607988099";
+"update_release_date_string_ddmmyyyy":"14-12-2020";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.8.9,1.12,1.12.1,1.12.2";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
 CHANGELOG | KONKRETE v1.1.0
- 
+
 - Added ability to set a description for AdvancedButtons that will be displayed when hovering them
 - Added splitLines() method to StringUtils
 - Added getColorFromHexString() method to RenderUtils
 - Added setLoadingAnimationColor() method to SimpleLoadingScreen
- 
+
 - Changed the SimpleLoadingScreen animation
- 
+
 - Fixed issues when trying to load JPEG frames into an ExternalTextureAnimationRenderer
 
+%changelog:metadata:start%
+"version":"1.1.0";
+"update_title":"";
+"update_release_date_timestamp":"1606788400";
+"update_release_date_string_ddmmyyyy":"01-12-2020";
+"update_supported_mod_loaders":"forge,fabric";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.15,1.15.1,1.15.2,1.16.2,1.16.3,1.16.4";
+%changelog:metadata:end%
+%changelog:end%
 
 
 
 
+CHANGELOG | KONKRETE v1.0.3.2
+
+- This update is only for Forge 1.12
+
+- Improved character filter logic of AdvancedTextfield
+
+%changelog:metadata:start%
+"version":"1.0.3.2";
+"update_title":"";
+"update_release_date_timestamp":"1605637450";
+"update_release_date_string_ddmmyyyy":"17-11-2020";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.0.4
+
+- This update is only for Fabric
+
+- Improved InitGuiEvent mixins for better mod compatibility
+
+%changelog:metadata:start%
+"version":"1.0.4";
+"update_title":"";
+"update_release_date_timestamp":"1604771866";
+"update_release_date_string_ddmmyyyy":"07-11-2020";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.16.3,1.16.4";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.0.3.2
+
+- This update is only for Fabric
+
+- Added support for MC 1.16.4
+- Konkrete is now listed as client mod in its metadata
+
+%changelog:metadata:start%
+"version":"1.0.3.2";
+"update_title":"";
+"update_release_date_timestamp":"1604453559";
+"update_release_date_string_ddmmyyyy":"04-11-2020";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.16.3,1.16.4";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.0.3.1
+
+- This update is only for Forge
+
+- Added support for MC 1.16.4
+- Cleaned up a bit
+
+%changelog:metadata:start%
+"version":"1.0.3.1";
+"update_title":"";
+"update_release_date_timestamp":"1604426761";
+"update_release_date_string_ddmmyyyy":"03-11-2020";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.15,1.15.1,1.15.2,1.16.2,1.16.3,1.16.4";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.0.3.1
+
+- This update is only for Fabric
+
+- Fixed StackOverflow when trying to focus one of Konkrete's text field instances
+
+%changelog:metadata:start%
+"version":"1.0.3.1";
+"update_title":"";
+"update_release_date_timestamp":"1604359091";
+"update_release_date_string_ddmmyyyy":"02-11-2020";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.16.3";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.0.3
+
+- This update is only for Fabric
+
+- Initial release of the Fabric version
+
+%changelog:metadata:start%
+"version":"1.0.3";
+"update_title":"";
+"update_release_date_timestamp":"1604173101";
+"update_release_date_string_ddmmyyyy":"31-10-2020";
+"update_supported_mod_loaders":"fabric";
+"update_supported_minecraft_versions":"1.16.3";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.0.3
+
+- This update is only for Forge
+
+- Improved URL compatibility for web textures
+
+%changelog:metadata:start%
+"version":"1.0.3";
+"update_title":"";
+"update_release_date_timestamp":"1601579229";
+"update_release_date_string_ddmmyyyy":"01-10-2020";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.15,1.15.1,1.15.2,1.16.2,1.16.3";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.0.2
+
+- Fixed last path not always working in the file chooser
+
+%changelog:metadata:start%
+"version":"1.0.2";
+"update_title":"";
+"update_release_date_timestamp":"1601340215";
+"update_release_date_string_ddmmyyyy":"29-09-2020";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.15,1.15.1,1.15.2,1.16.2,1.16.3";
+%changelog:metadata:end%
+%changelog:end%
+
+
+
+
+CHANGELOG | KONKRETE v1.0.1
+
+- Fixed server crash issue
+
+%changelog:metadata:start%
+"version":"1.0.1";
+"update_title":"";
+"update_release_date_timestamp":"1601317522";
+"update_release_date_string_ddmmyyyy":"28-09-2020";
+"update_supported_mod_loaders":"forge";
+"update_supported_minecraft_versions":"1.12,1.12.1,1.12.2,1.15,1.15.1,1.15.2,1.16.2,1.16.3";
+%changelog:metadata:end%
+%changelog:end%
